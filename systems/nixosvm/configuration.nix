@@ -10,6 +10,12 @@
       ./hardware-configuration.nix
     ];
 
+  # Make ready for nix flakes
+  nix.package = pkgs.nixFlakes;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -19,7 +25,7 @@
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixosvm"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
@@ -79,6 +85,8 @@
     wget
     firefox
     zsh
+    brave
+    lazygit
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
