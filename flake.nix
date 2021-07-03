@@ -32,15 +32,9 @@
   in {
 
     homeManagerConfigurations = {
-      brian = home-manager.lib.homeManagerConfiguration {
-        inherit system pkgs;
+      brian = user.mkHomeManagerUser {
+        roles = [ "desktop/dwm" "st" "demu" ];
         username = "brian";
-         homeDirectory = "/home/brian";
-         configuration = {
-           imports = [
-             ./home-manager/brian/home.nix
-           ];
-         };
       };
     };
 
@@ -52,7 +46,7 @@
         initrdMods = [];
         kernelMods = [];
         kernelParams = [];
-        roles = [ "vm" ];
+        roles = [ "vm" "core" "desktop-xorg" "ssh"];
         cpuCores = 4;
         users = [ {
           name = "brian";
