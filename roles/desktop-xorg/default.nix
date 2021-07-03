@@ -26,6 +26,6 @@
   ];
 
   services.gnome.gnome-keyring.enable = true;
-  services.account-daemon.enable = true;
-  environment.pathToLink = [ "/share/accountsservices" ];
+  services.accounts-daemon.enable = true;
+  environment.pathsToLink = [ "/share/accountsservices" ];
 }
