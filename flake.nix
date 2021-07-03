@@ -33,7 +33,7 @@
 
     homeManagerConfigurations = {
       brian = user.mkHomeManagerUser {
-        roles = [ "desktop/dwm" "st" "demu" ];
+        roles = [ "desktop/dwm" ];
         username = "brian";
       };
     };
