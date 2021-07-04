@@ -33,7 +33,7 @@
 
     homeManagerConfigurations = {
       brian = user.mkHomeManagerUser {
-        roles = [ "desktop/dwm" "git" ];
+        roles = [ "desktop/dwm" "git" "zsh" ];
         username = "brian";
       };
     };
@@ -52,7 +52,7 @@
           name = "brian";
           groups = [ "wheel" "networkmanager"];
           uid = 1000;
-          shell = pkgs.bash;
+          shell = pkgs.zsh;
         }];
       };
     };
