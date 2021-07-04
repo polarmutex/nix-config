@@ -3,14 +3,19 @@
 
   inputs = {
     nixos-stable.url = "nixpkgs/nixos-21.05";
+
     nixos.url = "nixpkgs/nixos-unstable";
+
     home-manager-stable.url = "github:nix-community/home-manager/release-21.05";
-    home-manager-stable.inputs.nixpkgs.follows = "nixos-stable";
+    home-manager-stable.inputs.nixos.follows = "nixos-stable";
+
     home-manager.url = "github:nix-community/home-manager/master";
-    home-manager.inputs.nixpkgs.follows = "nixos";
+    home-manager.inputs.nixos.follows = "nixos";
+
+    neovim-flake.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { nixos, home-manager,  ... }:
+  outputs = { nixos, home-manager, neovim-flake, ... }:
   let
 
     inherit (nixos) lib;
@@ -26,6 +31,9 @@
     pkgs = import nixos {
       inherit system;
       config = { allowUnfree = true; };
+      overlays = [
+        neovim-flake.overlay
+      ];
     };
 
 
@@ -33,7 +41,7 @@
 
     homeManagerConfigurations = {
       brian = user.mkHomeManagerUser {
-        roles = [ "desktop/dwm" "git" "zsh" ];
+        roles = [ "desktop/dwm" "git" "zsh" "neovim" ];
         username = "brian";
       };
     };
