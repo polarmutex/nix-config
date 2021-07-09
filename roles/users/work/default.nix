@@ -1,0 +1,6 @@
+{pkg, ...}:
+{
+  xsession = {
+    profileExtra = "compton &";
+  };
+}

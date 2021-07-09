@@ -44,6 +44,10 @@
         roles = [ "desktop/dwm" "git" "zsh" "neovim" ];
         username = "brian";
       };
+      work = user.mkHomeManagerUser {
+        roles = [ "desktop/dwm" "neovim" "work" "git"];
+        username = "brian";
+      };
     };
 
     nixosConfigurations = {
