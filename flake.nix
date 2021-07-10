@@ -51,7 +51,7 @@
     };
 
     nixosConfigurations = {
-      nixosvm = host.mkHost {
+      nixos = host.mkHost {
         name = "nixosvm";
         NICs = [ "enp0s3" ];
         kernelPackage = pkgs.linuxPackages_5_11;

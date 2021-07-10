@@ -12,7 +12,7 @@ in {
   };
 
   # Add zsh to the /etc/shells
-  environment.shells = with.pkgs; [
+  environment.shells = with pkgs; [
     zsh
     bash
   ];
