@@ -37,7 +37,14 @@
 
     homeManagerConfigurations = {
       brian = user.mkHomeManagerUser {
-        roles = [ "desktop/dwm" "git" "zsh" "neovim" "tmux"];
+        roles = [
+          "desktop/dwm"
+          "git"
+          "zsh"
+          "neovim"
+          "tmux"
+          "obsidian"
+        ];
         username = "brian";
       };
       work = user.mkHomeManagerUser {
