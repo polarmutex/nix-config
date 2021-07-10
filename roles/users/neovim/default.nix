@@ -11,6 +11,7 @@ in {
     neovim-nightly
     nodejs
     clang-tools
+    ripgrep
   ];
 
   xdg.configFile.nvim.source = utils.link "config/nvim";
