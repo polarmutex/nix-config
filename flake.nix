@@ -44,6 +44,7 @@
           "neovim"
           "tmux"
           "obsidian"
+          "anki"
         ];
         username = "brian";
       };
