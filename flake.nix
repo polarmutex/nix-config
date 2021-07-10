@@ -41,11 +41,11 @@
 
     homeManagerConfigurations = {
       brian = user.mkHomeManagerUser {
-        roles = [ "desktop/dwm" "git" "zsh" "neovim" ];
+        roles = [ "desktop/dwm" "git" "zsh" "neovim" "tmux"];
         username = "brian";
       };
       work = user.mkHomeManagerUser {
-        roles = [ "desktop/dwm" "neovim" "work" "git"];
+        roles = [ "desktop/dwm" "neovim" "work" "git" "tmux"];
         username = "brian";
       };
     };
