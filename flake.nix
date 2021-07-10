@@ -52,7 +52,7 @@
 
     nixosConfigurations = {
       nixos = host.mkHost {
-        name = "nixosvm";
+        name = "nixos";
         NICs = [ "enp0s3" ];
         kernelPackage = pkgs.linuxPackages_5_11;
         initrdMods = [];

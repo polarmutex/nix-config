@@ -4,6 +4,7 @@
   imports = [
     ../shared/st.nix
     ../shared/dmenu.nix
+    ../shared/picom.nix
   ];
 
   home.packages = with pkgs; [
