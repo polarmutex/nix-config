@@ -45,6 +45,7 @@
           "tmux"
           "obsidian"
           "anki"
+          "1password"
         ];
         username = "brian";
       };
