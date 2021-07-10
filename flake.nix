@@ -2,23 +2,19 @@
   description = "PolarMutex Nix Configuration";
 
   inputs = {
-    nixos-stable.url = "nixpkgs/nixos-21.05";
-
-    nixos.url = "nixpkgs/nixos-unstable";
-
-    home-manager-stable.url = "github:nix-community/home-manager/release-21.05";
-    home-manager-stable.inputs.nixos.follows = "nixos-stable";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
 
     home-manager.url = "github:nix-community/home-manager/master";
-    home-manager.inputs.nixos.follows = "nixos";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     neovim-flake.url = "github:nix-community/neovim-nightly-overlay";
+    neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixos, home-manager, neovim-flake, ... }:
+  outputs = { nixpkgs, home-manager, neovim-flake, ... }:
   let
 
-    inherit (nixos) lib;
+    inherit (nixpkgs) lib;
     inherit (lib) attrValues;
     
     util = import ./lib { inherit system pkgs home-manager lib; overlays = (pkgs.overlays);  };
@@ -28,7 +24,7 @@
 
     system = "x86_64-linux";
 
-    pkgs = import nixos {
+    pkgs = import nixpkgs {
       inherit system;
       config = { allowUnfree = true; };
       overlays = [
