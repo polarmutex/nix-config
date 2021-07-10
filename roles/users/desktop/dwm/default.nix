@@ -5,6 +5,7 @@
     ../shared/st.nix
     ../shared/dmenu.nix
     ../shared/picom.nix
+    ../shared/dwmblocks.nix
   ];
 
   home.packages = with pkgs; [

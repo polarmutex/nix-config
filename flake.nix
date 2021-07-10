@@ -46,6 +46,7 @@
           "obsidian"
           "anki"
           "1password"
+          "qmk"
         ];
         username = "brian";
       };
@@ -60,7 +61,9 @@
         name = "nixos";
         NICs = [ "enp0s3" ];
         kernelPackage = pkgs.linuxPackages_5_11;
-        initrdMods = [];
+        initrdMods = [
+          "ata_piix" "ohci_pci" "ehci_pci" "ahci" "sd_mod" "sr_mod"
+        ];
         kernelMods = [];
         kernelParams = [];
         roles = [ "vm" "core" "desktop-xorg" "ssh"];

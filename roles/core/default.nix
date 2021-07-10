@@ -33,5 +33,6 @@ in {
     tmux
     zsh
     gh
+    lm_sensors
   ];
 }
