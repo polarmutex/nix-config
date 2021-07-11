@@ -3,6 +3,8 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  hardware.video.hidpi.enable = lib.mkDefault true;
+
   # TODO autorandr
 
   services.xserver = {
@@ -18,7 +20,10 @@
 
     displayManager.defaultSession = "xsession";
     displayManager.job.logToJournal = true;
+    dpi = 163;
   };
+
+
 
   environment.systemPackages = with pkgs; [
   ];

@@ -19,6 +19,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     # Core utilities
+    brave
     vim
     wget
     curl
@@ -34,5 +35,6 @@ in {
     zsh
     gh
     lm_sensors
+    xorg.xdpyinfo
   ];
 }

@@ -14,7 +14,7 @@
       st = super.st.overrideAttrs( oldAttrs : rec {
         src = builtins.fetchGit {
           url = "https://github.com/polarmutex/st";
-          rev = "8684c90a1d5a15491a52d763c5625c3479887df7";
+          rev = "24f3e924bbef78bac40ae8c3da8b2b832f809ff7";
           ref = "custom";
         };
         buildInputs = oldAttrs.buildInputs ++ [ pkgs.harfbuzz.dev ];

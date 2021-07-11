@@ -59,14 +59,19 @@
     nixosConfigurations = {
       nixos = host.mkHost {
         name = "nixos";
-        NICs = [ "enp0s3" ];
+        NICs = [ "enp3s0" ];
         kernelPackage = pkgs.linuxPackages_5_11;
         initrdMods = [
-          "ata_piix" "ohci_pci" "ehci_pci" "ahci" "sd_mod" "sr_mod"
+          "xhci_pci"
+          "ehci_pci"
+          "ahci"
+          "usbhid"
+          "sd_mod"
+          "sr_mod"
         ];
-        kernelMods = [];
+        kernelMods = [ "kvm-intel" "wl" ];
         kernelParams = [];
-        roles = [ "vm" "core" "desktop-xorg" "ssh"];
+        roles = [ "efi" "core" "desktop-xorg" "ssh"];
         cpuCores = 4;
         users = [ {
           name = "brian";
