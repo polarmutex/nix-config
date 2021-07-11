@@ -36,5 +36,6 @@ in {
     gh
     lm_sensors
     xorg.xdpyinfo
+    feh
   ];
 }

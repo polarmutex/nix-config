@@ -6,6 +6,7 @@
     ../shared/dmenu.nix
     ../shared/picom.nix
     ../shared/dwmblocks.nix
+    ../shared/wallpapers.nix
   ];
 
   home.packages = with pkgs; [
@@ -29,5 +30,9 @@
     windowManager = {
       command = "${pkgs.dwm}/bin/dwm";
     };
+    initExtra = ''
+      feh --bg-fill --random ~/.config/wallpapers/* &
+    '';
   };
+
 }
