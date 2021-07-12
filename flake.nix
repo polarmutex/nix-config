@@ -47,6 +47,7 @@
           "anki"
           "1password"
           "qmk"
+	  "zoom"
         ];
         username = "brian";
       };
