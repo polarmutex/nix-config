@@ -51,7 +51,15 @@
         username = "brian";
       };
       work = user.mkHomeManagerUser {
-        roles = [ "desktop/dwm" "neovim" "work" "git" "tmux"];
+        roles = [
+          "desktop/dwm"
+          "neovim"
+          "work"
+          "git"
+          "tmux"
+          "zsh"
+          "obsidian"
+        ];
         username = "brian";
       };
     };
