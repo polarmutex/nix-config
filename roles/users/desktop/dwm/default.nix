@@ -4,7 +4,6 @@
   imports = [
     ../shared/st.nix
     ../shared/dmenu.nix
-    ../shared/picom.nix
     ../shared/dwmblocks.nix
     ../shared/wallpapers.nix
   ];
@@ -32,6 +31,7 @@
     };
     initExtra = ''
       feh --bg-fill --random ~/.config/wallpapers/* &
+      xrdb ~/.Xresources
     '';
   };
 
