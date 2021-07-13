@@ -14,6 +14,6 @@ in {
     ripgrep
   ];
 
-  xdg.configFile.nvim.source = utils.link "config/nvim";
+  xdg.configFile = utils.link-one "config" "." "nvim";
 
 }
