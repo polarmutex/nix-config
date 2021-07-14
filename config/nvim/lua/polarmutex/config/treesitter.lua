@@ -1,5 +1,5 @@
 require("nvim-treesitter.configs").setup({
-    highlight = {enable = true, disable = {}, custom_captures = {}},
+    highlight = { enable = true, disable = {}, custom_captures = {} },
     incremental_selection = {
         enable = true,
         disable = {},
@@ -10,10 +10,10 @@ require("nvim-treesitter.configs").setup({
             node_decremental = "grm", -- decrement to the previous node
         },
     },
-    indent = {enable = false},
+    indent = { enable = false },
     refactor = {
-        highlight_definitions = {enable = true},
-        highlight_current_scope = {enable = true},
+        highlight_definitions = { enable = true },
+        highlight_current_scope = { enable = true },
         smart_rename = {
             enable = false,
             keymaps = {
@@ -56,8 +56,8 @@ require("nvim-treesitter.configs").setup({
             -- ["im"] = "@call.inner"
         },
     },
-    playground = {enable = true},
-    ensure_installed = {
-        "python", "beancount", "lua", "c", "cpp", "typescript", "tsx", "svelte",
-    },
+    playground = { enable = true },
+    --ensure_installed = {
+    --    "python", "beancount", "lua", "c", "cpp", "typescript", "tsx", "svelte",
+    --},
 })
