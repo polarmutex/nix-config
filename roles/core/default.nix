@@ -1,12 +1,13 @@
 { config, pkgs, lib, ... }:
 let
 
-in {
+in
+{
   nix = {
     extraOptions = "experimental-features = nix-command flakes";
     gc = {
-        automatic = true;
-        options = "--delete-older-than 5d";
+      automatic = true;
+      options = "--delete-older-than 5d";
     };
     package = pkgs.nixFlakes;
   };
@@ -40,7 +41,10 @@ in {
     lm_sensors
     xorg.xdpyinfo
     feh
-    xfce.thunar xfce.xfconf xfce.tumbler xfce.exo
+    xfce.thunar
+    xfce.xfconf
+    xfce.tumbler
+    xfce.exo
     udisks
   ];
 }

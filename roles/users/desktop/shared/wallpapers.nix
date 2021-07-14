@@ -1,4 +1,4 @@
-{pkgs, config, lib, ...}:
+{ pkgs, config, lib, ... }:
 {
   home.file = {
     ".config/wallpapers".source = ../../../../wallpapers;

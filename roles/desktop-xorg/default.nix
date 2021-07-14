@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ...}:
+{ pkgs, config, lib, ... }:
 {
   sound.enable = true;
   hardware.pulseaudio.enable = true;
@@ -25,8 +25,7 @@
 
 
 
-  environment.systemPackages = with pkgs; [
-  ];
+  environment.systemPackages = with pkgs; [];
 
   services.gnome.gnome-keyring.enable = true;
   services.accounts-daemon.enable = true;
