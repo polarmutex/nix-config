@@ -108,6 +108,14 @@ local function plugins(use)
         end,
     })
 
+    -- Dashboard
+    use({
+        "glepnir/dashboard-nvim",
+        config = function()
+            require("polarmutex.config.dashboard")
+        end,
+    })
+
     -- Undo
     use({ "mbbill/undotree", cmd = "UndotreeToggle" })
 
