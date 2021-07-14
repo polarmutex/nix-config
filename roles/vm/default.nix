@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ...}:
+{ pkgs, lib, config, ... }:
 {
 
   boot.loader.grub.enable = true;
@@ -11,7 +11,7 @@
       fsType = "ext4";
     };
 
-  swapDevices = [ ];
+  swapDevices = [];
 
   virtualisation.virtualbox.guest.enable = true;
 
