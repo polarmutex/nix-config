@@ -6,6 +6,7 @@
 
 require("polarmutex.options")
 require("polarmutex.util")
+require("polarmutex.statusline")
 
 vim.defer_fn(function()
     require("polarmutex.plugins")

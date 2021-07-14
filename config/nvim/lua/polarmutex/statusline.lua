@@ -1,15 +1,15 @@
 -- local theme = require("polarmutex.colorschemes.gruvbox")
 local has_lsp_status, lsp_status = pcall(require, "lsp-status")
-local Path = require("plenary.path")
+local has_path, Path = pcall(require, "plenary.path")
 local M = {}
 
 local active_sep = "rounded"
 
 M.separators = {
-    arrow = {"", ""},
-    normal = {"", ""},
-    rounded = {"", ""},
-    blanck = {"", ""}
+    arrow = { "", "" },
+    normal = { "", "" },
+    rounded = { "", "" },
+    blanck = { "", "" },
 }
 
 M.icons = {
@@ -17,7 +17,7 @@ M.icons = {
     unsaved = "",
     warning = "",
     error = "",
-    branch = " "
+    branch = " ",
 }
 
 M.colors = {
@@ -29,13 +29,13 @@ M.colors = {
     red = "%#StatusLineRed#",
     filetype = "%#StatusLineFileType#",
     line_col = "%#StatusLineLineCol#",
-    line_col_inv = "%#StatusLineLineColInv#"
+    line_col_inv = "%#StatusLineLineColInv#",
 }
 
-M.trunc_width = setmetatable({git_status = 90, filename = 140}, {
+M.trunc_width = setmetatable({ git_status = 90, filename = 140 }, {
     __index = function()
         return 80
-    end
+    end,
 })
 
 M.is_truncated = function(_, width)
@@ -44,38 +44,38 @@ M.is_truncated = function(_, width)
 end
 
 M.modes = {
-    ["n"] = {"N", "Normal", "%#StatusLineModeNormal#", "%#StatusLineModeNormalInv#"},
-    ["no"] = {"N·P", "N·Pending", "%#StatusLineModeNormal#", "%#StatusLineModeNormalInv#"},
+    ["n"] = { "N", "Normal", "%#StatusLineModeNormal#", "%#StatusLineModeNormalInv#" },
+    ["no"] = { "N·P", "N·Pending", "%#StatusLineModeNormal#", "%#StatusLineModeNormalInv#" },
 
-    ["v"] = {"V", "Visual", "%#StatusLineModeVisual#", "%#StatusLineModeVisualInv#"},
-    ["V"] = {"V", "V·Line", "%#StatusLineModeVisual#", "%#StatusLineModeVisualInv#"},
-    [""] = {"V", "V·Block", "%#StatusLineModeVisual#", "%#StatusLineModeVisualInv#"},
+    ["v"] = { "V", "Visual", "%#StatusLineModeVisual#", "%#StatusLineModeVisualInv#" },
+    ["V"] = { "V", "V·Line", "%#StatusLineModeVisual#", "%#StatusLineModeVisualInv#" },
+    [""] = { "V", "V·Block", "%#StatusLineModeVisual#", "%#StatusLineModeVisualInv#" },
 
-    ["s"] = {"S", "Select", "%#StatusLineModeSelect#", "%#StatusLineModeSelectInv#"},
-    ["S"] = {"S", "S·Line", "%#StatusLineModeSelect#", "%#StatusLineModeSelectInv#"},
-    [""] = {"S", "S·Block", "%#StatusLineModeSelect#", "%#StatusLineModeSelectInv#"},
+    ["s"] = { "S", "Select", "%#StatusLineModeSelect#", "%#StatusLineModeSelectInv#" },
+    ["S"] = { "S", "S·Line", "%#StatusLineModeSelect#", "%#StatusLineModeSelectInv#" },
+    [""] = { "S", "S·Block", "%#StatusLineModeSelect#", "%#StatusLineModeSelectInv#" },
 
-    ["i"] = {"I", "Insert", "%#StatusLineModeInsert#", "%#StatusLineModeInsertInv#"},
-    ["ic"] = {"I", "Insert", "%#StatusLineModeInsert#", "%#StatusLineModeInsertInv#"},
+    ["i"] = { "I", "Insert", "%#StatusLineModeInsert#", "%#StatusLineModeInsertInv#" },
+    ["ic"] = { "I", "Insert", "%#StatusLineModeInsert#", "%#StatusLineModeInsertInv#" },
 
-    ["R"] = {"R", "Replace", "%#StatusLineModeReplace#", "%#StatusLineModeReplaceInv#"},
-    ["Rv"] = {"V", "V·Replace", "%#StatusLineModeReplace#", "%#StatusLineModeReplaceInv#"},
+    ["R"] = { "R", "Replace", "%#StatusLineModeReplace#", "%#StatusLineModeReplaceInv#" },
+    ["Rv"] = { "V", "V·Replace", "%#StatusLineModeReplace#", "%#StatusLineModeReplaceInv#" },
 
-    ["c"] = {"C", "Command", "%#StatusLineModeCommand#", "%#StatusLineModeCommandInv#"},
-    ["cv"] = {"C", "Vim·Ex", "%#StatusLineModeCommand#", "%#StatusLineModeCommandInv#"},
-    ["ce"] = {"C", "Ex", "%#StatusLineModeCommand#", "%#StatusLineModeCommandInv#"},
+    ["c"] = { "C", "Command", "%#StatusLineModeCommand#", "%#StatusLineModeCommandInv#" },
+    ["cv"] = { "C", "Vim·Ex", "%#StatusLineModeCommand#", "%#StatusLineModeCommandInv#" },
+    ["ce"] = { "C", "Ex", "%#StatusLineModeCommand#", "%#StatusLineModeCommandInv#" },
 
-    ["r"] = {"E", "Prompt", "%#StatusLineModePrompt#", "%#StatusLineModePromptInv#"},
-    ["rm"] = {"M", "More", "%#StatusLineModePrompt#", "%#StatusLineModePromptInv#"},
-    ["r?"] = {"C", "Confirm", "%#StatusLineModePrompt#", "%#StatusLinePromptNormalInv#"},
+    ["r"] = { "E", "Prompt", "%#StatusLineModePrompt#", "%#StatusLineModePromptInv#" },
+    ["rm"] = { "M", "More", "%#StatusLineModePrompt#", "%#StatusLineModePromptInv#" },
+    ["r?"] = { "C", "Confirm", "%#StatusLineModePrompt#", "%#StatusLinePromptNormalInv#" },
 
-    ["!"] = {"S", "SHELL", "%#StatusLineModeTerminal#", "%#StatusLineModeTerminalInv#"},
+    ["!"] = { "S", "SHELL", "%#StatusLineModeTerminal#", "%#StatusLineModeTerminalInv#" },
 
-    ["t"] = {"T", "TERMINAL", "%#StatusLineModeTerminal#", "%#StatusLineModeTerminalInv#"},
+    ["t"] = { "T", "TERMINAL", "%#StatusLineModeTerminal#", "%#StatusLineModeTerminalInv#" },
 
     __index = function()
-        return {"U", "Unknown", "%#StatusLineModeUnknown#", "%#StatusLineModeUnknownInv#"} -- handle edge cases
-    end
+        return { "U", "Unknown", "%#StatusLineModeUnknown#", "%#StatusLineModeUnknownInv#" } -- handle edge cases
+    end,
 }
 
 M.current_mode = function(self)
@@ -83,19 +83,18 @@ M.current_mode = function(self)
     if self:is_truncated(self.trunc_width.mode) then
         return "1" -- string.format(" %s ", self.modes[current_mode][1]):upper()
     end
-    return
-        self.modes[current_mode][3] ..
-        string.format(" %s ", self.modes[current_mode][2]):upper() ..
-        self.modes[current_mode][4] ..
-        self.separators[active_sep][1] ..
-        self.colors.active
+    return self.modes[current_mode][3]
+        .. string.format(" %s ", self.modes[current_mode][2]):upper()
+        .. self.modes[current_mode][4]
+        .. self.separators[active_sep][1]
+        .. self.colors.active
 end
 
 M.git_status = function(self)
     local colors = self.colors
 
     -- use fallback because it doesn't set this variable on the initial `BufEnter`
-    local signs = vim.b.gitsigns_status_dict or {head = "", added = 0, changed = 0, removed = 0}
+    local signs = vim.b.gitsigns_status_dict or { head = "", added = 0, changed = 0, removed = 0 }
     local is_head_empty = signs.head ~= ""
 
     local signs_head = colors.git .. string.format(" %s", signs.head or "") .. colors.active
@@ -107,14 +106,14 @@ M.git_status = function(self)
         return is_head_empty and " " .. signs_head .. " " or ""
     end
 
-    return is_head_empty and
-               string.format(" %s %s %s | %s ", signs_added, signs_changed,
-                             signs_removed, signs_head) or ""
+    return is_head_empty
+            and string.format(" %s %s %s | %s ", signs_added, signs_changed, signs_removed, signs_head)
+        or ""
 end
 
 M.filename = function(self)
     --TODO find current path
-    local file = vim.fn.expand('%:f')
+    local file = vim.fn.expand("%:f")
     if self:is_truncated(self.trunc_width.filename) then
         return Path:new(file):shorten()
     end
@@ -132,8 +131,7 @@ end
 
 M.fileicon = function()
     local file_name, file_ext = vim.fn.expand("%:t"), vim.fn.expand("%:e")
-    local icon = require("nvim-web-devicons").get_icon(file_name, file_ext,
-                                                       {default = true})
+    local icon = require("nvim-web-devicons").get_icon(file_name, file_ext, { default = true })
     local filetype = vim.bo.filetype
 
     if filetype == "" then
@@ -195,19 +193,23 @@ M.diagnostics = function(self)
     local icons = self.icons
 
     local num_warnings = vim.lsp.diagnostic.get_count(0, "Warning")
-    local num_work_warnings = require('polarmutex.lsp.extensions.workspace_diagnostics').get_count(0, 'Warning')
+    local num_work_warnings = require("polarmutex.lsp.extensions.workspace_diagnostics").get_count(0, "Warning")
     local num_errors = vim.lsp.diagnostic.get_count(0, "Error")
-    local num_work_errors = require('polarmutex.lsp.extensions.workspace_diagnostics').get_count(0, 'Error')
+    local num_work_errors = require("polarmutex.lsp.extensions.workspace_diagnostics").get_count(0, "Error")
 
     local warn_msg = ""
     if num_warnings ~= 0 or num_work_warnings ~= 0 then
-        local workspace_msg = (num_work_warnings > 0 and num_work_warnings ~= num_warnings) and string.format("(%s)",num_work_warnings) or ""
+        local workspace_msg = (num_work_warnings > 0 and num_work_warnings ~= num_warnings)
+                and string.format("(%s)", num_work_warnings)
+            or ""
         warn_msg = string.format(" %s %s%s", icons.warning, num_warnings, workspace_msg)
     end
 
     local error_msg = ""
     if num_errors ~= 0 or num_work_errors ~= 0 then
-        local workspace_msg = (num_work_errors > 0 and num_work_errors ~= num_errors) and string.format("(%s)",num_work_errors) or ""
+        local workspace_msg = (num_work_errors > 0 and num_work_errors ~= num_errors)
+                and string.format("(%s)", num_work_errors)
+            or ""
         error_msg = string.format("%s %s%s ", icons.error, num_errors, workspace_msg)
     end
 
@@ -218,18 +220,18 @@ M.line_col = function(self)
     local colors = self.colors
     local separators = self.separators
 
-    local current_line = vim.fn.line('.')
-    local current_col = vim.fn.col('.')
-    local total_line = vim.fn.line('$')
+    local current_line = vim.fn.line(".")
+    local current_col = vim.fn.col(".")
+    local total_line = vim.fn.line("$")
 
     local percentage
     if current_line == 1 then
-        percentage = 'Top'
-    elseif current_line == vim.fn.line('$') then
-        percentage = 'Bot'
+        percentage = "Top"
+    elseif current_line == vim.fn.line("$") then
+        percentage = "Bot"
     else
-        local result,_ = math.modf((current_line/total_line)*100)
-        percentage = string.format("%s%s",result,"%%")
+        local result, _ = math.modf((current_line / total_line) * 100)
+        percentage = string.format("%s%s", result, "%%")
     end
 
     local line_col_str = string.format("%3d:%2d %s ", current_line, current_col, percentage)
@@ -237,7 +239,6 @@ M.line_col = function(self)
 end
 
 M.set_active = function(self)
-
     return table.concat({
         self:current_mode(),
         self:git_status(),
@@ -250,7 +251,7 @@ M.set_active = function(self)
         self:filetype(),
         self:lsp_connection(),
         self:diagnostics(),
-        self:line_col()
+        self:line_col(),
     })
 end
 
@@ -262,7 +263,7 @@ M.set_explorer = function(self)
     local title = self.colors.mode .. "   "
     local title_alt = self.colors.mode_alt .. self.separators[active_sep][2]
 
-    return table.concat({self.colors.active, title, title_alt})
+    return table.concat({ self.colors.active, title, title_alt })
 end
 
 Statusline = setmetatable(M, {
@@ -276,16 +277,19 @@ Statusline = setmetatable(M, {
         if mode == "explorer" then
             return statusline:set_explorer()
         end
-    end
+    end,
 })
 
 -- set statusline
 -- TODO: replace this once we can define autocmd using lua
-vim.api.nvim_exec([[
+vim.api.nvim_exec(
+    [[
     augroup Statusline
     au!
     au WinEnter,BufEnter * setlocal statusline=%!v:lua.Statusline('active')
     au WinLeave,BufLeave * setlocal statusline=%!v:lua.Statusline('inactive')
     au WinEnter,BufEnter,FileType NvimTree setlocal statusline=%!v:lua.Statusline('explorer')
     augroup END
-]], false)
+]],
+    false
+)

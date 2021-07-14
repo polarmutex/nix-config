@@ -29,6 +29,7 @@ local function plugins(use)
             require("polarmutex.config.lsp")
         end,
         requires = {
+            "nvim-lua/lsp-status.nvim",
             "folke/lua-dev.nvim",
             "jose-elias-alvarez/null-ls.nvim",
             "jose-elias-alvarez/nvim-lsp-ts-utils",
@@ -125,6 +126,15 @@ local function plugins(use)
         module = "illuminate",
         config = function()
             vim.g.Illuminate_delay = 1000
+        end,
+    })
+
+    -- Theme - Icons
+    use({
+        "kyazdani42/nvim-web-devicons",
+        module = "nvim-web-devicons",
+        config = function()
+            require("nvim-web-devicons").setup({ default = true })
         end,
     })
 end
