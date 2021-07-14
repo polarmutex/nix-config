@@ -41,6 +41,7 @@
             roles = [
               "desktop/dwm"
               "git"
+              "gpg"
               "zsh"
               "neovim"
               "tmux"
