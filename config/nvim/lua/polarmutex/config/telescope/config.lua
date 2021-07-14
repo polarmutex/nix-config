@@ -16,18 +16,18 @@ require("telescope").setup({
                 height_padding = 0.1,
                 preview_width = 0.6,
             },
-            vertical = {width_padding = 0.05, height_padding = 1, preview_height = 0.5},
+            vertical = { width_padding = 0.05, height_padding = 1, preview_height = 0.5 },
         },
 
         sorting_strategy = "descending",
         prompt_position = "bottom",
         color_devicons = true,
 
-        mappings = {i = {["<c-x>"] = false, ["<C-q>"] = actions.send_to_qflist}},
+        mappings = { i = { ["<c-x>"] = false, ["<C-q>"] = actions.send_to_qflist } },
 
         borderchars = {
-            {"─", "│", "─", "│", "╭", "╮", "╯", "╰"},
-            preview = {"─", "│", "─", "│", "╭", "╮", "╯", "╰"},
+            { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+            preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         },
 
         file_sorter = sorters.get_fzy_sorter,
@@ -38,9 +38,9 @@ require("telescope").setup({
     },
 
     extensions = {
-        fzy_native = {override_generic_sorter = false, override_file_sorter = true},
+        fzy_native = { override_generic_sorter = false, override_file_sorter = true },
 
-        fzf_writer = {use_highlighter = false, minimum_grep_characters = 4},
+        fzf_writer = { use_highlighter = false, minimum_grep_characters = 4 },
     },
 })
 
