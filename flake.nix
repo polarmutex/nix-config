@@ -80,7 +80,7 @@
         ];
         kernelMods = [ "kvm-intel" "wl" ];
         kernelParams = [];
-        roles = [ "efi" "core" "desktop-xorg" "ssh"];
+        roles = [ "efi" "core" "desktop-xorg" "ssh" "yubikey" ];
         cpuCores = 4;
         users = [ {
           name = "brian";
