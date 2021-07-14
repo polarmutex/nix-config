@@ -40,6 +40,7 @@
           brian = user.mkHomeManagerUser {
             roles = [
               "desktop/dwm"
+              "fonts"
               "git"
               "gpg"
               "zsh"
@@ -56,6 +57,7 @@
           work = user.mkHomeManagerUser {
             roles = [
               "desktop/dwm"
+              "fonts"
               "neovim"
               "work"
               "git"
