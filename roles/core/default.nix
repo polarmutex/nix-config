@@ -40,5 +40,7 @@ in {
     lm_sensors
     xorg.xdpyinfo
     feh
+    xfce.thunar xfce.xfconf xfce.tumbler xfce.exo
+    udisks
   ];
 }
