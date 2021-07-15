@@ -29,6 +29,11 @@
         config = { allowUnfree = true; };
         overlays = [
           neovim-flake.overlay
+          (
+            final: prev: {
+              my = import ./pkgs { inherit pkgs; };
+            }
+          )
         ];
       };
 
