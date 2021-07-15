@@ -19,7 +19,7 @@
           _: {
             src = builtins.fetchGit {
               url = "https://github.com/polarmutex/dwm";
-              rev = "f9e8c451445dc9dcf3408397c0a9d3324c2941f6";
+              rev = "cd9d41d8bc5b983aa5a2ec608cc1a6230bf12308";
               ref = "custom";
             };
           }
