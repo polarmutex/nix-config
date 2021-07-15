@@ -64,6 +64,7 @@
               "tmux"
               "zsh"
               "obsidian"
+              "gpg"
             ];
             username = "brian";
           };
