@@ -90,7 +90,7 @@
             ];
             kernelMods = [ "kvm-intel" "wl" ];
             kernelParams = [];
-            roles = [ "efi" "core" "desktop-xorg" "ssh" "yubikey" ];
+            roles = [ "efi" "core" "desktop-xorg" "ssh" "yubikey" "bluetooth" ];
             cpuCores = 4;
             users = [
               {
