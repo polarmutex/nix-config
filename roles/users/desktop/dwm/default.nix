@@ -6,6 +6,7 @@
     ../shared/dmenu.nix
     ../shared/dwmblocks.nix
     ../shared/wallpapers.nix
+    ../shared/bluetooth.nix
   ];
 
   home.packages = with pkgs; [
