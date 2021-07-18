@@ -6,6 +6,7 @@
     nix-zsh-completions
     fzf
     fzf-zsh
+    direnv
   ];
 
   programs.zsh = {
