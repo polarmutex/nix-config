@@ -56,6 +56,7 @@
               "1password"
               "qmk"
               "zoom"
+              "applications"
             ];
             username = "brian";
           };
@@ -90,7 +91,7 @@
             ];
             kernelMods = [ "kvm-intel" "wl" ];
             kernelParams = [];
-            roles = [ "efi" "core" "desktop-xorg" "ssh" "yubikey" "bluetooth" ];
+            roles = [ "efi" "core" "desktop-xorg" "ssh" "yubikey" "bluetooth" "kvm" ];
             cpuCores = 4;
             users = [
               {
