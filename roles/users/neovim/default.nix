@@ -46,4 +46,5 @@ in
   xdg.dataFile."nvim/site/pack/packer/start/nvim-treesitter/parser/markdown.so".source = "${pkgs.tree-sitter.builtGrammars.tree-sitter-markdown}/parser";
   xdg.dataFile."nvim/site/pack/packer/start/nvim-treesitter/parser/nix.so".source = "${pkgs.tree-sitter.builtGrammars.tree-sitter-nix}/parser";
   xdg.dataFile."nvim/site/pack/packer/start/nvim-treesitter/parser/svelte.so".source = "${pkgs.tree-sitter.builtGrammars.tree-sitter-svelte}/parser";
+  xdg.dataFile."nvim/site/pack/packer/start/nvim-treesitter/parser/beancount.so".source = "${pkgs.my.tree-sitter-beancount}/parser";
 }
