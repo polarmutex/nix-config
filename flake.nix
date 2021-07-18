@@ -96,7 +96,7 @@
             users = [
               {
                 name = "brian";
-                groups = [ "wheel" "networkmanager" ];
+                groups = [ "wheel" "networkmanager" "libvirtd" "docker" ];
                 uid = 1000;
                 shell = pkgs.zsh;
               }
