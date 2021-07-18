@@ -32,6 +32,12 @@ local servers = {
     }),
     --efm = require("polarmutex.config.lsp.efm").config,
     vimls = {},
+    beancount = {
+        cmd = { "/home/brian/repos/beancount-language-server/packages/beancount-language-server/out/cli.js", "--stdio" },
+        init_options = {
+            journalFile = "~/repos/beancount/journal.beancount",
+        },
+    },
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
