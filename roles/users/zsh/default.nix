@@ -2,22 +2,20 @@
 {
 
   home.packages = with pkgs; [
-    spaceship-prompt
+    starship
     nix-zsh-completions
     fzf
     fzf-zsh
     direnv
   ];
 
+  home.file = {
+    ".config/starship.toml".source = ./starship.toml;
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    plugins = [
-      {
-        name = "spaceship-prompt";
-        src = "${pkgs.spaceship-prompt}/share/zsh/site-functions";
-      }
-    ];
 
     initExtraBeforeCompInit = ''
       # Set bigger history size
@@ -54,8 +52,7 @@
     '';
 
     initExtra = ''
-      autoload -U promptinit; promptinit
-      prompt spaceship
+      eval "$(starship init zsh)"
     '';
   };
 }
