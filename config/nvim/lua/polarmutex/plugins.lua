@@ -35,6 +35,14 @@ local function plugins(use)
             "jose-elias-alvarez/nvim-lsp-ts-utils",
         },
     })
+    use({
+        "folke/trouble.nvim",
+        event = "BufReadPre",
+        cmd = { "TroubleToggle", "Trouble" },
+        config = function()
+            require("trouble").setup({ auto_open = false })
+        end,
+    })
 
     -- Lsp Comptetion
     use({
@@ -52,15 +60,25 @@ local function plugins(use)
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
         requires = {
-            { "nvim-treesitter/playground", cmd = "TSHighlightCapturesUnderCursor" },
+            "nvim-treesitter/playground",
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
         config = function()
             require("polarmutex.config.treesitter")
         end,
     })
+    use({ "polarmutex/contextprint.nvim" })
+    use({
+        "b3nj5m1n/kommentary",
+        opt = true,
+        keys = { "gc", "gcc" },
+        config = function()
+            require("polarmutex.config.comments")
+        end,
+        requires = "JoosepAlviste/nvim-ts-context-commentstring",
+    })
 
-    -- Fuzzy Finder
+    -- Fuzzy Finder / File / Buffer Nav
     use({
         "nvim-telescope/telescope.nvim",
         config = function()
@@ -74,6 +92,19 @@ local function plugins(use)
             "nvim-telescope/telescope-symbols.nvim",
             "nvim-telescope/telescope-fzy-native.nvim",
         },
+    })
+    use({
+        "ThePrimeagen/harpoon",
+        config = function()
+            require("polarmutex.config.harpoon")
+        end,
+    })
+    use({
+        "ggandor/lightspeed.nvim",
+        event = "BufReadPost",
+        config = function()
+            require("polarmutex.config.lightspeed")
+        end,
     })
 
     -- Git
@@ -96,9 +127,11 @@ local function plugins(use)
         "sindrets/diffview.nvim",
         cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
         config = function()
-            --require("polarmutex.config.diffview")
+            require("diffview").setup({})
         end,
     })
+    use({ "ThePrimeagen/git-worktree.nvim" })
+    use({ "ruifm/gitlinker.nvim" })
 
     -- Key Mappings
     use({
@@ -107,6 +140,20 @@ local function plugins(use)
         config = function()
             require("polarmutex.config.which-key")
         end,
+    })
+
+    -- Debugging
+    use({
+        "mfussenegger/nvim-dap",
+        config = function()
+            require("polarmutex.config.dap")
+        end,
+        requires = {
+            "mfussenegger/nvim-dap-python",
+            "mfussenegger/nvim-lua-debugger",
+            "theHamsta/nvim-dap-virtual-text",
+            "nvim-telescope/telescope-dap.nvim",
+        },
     })
 
     -- Dashboard
@@ -129,12 +176,83 @@ local function plugins(use)
         end,
     })
 
-    -- Theme - Icons
+    -- Session
+    use({
+        "folke/persistence.nvim",
+        event = "VimEnter",
+        module = "persistence",
+        config = function()
+            require("persistence").setup()
+        end,
+    })
+
+    -- Theme
     use({
         "kyazdani42/nvim-web-devicons",
         module = "nvim-web-devicons",
         config = function()
             require("nvim-web-devicons").setup({ default = true })
+        end,
+    })
+    use({
+        "norcalli/nvim-colorizer.lua",
+        config = function()
+            require("polarmutex.config.colorizer")
+        end,
+    })
+    use({
+        "norcalli/nvim-terminal.lua",
+        ft = "terminal",
+        config = function()
+            require("terminal").setup()
+        end,
+    })
+    use({
+        "lukas-reineke/indent-blankline.nvim",
+        event = "BufReadPre",
+        config = function()
+            require("polarmutex.config.blankline")
+        end,
+    })
+    use({
+        "karb94/neoscroll.nvim",
+        keys = { "<C-u>", "<C-d>", "gg", "G" },
+        config = function()
+            require("polarmutex.config.scroll")
+        end,
+    })
+    use({
+        "edluffy/specs.nvim",
+        after = "neoscroll.nvim",
+        config = function()
+            require("polarmutex.config.specs")
+        end,
+    })
+
+    -- Increment / Decrement
+    use({
+        "monaqa/dial.nvim",
+        config = function()
+            require("polarmutex.config.dial")
+        end,
+    })
+
+    -- Beancount
+    use({
+        "polarmutex/beancount.nvim",
+    })
+
+    --delibrate practice
+    use({ "ThePrimeagen/vim-be-good" })
+
+    -- utilities
+    use({ "tweekmonster/startuptime.vim", cmd = "StartupTime" })
+    use({
+        "folke/todo-comments.nvim",
+        cmd = { "TodoTrouble", "TodoTelescope" },
+        event = "BufReadPost",
+        config = function()
+            require("todo-comments").setup()
         end,
     })
 end
