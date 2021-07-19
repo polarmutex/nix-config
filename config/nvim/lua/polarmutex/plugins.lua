@@ -58,7 +58,7 @@ local function plugins(use)
     -- Tree Sitter
     use({
         "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate",
+        --run = ":TSUpdate",
         requires = {
             "nvim-treesitter/playground",
             "nvim-treesitter/nvim-treesitter-textobjects",
