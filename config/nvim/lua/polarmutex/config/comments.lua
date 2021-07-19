@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("polarmutex.util")
 
 require("kommentary.config").configure_language("default", { prefer_single_line_comments = true })
 
