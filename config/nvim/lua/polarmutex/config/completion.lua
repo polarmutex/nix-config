@@ -1,15 +1,4 @@
-vim.opt.completeopt = { "menuone", "noselect" }
-
--- Don't show the dumb matching stuff.
--- TODO look into this
-vim.cmd([[set shortmess+=c]])
-
--- completion.nvim
-vim.g.completion_confirm_key = ""
-vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
--- vim.g.completion_enable_snippet = 'snippets.nvim'
--- Decide on length
-vim.g.completion_trigger_keyword_length = 2
+vim.o.completeopt = "menuone,noselect"
 
 local has_compe, compe = pcall(require, "compe")
 if has_compe then
@@ -17,8 +6,8 @@ if has_compe then
         enabled = true,
         autocomplete = true,
         debug = false,
-        min_length = 2,
-        preselect = "enabled",
+        min_length = 1,
+        preselect = "always",
         throttle_time = 80,
         source_timeout = 200,
         incomplete_delay = 400,
@@ -30,7 +19,7 @@ if has_compe then
 
         source = {
             nvim_lsp = true,
-            buffer = true,
+            buffer = false,
             path = true,
             calc = true,
             vsnip = false,
