@@ -8,6 +8,7 @@
   home.packages = with pkgs; [
     vscode
     teams
+    cmake
   ];
 
   programs.zsh.profileExtra = ''export PATH=$HOME/netbeans-12.0/netbeans/bin:$PATH'';
