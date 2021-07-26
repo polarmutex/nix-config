@@ -13,7 +13,7 @@ function M.setup(on_attach)
                 args = { "--config-path", vim.fn.stdpath("config") .. "/lua/stylua.toml", "-" },
             }),
             nls.builtins.formatting.eslint_d,
-            nls.builtins.diagnostics.shellcheck,
+            --nls.builtins.diagnostics.shellcheck,
             nls.builtins.diagnostics.markdownlint,
             nls.builtins.diagnostics.selene,
         },
