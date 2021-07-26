@@ -1,4 +1,7 @@
 { pkgs, config, lib, ... }:
+let
+  utils = import ../utils.nix { config = config; };
+in
 {
 
   programs.git = {
@@ -10,6 +13,11 @@
         defaultBranch = "main";
       };
     };
+    includes = [
+      {
+        path = "~/.config/git/config_work";
+      }
+    ];
   };
 
   home.packages = with pkgs; [
