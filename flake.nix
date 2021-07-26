@@ -57,6 +57,7 @@
               "qmk"
               "zoom"
               "applications"
+              "rust"
             ];
             username = "brian";
           };
