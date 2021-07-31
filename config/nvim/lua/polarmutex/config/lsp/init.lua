@@ -38,6 +38,7 @@ local servers = {
             journalFile = "~/repos/beancount/journal.beancount",
         },
     },
+    rust_analyzer = {},
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
