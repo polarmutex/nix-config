@@ -47,5 +47,12 @@ in
     xfce.exo
     udisks
     protonvpn-cli
+    nodejs
+    nodePackages.pnpm
+    gnumake
+    gcc
+    gnutar
+    coreutils
+    binutils
   ];
 }
