@@ -46,5 +46,6 @@ in
     xfce.tumbler
     xfce.exo
     udisks
+    protonvpn-cli
   ];
 }
