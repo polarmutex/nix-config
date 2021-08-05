@@ -24,6 +24,7 @@ in
   environment.systemPackages = with pkgs; [
     # Core utilities
     brave
+    firefox
     vim
     wget
     curl
