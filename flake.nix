@@ -44,7 +44,7 @@
         homeManagerConfigurations = {
           brian = user.mkHomeManagerUser {
             roles = [
-              "desktop/dwm"
+              "desktop/awesome"
               "fonts"
               "git"
               "gpg"
