@@ -142,10 +142,10 @@ local global_keys = gears.table.join(
     }),
 
     -- Prompt
-    awful.key({ modkey }, "r", function()
-        awful.screen.focused().mypromptbox:run()
+    awful.key({ modkey }, "d", function()
+        awful.util.spawn("rofi -show drun")
     end, {
-        description = "run prompt",
+        description = "run rofi",
         group = "launcher",
     }),
 

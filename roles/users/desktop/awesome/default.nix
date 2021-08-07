@@ -11,6 +11,7 @@ in
     ../shared/wallpapers.nix
     ../shared/bluetooth.nix
     ../shared/picom.nix
+    ../shared/rofi.nix
   ];
 
   home.packages = with pkgs; [
