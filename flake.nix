@@ -54,6 +54,7 @@
               "obsidian"
               "anki"
               "1password"
+              "spotify"
               "qmk"
               "zoom"
               "applications"
