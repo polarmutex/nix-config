@@ -55,5 +55,6 @@ in
     gnutar
     coreutils
     binutils
+    pciutils
   ];
 }
