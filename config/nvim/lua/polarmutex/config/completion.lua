@@ -7,7 +7,7 @@ if has_compe then
         autocomplete = true,
         debug = false,
         min_length = 1,
-        preselect = "always",
+        preselect = "enabled",
         throttle_time = 80,
         source_timeout = 200,
         incomplete_delay = 400,

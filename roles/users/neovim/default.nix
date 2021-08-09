@@ -27,7 +27,6 @@ in
     rnix-lsp
     sumneko-lua-language-server
     my.jdt-language-server
-    rust-analyzer
     nodePackages.svelte-language-server
 
     ripgrep
