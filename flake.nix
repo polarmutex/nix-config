@@ -44,7 +44,7 @@
         homeManagerConfigurations = {
           brian = user.mkHomeManagerUser {
             roles = [
-              "desktop/dwm"
+              "desktop/awesome"
               "fonts"
               "git"
               "gpg"
@@ -54,9 +54,11 @@
               "obsidian"
               "anki"
               "1password"
+              "spotify"
               "qmk"
               "zoom"
               "applications"
+              "rust"
             ];
             username = "brian";
           };
@@ -80,7 +82,7 @@
           nixos = host.mkHost {
             name = "nixos";
             NICs = [ "enp3s0" ];
-            kernelPackage = pkgs.linuxPackages_5_11;
+            kernelPackage = pkgs.linuxPackages_5_12;
             initrdMods = [
               "xhci_pci"
               "ehci_pci"
@@ -91,6 +93,7 @@
             ];
             kernelMods = [ "kvm-intel" "wl" ];
             kernelParams = [];
+            extraModulePackages = [ pkgs.linuxPackages_5_12.broadcom_sta ];
             roles = [ "efi" "core" "desktop-xorg" "ssh" "yubikey" "bluetooth" "kvm" ];
             cpuCores = 4;
             users = [

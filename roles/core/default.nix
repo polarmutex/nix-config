@@ -24,6 +24,7 @@ in
   environment.systemPackages = with pkgs; [
     # Core utilities
     brave
+    firefox
     vim
     wget
     curl
@@ -46,5 +47,14 @@ in
     xfce.tumbler
     xfce.exo
     udisks
+    protonvpn-cli
+    nodejs
+    nodePackages.pnpm
+    gnumake
+    gcc
+    gnutar
+    coreutils
+    binutils
+    pciutils
   ];
 }
