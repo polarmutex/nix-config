@@ -42,13 +42,13 @@ awful.screen.connect_for_each_screen(function(s)
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
+    s.mypromptbox = awful.widget.prompt(s)
     s.mytaglist = require("widgets.top_panel.taglist")(s)
     s.mylayoutbox = require("widgets.top_panel.layoutbox")(s)
 
     s.wibox = awful.wibar({
         height = dpi(20),
-        screen = mouse.screen,
+        screen = s,
         expand = true,
         visible = true,
         bg = beautiful.bg_normal,

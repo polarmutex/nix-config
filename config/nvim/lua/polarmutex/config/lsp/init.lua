@@ -17,7 +17,18 @@ local function on_attach(client, bufnr)
 end
 
 local servers = {
-    pyright = {},
+    pyright = {
+        settingss = {
+            python = {
+                analysis = {
+                    autoSearchPaths = true,
+                    diagnosticMode = "openFilesOnly",
+                    --diagnosticMode = "workspace",
+                    --typeCheckingMode = "strict",
+                },
+            },
+        },
+    },
     bashls = {},
     dockerls = {},
     tsserver = {},
