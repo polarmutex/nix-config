@@ -64,7 +64,7 @@
           };
           work = user.mkHomeManagerUser {
             roles = [
-              "desktop/dwm"
+              "desktop/awesome"
               "fonts"
               "neovim"
               "work"
