@@ -10,7 +10,6 @@ in
     ../shared/dmenu.nix
     ../shared/wallpapers.nix
     ../shared/bluetooth.nix
-    ../shared/picom.nix
     ../shared/rofi.nix
   ];
 
@@ -20,7 +19,7 @@ in
   xsession = {
     enable = true;
     windowManager= {
-        command = "awesome"
+        command = "awesome";
     };
     initExtra = ''
       feh --bg-fill --random ~/.config/wallpapers/* &

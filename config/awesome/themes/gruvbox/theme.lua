@@ -6,7 +6,7 @@ local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
 local theme = {}
-theme.dir = string.format("%s/.config/awesome/themes/doom-one/", os.getenv("HOME"))
+theme.dir = string.format("%s/.config/awesome/themes/gruvbox/", os.getenv("HOME"))
 
 -- Fonts
 theme.font = "Monolisa 10"
