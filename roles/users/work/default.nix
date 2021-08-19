@@ -9,9 +9,13 @@
     vscode
     teams
     cmake
+    brave
   ];
 
-  programs.zsh.profileExtra = ''export PATH=$HOME/netbeans-12.0/netbeans/bin:$PATH'';
+  programs.zsh.initExtra = ''
+  export PATH=$HOME/netbeans-12.0/netbeans/bin:$PATH
+  export JDTLS_HOME=$HOME/jdtls
+  '';
 
   xsession = {
     profileExtra = ''
