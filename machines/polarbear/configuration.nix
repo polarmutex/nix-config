@@ -22,7 +22,7 @@
     hostname = "polarbear";
   };
 
-  hardware.sane.enable = true;
+  #hardware.sane.enable = true;
 
   # To build raspi images
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
