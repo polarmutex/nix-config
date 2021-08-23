@@ -9,20 +9,31 @@
       (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
+  boot.initrd.availableKernelModules = [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
   boot.initrd.kernelModules = [];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [];
   boot.extraModulePackages = [];
+  boot.kernelParams = [ "console=ttyS0,19200n8" ];
+  boot.loader.grub.extraConfig = ''
+    serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
+    terminal_input serial;
+    terminal_output serial;
+  '';
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  boot.loader.grub.forceInstall = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.timeout = 10;
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/99a05374-fdb4-47f8-81ca-a7901597ab8a";
+      device = "/dev/sda";
       fsType = "ext4";
     };
 
   swapDevices =
     [
-      { device = "/dev/disk/by-uuid/2402b187-4180-43db-98f4-bae0341cbf75"; }
+      { device = "/dev/sdb"; }
     ];
 
 }

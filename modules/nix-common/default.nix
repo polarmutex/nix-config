@@ -32,7 +32,7 @@ in
       };
 
       # Users allowed to run nix
-      allowedUsers = [ "root" ];
+      allowedUsers = [ "@wheel" ];
     };
   };
 }

@@ -114,7 +114,7 @@
               name = x;
               value = defFlakeSystem {
                 imports = [
-                  (import (./machines + "/${x}/configuration.nix") { inherit self; })
+                  (import (./machines + "/${x}/configuration.nix") { inherit self pkgs; })
                 ];
               };
             }

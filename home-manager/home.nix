@@ -73,12 +73,12 @@
   ];
 
   # Environment variables
-  systemd.user.sessionVariables = { ZDOTDIR = "/home/brian/.config/zsh"; };
+  systemd.user.sessionVariables = { ZDOTDIR = "/home/polar/.config/zsh"; };
 
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
-    ZDOTDIR = "/home/brian/.config/zsh";
+    ZDOTDIR = "/home/polar/.config/zsh";
   };
 
   programs.neovim.package = pkgs.neovim-nightly;
