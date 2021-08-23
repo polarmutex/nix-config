@@ -14,7 +14,7 @@ in
     networking = {
 
       # Define the DNS servers
-      nameservers = [ "192.168.1.1" ];
+      #nameservers = [ "192.168.1.1" ];
 
       # Enables wireless support via wpa_supplicant.
       # networking.wireless.enable = true;

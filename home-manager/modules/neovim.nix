@@ -8,6 +8,7 @@ in
   };
 
   home.packages = with pkgs; [
+    neovim-nightly
     clang-tools
     stylua
     nodePackages.bash-language-server
