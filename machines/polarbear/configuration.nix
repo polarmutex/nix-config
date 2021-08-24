@@ -22,6 +22,7 @@
     hostname = "polarbear";
   };
 
+  services.xserver.videoDrivers = [ "nvidia" ];
   #hardware.sane.enable = true;
 
   # To build raspi images
