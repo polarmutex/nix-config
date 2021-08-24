@@ -11,7 +11,6 @@
   home.packages = with pkgs; [
     exa
     htop
-    neovim
   ];
 
   # Environment variables
@@ -28,8 +27,6 @@
     VISUAL = "nvim";
     ZDOTDIR = "/home/polar/.config/zsh";
   };
-
-  programs.neovim.package = pkgs.neovim-nightly;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
