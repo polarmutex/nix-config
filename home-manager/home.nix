@@ -12,13 +12,14 @@
     ./modules/st.nix
     ./modules/git.nix
     ./modules/gpg
+    ./modules/obsidian.nix
+    ./modules/picom.nix
+    ./modules/tmux.nix
     #./modules/chromium.nix
     #./modules/credentials.nix
     #./modules/dunst.nix
-    #./modules/go.nix
     #./modules/gtk.nix
     #./modules/neomutt.nix
-    #./modules/picom.nix
     #./modules/shell.nix
     #./modules/tmux
     #./modules/xdg.nix
