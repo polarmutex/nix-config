@@ -12,14 +12,15 @@
         {
           nixpkgs.overlays = [
             self.overlay
-            self.inputs.neovim-flake.overlay
           ];
         }
       ];
     };
   };
 
-  polar.services = {};
+  polar.services = {
+    miniflux.enable = true;
+  };
 
   nix.autoOptimiseStore = true;
 
@@ -47,7 +48,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    neovim-nightly
+    vim
   ];
 
 }
