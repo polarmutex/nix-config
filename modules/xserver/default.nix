@@ -17,7 +17,7 @@ in
       layout = "us";
       dpi = 163;
 
-      displayManager.gdm.enable = true;
+      displayManager.lightdm.enable = true;
 
       desktopManager = {
         xterm.enable = false;
