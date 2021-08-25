@@ -11,6 +11,7 @@
   home.packages = with pkgs; [
     exa
     htop
+    neovim
   ];
 
   # Environment variables
