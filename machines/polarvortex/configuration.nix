@@ -20,6 +20,7 @@
 
   polar.services = {
     miniflux.enable = true;
+    gitea.enable = true;
   };
 
   nix.autoOptimiseStore = true;
@@ -27,6 +28,7 @@
   networking.usePredictableInterfaceNames = false;
   networking.useDHCP = false;
   networking.interfaces.eth0.useDHCP = true;
+  networking.domain = "brianryall.xyz";
 
   security.acme.acceptTerms = true;
   security.acme.email = "brian+letsencrypt@brianryall.xyz";
