@@ -22,6 +22,7 @@
     miniflux.enable = true;
     gitea.enable = true;
     ssmtp.enable = true;
+    blog.enable = true;
   };
 
   nix.autoOptimiseStore = true;
