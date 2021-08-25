@@ -23,6 +23,7 @@
     gitea.enable = true;
     ssmtp.enable = true;
     blog.enable = true;
+    fathom.enable = true;
   };
 
   nix.autoOptimiseStore = true;
@@ -46,6 +47,7 @@
     enable = true;
     recommendedOptimisation = true;
     recommendedTlsSettings = true;
+    recommendedProxySettings = true;
     clientMaxBodySize = "128m";
 
     virtualHosts = {};
