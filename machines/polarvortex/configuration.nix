@@ -21,6 +21,7 @@
   polar.services = {
     miniflux.enable = true;
     gitea.enable = true;
+    ssmtp.enable = true;
   };
 
   nix.autoOptimiseStore = true;
