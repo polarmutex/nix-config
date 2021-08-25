@@ -47,8 +47,6 @@
     virtualHosts = {};
   };
 
-  environment.systemPackages = with pkgs; [
-    vim
-  ];
+  environment.systemPackages = with pkgs; [];
 
 }
