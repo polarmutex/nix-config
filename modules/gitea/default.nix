@@ -59,6 +59,12 @@ in
           THEMES = "arc-green";
           DEFAULT_THEME = "arc-green";
         };
+        mailer = {
+          ENABLED = true;
+          MAILER_TYPE = "sendmail";
+          FROM = "do-not-reply@${domain}";
+          SENDMAIL_PATH = "${pkgs.system-sendmail}/bin/sendmail";
+        };
       };
 
       # NixOS module uses `gitea dump` to backup repositories and the database,
