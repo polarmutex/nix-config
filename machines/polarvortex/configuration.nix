@@ -24,6 +24,7 @@
     ssmtp.enable = true;
     blog.enable = true;
     fathom.enable = true;
+    rss-bridge.enable = true;
   };
 
   nix.autoOptimiseStore = true;
