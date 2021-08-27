@@ -13,6 +13,7 @@
     ./modules/git.nix
     ./modules/gpg
     ./modules/obsidian.nix
+    ./modules/logseq.nix
     ./modules/picom.nix
     ./modules/tmux.nix
     #./modules/chromium.nix
