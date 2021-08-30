@@ -10,6 +10,7 @@
     teams
     cmake
     brave
+    xsddiagram
   ];
 
   programs.zsh.initExtra = ''
