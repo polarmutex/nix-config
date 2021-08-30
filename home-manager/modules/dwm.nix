@@ -1,13 +1,7 @@
 { pkgs, config, lib, overlays, ... }:
 {
 
-  imports = [
-    ../shared/st.nix
-    ../shared/dmenu.nix
-    ../shared/dwmblocks.nix
-    ../shared/wallpapers.nix
-    ../shared/bluetooth.nix
-  ];
+  imports = [];
 
   home.packages = with pkgs; [
     dwm
