@@ -5,4 +5,5 @@ with pkgs;
   tree-sitter-beancount = (
     callPackage ./tree-sitter-beancount/default.nix {}
   );
+  fathom = (callPackage ./fathom/default.nix {});
 }

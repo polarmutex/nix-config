@@ -46,7 +46,7 @@ local servers = {
     beancount = {
         --cmd = { "/home/brian/repos/beancount-language-server/packages/beancount-language-server/out/cli.js", "--stdio" },
         cmd = {
-            "/home/brian/repos/beancount-language-server-typescript/packages/beancount-language-server/out/cli.js",
+            "/home/polar/repos/beancount-language-server-typescript/packages/beancount-language-server/out/cli.js",
             "--stdio",
         },
         init_options = {
