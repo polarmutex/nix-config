@@ -122,69 +122,26 @@
         );
 
         homeManagerConfigurations = {
-          brian = user.mkHomeManagerUser {
-            roles = [
-              "desktop/awesome"
-              "fonts"
-              "git"
-              "gpg"
-              "zsh"
-              "neovim"
-              "tmux"
-              "obsidian"
-              "anki"
-              "1password"
-              "spotify"
-              "qmk"
-              "zoom"
-              "applications"
-              "rust"
-            ];
+          work = home-manager.lib.homeManagerConfiguration {
+            configuration = ./home-manager/home-work.nix;
+            system = "x86_64-linux";
+            homeDirectory = "/home/brian";
             username = "brian";
+            pkgs = pkgs;
           };
-          work = user.mkHomeManagerUser {
-            roles = [
-              "desktop/dwm"
-              "fonts"
-              "neovim"
-              "work"
-              "git"
-              "tmux"
-              "zsh"
-              "obsidian"
-              "gpg"
-            ];
-            username = "brian";
-          };
+
+          #roles = [
+          #  "desktop/dwm"
+          #  "fonts"
+          #  "neovim"
+          #  "work"
+          #  "git"
+          #  "tmux"
+          #  "zsh"
+          #  "obsidian"
+          #  "gpg"
+          #  ];
         };
 
-        #nixosConfigurations = {
-        #  nixos = host.mkHost {
-        #    name = "nixos";
-        #    NICs = [ "enp3s0" ];
-        #    kernelPackage = pkgs.linuxPackages_5_13;
-        #    initrdMods = [
-        #      "xhci_pci"
-        #      "ehci_pci"
-        #      "ahci"
-        #      "usbhid"
-        #      "sd_mod"
-        #      "sr_mod"
-        #    ];
-        #    kernelMods = [ "kvm-intel" "wl" ];
-        #    kernelParams = [];
-        #    extraModulePackages = [ pkgs.linuxPackages_5_13.broadcom_sta ];
-        #    roles = [ "efi" "core" "desktop-xorg" "ssh" "yubikey" "bluetooth" "kvm" ];
-        #    cpuCores = 4;
-        #    users = [
-        #      {
-        #        name = "brian";
-        #        groups = [ "wheel" "networkmanager" "libvirtd" "docker" ];
-        #        uid = 1000;
-        #        shell = pkgs.zsh;
-        #      }
-        #    ];
-        #  };
-        #};
       };
 }
