@@ -44,15 +44,21 @@ local function plugins(use)
         end,
     })
 
-    -- Lsp Comptetion
+    -- Lsp Completion
     use({
-        "hrsh7th/nvim-compe",
+        "hrsh7th/nvim-cmp",
         event = "InsertEnter",
         opt = true,
         config = function()
             require("polarmutex.config.completion")
         end,
-        requires = {},
+        requires = {
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-nvim-lua",
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-emoji",
+        },
     })
 
     -- Tree Sitter
