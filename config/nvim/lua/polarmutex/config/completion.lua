@@ -1,33 +1,23 @@
 vim.o.completeopt = "menuone,noselect"
 
-local has_compe, compe = pcall(require, "compe")
-if has_compe then
-    compe.setup({
-        enabled = true,
-        autocomplete = true,
-        debug = false,
-        min_length = 1,
-        preselect = "enabled",
-        throttle_time = 80,
-        source_timeout = 200,
-        incomplete_delay = 400,
-        allow_prefix_unmatch = false,
-        max_abbr_width = 100,
-        max_kind_width = 100,
-        max_menu_width = 100,
-        documentation = true,
-
-        source = {
-            nvim_lsp = true,
-            buffer = false,
-            path = true,
-            calc = true,
-            vsnip = false,
-            nvim_lua = true,
-            spell = true,
-            tags = false,
-            snippets_nvim = false,
-            treesitter = false,
+local has_cmp, cmp = pcall(require, "cmp")
+if has_cmp then
+    cmp.setup({
+        mapping = {
+            ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+            ["<C-f>"] = cmp.mapping.scroll_docs(4),
+            ["<C-e>"] = cmp.mapping.close(),
+            ["<c-y>"] = cmp.mapping.confirm({
+                behavior = cmp.ConfirmBehavior.Insert,
+                select = true,
+            }),
+        },
+        sources = {
+            { name = "buffer" },
+            { name = "path" },
+            { name = "nvim_lua" },
+            { name = "nvim_lsp" },
+            { name = "emoji" },
         },
     })
 end
