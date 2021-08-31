@@ -75,6 +75,6 @@ for server, config in pairs(servers) do
     }, config))
     local cfg = lspconfig[server]
     if not (cfg and cfg.cmd and vim.fn.executable(cfg.cmd[1]) == 1) then
-        util.error(server .. ": cmd not found: " .. vim.inspect(cfg.cmd))
+        --util.error(server .. ": cmd not found: " .. vim.inspect(cfg.cmd))
     end
 end
