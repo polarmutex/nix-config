@@ -21,6 +21,12 @@ local function plugins(use)
 
     use({ "nvim-lua/plenary.nvim", module = "plenary" })
     use({ "nvim-lua/popup.nvim", module = "popup" })
+    use({
+        "lewis6991/impatient.nvim",
+        config = function()
+            require("impatient")
+        end,
+    })
 
     -- LSP
     use({
