@@ -21,7 +21,7 @@
     #./modules/dunst.nix
     #./modules/gtk.nix
     #./modules/neomutt.nix
-    #./modules/shell.nix
+    ./modules/shell.nix
     #./modules/tmux
     #./modules/xdg.nix
     #./modules/xresources.nix
