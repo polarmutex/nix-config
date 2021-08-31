@@ -19,7 +19,7 @@
     enableAutosuggestions = true;
     enableCompletion = true;
     autocd = true;
-    #dotDir = ".config/zsh";
+    dotDir = ".config/zsh";
 
     initExtraBeforeCompInit = ''
       # Set bigger history size
