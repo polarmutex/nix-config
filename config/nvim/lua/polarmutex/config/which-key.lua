@@ -87,6 +87,7 @@ util.vnoremap(">", ">gv")
 -- Debugging
 util.nnoremap("<F5>", ':lua require("dap").continue()<CR>')
 util.nnoremap("<F10>", ':lua require("dap").step_over()<CR>')
+util.nnoremap("<F11>", ':lua require("dap").step_into()<CR>')
 
 local leader = {
     ["w"] = {

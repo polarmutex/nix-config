@@ -49,7 +49,7 @@ telescope.setup({
 -- Load the fzy native extension at the start.
 telescope.load_extension("fzy_native")
 --telescope.load_extension("octo")
---telescope.load_extension("dap")
+telescope.load_extension("dap")
 telescope.load_extension("git_worktree")
 
 local M = {}
