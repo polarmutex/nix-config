@@ -53,8 +53,6 @@ local function plugins(use)
     -- Lsp Completion
     use({
         "hrsh7th/nvim-cmp",
-        event = "InsertEnter",
-        opt = true,
         config = function()
             require("polarmutex.config.completion")
         end,
@@ -64,6 +62,7 @@ local function plugins(use)
             "hrsh7th/cmp-nvim-lua",
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-emoji",
+            "saadparwaiz1/cmp_luasnip",
         },
     })
 

@@ -1,5 +1,6 @@
 local util = require("polarmutex.util")
 local lspconfig = require("lspconfig")
+local lspstatus = require("lsp-status")
 
 require("polarmutex.config.lsp.diagnostics")
 require("polarmutex.config.lsp.kind").setup()
@@ -58,10 +59,8 @@ local servers = {
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = { "documentation", "detail", "additionalTextEdits" },
-}
+capabilities = vim.tbl_deep_extend("keep", capabilities, lspstatus.capabilities)
+--capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 require("polarmutex.config.lsp.null-ls").setup(on_attach)
 
