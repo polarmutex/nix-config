@@ -26,6 +26,7 @@ in
     sumneko-lua-language-server
     my.jdtls
     nodePackages.svelte-language-server
+    nodePackages.prettier
 
     ripgrep
   ];
