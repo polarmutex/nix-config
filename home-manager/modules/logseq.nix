@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    logseq
+    my.logseq
   ];
 
   systemd.user.services.logseq-sync = {
