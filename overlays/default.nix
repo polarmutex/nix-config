@@ -10,5 +10,6 @@ self: super: {
     tree-sitter-beancount = super.callPackage ../pkgs/tree-sitter-beancount {};
     fathom = super.callPackage ../pkgs/fathom {};
     logseq = super.callPackage ../pkgs/logseq {};
+    obsidian = super.callPackage ../pkgs/obsidian {};
   };
 }
