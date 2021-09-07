@@ -1,5 +1,5 @@
 #!/bin/sh
 pushd ~/repos/nix-dotfiles
-nix build .#homeManagerConfigurations.brian.activationPackage
+nix build .#homeManagerConfigurations.polar.activationPackage
 ./result/activate
 popd
