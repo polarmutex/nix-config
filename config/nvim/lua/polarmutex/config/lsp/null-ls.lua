@@ -8,7 +8,7 @@ function M.setup(on_attach)
         save_after_format = false,
         on_attach = on_attach,
         sources = {
-            nls.builtins.formatting.prettierd,
+            nls.builtins.formatting.prettier,
             nls.builtins.formatting.stylua.with({
                 args = { "--config-path", vim.fn.stdpath("config") .. "/lua/stylua.toml", "-" },
             }),
