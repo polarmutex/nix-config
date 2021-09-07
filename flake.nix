@@ -129,18 +129,13 @@
             username = "brian";
             pkgs = pkgs;
           };
-
-          #roles = [
-          #  "desktop/dwm"
-          #  "fonts"
-          #  "neovim"
-          #  "work"
-          #  "git"
-          #  "tmux"
-          #  "zsh"
-          #  "obsidian"
-          #  "gpg"
-          #  ];
+          polar = home-manager.lib.homeManagerConfiguration {
+            configuration = ./home-manager/home.nix;
+            system = "x86_64-linux";
+            homeDirectory = "/home/polar";
+            username = "polar";
+            pkgs = pkgs;
+          };
         };
 
       };
