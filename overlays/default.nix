@@ -9,5 +9,6 @@ self: super: {
     jdtls = super.callPackage ../pkgs/jdt-language-server {};
     tree-sitter-beancount = super.callPackage ../pkgs/tree-sitter-beancount {};
     fathom = super.callPackage ../pkgs/fathom {};
+    logseq = super.callPackage ../pkgs/logseq {};
   };
 }
