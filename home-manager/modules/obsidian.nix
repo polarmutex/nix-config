@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    obsidian
+    my.obsidian
   ];
 
   systemd.user.services.obsidian-sync = {
