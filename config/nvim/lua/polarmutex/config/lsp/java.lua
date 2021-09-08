@@ -3,6 +3,10 @@ local function on_attach(client, bufnr)
     require("polarmutex.config.lsp.keys").setup(client, bufnr)
     require("polarmutex.config.lsp.completion").setup(client, bufnr)
     require("polarmutex.config.lsp.highlighting").setup(client)
+    -- With `hotcodereplace = 'auto' the debug adapter will try to apply code changes
+    -- you make during a debug session immediately.
+    -- Remove the option if you do not want that.
+    require("jdtls").setup_dap({ hotcodereplace = "auto" })
 end
 
 local M = {}
@@ -59,10 +63,15 @@ function M.setup()
         client.notify("workspace/didChangeConfiguration", { settings = config.settings })
     end
 
+    local bundles = {
+        vim.fn.glob(
+            "~/repos/github/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+        ),
+    }
     local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
     extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
     config.init_options = {
-        -- bundles = bundles;
+        bundles = bundles,
         extendedClientCapabilities = extendedClientCapabilities,
     }
 
