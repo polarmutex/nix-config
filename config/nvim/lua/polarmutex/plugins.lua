@@ -49,6 +49,7 @@ local function plugins(use)
             require("trouble").setup({ auto_open = false })
         end,
     })
+    use({ "mfussenegger/nvim-jdtls" })
 
     -- Lsp Completion
     use({
