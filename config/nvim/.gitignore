@@ -2,3 +2,4 @@ spell
 undo
 undodir
 general/paths.vim
+packer_compiled.lua
