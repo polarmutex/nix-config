@@ -10,7 +10,6 @@
     teams
     cmake
     brave
-    xsddiagram
   ];
 
   programs.zsh.initExtra = ''
@@ -24,4 +23,5 @@
       xrandr --dpi 163
     '';
   };
+
 }

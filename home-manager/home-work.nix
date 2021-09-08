@@ -17,6 +17,7 @@
     ./modules/logseq.nix
     ./modules/tmux.nix
     ./modules/shell.nix
+    ./modules/work.nix
   ];
 
   # Allow "unfree" licenced packages
