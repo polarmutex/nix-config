@@ -23,6 +23,7 @@
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
+  services.printing.enable = true;
   #hardware.sane.enable = true;
 
   # To build raspi images
