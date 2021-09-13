@@ -21,7 +21,9 @@
   ];
 
   # Allow "unfree" licenced packages
-  nixpkgs.config = { allowUnfree = true; };
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
 
   # Install these packages for my user
@@ -33,14 +35,12 @@
     lazygit
     networkmanagerapplet
     nix-index
-    xfce.exo # thunar "open terminal here"
-    xfce.thunar
-    xfce.thunar-archive-plugin
-    xfce.thunar-volman
-    xfce.tumbler # thunar thumbnails
-    xfce.xfce4-volumed-pulse
-    xfce.xfconf # thunar save settings
     vscode
+    htop
+    poetry
+    gcc
+    gnumake
+    cmake
   ];
 
   # Environment variables
