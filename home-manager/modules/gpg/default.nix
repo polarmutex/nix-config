@@ -14,7 +14,7 @@ with lib;
     enable-ssh-support
     default-cache-ttl 60
     max-cache-ttl 60
-    pinentry-program /home/wil/.nix-profile/bin/pinentry-gtk-2
+    pinentry-program /home/polar/.nix-profile/bin/pinentry-gtk-2
   '';
 
   programs.zsh.initExtraBeforeCompInit = ''
