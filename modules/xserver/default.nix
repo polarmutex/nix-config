@@ -29,6 +29,20 @@ in
               waitPID=$!
             '';
           }
+          {
+            name = "dwm";
+            start = ''
+               ${pkgs.my.dwm}/bin/dwm &
+              waitPID=$!
+            '';
+          }
+          {
+            name = "awesome";
+            start = ''
+               ${pkgs.awesome}/bin/awesome &
+              waitPID=$!
+            '';
+          }
         ];
       };
     };

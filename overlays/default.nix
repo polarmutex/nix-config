@@ -11,5 +11,6 @@ self: super: {
     fathom = super.callPackage ../pkgs/fathom {};
     logseq = super.callPackage ../pkgs/logseq {};
     obsidian = super.callPackage ../pkgs/obsidian {};
+    dwm = super.callPackage ../pkgs/dwm {};
   };
 }
