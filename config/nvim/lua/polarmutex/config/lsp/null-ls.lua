@@ -16,6 +16,9 @@ function M.setup(on_attach)
             --nls.builtins.diagnostics.shellcheck,
             nls.builtins.diagnostics.markdownlint,
             --nls.builtins.diagnostics.selene,
+            nls.builtins.formatting.black,
+            nls.builtins.formatting.isort,
+            nls.builtins.diagnostics.flake8,
         },
     })
 end
