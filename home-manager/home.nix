@@ -16,6 +16,7 @@
     ./modules/logseq.nix
     ./modules/picom.nix
     ./modules/tmux.nix
+    ./modules/protonvpn.nix
     #./modules/chromium.nix
     #./modules/credentials.nix
     #./modules/dunst.nix
