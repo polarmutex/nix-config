@@ -37,9 +37,6 @@
     nix-index
     vscode
     htop
-    poetry
-    gcc
-    gnumake
     cmake
   ];
 
