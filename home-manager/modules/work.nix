@@ -13,7 +13,7 @@
   ];
 
   programs.zsh.initExtra = ''
-    export PATH=$HOME/netbeans-12.0/netbeans/bin:$PATH
+    export PATH=$HOME/netbeans-12.0/netbeans/bin:$HOME/.local/bin:$PATH
     export JDTLS_HOME=$HOME/jdtls
   '';
 
