@@ -90,6 +90,8 @@ in
       nodejs
       nodePackages.pnpm
       neovim
+      etcher
+      ventoy-bin
     ];
 
     boot = {
