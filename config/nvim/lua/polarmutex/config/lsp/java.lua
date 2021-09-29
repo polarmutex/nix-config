@@ -50,8 +50,8 @@ function M.setup()
             configuration = {
                 runtimes = {
                     {
-                        name = "JavaSE-8",
-                        path = "/usr/lib/jvm/java-8-openjdk-amd64/",
+                        name = "JavaSE-1.8",
+                        path = "/usr/lib/jvm/java-8-openjdk-amd64/jre",
                     },
                 },
             },
@@ -64,9 +64,9 @@ function M.setup()
     end
 
     local bundles = {
-        vim.fn.glob(
-            "~/repos/github/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
-        ),
+        --vim.fn.glob(
+        --    "~/repos/github/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+        --),
     }
     local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
     extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
@@ -76,6 +76,7 @@ function M.setup()
     }
 
     -- Server
+    print(config.cmd)
     require("jdtls").start_or_attach(config)
 end
 

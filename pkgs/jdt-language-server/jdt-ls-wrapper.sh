@@ -122,7 +122,8 @@ done
 cp @config_path@/config.ini "$configuration"
 
 # use java version from PATH, @jdk@ as fallback
-java_bin=$(command -v java || echo "@jdk@")
+java_bin=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+# $(command -v java || echo "@jdk@")
 $java_bin \
     "$xms" \
     "$xmx" \

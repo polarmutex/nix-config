@@ -53,8 +53,9 @@ local servers = {
         },
     },
     rust_analyzer = {},
-    jdtls = {},
+    --jdtls = {},
 }
+require("polarmutex.config.lsp.java")
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = vim.tbl_deep_extend("keep", capabilities, lspstatus.capabilities)
