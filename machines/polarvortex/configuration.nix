@@ -6,16 +6,6 @@
   polar.server = {
     enable = true;
     hostname = "polarvortex";
-    homeConfig = {
-      imports = [
-        ../../home-manager/home-server.nix
-        {
-          nixpkgs.overlays = [
-            self.overlay
-          ];
-        }
-      ];
-    };
   };
 
   polar.services = {
@@ -51,9 +41,9 @@
     recommendedProxySettings = true;
     clientMaxBodySize = "128m";
 
-    virtualHosts = {};
+    virtualHosts = { };
   };
 
-  environment.systemPackages = with pkgs; [];
+  environment.systemPackages = with pkgs; [ ];
 
 }

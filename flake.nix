@@ -5,12 +5,15 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
+    nur.url = "github:nix-community/NUR";
+    nur.inputs.nixpkgs.follows = "nixpkgs";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    neovim-flake.url = "github:nix-community/neovim-nightly-overlay";
-    neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-flake.inputs.flake-utils.follows = "flake-utils";
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
+    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-nightly.inputs.flake-utils.follows = "flake-utils";
 
     krops.url = "git+https://cgit.krebsco.de/krops";
     krops.flake = false;
@@ -34,7 +37,11 @@
         inherit system;
         config = { allowUnfree = true; };
         overlays = [
-          neovim-flake.overlay
+          # NUR
+          nur.overlay
+          # neovim
+          neovim-nightly.overlay
+
           (
             final: prev: {
               my = import ./pkgs { inherit pkgs; };
@@ -49,7 +56,9 @@
 
           system = "x86_64-linux";
           modules = [
-
+            # Make inputs and overlay accessible as module parameters
+            { _module.args.inputs = inputs; }
+            { _module.args.self-overlay = self.overlay; }
             (
               { ... }: {
                 imports = builtins.attrValues self.nixosModules ++ [
@@ -64,7 +73,8 @@
                     nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
                     nixpkgs.overlays = [
                       self.overlay
-                      neovim-flake.overlay
+                      nur.overlay
+                      neovim-nightly.overlay
                     ];
 
                     # DON'T set useGlobalPackages! It's not necessary in newer
@@ -87,29 +97,32 @@
 
 
     in
-      {
+    {
 
-        # Expose overlay to flake outputs, to allow using it from other flakes.
-        # Flake inputs are passed to the overlay so that the packages defined in
-        # it can use the sources pinned in flake.lock
-        overlay = final: prev: (import ./overlays inputs) final prev;
+      # Expose overlay to flake outputs, to allow using it from other flakes.
+      # Flake inputs are passed to the overlay so that the packages defined in
+      # it can use the sources pinned in flake.lock
+      overlay = final: prev: (import ./overlays inputs) final prev;
 
-        # Output all modules in ./modules to flake. Modules should be in
-        # individual subdirectories and contain a default.nix file
-        nixosModules = builtins.listToAttrs (
-          map (
+      # Output all modules in ./modules to flake. Modules should be in
+      # individual subdirectories and contain a default.nix file
+      nixosModules = builtins.listToAttrs (
+        map
+          (
             x: {
               name = x;
               value = import (./modules + "/${x}");
             }
-          ) (builtins.attrNames (builtins.readDir ./modules))
-        );
+          )
+          (builtins.attrNames (builtins.readDir ./modules))
+      );
 
-        # Each subdirectory in ./machins is a host. Add them all to
-        # nixosConfiguratons. Host configurations need a file called
-        # configuration.nix that will be read first
-        nixosConfigurations = builtins.listToAttrs (
-          map (
+      # Each subdirectory in ./machins is a host. Add them all to
+      # nixosConfiguratons. Host configurations need a file called
+      # configuration.nix that will be read first
+      nixosConfigurations = builtins.listToAttrs (
+        map
+          (
             x: {
               name = x;
               value = defFlakeSystem {
@@ -118,25 +131,26 @@
                 ];
               };
             }
-          ) (builtins.attrNames (builtins.readDir ./machines))
-        );
+          )
+          (builtins.attrNames (builtins.readDir ./machines))
+      );
 
-        homeManagerConfigurations = {
-          work = home-manager.lib.homeManagerConfiguration {
-            configuration = ./home-manager/home-work.nix;
-            system = "x86_64-linux";
-            homeDirectory = "/home/brian";
-            username = "brian";
-            pkgs = pkgs;
-          };
-          polar = home-manager.lib.homeManagerConfiguration {
-            configuration = ./home-manager/home.nix;
-            system = "x86_64-linux";
-            homeDirectory = "/home/polar";
-            username = "polar";
-            pkgs = pkgs;
-          };
+      homeManagerConfigurations = {
+        work = home-manager.lib.homeManagerConfiguration {
+          configuration = ./home-manager/home-work.nix;
+          system = "x86_64-linux";
+          homeDirectory = "/home/brian";
+          username = "brian";
+          pkgs = pkgs;
         };
-
+        polar = home-manager.lib.homeManagerConfiguration {
+          configuration = ./home-manager/home.nix;
+          system = "x86_64-linux";
+          homeDirectory = "/home/polar";
+          username = "polar";
+          pkgs = pkgs;
+        };
       };
+
+    };
 }

@@ -5,18 +5,6 @@
 
   # environment.systemPackages = [self.wezterm];
 
-  polar.desktop.homeConfig = {
-    imports = [
-      ../../home-manager/home.nix
-      {
-        nixpkgs.overlays = [
-          self.overlay
-          self.inputs.neovim-flake.overlay
-        ];
-      }
-    ];
-  };
-
   polar.desktop = {
     enable = true;
     hostname = "polarbear";
