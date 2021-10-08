@@ -45,13 +45,11 @@ local servers = {
     --efm = require("polarmutex.config.lsp.efm").config,
     vimls = {},
     beancount = {
-        --cmd = { "/home/brian/repos/beancount-language-server/packages/beancount-language-server/out/cli.js", "--stdio" },
         cmd = {
-            "/home/polar/repos/beancount-language-server-typescript/packages/beancount-language-server/out/cli.js",
-            "--stdio",
+            "/home/polar/repos/beancount-language-server/target/debug/beancount-language-server",
         },
         init_options = {
-            journalFile = "~/repos/beancount/journal.beancount",
+            journal_file = "/home/polar/repos/beancount/journal.beancount",
         },
     },
     rust_analyzer = {},
