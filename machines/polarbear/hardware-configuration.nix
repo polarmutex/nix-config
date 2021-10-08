@@ -14,12 +14,12 @@
     "sd_mod"
     "sr_mod"
   ];
-  boot.initrd.kernelModules = [];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" "wl" ];
   boot.extraModulePackages = [
-    pkgs.linuxPackages_5_13.broadcom_sta
+    pkgs.linuxPackages_5_14.broadcom_sta
   ];
-  boot.kernelPackages = pkgs.linuxPackages_5_13;
+  boot.kernelPackages = pkgs.linuxPackages_5_14;
 
   fileSystems."/" =
     {
