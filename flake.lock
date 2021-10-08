@@ -84,31 +84,9 @@
     },
     "neovim-flake": {
       "inputs": {
-        "flake-compat": "flake-compat",
-        "neovim-flake": "neovim-flake_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1633717671,
-        "narHash": "sha256-6S8zmZRKhbaau4E3BgVaEoeg4S/HWwfuRP07PKWovnw=",
-        "owner": "nix-community",
-        "repo": "neovim-nightly-overlay",
-        "rev": "09064a12c364bc9dc912d06a00508f0e237a99b9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "neovim-nightly-overlay",
-        "type": "github"
-      }
-    },
-    "neovim-flake_2": {
-      "inputs": {
         "flake-utils": "flake-utils_2",
         "nixpkgs": [
-          "neovim-flake",
+          "neovim-nightly",
           "nixpkgs"
         ]
       },
@@ -128,6 +106,28 @@
         "type": "github"
       }
     },
+    "neovim-nightly": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "neovim-flake": "neovim-flake",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1633717671,
+        "narHash": "sha256-6S8zmZRKhbaau4E3BgVaEoeg4S/HWwfuRP07PKWovnw=",
+        "owner": "nix-community",
+        "repo": "neovim-nightly-overlay",
+        "rev": "09064a12c364bc9dc912d06a00508f0e237a99b9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "neovim-nightly-overlay",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1633528625,
@@ -143,13 +143,29 @@
         "type": "indirect"
       }
     },
+    "nur": {
+      "locked": {
+        "lastModified": 1633718548,
+        "narHash": "sha256-JMoJlBtb4N5CsMWva0Ff8w1xHIjp74/dSFCZ4G8YAB8=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "d14cea654afcc5f7d6aa98e8fd2c02cb09b2378a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "krops": "krops",
-        "neovim-flake": "neovim-flake",
-        "nixpkgs": "nixpkgs"
+        "neovim-nightly": "neovim-nightly",
+        "nixpkgs": "nixpkgs",
+        "nur": "nur"
       }
     }
   },

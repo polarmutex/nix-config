@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, inputs, self-overlay, ... }:
 with lib;
 let
   cfg = config.polar.server;
@@ -31,7 +31,18 @@ in
 
     networking.hostName = cfg.hostname;
 
-    home-manager.users.polar = cfg.homeConfig;
+    home-manager.users.polar = {
+      # Pass inputs to home-manager modules
+      _module.args.flake-inputs = inputs;
+
+      imports = [
+        ../../home-manager/home-server.nix
+        {
+          nixpkgs.overlays =
+            [ self-overlay inputs.nur.overlay inputs.neovim-nightly.overlay ];
+        }
+      ];
+    };
 
     environment.systemPackages = with pkgs; [
       git

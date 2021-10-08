@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, inputs, self-overlay, ... }:
 with lib;
 let
   cfg = config.polar.desktop;
@@ -9,14 +9,6 @@ in
 
   options.polar.desktop = {
     enable = mkEnableOption "Enable the default desktop configuration";
-
-    homeConfig = mkOption {
-      type = types.attrs;
-      default = null;
-      example = "{}";
-      description =
-        "Main users account home-manager configuration for the host";
-    };
 
     stateVersion = mkOption {
       type = types.str;
@@ -36,7 +28,18 @@ in
 
   config = mkIf cfg.enable {
 
-    home-manager.users.polar = cfg.homeConfig;
+    home-manager.users.polar = {
+      # Pass inputs to home-manager modules
+      _module.args.flake-inputs = inputs;
+
+      imports = [
+        ../../home-manager/home.nix
+        {
+          nixpkgs.overlays =
+            [ self-overlay inputs.nur.overlay inputs.neovim-nightly.overlay ];
+        }
+      ];
+    };
 
     polar = {
       defaults = {

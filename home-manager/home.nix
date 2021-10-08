@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, nur, ... }:
 {
 
   # Imports
@@ -27,7 +27,7 @@
     #./modules/xdg.nix
     #./modules/xresources.nix
     #./modules/xscreensaver.nix
-    #./modules/firefox
+    ./modules/firefox/firefox.nix
   ];
 
   #polar.programs = {
