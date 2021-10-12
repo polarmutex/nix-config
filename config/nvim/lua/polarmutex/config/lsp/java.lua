@@ -7,6 +7,7 @@ local function on_attach(client, bufnr)
     -- you make during a debug session immediately.
     -- Remove the option if you do not want that.
     require("jdtls").setup_dap({ hotcodereplace = "auto" })
+    require("jdtls").add_commands()
 end
 
 local M = {}
@@ -35,7 +36,6 @@ function M.setup()
             allow_incremental_sync = true,
         },
         capabilities = capabilities,
-        on_attach = on_attach,
     }
 
     config.settings = {
@@ -63,11 +63,17 @@ function M.setup()
         client.notify("workspace/didChangeConfiguration", { settings = config.settings })
     end
 
-    local bundles = {
-        --vim.fn.glob(
-        --    "~/repos/github/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
-        --),
+    local jar_patterns = {
+        "~/repos/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
     }
+    local bundles = {}
+    for _, jar_pattern in ipairs(jar_patterns) do
+        for _, bundle in ipairs(vim.split(vim.fn.glob(home .. jar_pattern), "\n")) do
+            if not vim.endswith(bundle, "com.microsoft.java.test.runner.jar") then
+                table.insert(bundles, bundle)
+            end
+        end
+    end
     local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
     extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
     config.init_options = {
@@ -76,7 +82,6 @@ function M.setup()
     }
 
     -- Server
-    print(config.cmd)
     require("jdtls").start_or_attach(config)
 end
 
