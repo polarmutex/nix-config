@@ -95,6 +95,7 @@ in
       neovim
       etcher
       ventoy-bin
+      vscode
     ];
 
     boot = {
