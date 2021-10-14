@@ -53,11 +53,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1634081472,
-        "narHash": "sha256-tN7xnabilqA5nYaWYg2Nz4mymxX8gBH65nWXRc1xXvY=",
+        "lastModified": 1634162770,
+        "narHash": "sha256-ul1hN+gjDOPw85YLO/GXYadbcDAh60SpTKyDW3K2uPo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b22004bf1f303d68d97928ffbd0b9c76c415362e",
+        "rev": "13e00b70a42959835190576a80fe9d8ebab062f2",
         "type": "github"
       },
       "original": {
@@ -92,11 +92,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1634094731,
+        "lastModified": 1634155942,
         "narHash": "sha256-r1Iy52Qu9iRUE50A9dUG/C0iWj5JUfTRiFee1clA9F4=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "33e79237bc003e8d6d556bf1b6a6e292bb8945e5",
+        "rev": "6b9cb665fa101299d8a6f67d6d7e4705da13abee",
         "type": "github"
       },
       "original": {
@@ -115,11 +115,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1634112787,
-        "narHash": "sha256-mI5ac50v4kFRKEl9uR9jFD5Ox7fYKZVmTLKnz10tqrU=",
+        "lastModified": 1634199462,
+        "narHash": "sha256-+gd6OVh+qFB3p9AeO+fOSEWpbb58OUc8NHgggyJYz4Y=",
         "owner": "nix-community",
         "repo": "neovim-nightly-overlay",
-        "rev": "1c470b85da72ac66f5a00eb69d4ea22347dc2f14",
+        "rev": "085758aa80ab790617cc6a62165f8cac0a3dd025",
         "type": "github"
       },
       "original": {
@@ -145,11 +145,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1634154051,
-        "narHash": "sha256-2KylOgVdPtWsnPXruFs2hmGjkc3q2FQesNt/cEV2BeU=",
+        "lastModified": 1634219254,
+        "narHash": "sha256-svCyV29I1VYkWI/hMBhNkXy+MxUJhlHNt9RgCF9dllg=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "5f7a5d4463d8551ceda0f3cbfe1bd05c2a69a733",
+        "rev": "a5c2481557aa2eddd802bbd731786b0ce99b68f9",
         "type": "github"
       },
       "original": {
