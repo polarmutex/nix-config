@@ -170,7 +170,8 @@ local function plugins(use)
 
     -- Dashboard
     use({
-        "glepnir/dashboard-nvim",
+        "goolord/alpha-nvim",
+        requires = { "kyazdani42/nvim-web-devicons" },
         config = function()
             require("polarmutex.config.dashboard")
         end,
