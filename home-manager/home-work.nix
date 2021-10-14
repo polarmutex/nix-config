@@ -18,6 +18,7 @@
     ./modules/tmux.nix
     ./modules/shell.nix
     ./modules/work.nix
+    ../.secrets/work/tmux-sessionizer-work.nix
   ];
 
   # Allow "unfree" licenced packages
@@ -53,6 +54,8 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.tmux.extraConfig = builtins.readFile ../.secrets/work/tmux_config;
 
   services = {
 
