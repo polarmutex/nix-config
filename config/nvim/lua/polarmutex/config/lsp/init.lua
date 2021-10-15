@@ -59,7 +59,7 @@ require("polarmutex.config.lsp.java")
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = vim.tbl_deep_extend("keep", capabilities, lspstatus.capabilities)
---capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 require("polarmutex.config.lsp.null-ls").setup(on_attach)
 
