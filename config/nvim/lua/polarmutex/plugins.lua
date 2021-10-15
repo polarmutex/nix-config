@@ -168,6 +168,15 @@ local function plugins(use)
         },
     })
 
+    -- statusline
+    use({
+        "hoob3rt/lualine.nvim",
+        requires = { "kyazdani42/nvim-web-devicons", opt = true },
+        config = function()
+            require("polarmutex.config.statusline")
+        end,
+    })
+
     -- Dashboard
     use({
         "goolord/alpha-nvim",
