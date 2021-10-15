@@ -6,18 +6,10 @@
 
 require("polarmutex.options")
 require("polarmutex.util")
-require("polarmutex.statusline")
 
 vim.defer_fn(function()
     require("polarmutex.plugins")
 end, 0)
-
---vim.api.nvim_exec([[
---augroup start_screen
---    autocmd!
---    autocmd VimEnter * ++once lua require('polarmutex.modules.start-screen').start()
---augroup END
---]], false)
 
 -- automatically run packer compile on plugin change
 vim.api.nvim_command("autocmd BufWritePost plugins.lua PackerCompile")
