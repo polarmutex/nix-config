@@ -2,7 +2,7 @@
 {
   fonts.fontconfig.enable = true;
   home.packages = [
-    (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
+    (pkgs.nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
   ];
 
   home.file.".local/share/fonts/MonoLisa-Regular.otf".source = ../../.secrets/MonoLisa-Regular.otf;

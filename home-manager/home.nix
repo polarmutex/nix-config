@@ -7,9 +7,10 @@
     ./modules/fonts.nix
     ./modules/wallpapers.nix
     ./modules/neovim.nix
-    ./modules/rofi.nix
-    ./modules/awesome.nix
     ./modules/st.nix
+    ./modules/dwm-status.nix
+    ./modules/dmenu.nix
+    ./modules/dwm.nix
     ./modules/git.nix
     ./modules/gpg
     ./modules/obsidian.nix
