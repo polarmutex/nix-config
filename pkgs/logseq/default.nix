@@ -1,11 +1,11 @@
 { lib, stdenv, fetchurl, appimageTools, makeWrapper, electron_13 }:
 stdenv.mkDerivation rec {
   pname = "logseq";
-  version = "0.4.3";
+  version = "0.4.4";
 
   src = fetchurl {
     url = "https://github.com/logseq/logseq/releases/download/${version}/logseq-linux-x64-${version}.AppImage";
-    sha256 = "sha256-V8NmAGvVsZCambUzcJ2vKsO6rkcMPh3wsBLXz4Hy0jY=";
+    sha256 = "sha256-EjtNYKA+keM/V3+t6VmjGDils9PvdfMuPGGlipJRK8s=";
   };
 
   appimageContents = appimageTools.extract {
