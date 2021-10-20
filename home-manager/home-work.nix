@@ -8,7 +8,7 @@
     ./modules/wallpapers.nix
     ./modules/neovim.nix
     ./modules/dmenu.nix
-    ./modules/dwmblocks.nix
+    ./modules/dwm-status.nix
     ./modules/dwm.nix
     ./modules/st.nix
     ./modules/git.nix

@@ -5,7 +5,7 @@
 
     package = pkgs.dwm-status;
 
-    order = [ "cpu_load" "audio" "battery" "time" ];
+    order = [ "cpu_load" "battery" "time" ];
 
     extraConfig = lib.mkMerge [
       {
