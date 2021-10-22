@@ -15,15 +15,16 @@ in
     services.openssh = {
       enable = true;
       passwordAuthentication = false;
-      startWhenNeeded = true;
+      allowSFTP = false;
       challengeResponseAuthentication = false;
-    };
-
-    # Block anything that is not HTTP(s) or SSH.
-    networking.firewall = {
-      enable = true;
-      allowPing = true;
-      allowedTCPPorts = [ 22 ];
+      openFirewall = false;
+      extraConfig = ''
+        AllowTcpForwarding yes
+        X11Forwarding no
+        AllowAgentForwarding no
+        AllowStreamLocalForwarding no
+        AuthenticationMethods publickey
+      '';
     };
 
     users.users.root.openssh.authorizedKeys.keyFiles = [
