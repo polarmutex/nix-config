@@ -15,6 +15,7 @@
     blog.enable = true;
     fathom.enable = true;
     rss-bridge.enable = true;
+    vikunja.enable = true;
   };
 
   nix.autoOptimiseStore = true;
@@ -31,7 +32,7 @@
   networking.firewall = {
     enable = true;
     allowPing = true;
-    allowedTCPPorts = [ 443 ];
+    allowedTCPPorts = [ 80 443 ];
   };
 
   services.tailscale.enable = true;
