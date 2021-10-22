@@ -31,8 +31,17 @@
   networking.firewall = {
     enable = true;
     allowPing = true;
-    allowedTCPPorts = [ 80 443 22 ];
+    allowedTCPPorts = [ 443 ];
   };
+
+  services.tailscale.enable = true;
+
+  # Tell the firewall to implicitly trust packets routed over Tailscale:
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+
+  security.auditd.enable = true;
+  security.audit.enable = true;
+  security.audit.rules = [ "-a exit,always -F arch=b64 -S execve" ];
 
   services.nginx = {
     enable = true;
@@ -44,6 +53,6 @@
     virtualHosts = { };
   };
 
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [ tailscale ];
 
 }

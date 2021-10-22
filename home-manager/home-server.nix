@@ -2,7 +2,7 @@
 {
 
   # Imports
-  imports = [];
+  imports = [ ];
 
   # Allow "unfree" licenced packages
   nixpkgs.config = { allowUnfree = true; };

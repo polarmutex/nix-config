@@ -37,10 +37,10 @@ in
 
       imports = [
         ../../home-manager/home-server.nix
-        {
-          nixpkgs.overlays =
-            [ self-overlay inputs.nur.overlay inputs.neovim-nightly.overlay ];
-        }
+        #{
+        #  nixpkgs.overlays =
+        #    [ self-overlay inputs.nur.overlay inputs.neovim-nightly.overlay ];
+        #}
       ];
     };
 
