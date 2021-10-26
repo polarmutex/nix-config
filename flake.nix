@@ -95,6 +95,7 @@
           ];
         };
 
+      work_username = (builtins.fromJSON (builtins.readFile ./.secrets/work/info.json)).username;
 
     in
     {
@@ -140,8 +141,8 @@
         work = home-manager.lib.homeManagerConfiguration {
           configuration = ./home-manager/home-work.nix;
           system = "x86_64-linux";
-          homeDirectory = "/home/brian";
-          username = "brian";
+          homeDirectory = "/home/${work_username}";
+          username = "${work_username}";
           pkgs = pkgs;
         };
         polar = home-manager.lib.homeManagerConfiguration {
