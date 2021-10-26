@@ -29,10 +29,13 @@
   security.acme.email = "brian+letsencrypt@brianryall.xyz";
 
   # Block anything that is not HTTP(s) or SSH.
+  # need ssh to be open for git server
+  # need port 80 open for letsencrypt
+  # need port 443 open for secure webpages
   networking.firewall = {
     enable = true;
     allowPing = true;
-    allowedTCPPorts = [ 80 443 ];
+    allowedTCPPorts = [ 80 443 22 ];
   };
 
   services.tailscale.enable = true;
