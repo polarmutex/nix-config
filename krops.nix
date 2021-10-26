@@ -3,7 +3,7 @@ let
   # Basic krops setup
   krops = builtins.fetchGit { url = "https://cgit.krebsco.de/krops/"; };
   lib = import "${krops}/lib";
-  pkgs = import "${krops}/pkgs" {};
+  pkgs = import "${krops}/pkgs" { };
 
   # Source is a function that takes `name` as argument and returns the sources
   # for the machine (config and nixpkgs).
@@ -52,7 +52,7 @@ rec {
   # nix-build ./krops.nix -A polarvortex && ./result
 
   # Individual machines
-  polarvortex = createHost "polarvortex" "root@brianryall.xyz";
+  polarvortex = createHost "polarvortex" "root@100.97.125.108";
 
   # Groups
   all = pkgs.writeScript "deploy-all"
