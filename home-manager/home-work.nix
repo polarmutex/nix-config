@@ -39,6 +39,7 @@
     vscode
     htop
     cmake
+    gh
   ];
 
   # Environment variables
