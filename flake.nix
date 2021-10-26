@@ -136,6 +136,7 @@
       );
 
       homeManagerConfigurations = {
+        # look into using fromJson to read these values
         work = home-manager.lib.homeManagerConfiguration {
           configuration = ./home-manager/home-work.nix;
           system = "x86_64-linux";
