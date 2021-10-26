@@ -20,7 +20,7 @@
           builtins.fetchurl {
             url = "https://github.com/polarmutex.keys";
             sha256 =
-              "sha256:0slkpn1r4kmwyj15hznyycgxj6vscjc1k3bdd1jj0prvshcrcl5n";
+              "sha256:156hx301kyyzwlrld17iabyx190l0p2g8f15bw26ya8jqacp1v61";
           }
         )
       ];
