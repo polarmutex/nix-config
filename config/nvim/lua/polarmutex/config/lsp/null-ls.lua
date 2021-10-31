@@ -1,12 +1,12 @@
 local nls = require("null-ls")
+local lspconfig = require("lspconfig")
 
 local M = {}
 
-function M.setup(on_attach)
-    nls.setup({
+function M.setup(options)
+    nls.config({
         debounce = 150,
         save_after_format = false,
-        on_attach = on_attach,
         sources = {
             nls.builtins.formatting.prettier,
             nls.builtins.formatting.stylua.with({
@@ -21,6 +21,7 @@ function M.setup(on_attach)
             nls.builtins.diagnostics.flake8,
         },
     })
+    lspconfig["null-ls"].setup(options)
 end
 
 function M.has_formatter(ft)

@@ -61,7 +61,15 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = vim.tbl_deep_extend("keep", capabilities, lspstatus.capabilities)
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
-require("polarmutex.config.lsp.null-ls").setup(on_attach)
+local options = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+        debounce_text_changes = 150,
+    },
+}
+
+require("polarmutex.config.lsp.null-ls").setup(options)
 
 for server, config in pairs(servers) do
     lspconfig[server].setup(vim.tbl_deep_extend("force", {
