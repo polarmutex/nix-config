@@ -7,7 +7,6 @@
 
   home.packages = with pkgs; [
     vscode
-    teams
     cmake
     brave
   ];
