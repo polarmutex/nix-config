@@ -4,8 +4,6 @@ dap.set_log_level("TRACE")
 
 dap.defaults.fallback.external_terminal = { command = "st", args = { "-e" } }
 
-vim.g.dap_virtual_text = true
-
 -- load vscode launch configs
 require("dap.ext.vscode").load_launchjs()
 
