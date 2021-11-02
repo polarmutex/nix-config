@@ -39,6 +39,7 @@ local function plugins(use)
             "folke/lua-dev.nvim",
             "jose-elias-alvarez/null-ls.nvim",
             "jose-elias-alvarez/nvim-lsp-ts-utils",
+            "onsails/lspkind-nvim",
         },
     })
     use({
@@ -66,6 +67,7 @@ local function plugins(use)
             "saadparwaiz1/cmp_luasnip",
         },
     })
+    use({ "L3MON4D3/LuaSnip" })
 
     -- Tree Sitter
     use({
@@ -158,6 +160,7 @@ local function plugins(use)
     use({
         "mfussenegger/nvim-dap",
         config = function()
+            require("nvim-dap-virtual-text").setup()
             require("polarmutex.config.dap")
         end,
         requires = {
