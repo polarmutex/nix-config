@@ -14,9 +14,6 @@ in
       };
     };
     includes = [
-      {
-        path = "~/.config/git/config_work";
-      }
     ];
   };
 
