@@ -53,6 +53,7 @@ local servers = {
         },
     },
     rust_analyzer = {},
+    svelte = {},
     --jdtls = {},
 }
 require("polarmutex.config.lsp.java")
