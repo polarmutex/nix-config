@@ -12,5 +12,5 @@ with pkgs;
   logseq = (callPackage ./logseq/default.nix { });
   obsidian = (callPackage ./obsidian/default.nix { });
   dwm = (callPackage ./dwm/default.nix { });
-  prettier = (callPackage ./prettierd/default.nix { });
+  prettierd = (callPackage ./prettierd/default.nix { });
 }
