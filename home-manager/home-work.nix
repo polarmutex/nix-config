@@ -40,6 +40,7 @@
     htop
     cmake
     gh
+    lazydocker
   ];
 
   # Environment variables
