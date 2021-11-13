@@ -67,7 +67,6 @@
     xfce.xfconf # thunar save settings
     xorg.xrandr
     yubioath-desktop
-    virt-manager
     ytfzf
     element-desktop
     qmk
