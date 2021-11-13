@@ -46,7 +46,7 @@ local servers = {
     vimls = {},
     beancount = {
         cmd = {
-            "/home/polar/repos/beancount-language-server/target/debug/beancount-language-server",
+            "/home/polar/repos/beancount-language-server.git/develop/target/debug/beancount-language-server",
         },
         init_options = {
             journal_file = "/home/polar/repos/beancount/journal.beancount",
