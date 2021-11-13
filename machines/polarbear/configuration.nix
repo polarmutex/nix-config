@@ -2,8 +2,6 @@
 
   imports = [ ./hardware-configuration.nix ];
 
-  # environment.systemPackages = [self.wezterm];
-
   polar.desktop = {
     enable = true;
     hostname = "polarbear";
@@ -14,7 +12,10 @@
   services.tailscale.enable = true;
   #hardware.sane.enable = true;
 
-  environment.systemPackages = with pkgs; [ tailscale ];
+  virtualisation.libvirtd.enable = true;
+  virtualisation.docker.enable = true;
+  programs.dconf.enable = true;
+  environment.systemPackages = with pkgs; [ tailscale virt-manager ];
 
   # To build raspi images
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
