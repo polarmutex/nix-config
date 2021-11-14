@@ -81,7 +81,7 @@ in
       pciutils
       go
       killall
-      nodejs
+      nodejs-16_x
       python
       ripgrep
       wget
@@ -90,7 +90,6 @@ in
       unzip
       htop
       tmux
-      nodejs
       nodePackages.pnpm
       neovim
       etcher
