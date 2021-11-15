@@ -27,7 +27,12 @@ function M.setup(client, buf)
     local ft = vim.api.nvim_buf_get_option(buf, "filetype")
     local nls = require("polarmutex.config.lsp.null-ls")
 
-    local enable = true
+    local enable = false
+    --if nls.has_formatter(ft) then
+    --    enable = client.name == "null-ls"
+    --else
+    enable = (client.name == "beancount-langserver" or client.name == "null-ls" or client.name == "svelte")
+    --end
 
     client.resolved_capabilities.document_formatting = enable
     -- format on save
