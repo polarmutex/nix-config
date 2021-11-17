@@ -1,18 +1,9 @@
 { pkgs, config, ... }:
 let
-  project1 = (builtins.fromJSON (builtins.readFile ../../.secrets/work/info.json)).project1;
-  project1Include = {
+  workInclude = {
     user = {
       name = "Brian Ryall";
-      email = (builtins.fromJSON (builtins.readFile ../../.secrets/work/info.json)).project1Email;
-    };
-  };
-
-  project2 = (builtins.fromJSON (builtins.readFile ../../.secrets/work/info.json)).project2;
-  project2Include = {
-    user = {
-      name = "Brian Ryall";
-      email = (builtins.fromJSON (builtins.readFile ../../.secrets/work/info.json)).project2Email;
+      email = (builtins.fromJSON (builtins.readFile ../../.secrets/work/info.json)).work_email;
     };
   };
 in
@@ -44,12 +35,8 @@ in
   programs.git = {
     includes = [
       {
-        condition = "gitdir:~/repos/${project1}/";
-        contents = project1Include;
-      }
-      {
-        condition = "gitdir:~/repos/${project2}/";
-        contents = project2Include;
+        condition = "gitdir:~/repos/work/";
+        contents = workInclude;
       }
     ];
   };

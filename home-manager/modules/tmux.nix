@@ -6,7 +6,7 @@ let
     if [[ $# -eq 1 ]]; then
         selected=$1
     else
-        selected=$(find ~/repos -mindepth 1 -maxdepth 1 -type d | fzf)
+        selected=$(find ~/repos/personal ~/repos/work -mindepth 1 -maxdepth 1 -type d | fzf)
     fi
 
     if [[ -z $selected ]]; then
