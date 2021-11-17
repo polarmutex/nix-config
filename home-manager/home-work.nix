@@ -18,7 +18,6 @@
     ./modules/tmux.nix
     ./modules/shell.nix
     ./modules/work.nix
-    ../.secrets/work/tmux-sessionizer-work.nix
   ];
 
   # Allow "unfree" licenced packages
