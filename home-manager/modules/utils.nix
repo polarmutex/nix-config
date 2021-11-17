@@ -1,7 +1,7 @@
 { config, ... }:
 
 rec {
-  dot = path: "${config.home.homeDirectory}/repos/nix-dotfiles/${path}";
+  dot = path: "${config.home.homeDirectory}/repos/personal/nix-dotfiles/${path}";
 
   link-one = from: to: path:
     let
