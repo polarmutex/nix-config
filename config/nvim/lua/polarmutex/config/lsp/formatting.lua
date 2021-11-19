@@ -28,11 +28,11 @@ function M.setup(client, buf)
     local nls = require("polarmutex.config.lsp.null-ls")
 
     local enable = false
-    --if nls.has_formatter(ft) then
-    --    enable = client.name == "null-ls"
-    --else
-    enable = (client.name == "beancount-langserver" or client.name == "null-ls" or client.name == "svelte")
-    --end
+    if nls.has_formatter(ft) then
+        enable = client.name == "null-ls"
+    else
+        enable = not (client.name == "null-ls")
+    end
 
     client.resolved_capabilities.document_formatting = enable
     -- format on save
