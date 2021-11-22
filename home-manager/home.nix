@@ -73,6 +73,8 @@
     rustup
     rust-analyzer
     zoom-us
+    ansible
+    ansible-lint
   ];
 
   # Environment variables
