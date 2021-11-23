@@ -95,6 +95,8 @@ in
       etcher
       ventoy-bin
       vscode
+      nodePackages.node2nix
+      yarn
     ];
 
     boot = {
