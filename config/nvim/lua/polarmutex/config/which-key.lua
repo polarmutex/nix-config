@@ -195,12 +195,13 @@ local leader = {
     },
     f = {
         name = "+file",
-        t = { "<cmd>NvimTreeToggle<cr>", "NvimTree" },
         f = { "<cmd>Telescope find_files<cr>", "Find File" },
-        r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
-        n = { "<cmd>enew<cr>", "New File" },
-        z = "Zoxide",
-        d = "Dot Files",
+        t = { ':lua require("harpoon.ui").nav_file(1)', "harpoon nav file 1" },
+        s = { ':lua require("harpoon.ui").nav_file(2)', "harpoon nav file 2" },
+        r = { ':lua require("harpoon.ui").nav_file(3)', "harpoon nav file 3" },
+        n = { ':lua require("harpoon.ui").nav_file(4)', "harpoon nav file 4" },
+        a = { ':lua require("harpoon.mark").add_file()<CR><cr>', "harpoon add file" },
+        u = { ':lua require("harpoon.ui").toggle_quick_menu()<cr>', "harpoon ui toggle" },
     },
     p = {
         name = "+project",
