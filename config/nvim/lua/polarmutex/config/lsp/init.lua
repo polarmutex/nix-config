@@ -17,6 +17,7 @@ local function on_attach(client, bufnr)
     end
 end
 
+require("lspconfig/astro-ls")
 local servers = {
     pyright = {
         settingss = {
@@ -46,14 +47,15 @@ local servers = {
     vimls = {},
     beancount = {
         cmd = {
-            "/home/polar/repos/beancount-language-server.git/develop/target/debug/beancount-language-server",
+            "/home/polar/repos/personal/beancount-language-server/develop/target/debug/beancount-language-server",
         },
         init_options = {
-            journal_file = "/home/polar/repos/beancount/journal.beancount",
+            journal_file = "/home/polar/repos/personal/beancount/journal.beancount",
         },
     },
     rust_analyzer = {},
     svelte = {},
+    astro_ls = {},
     --jdtls = {},
 }
 require("polarmutex.config.lsp.java")
