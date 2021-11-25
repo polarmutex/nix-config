@@ -8,7 +8,24 @@ function M.setup(options)
         debounce = 150,
         save_after_format = false,
         sources = {
-            nls.builtins.formatting.prettierd,
+            nls.builtins.formatting.prettierd.with({
+                filetypes = {
+                    "astro",
+                    "javascript",
+                    "javascriptreact",
+                    "typescript",
+                    "typescriptreact",
+                    "vue",
+                    "css",
+                    "scss",
+                    "less",
+                    "html",
+                    "json",
+                    "yaml",
+                    "markdown",
+                    "graphql",
+                },
+            }),
             nls.builtins.formatting.stylua.with({
                 args = { "--config-path", vim.fn.stdpath("config") .. "/lua/stylua.toml", "-" },
             }),

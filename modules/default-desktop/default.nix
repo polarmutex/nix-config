@@ -97,6 +97,7 @@ in
       vscode
       nodePackages.node2nix
       yarn
+      yarn2nix
     ];
 
     boot = {
