@@ -146,6 +146,12 @@ local function plugins(use)
     })
     use({ "ThePrimeagen/git-worktree.nvim" })
     use({ "ruifm/gitlinker.nvim" })
+    use({
+        "pwntester/octo.nvim",
+        config = function()
+            require("polarmutex.config.octo")
+        end,
+    })
 
     -- Key Mappings
     use({
