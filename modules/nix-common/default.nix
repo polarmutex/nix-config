@@ -27,8 +27,7 @@ in
       # Clean up old generations after 30 days
       gc = {
         automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 30d";
+        options = "--delete-older-than 8d";
       };
 
       # Users allowed to run nix
