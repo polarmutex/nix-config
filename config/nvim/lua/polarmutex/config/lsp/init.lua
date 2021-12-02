@@ -1,5 +1,6 @@
 local util = require("polarmutex.util")
 local lspconfig = require("lspconfig")
+local configs = require("lspconfig.configs")
 local lspstatus = require("lsp-status")
 
 require("polarmutex.config.lsp.diagnostics")
@@ -17,7 +18,24 @@ local function on_attach(client, bufnr)
     end
 end
 
-require("lspconfig/astro-ls")
+if not configs.astro_ls then
+    configs.astro_ls = {
+        default_config = {
+            cmd = { vim.fn.expand("~/repos/astro-language-tools/node_modules/.bin/astro-ls"), "--stdio" },
+            filetypes = {
+                "astro",
+            },
+            root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", ".git"),
+        },
+        docs = {
+            description = [[
+https://github.com/withastro/astro-language-tools
+```
+]],
+        },
+    }
+end
+
 local servers = {
     pyright = {
         settingss = {
