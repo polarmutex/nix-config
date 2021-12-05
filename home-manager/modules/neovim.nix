@@ -28,6 +28,13 @@ in
     nodePackages.svelte-language-server
     my.prettierd
     ripgrep
+    python39Packages.python-lsp-server
+    python39Packages.pyls-flake8
+    python39Packages.flake8
+    #TODO python39Packages.pylsp-mypy
+    #TODO python39Packages.mypy
+    python39Packages.pyls-isort
+    python39Packages.python-lsp-black
   ];
 
   xdg.configFile = utils.link-one "config" "." "nvim";
