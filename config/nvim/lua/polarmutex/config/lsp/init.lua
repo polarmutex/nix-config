@@ -37,18 +37,19 @@ https://github.com/withastro/astro-language-tools
 end
 
 local servers = {
-    pyright = {
-        settingss = {
-            python = {
-                analysis = {
-                    autoSearchPaths = true,
-                    diagnosticMode = "openFilesOnly",
-                    --diagnosticMode = "workspace",
-                    --typeCheckingMode = "strict",
-                },
-            },
-        },
-    },
+    --pyright = {
+    --    settingss = {
+    --        python = {
+    --            analysis = {
+    --                autoSearchPaths = true,
+    --                diagnosticMode = "openFilesOnly",
+    --                --diagnosticMode = "workspace",
+    --                --typeCheckingMode = "strict",
+    --            },
+    --        },
+    --    },
+    --},
+    pylsp = {},
     bashls = {},
     dockerls = {},
     tsserver = {},

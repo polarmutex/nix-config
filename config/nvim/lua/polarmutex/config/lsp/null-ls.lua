@@ -33,9 +33,10 @@ function M.setup(options)
             --nls.builtins.diagnostics.shellcheck,
             nls.builtins.diagnostics.markdownlint,
             --nls.builtins.diagnostics.selene,
-            nls.builtins.formatting.black,
-            nls.builtins.formatting.isort,
-            nls.builtins.diagnostics.flake8,
+            --nls.builtins.formatting.black,
+            --nls.builtins.formatting.isort,
+            --nls.builtins.diagnostics.flake8,
+            nls.builtins.diagnostics.mypy,
         },
     })
     lspconfig["null-ls"].setup(options)
