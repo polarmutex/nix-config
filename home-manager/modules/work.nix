@@ -49,7 +49,7 @@ in
       ExecStart = toString (
         pkgs.writeShellScript "work-vault-sync" ''
           #!/usr/bin/env sh
-          WORK_VAULT_PATH="$HOME/repos/work_vault"
+          WORK_VAULT_PATH="$HOME/repos/work/vaults"
           cd $WORK_VAULT_PATH
           CHANGES_EXIST="$(${pkgs.git}/bin/git status - porcelain | ${pkgs.coreutils}/bin/wc -l)"
           if [ "$CHANGES_EXIST" -eq 0 ]; then
