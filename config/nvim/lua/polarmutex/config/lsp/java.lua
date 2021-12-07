@@ -1,5 +1,5 @@
 local function on_attach(client, bufnr)
-    require("polarmutex.config.lsp.formatting").setup(client, bufnr)
+    --require("polarmutex.config.lsp.formatting").setup(client, bufnr)
     require("polarmutex.config.lsp.keys").setup(client, bufnr)
     require("polarmutex.config.lsp.completion").setup(client, bufnr)
     require("polarmutex.config.lsp.highlighting").setup(client)
@@ -30,7 +30,7 @@ function M.setup()
         },
     }
 
-    local workspace_folder = home .. "/.workspace" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+    local workspace_folder = home .. "/.workspace/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
     local config = {
         flags = {
             allow_incremental_sync = true,
