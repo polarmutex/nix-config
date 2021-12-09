@@ -78,6 +78,10 @@
 
   };
 
+  # Advent of Code token config
+  home.file.".config/aocd/tokens.json".source = ../.secrets/aoc/tokens.json;
+  home.file.".config/aocd/token".source = ../.secrets/aoc/token;
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
