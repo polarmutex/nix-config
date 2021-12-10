@@ -40,6 +40,7 @@
     cmake
     gh
     lazydocker
+    ansible
   ];
 
   # Environment variables
