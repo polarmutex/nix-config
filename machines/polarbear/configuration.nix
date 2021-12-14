@@ -12,10 +12,13 @@
   services.tailscale.enable = true;
   #hardware.sane.enable = true;
 
-  virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
   programs.dconf.enable = true;
-  environment.systemPackages = with pkgs; [ tailscale virt-manager ];
+  environment.systemPackages = with pkgs; [ tailscale ];
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  users.extraGroups.vboxusers.members = [ "polar" ];
+
 
   # To build raspi images
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
