@@ -2,157 +2,154 @@
   description = "PolarMutex Nix Configuration";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    nixos.url = "nixpkgs/release-21.11";
+    latest.url = "nixpkgs/nixos-unstable";
 
-    nur.url = "github:nix-community/NUR";
-    nur.inputs.nixpkgs.follows = "nixpkgs";
+    digga.url = "github:divnix/digga";
+    digga.inputs.nixpkgs.follows = "nixos";
+    digga.inputs.nixlib.follows = "nixos";
+    digga.inputs.home-manager.follows = "home";
 
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    deploy.follows = "digga/deploy";
 
-    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
-    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-nightly.inputs.flake-utils.follows = "flake-utils";
+    home.url = "github:nix-community/home-manager/release-21.11";
+    home.inputs.nixpkgs.follows = "nixos";
+
+    nixos-hardware.url = "github:nixos/nixos-hardware";
+
+    # TODO use NUR
+    #pkgs.url = "path:./pkgs";
+    #pkgs.inputs.nixpkgs.follows = "nixos";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixos";
+
+    neovim = {
+      url = github:neovim/neovim?dir=contrib;
+      inputs.nixpkgs.follows = "nixos";
+    };
+
+    polar-dwm.url = "github:polarmutex/dwm";
+    polar-dmenu.url = "github:polarmutex/dmenu";
+    polar-st.url = "github:polarmutex/st";
 
     krops.url = "git+https://cgit.krebsco.de/krops";
     krops.flake = false;
   };
 
-  outputs = { self, ... }@inputs:
-    with inputs;
-    let
+  outputs =
+    { self
+    , digga
+    , nixos
+    , home
+    , nixos-hardware
+    , sops-nix
+    , neovim
+    , polar-dwm
+    , polar-st
+    , polar-dmenu
+    , deploy
+    , ...
+    } @ inputs:
+    digga.lib.mkFlake {
+      inherit self inputs;
 
-      inherit (nixpkgs) lib;
-      inherit (lib) attrValues;
+      channelsConfig = { allowUnfree = true; };
 
-      util = import ./lib { inherit system pkgs home-manager lib; overlays = (pkgs.overlays); };
-
-      inherit (util) host;
-      inherit (util) user;
-
-      system = "x86_64-linux";
-
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-        overlays = [
-          # NUR
-          nur.overlay
-          # neovim
-          neovim-nightly.overlay
-
-          (
-            final: prev: {
-              my = import ./pkgs { inherit pkgs; };
-            }
-          )
-        ];
-      };
-
-      # Function to create default (common) system config options
-      defFlakeSystem = baseCfg:
-        nixpkgs.lib.nixosSystem {
-
-          system = "x86_64-linux";
-          modules = [
-            # Make inputs and overlay accessible as module parameters
-            { _module.args.inputs = inputs; }
-            { _module.args.self-overlay = self.overlay; }
-            (
-              { ... }: {
-                imports = builtins.attrValues self.nixosModules ++ [
-                  {
-                    # Set the $NIX_PATH entry for nixpkgs. This is necessary in
-                    # this setup with flakes, otherwise commands like `nix-shell
-                    # -p pkgs.htop` will keep using an old version of nixpkgs.
-                    # With this entry in $NIX_PATH it is possible (and
-                    # recommended) to remove the `nixos` channel for both users
-                    # and root e.g. `nix-channel --remove nixos`. `nix-channel
-                    # --list` should be empty for all users afterwards
-                    nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-                    nixpkgs.overlays = [
-                      self.overlay
-                      nur.overlay
-                      neovim-nightly.overlay
-                    ];
-
-                    # DON'T set useGlobalPackages! It's not necessary in newer
-                    # home-manager versions and does not work with configs using
-                    # nixpkgs.config`
-                    home-manager.useUserPackages = true;
-                  }
-                  baseCfg
-                  home-manager.nixosModules.home-manager
-                ];
-
-                # Let 'nixos-version --json' know the Git revision of this flake.
-                system.configurationRevision =
-                  nixpkgs.lib.mkIf (self ? rev) self.rev;
-                nix.registry.nixpkgs.flake = nixpkgs;
-              }
-            )
+      channels = {
+        nixos = {
+          imports = [ (digga.lib.importOverlays ./overlays) ];
+          overlays = [
+            sops-nix.overlay
+            neovim.overlay
+            polar-dwm.overlay
+            polar-st.overlay
+            polar-dmenu.overlay
           ];
         };
 
-      work_username = (builtins.fromJSON (builtins.readFile ./.secrets/work/info.json)).username;
-
-    in
-    {
-
-      # Expose overlay to flake outputs, to allow using it from other flakes.
-      # Flake inputs are passed to the overlay so that the packages defined in
-      # it can use the sources pinned in flake.lock
-      overlay = final: prev: (import ./overlays inputs) final prev;
-
-      # Output all modules in ./modules to flake. Modules should be in
-      # individual subdirectories and contain a default.nix file
-      nixosModules = builtins.listToAttrs (
-        map
-          (
-            x: {
-              name = x;
-              value = import (./modules + "/${x}");
-            }
-          )
-          (builtins.attrNames (builtins.readDir ./modules))
-      );
-
-      # Each subdirectory in ./machins is a host. Add them all to
-      # nixosConfiguratons. Host configurations need a file called
-      # configuration.nix that will be read first
-      nixosConfigurations = builtins.listToAttrs (
-        map
-          (
-            x: {
-              name = x;
-              value = defFlakeSystem {
-                imports = [
-                  (import (./machines + "/${x}/configuration.nix") { inherit self pkgs; })
-                ];
-              };
-            }
-          )
-          (builtins.attrNames (builtins.readDir ./machines))
-      );
-
-      homeManagerConfigurations = {
-        # look into using fromJson to read these values
-        work = home-manager.lib.homeManagerConfiguration {
-          configuration = ./home-manager/home-work.nix;
-          system = "x86_64-linux";
-          homeDirectory = "/home/${work_username}";
-          username = "${work_username}";
-          pkgs = pkgs;
-        };
-        polar = home-manager.lib.homeManagerConfiguration {
-          configuration = ./home-manager/home.nix;
-          system = "x86_64-linux";
-          homeDirectory = "/home/polar";
-          username = "polar";
-          pkgs = pkgs;
+        latest = {
+          overlays = [
+            deploy.overlay
+          ];
         };
       };
+
+      lib = import ./lib { lib = digga.lib // nixos.lib; };
+
+      sharedOverlays = [
+        (final: prev: {
+          lib = prev.lib.extend (lfinal: lprev: {
+            our = self.lib;
+          });
+        })
+      ];
+
+      nixos = {
+
+        hostDefaults = {
+          system = "x86_64-linux";
+          channelName = "nixos";
+          #modules = ./modules/module-list.nix;
+        };
+
+        imports = [ (digga.lib.importHosts ./hosts) ];
+
+        hosts = {
+          polarbear = {
+            modules = with nixos-hardware.nixosModules; [ ];
+          };
+        };
+
+        importables = rec {
+          profiles = digga.lib.rakeLeaves ./profiles // {
+            users = digga.lib.rakeLeaves ./users;
+          };
+          suites = with profiles; rec { };
+        };
+
+      };
+
+      #home = {
+      #  #modules = ./users/modules/module-list.nix;
+
+      #  importables = rec {
+      #    profiles = digga.lib.importers.rakeLeaves ./users/profiles;
+      #    suites = with profiles; rec { };
+      #  };
+
+      #};
+
+      # Use by running `nix develop`
+      devshell = ./shell;
+      #devshell = {
+      #  env = [
+      #    {
+      #      name = "sopsPGPKeyDirs";
+      #      value = "./secrets/keys/hosts ./secrets/keys/users";
+      #    }
+      #  ];
+
+      #  devshell.startup = {
+      #    sops.text = ''
+      #      source ${nixos.sops-pgp-hook.outPath}/nix-support/setup-hook
+      #      sopsPGPHook
+      #    '';
+      #  };
+
+      #  commands = [
+      #    {
+      #      name = "sops-edit";
+      #      category = "secrets";
+      #      command = "${nixos.sops}/bin/sops $@";
+      #      help = "sops-edit <secretFileName>.yaml | Edit secretFile with sops-nix";
+      #    }
+      #  ];
+      #};
+
+      #homeConfigurations = digga.lib.mkHomeConfigurations self.nixosConfigurations;
+
+      deploy.nodes = digga.lib.mkDeployNodes self.nixosConfigurations { };
 
     };
 }
