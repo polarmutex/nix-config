@@ -90,7 +90,12 @@
         hostDefaults = {
           system = "x86_64-linux";
           channelName = "nixos";
-          #modules = ./modules/module-list.nix;
+          modules = [
+            { lib.our = self.lib; }
+            digga.nixosModules.bootstrapIso
+            digga.nixosModules.nixConfig
+            home.nixosModules.home-manager
+          ];
         };
 
         imports = [ (digga.lib.importHosts ./hosts) ];
@@ -105,7 +110,9 @@
           profiles = digga.lib.rakeLeaves ./profiles // {
             users = digga.lib.rakeLeaves ./users;
           };
-          suites = with profiles; rec { };
+          suites = with profiles; rec {
+            base = [ core users.root users.polar ];
+          };
         };
 
       };

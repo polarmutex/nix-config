@@ -1,26 +1,13 @@
 { config, suites, pkgs, lib, ... }:
 {
-  #imports = suites.base ++ [ ../users/nixos ];
-  imports = [ ../users/nixos ];
+  imports = suites.base ++ [ ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  nix.package = pkgs.nixFlakes;
-  nix.extraOptions = "experimental-features = nix-command flakes";
-
   networking.networkmanager.enable = true;
   networking.useDHCP = false;
   networking.interfaces.enp0s3.useDHCP = true;
-
-  services.openssh.enable = true;
-  services.openssh.passwordAuthentication = true;
-  services.openssh.permitRootLogin = "yes";
-
-  environment.systemPackages = with pkgs; [
-    git
-    neovim
-  ];
 
   boot.initrd.availableKernelModules = [ "ata_piix" "ohci_pci" "ehci_pci" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
@@ -44,8 +31,6 @@
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   virtualisation.virtualbox.guest.enable = true;
-
-  users.users.root.initialPassword = "root";
 
   system.stateVersion = " 21.05 ";
 }
