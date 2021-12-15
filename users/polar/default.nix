@@ -7,7 +7,7 @@
   users.users.polar = {
     uid = 1000;
     password = "nixos";
-    description = "default";
+    description = "polar";
     isNormalUser = true;
     extraGroups = [ "wheel" ];
   };

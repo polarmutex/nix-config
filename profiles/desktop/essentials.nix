@@ -38,4 +38,9 @@ let inherit (lib) mkDefault genAttrs; in
       libinput.enable = true;
     };
   };
+
+  # to enable user accounts in lightdm
+  environment.pathsToLink = [ "/share/accountsservice" ];
+  services.accounts-daemon.enable = true;
+  environment.shells = [ pkgs.zsh pkgs.bash ];
 }

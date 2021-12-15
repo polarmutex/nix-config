@@ -6,6 +6,23 @@ in
 
   nix.systemFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
 
+  security = {
+    protectKernelImage = lib.mkDefault true;
+    sudo.enable = false;
+    doas = {
+      enable = true;
+      wheelNeedsPassword = false;
+      extraRules = [
+        {
+          users = [ "polar" ];
+          noPass = true;
+          cmd = "nix-collect-garbage";
+          runAs = "root";
+        }
+      ];
+    };
+  };
+
   environment = {
 
     systemPackages = with pkgs; [
@@ -30,50 +47,46 @@ in
       utillinux
     ];
 
-    shellAliases =
-      let ifSudo = lib.mkIf config.security.sudo.enable;
-      in
-      {
-        # quick cd
-        ".." = "cd ..";
-        "..." = "cd ../..";
-        "...." = "cd ../../..";
-        "....." = "cd ../../../..";
+    shellAliases = {
+      # quick cd
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
+      "....." = "cd ../../../..";
 
-        # git
-        g = "git";
+      # git
+      g = "git";
 
-        # grep
-        grep = "rg";
-        gi = "grep -i";
+      # grep
+      grep = "rg";
+      gi = "grep -i";
 
-        # nix
-        n = "nix";
-        np = "n profile";
-        ni = "np install";
-        nr = "np remove";
-        ns = "n search --no-update-lock-file";
-        nf = "n flake";
-        nepl = "n repl '<nixpkgs>'";
-        srch = "ns nixos";
-        nrb = ifSudo "sudo nixos-rebuild";
+      # nix
+      n = "nix";
+      np = "n profile";
+      ni = "np install";
+      nr = "np remove";
+      ns = "n search --no-update-lock-file";
+      nf = "n flake";
+      nepl = "n repl '<nixpkgs>'";
+      srch = "ns nixos";
+      nrb = "doas nixos-rebuild";
 
-        # sudo
-        s = ifSudo "sudo -E ";
-        si = ifSudo "sudo -i";
-        se = ifSudo "sudoedit";
+      # sudo
+      sudo = "doas";
+      s = "doas";
 
-        # systemd
-        ctl = "systemctl";
-        stl = ifSudo "s systemctl";
-        utl = "systemctl --user";
-        ut = "systemctl --user start";
-        un = "systemctl --user stop";
-        up = ifSudo "s systemctl start";
-        dn = ifSudo "s systemctl stop";
-        jtl = "journalctl";
+      # systemd
+      ctl = "systemctl";
+      stl = "s systemctl";
+      utl = "systemctl --user";
+      ut = "systemctl --user start";
+      un = "systemctl --user stop";
+      up = "s systemctl start";
+      dn = "s systemctl stop";
+      jtl = "journalctl";
 
-      };
+    };
   };
 
   fonts = {
@@ -123,13 +136,6 @@ in
   };
 
   services.earlyoom.enable = true;
-
-  security = {
-    protectKernelImage = lib.mkDefault true;
-    sudo.extraConfig = ''
-      Defaults timestamp_type=global,timestamp_timeout=600
-    '';
-  };
 
   #sops = {
   #  defaultSopsFile = ../secrets/secrets.yaml;
