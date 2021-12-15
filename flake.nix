@@ -111,7 +111,13 @@
             users = digga.lib.rakeLeaves ./users;
           };
           suites = with profiles; rec {
-            base = [ core users.root users.polar ];
+            base = [
+              core
+              desktop.essentials
+              desktop.dwm
+              users.root
+              users.polar
+            ];
           };
         };
 
