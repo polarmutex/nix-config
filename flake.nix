@@ -60,6 +60,7 @@
         nixos = {
           imports = [ (digga.lib.importOverlays ./overlays) ];
           overlays = [
+            ./pkgs/default.nix
             sops-nix.overlay
             neovim.overlay
             polar-dwm.overlay
@@ -113,6 +114,7 @@
           suites = with profiles; rec {
             base = [
               core
+              fonts
               desktop.essentials
               desktop.dwm
               users.root

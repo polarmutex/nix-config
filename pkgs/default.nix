@@ -1,6 +1,8 @@
-{ pkgs, ... }:
-with pkgs;
+final: prev:
+with prev;
 {
+  monolisafont =
+    (callPackage ./fonts/monolisa.nix { });
   jdtls = (callPackage ./jdt-language-server/default.nix { });
   tree-sitter-beancount = (
     callPackage ./tree-sitter-beancount/default.nix { }
