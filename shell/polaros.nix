@@ -4,7 +4,7 @@ let
   pkgWithCategory = category: package: { inherit package category; };
   linter = pkgWithCategory "linter";
   docs = pkgWithCategory "docs";
-  devos = pkgWithCategory "devos";
+  polaros = pkgWithCategory "polaros";
 
 in
 {
@@ -26,10 +26,10 @@ in
   '');
 
   commands = with pkgs; [
-    (devos nixFlakes)
-    (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
+    (polaros nixFlakes)
+    (polaros inputs.deploy.packages.${pkgs.system}.deploy-rs)
     {
-      category = "devos";
+      category = "polaros";
       name = nvfetcher-bin.pname;
       help = nvfetcher-bin.meta.description;
       command = "cd $PRJ_ROOT/pkgs; ${nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";

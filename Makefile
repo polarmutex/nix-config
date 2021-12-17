@@ -22,6 +22,12 @@ check:
 update:
 	nix flake update
 
+polarebear_vm:
+	deploy ".#polarbear" --ssh-user "root"  --hostname 10.11.11.144
+
+polar-hm:
+	nix build .#homeConfigurationsPortable.x86_64-linux.polar.activationPackage && result/activate && unlink result
+
 # bootstrap a brand new VM. The VM should have NixOS ISO on the CD drive
 # and just set the password of the root user to "root". This will install
 # NixOS. After installing NixOS, you must reboot and set the root password

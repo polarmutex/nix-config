@@ -1,8 +1,6 @@
-{ ... }:
+{ hmUsers, ... }:
 {
-  #home-manager.users.polar = { suites, ... }: {
-  #  imports = suites.base;
-  #};
+  home-manager.users = { inherit (hmUsers) polar; };
 
   users.users.polar = {
     uid = 1000;

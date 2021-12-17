@@ -3,7 +3,7 @@
   modules = with inputs; [
   ];
   exportedModules = [
-    ./devos.nix
+    ./polaros.nix
   ];
 }
 

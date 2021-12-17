@@ -8,7 +8,8 @@ in
 
   security = {
     protectKernelImage = lib.mkDefault true;
-    sudo.enable = false;
+    # TODO find a way to disable this
+    sudo.enable = true;
     doas = {
       enable = true;
       wheelNeedsPassword = false;
@@ -33,6 +34,7 @@ in
       dnsutils
       fd
       git
+      gnumake
       gnupg
       htop
       moreutils

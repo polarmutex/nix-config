@@ -134,9 +134,17 @@
         #modules = ./users/modules/module-list.nix;
 
         importables = rec {
-          profiles = digga.lib.importers.rakeLeaves ./users/profiles;
+          profiles = digga.lib.rakeLeaves ./users/profiles;
           suites = with profiles; rec {
-            base = [ ];
+            base = [ hm ]
+              ++ (with programs;[
+              git
+              nvim
+              tmux
+              zsh
+              brave
+              direnv
+            ]);
           };
         };
         users = {
@@ -174,7 +182,15 @@
 
       homeConfigurations = digga.lib.mkHomeConfigurations self.nixosConfigurations;
 
-      deploy.nodes = digga.lib.mkDeployNodes self.nixosConfigurations { };
+      deploy.nodes = digga.lib.mkDeployNodes self.nixosConfigurations {
+        polarbear = {
+          profilesOrder = [ "system" "polar" ];
+          profiles.polar = {
+            user = "polar";
+            path = deploy.lib.x86_64-linux.activate.home-manager self.homeConfigurationsPortable.x86_64-linux.polar;
+          };
+        };
+      };
 
     };
 }
