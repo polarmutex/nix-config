@@ -17,9 +17,12 @@
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
-    # TODO use NUR
     #pkgs.url = "path:./pkgs";
     #pkgs.inputs.nixpkgs.follows = "nixos";
+    nvfetcher = {
+      url = "github:berberman/nvfetcher";
+      inputs.nixpkgs.follows = "latest";
+    };
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixos";
@@ -49,6 +52,7 @@
     , polar-st
     , polar-dmenu
     , deploy
+    , nvfetcher
     , ...
     } @ inputs:
     digga.lib.mkFlake {
@@ -66,6 +70,7 @@
             polar-dwm.overlay
             polar-st.overlay
             polar-dmenu.overlay
+            nvfetcher.overlay
           ];
         };
 
@@ -125,15 +130,20 @@
 
       };
 
-      #home = {
-      #  #modules = ./users/modules/module-list.nix;
+      home = {
+        #modules = ./users/modules/module-list.nix;
 
-      #  importables = rec {
-      #    profiles = digga.lib.importers.rakeLeaves ./users/profiles;
-      #    suites = with profiles; rec { };
-      #  };
+        importables = rec {
+          profiles = digga.lib.importers.rakeLeaves ./users/profiles;
+          suites = with profiles; rec {
+            base = [ ];
+          };
+        };
+        users = {
+          polar = { suites, ... }: { imports = suites.base; };
+        }; # digga
 
-      #};
+      };
 
       # Use by running `nix develop`
       devshell = ./shell;
@@ -162,7 +172,7 @@
       #  ];
       #};
 
-      #homeConfigurations = digga.lib.mkHomeConfigurations self.nixosConfigurations;
+      homeConfigurations = digga.lib.mkHomeConfigurations self.nixosConfigurations;
 
       deploy.nodes = digga.lib.mkDeployNodes self.nixosConfigurations { };
 

@@ -105,6 +105,22 @@
         "type": "github"
       }
     },
+    "flake-compat_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1627913399,
+        "narHash": "sha256-hY8g6H2KFL8ownSiFeMOjwPC8P0ueXpCVEbxgda3pko=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "12c64ca55c1014cdc1b16ed5a804aa8576601ff2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1638122382,
@@ -148,6 +164,21 @@
         "owner": "numtide",
         "repo": "flake-utils",
         "rev": "997f7efcb746a9c140ce1f13c72263189225f482",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_3": {
+      "locked": {
+        "lastModified": 1631561581,
+        "narHash": "sha256-3VQMV5zvxaVLvqqUrNz3iJelLw30mIVSfZmAaauM3dA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "7e5bf3925f6fbdfaf50a2a7ca0be2879c4261d19",
         "type": "github"
       },
       "original": {
@@ -233,11 +264,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1639581594,
-        "narHash": "sha256-AYdrfKXUBL36Y5oYIuJjtuC7W9Aoz7nlfJ5SI1zEBZI=",
+        "lastModified": 1639687573,
+        "narHash": "sha256-SsIlA2YJXtIBp1RLfg8IA7jz5XhVZEfYyUJGfdbVGpM=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "4393360796ffd3ea6e552a13b19f60cd4892fbdc",
+        "rev": "b1757e1c29d07c7958c62427e19e85916670049d",
         "type": "github"
       },
       "original": {
@@ -249,11 +280,11 @@
     },
     "nixos": {
       "locked": {
-        "lastModified": 1639584099,
-        "narHash": "sha256-3UioSxWXcXMoq3YV6i7nl3DWpKX2xA3ogYnqynPBk2w=",
+        "lastModified": 1639699507,
+        "narHash": "sha256-zBrTIeNfKXmriSiOAGWFYYdjmJFEELuuByNjeJvLCwo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9367ef512d32a3c8b9e1d2b75ba5134de48d86ed",
+        "rev": "71f906f1cf7b2d674d2e178076ccf1b86c5b95a2",
         "type": "github"
       },
       "original": {
@@ -350,6 +381,28 @@
         "type": "github"
       }
     },
+    "nvfetcher": {
+      "inputs": {
+        "flake-compat": "flake-compat_2",
+        "flake-utils": "flake-utils_3",
+        "nixpkgs": [
+          "latest"
+        ]
+      },
+      "locked": {
+        "lastModified": 1634524567,
+        "narHash": "sha256-v9ZTZj1WNQaaVfs1P1mUPuh518mmwpqszj1EjdeGUmc=",
+        "owner": "berberman",
+        "repo": "nvfetcher",
+        "rev": "807513f4bbd0e3b5863f4c3b91f8ac846ed6da9b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "berberman",
+        "repo": "nvfetcher",
+        "type": "github"
+      }
+    },
     "polar-dmenu": {
       "inputs": {
         "nixpkgs": "nixpkgs"
@@ -417,6 +470,7 @@
         "neovim": "neovim",
         "nixos": "nixos",
         "nixos-hardware": "nixos-hardware",
+        "nvfetcher": "nvfetcher",
         "polar-dmenu": "polar-dmenu",
         "polar-dwm": "polar-dwm",
         "polar-st": "polar-st",

@@ -4,6 +4,7 @@
     fonts = with pkgs; [
       corefonts
       monolisafont
+      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
     ];
   };
 }

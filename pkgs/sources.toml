@@ -1,0 +1,10 @@
+[drawio]
+src.github = "jgraph/drawio-desktop"
+fetch.url = "https://github.com/jgraph/drawio-desktop/releases/download/v$ver/drawio-x86_64-$ver.rpm"
+src.prefix = "v"
+
+[logseq]
+src.github = "logseq/logseq"
+# src.manual = "0.5.4"
+fetch.url = "https://github.com/logseq/logseq/releases/download/$ver/logseq-linux-x64-$ver.AppImage"
+#https://github.com/logseq/logseq/releases/download/nightly/Logseq-linux-x64-0.5.4+nightly.20211216.AppImage
