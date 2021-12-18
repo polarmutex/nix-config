@@ -34,6 +34,7 @@ in
       dnsutils
       fd
       git
+      git-crypt
       gnumake
       gnupg
       htop
