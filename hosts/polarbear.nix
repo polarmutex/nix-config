@@ -7,7 +7,7 @@
 
   networking.networkmanager.enable = true;
   networking.useDHCP = false;
-  networking.interfaces.enp0s3.useDHCP = true;
+  networking.interfaces.eno1.useDHCP = true;
 
   boot.initrd.availableKernelModules = [ "ata_piix" "ohci_pci" "ehci_pci" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
@@ -29,8 +29,15 @@
     { device = "/dev/disk/by-label/swap"; }
   ];
 
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  virtualisation.virtualbox.guest.enable = true;
+  hardware = {
+    nvidia = {
+      modesetting.enable = false;
+      prime = {
+        offload.enable = false;
+      };
+    };
+  };
+  #virtualisation.virtualbox.guest.enable = true;
 
   system.stateVersion = " 21.05 ";
 }

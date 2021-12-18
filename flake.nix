@@ -108,7 +108,11 @@
 
         hosts = {
           polarbear = {
-            modules = with nixos-hardware.nixosModules; [ ];
+            modules = with nixos-hardware.nixosModules; [
+              common-cpu-intel
+              common-gpu-nvidia
+              common-pc-ssd
+            ];
           };
         };
 
