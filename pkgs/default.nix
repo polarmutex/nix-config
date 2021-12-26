@@ -13,4 +13,5 @@ with pkgs;
   obsidian = (callPackage ./obsidian/default.nix { });
   dwm = (callPackage ./dwm/default.nix { });
   prettierd = (callPackage ./prettierd/default.nix { });
+  stacks = (callPackage ./stacks/default.nix { });
 }

@@ -15,6 +15,7 @@
     ./modules/gpg
     ./modules/obsidian.nix
     ./modules/logseq.nix
+    ./modules/stacks.nix
     ./modules/picom.nix
     ./modules/tmux.nix
     ./modules/protonvpn.nix
@@ -47,6 +48,7 @@
     _1password-gui
     anki-bin
     arandr
+    appimage-run
     brave
     exa
     gcc
