@@ -14,5 +14,6 @@ self: super: {
     obsidian = super.callPackage ../pkgs/obsidian { };
     dwm = super.callPackage ../pkgs/dwm { };
     prettierd = super.callPackage ../pkgs/prettierd { };
+    stacks = super.callPackage ../pkgs/stacks { };
   };
 }
