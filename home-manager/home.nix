@@ -77,6 +77,7 @@
     zoom-us
     ansible
     ansible-lint
+    peek
   ];
 
   # Environment variables
