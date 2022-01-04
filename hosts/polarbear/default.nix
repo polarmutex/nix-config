@@ -2,11 +2,6 @@
 
   imports = [ ./hardware-configuration.nix ];
 
-  polar.desktop = {
-    enable = true;
-    hostname = "polarbear";
-  };
-
   services.xserver.videoDrivers = [ "nvidia" ];
   services.printing.enable = true;
   services.tailscale.enable = true;
@@ -19,7 +14,4 @@
   virtualisation.virtualbox.host.enableExtensionPack = true;
   users.extraGroups.vboxusers.members = [ "polar" ];
 
-
-  # To build raspi images
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 }

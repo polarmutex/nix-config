@@ -2,157 +2,185 @@
   description = "PolarMutex Nix Configuration";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs-stable.url = "nixpkgs/nixos-21.11";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    deploy-rs.url = "github:serokell/deploy-rs";
 
     nur.url = "github:nix-community/NUR";
-    nur.inputs.nixpkgs.follows = "nixpkgs";
-
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nur.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    hardware.url = "github:nixos/nixos-hardware";
 
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
-    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs-unstable";
     neovim-nightly.inputs.flake-utils.follows = "flake-utils";
+
+    polar-dwm = {
+      url = "github:polarmutex/dwm";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    polar-st = {
+      url = "github:polarmutex/st";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    polar-dmenu = {
+      url = "github:polarmutex/dmenu";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     krops.url = "git+https://cgit.krebsco.de/krops";
     krops.flake = false;
   };
 
-  outputs = { self, ... }@inputs:
-    with inputs;
+  outputs =
+    { self
+    , nixpkgs-stable
+    , nixpkgs-unstable
+    , home-manager
+    , deploy-rs
+    , neovim-nightly
+    , polar-dwm
+    , polar-st
+    , polar-dmenu
+    , nur
+    , ...
+    }@inputs:
     let
 
-      inherit (nixpkgs) lib;
-      inherit (lib) attrValues;
+      inherit (import ./pkgs {
+        inherit pkgs;
+      }) myPkgs;
 
-      util = import ./lib { inherit system pkgs home-manager lib; overlays = (pkgs.overlays); };
+      # Default overlay, for use in dependent flakes
+      #overlay = final: prev: { };
+      # Same idea as overlay but a list or attrset of them.
+      #overlays = { };
+      inherit (import ./overlays {
+        inherit system pkgs myPkgs;
+        inherit deploy-rs;
+        inherit neovim-nightly;
+        inherit polar-dwm polar-st polar-dmenu;
+        inherit nur;
+      }) overlays;
 
-      inherit (util) host;
-      inherit (util) user;
+      pkgs = import nixpkgs-unstable {
+        inherit system overlays;
+        config.allowUnfree = true;
+      };
+      pkgs-stable = import nixpkgs-stable {
+        inherit system overlays;
+        config.allowUnfree = true;
+      };
 
       system = "x86_64-linux";
 
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-        overlays = [
-          # NUR
-          nur.overlay
-          # neovim
-          neovim-nightly.overlay
-
-          (
-            final: prev: {
-              my = import ./pkgs { inherit pkgs; };
+      mkSystem = { hostname, nixpkgs, users }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs system;
+          };
+          modules = [
+            ./modules/nixos
+            (./hosts + "/${hostname}")
+            {
+              networking.hostName = hostname;
+              # Apply overlay and allow unfree packages
+              nixpkgs = {
+                overlays = overlays;
+                config.allowUnfree = true;
+              };
             }
-          )
-        ];
+            # System wide config for each user
+          ] ++ nixpkgs.lib.forEach users
+            (u: ./users + "/${u}" + /system-wide.nix);
+        };
+
+      # Make home configuration, given username, required features, and system type
+      mkHome = { username, system, hostname, features ? [ ] }:
+        home-manager.lib.homeManagerConfiguration {
+          inherit username system;
+          extraSpecialArgs = {
+            inherit features hostname inputs system;
+          };
+          homeDirectory = "/home/${username}";
+          configuration = ./users + "/${username}";
+          extraModules = [
+            ./modules/home-manager
+            {
+              nixpkgs = {
+                overlays = self.overlays;
+                config.allowUnfree = true;
+              };
+            }
+          ];
+        };
+    in
+    {
+      # Executed by `nix flake check`
+      #checks."<system>"."<name>" = derivation;
+
+      # Used with `nixos-rebuild --flake .#<hostname>`
+      nixosConfigurations = {
+        #polarbear = mkSystem {
+        #  hostname = "polarbear";
+        #  nixpkgs = nixpkgs-stable;
+        #  users = [ ];
+        #};
+        blackbear = mkSystem {
+          hostname = "blackbear";
+          nixpkgs = nixpkgs-stable;
+          users = [ "polar" ];
+        };
       };
 
-      # Function to create default (common) system config options
-      defFlakeSystem = baseCfg:
-        nixpkgs.lib.nixosSystem {
-
-          system = "x86_64-linux";
-          modules = [
-            # Make inputs and overlay accessible as module parameters
-            { _module.args.inputs = inputs; }
-            { _module.args.self-overlay = self.overlay; }
-            (
-              { ... }: {
-                imports = builtins.attrValues self.nixosModules ++ [
-                  {
-                    # Set the $NIX_PATH entry for nixpkgs. This is necessary in
-                    # this setup with flakes, otherwise commands like `nix-shell
-                    # -p pkgs.htop` will keep using an old version of nixpkgs.
-                    # With this entry in $NIX_PATH it is possible (and
-                    # recommended) to remove the `nixos` channel for both users
-                    # and root e.g. `nix-channel --remove nixos`. `nix-channel
-                    # --list` should be empty for all users afterwards
-                    nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-                    nixpkgs.overlays = [
-                      self.overlay
-                      nur.overlay
-                      neovim-nightly.overlay
-                    ];
-
-                    # DON'T set useGlobalPackages! It's not necessary in newer
-                    # home-manager versions and does not work with configs using
-                    # nixpkgs.config`
-                    home-manager.useUserPackages = true;
-                  }
-                  baseCfg
-                  home-manager.nixosModules.home-manager
-                ];
-
-                # Let 'nixos-version --json' know the Git revision of this flake.
-                system.configurationRevision =
-                  nixpkgs.lib.mkIf (self ? rev) self.rev;
-                nix.registry.nixpkgs.flake = nixpkgs;
-              }
-            )
+      # Used by `nix develop`
+      devShell.x86_64-linux = pkgs.mkShell
+        {
+          buildInputs = with pkgs; [
+            nixFlakes
+            nixfmt
+            rnix-lsp
+            deploy-rs
+            deploy-rs.defaultPackage.x86_64-linux
           ];
         };
 
-      work_username = (builtins.fromJSON (builtins.readFile ./.secrets/work/info.json)).username;
+      # Used by `nix develop .#<name>`
+      #devShells."<system>"."<name>" = derivation;
 
-    in
-    {
+      # Hydra build jobs
+      #hydraJobs."<attr>"."<system>" = derivation;
 
-      # Expose overlay to flake outputs, to allow using it from other flakes.
-      # Flake inputs are passed to the overlay so that the packages defined in
-      # it can use the sources pinned in flake.lock
-      overlay = final: prev: (import ./overlays inputs) final prev;
+      # Used by `nix flake init -t <flake>`
+      #defaultTemplate = {
+      #  path = "<store-path>";
+      #  description = "template description goes here?";
+      #};
 
-      # Output all modules in ./modules to flake. Modules should be in
-      # individual subdirectories and contain a default.nix file
-      nixosModules = builtins.listToAttrs (
-        map
-          (
-            x: {
-              name = x;
-              value = import (./modules + "/${x}");
-            }
-          )
-          (builtins.attrNames (builtins.readDir ./modules))
-      );
+      # Used by `nix flake init -t <flake>#<name>`
+      #templates."<name>" = { path = "<store-path>"; description = ""; };
 
-      # Each subdirectory in ./machins is a host. Add them all to
-      # nixosConfiguratons. Host configurations need a file called
-      # configuration.nix that will be read first
-      nixosConfigurations = builtins.listToAttrs (
-        map
-          (
-            x: {
-              name = x;
-              value = defFlakeSystem {
-                imports = [
-                  (import (./machines + "/${x}/configuration.nix") { inherit self pkgs; })
-                ];
-              };
-            }
-          )
-          (builtins.attrNames (builtins.readDir ./machines))
-      );
-
-      homeManagerConfigurations = {
-        # look into using fromJson to read these values
-        work = home-manager.lib.homeManagerConfiguration {
-          configuration = ./home-manager/home-work.nix;
-          system = "x86_64-linux";
-          homeDirectory = "/home/${work_username}";
-          username = "${work_username}";
-          pkgs = pkgs;
-        };
-        polar = home-manager.lib.homeManagerConfiguration {
-          configuration = ./home-manager/home.nix;
-          system = "x86_64-linux";
-          homeDirectory = "/home/polar";
-          username = "polar";
-          pkgs = pkgs;
+      deploy.nodes = {
+        blackbear = {
+          sshOpts = [ "-p" "22" ];
+          hostname = "blackbear";
+          fastConnection = true;
+          profiles = {
+            system = {
+              sshUser = "root";
+              path =
+                deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.blackbear;
+              user = "root";
+            };
+          };
         };
       };
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
     };
 }
