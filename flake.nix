@@ -16,9 +16,11 @@
     nur.inputs.nixpkgs.follows = "nixpkgs-unstable";
     hardware.url = "github:nixos/nixos-hardware";
 
-    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
-    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    neovim-nightly.inputs.flake-utils.follows = "flake-utils";
+    neovim = {
+      url = "github:neovim/neovim?dir=contrib";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.flake-utils.follows = "flake-utils";
+    };
 
     polar-dwm = {
       url = "github:polarmutex/dwm";
@@ -43,7 +45,7 @@
     , nixpkgs-unstable
     , home-manager
     , deploy-rs
-    , neovim-nightly
+    , neovim
     , polar-dwm
     , polar-st
     , polar-dmenu
@@ -55,12 +57,12 @@
       lib = import ./lib;
 
       allPkgs = lib.mkPkgs {
-        inherit nixpkgs;
+        inherit nixpkgs-stable;
         cfg = {
           allowUnfree = true;
         };
         overlays = [
-          neovim-flake.overlay
+          neovim.overlay
           (lib.mkOverlays {
             inherit allPkgs;
             overlayFunc = s: p: (top: last: {
@@ -140,8 +142,13 @@
       };
       devShell = pkgs.mkShell {
         nativeBuildInputs = with pkgs; [
-          morph
-          terraform_0_14
+          nixFlakes
+          nixfmt
+          nixpkgs-fmt
+          statix
+          rnix-lsp
+          deploy-rs
+          deploy-rs.defaultPackage.x86_64-linux
         ];
       };
     }));

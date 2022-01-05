@@ -2,7 +2,7 @@
 with lib;
 let
   cfg = config.polar.services.vikunja;
-  domain = config.networking.domain;
+  inherit (config.networking) domain;
   port = 5001;
 in
 {

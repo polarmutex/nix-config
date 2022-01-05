@@ -2,7 +2,7 @@
 with lib;
 let
   cfg = config.polar.services.miniflux;
-  domain = config.networking.domain;
+  inherit (config.networking) domain;
 in
 {
 
