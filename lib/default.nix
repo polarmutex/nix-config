@@ -5,10 +5,6 @@
 with builtins;
 rec {
   defaultSystems = [
-    "aarch64-linux"
-    "aarch64-darwin"
-    "i686-linux"
-    "x86_64-darwin"
     "x86_64-linux"
   ];
 
@@ -94,43 +90,29 @@ rec {
     { }
     systems;
 
-  mkNixOS = { name, nixpkgs, allPkgs, system, modules ? [ ../modules ], cfg ? { }, ... }:
+  mkNixOS = { hostname, nixpkgs, allPkgs, system, ... }:
     let
       pkgs = allPkgs."${system}";
-      secrets = LoadRepoSecrets ../.secrets;
     in
-    nixpkgs.lib.nixosSystem {
-      inherit system;
+    nixpkgs.lib.nixosSystem
+      {
+        inherit system;
 
-      modules = [
-        cfg
-        {
-          imports = modules;
-
-          sys.security.secrets = secrets;
-
-          nixpkgs.pkgs = pkgs;
-          system.stateVersion = "20.09";
-          networking.hostName = "${name}";
-        }
-      ];
-    };
-  mkNixos = { hostname, system, nixpkgs, users }:
-    nixpkgs-stable.lib.nixosSystem {
-      inherit system;
-      modules = [
-        "./hosts/${hostname}/configuration.nix"
-        "./hosts/${hostname}/hardware-configuration.nix"
-
-        {
-          nixpkgs = {
-            inherit pkgs;
-          };
-          system.configurationRevision = inputs.self.rev or "dirty";
-        }
-
-      ] ++ getRecursiveNixFileList (./modules/nixos);
-    };
+        modules = [
+          (./.. + "/hosts/${hostname}/configuration.nix")
+          (./.. + "/hosts/${hostname}/hardware-configuration.nix")
+          {
+            custom.base.general.hostname = hostname;
+            nixpkgs.pkgs = pkgs;
+            #TODO system.configurationRevision = inputs.self.rev or "dirty";
+          }
+        ] ++ getFileList {
+          recursive = true;
+          isValidFile = nixpkgs.lib.hasSuffix ".nix";
+          path = ../modules/nixos;
+          inherit nixpkgs;
+        };
+      };
 
   mkHome = { username, system, hostname }:
     home-manager.lib.homeManagerConfiguration {
@@ -141,7 +123,7 @@ rec {
       extraModules = homeModules;
     };
 
-  getFileList = { recursive, isValidFile, path }:
+  getFileList = { recursive, isValidFile, path, nixpkgs }:
     let
       contents = readDir path;
 
@@ -153,7 +135,14 @@ rec {
           if type == "directory"
           then
             if recursive
-            then getFileList true isValidFile newPath
+            then
+              getFileList
+                {
+                  recursive = true;
+                  inherit isValidFile;
+                  path = newPath;
+                  inherit nixpkgs;
+                }
             else [ ]
           else nixpkgs.lib.optional (isValidFile newPath) newPath
         )

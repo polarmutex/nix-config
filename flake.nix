@@ -56,15 +56,14 @@
 
       lib = import ./lib;
 
-      allPkgs = lib.mkPkgs {
-        inherit nixpkgs-stable;
+      allPkgs-stable = lib.mkPkgs {
+        nixpkgs = nixpkgs-stable;
         cfg = {
           allowUnfree = true;
         };
         overlays = [
-          neovim.overlay
           (lib.mkOverlays {
-            inherit allPkgs;
+            allPkgs = allPkgs-stable;
             overlayFunc = s: p: (top: last: {
               polar = import ./pkgs { pkgs = p; };
             });
@@ -72,11 +71,27 @@
         ];
       };
 
+      allPkgs-unstable = lib.mkPkgs
+        {
+          nixpkgs = nixpkgs-unstable;
+          cfg = {
+            allowUnfree = true;
+          };
+          overlays = [
+            neovim.overlay
+            deploy-rs.overlay
+            (lib.mkOverlays {
+              allPkgs = allPkgs-unstable;
+              overlayFunc = s: p: (top: last: {
+                polar = import ./pkgs { pkgs = p; };
+              });
+            })
+          ];
+        };
+
 
     in
     {
-      # Executed by `nix flake check`
-      #checks."<system>"."<name>" = derivation;
 
       # Used with `nixos-rebuild --flake .#<hostname>`
       nixosConfigurations = {
@@ -85,40 +100,32 @@
         #  nixpkgs = nixpkgs-stable;
         #  users = [ ];
         #};
-        #blackbear = mkSystem {
-        #  hostname = "blackbear";
-        #  nixpkgs = nixpkgs-stable;
-        #  users = [ "polar" ];
-        #};
+        blackbear = lib.mkNixOS {
+          hostname = "blackbear";
+          system = "x86_64-linux";
+          nixpkgs = nixpkgs-stable;
+          allPkgs = allPkgs-stable;
+        };
       };
 
 
       # Hydra build jobs
       #hydraJobs."<attr>"."<system>" = derivation;
 
-      # Used by `nix flake init -t <flake>`
-      #defaultTemplate = {
-      #  path = "<store-path>";
-      #  description = "template description goes here?";
-      #};
-
-      # Used by `nix flake init -t <flake>#<name>`
-      #templates."<name>" = { path = "<store-path>"; description = ""; };
-
       deploy.nodes = {
-        #blackbear = {
-        #  sshOpts = [ "-p" "22" ];
-        #  hostname = "blackbear";
-        #  fastConnection = true;
-        #  profiles = {
-        #    system = {
-        #      sshUser = "root";
-        #      path =
-        #        deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.blackbear;
-        #      user = "root";
-        #    };
-        #  };
-        #};
+        blackbear = {
+          sshOpts = [ "-p" "22" ];
+          hostname = "blackbear";
+          fastConnection = true;
+          profiles = {
+            system = {
+              sshUser = "root";
+              path =
+                deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.blackbear;
+              user = "root";
+            };
+          };
+        };
       };
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
@@ -128,6 +135,8 @@
       pkgs = nixpkgs-stable.legacyPackages."${system}";
     in
     {
+      # Executed by `nix flake check`
+      #checks."<system>"."<name>" = derivation;
       checks = {
         statix = pkgs.runCommand "statix" { } ''
           ${pkgs.statix}/bin/statix check ${./.} --format errfmt | tee output
