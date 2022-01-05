@@ -3,7 +3,7 @@ with lib;
 let
   cfg = config.polar.services.gitea;
   cfg_gitea = config.services.gitea;
-  domain = config.networking.domain;
+  inherit (config.networking) domain;
 in
 {
 
@@ -29,7 +29,7 @@ in
       group = "git";
       isSystemUser = true;
     };
-    users.groups.git = {};
+    users.groups.git = { };
 
     services.gitea = {
       enable = true;

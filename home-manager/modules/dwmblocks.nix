@@ -1,6 +1,6 @@
 { pkgs, config, lib, ... }:
 let
-  runtimeShell = pkgs.runtimeShell;
+  inherit (pkgs) runtimeShell;
   scripts = import ./dwmblocks-scripts.nix { inherit pkgs; };
 in
 {

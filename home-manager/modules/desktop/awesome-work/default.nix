@@ -1,6 +1,6 @@
 { pkgs, config, lib, overlays, ... }:
 let
-  utils = import ../../utils.nix { config = config; };
+  utils = import ../../utils.nix { inherit config; };
 
 in
 {
@@ -18,8 +18,8 @@ in
 
   xsession = {
     enable = true;
-    windowManager= {
-        command = "awesome";
+    windowManager = {
+      command = "awesome";
     };
     initExtra = ''
       feh --bg-fill --random ~/.config/wallpapers/* &

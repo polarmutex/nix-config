@@ -1,7 +1,7 @@
 { pkgs, config, lib, overlays, ... }:
 {
 
-  imports = [];
+  imports = [ ];
 
   home.packages = with pkgs; [
     my.dwm

@@ -4,9 +4,9 @@
     deploy-rs.overlay
     neovim-nightly.overlay
     (final: prev: {
-      dwm = polar-dwm.packages.${system}.dwm;
-      st = polar-st.packages.${system}.st;
-      dmenu = polar-dmenu.packages.${system}.dmenu;
+      inherit (polar-dwm.packages."${system}") dwm;
+      inherit (polar-st.packages."${system}") st;
+      inherit (polar-dmenu.packages."${system}") dmenu;
       inherit myPkgs;
     })
     nur.overlay

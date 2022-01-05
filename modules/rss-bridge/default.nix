@@ -2,7 +2,7 @@
 with lib;
 let
   cfg = config.polar.services.rss-bridge;
-  domain = config.networking.domain;
+  inherit (config.networking) domain;
 in
 {
 

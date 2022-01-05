@@ -1,7 +1,7 @@
 { config, lib, ... }:
 let
   cfg = config.polar.services.blog;
-  domain = config.networking.domain;
+  inherit (config.networking) domain;
 
   makeHostInfo = name: {
     name = "${name}.${domain}";

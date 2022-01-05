@@ -32,9 +32,7 @@ with lib;
     }
   '';
 
-  home.activation.gpgtrust = hm.dag.entryAfter [ "LinkGeneration" ] (
-    ''
-      gpg --import ~/.gnupg/public.key
-    ''
-  );
+  home.activation.gpgtrust = hm.dag.entryAfter [ "LinkGeneration" ] ''
+    gpg --import ~/.gnupg/public.key
+  '';
 }
