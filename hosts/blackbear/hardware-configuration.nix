@@ -16,10 +16,8 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
-  boot.kernelPackages = pkgs.linuxPackages;
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  #boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = pkgs.linuxKernel.packageAliases.linux_latest;
 
   fileSystems."/" =
     {
