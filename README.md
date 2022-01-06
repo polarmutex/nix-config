@@ -7,3 +7,4 @@ Took inspiration from the following:
 - [DieracDelta](https://github.com/DieracDelta/flakes)
 - [Gerschtli](https://github.com/Gerschtli/nix-config)
 - [Misterio77](https://github.com/Misterio77/nix-config)
+- [davidtwco](https://github.com/davidtwco/veritas)

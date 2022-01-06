@@ -1,16 +1,15 @@
-{ self, ... }:
-{ pkgs, ... }: {
-
+{ pkgs, ... }:
+{
   imports = [ ./hardware-configuration.nix ];
 
-  custom = {
-    #base.desktop = {
-    #  enable = false;
-    #  laptop = false;
-    #};
 
-    base.server = {
-      enable = false;
+  custom = {
+
+    base.general.hostname = "blackbear";
+
+    base.desktop = {
+      enable = true;
+      laptop = false;
     };
 
     system = {
