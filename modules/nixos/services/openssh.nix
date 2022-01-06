@@ -30,20 +30,25 @@ in
     services.openssh = {
       inherit (cfg) forwardX11;
       enable = true;
-      openFirewall = true;
+      #openFirewall = true;
       permitRootLogin = "yes"; #mkIf (!cfg.rootLogin) "no";
       passwordAuthentication = true; #TODOfalse;
-      extraConfig = "MaxAuthTries 3";
+      #extraConfig = "MaxAuthTries 3";
     };
 
     users.users = {
-      #root.openssh.authorizedKeys.keyFiles = mkIf cfg.rootLogin [
-      #  (rootPath + "/files/keys/id_rsa.tobias.pub")
-      #];
-
-      #polar.openssh.authorizedKeys.keyFiles = [
-      #  (rootPath + "/files/keys/id_rsa.tobias.pub")
-      #];
+      root.openssh.authorizedKeys.keyFiles = [
+        (builtins.fetchurl {
+          url = "https://github.com/polarmutex.keys";
+          sha256 = "sha256:01vg72kgaw8scgmfif1sm9wnzq3iis834gn8axhpwl2czxcfysl9";
+        })
+      ];
+      polar.openssh.authorizedKeys.keyFiles = [
+        (builtins.fetchurl {
+          url = "https://github.com/polarmutex.keys";
+          sha256 = "sha256:01vg72kgaw8scgmfif1sm9wnzq3iis834gn8axhpwl2czxcfysl9";
+        })
+      ];
     };
 
   };

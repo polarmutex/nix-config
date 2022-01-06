@@ -29,7 +29,7 @@ in
 
   config = mkIf cfg.enable {
 
-    custom.services.openssh.enable = true;
+    custom.services.openss.enable = true;
 
     #networking = mkIf (cfg.ipv6Address != null) {
     #  defaultGateway6 = {
