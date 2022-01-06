@@ -1,5 +1,7 @@
-{ config, lib, pkgs, ... }:
-{
+{ self, ... }:
+{ pkgs, ... }: {
+
+  imports = [ ./hardware-configuration.nix ];
 
   custom = {
     #base.desktop = {
