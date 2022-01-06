@@ -57,60 +57,134 @@
     { self, ... }@inputs:
       with inputs;
       let
+        getFileList = recursive: isValidFile: path:
+          let
+            contents = builtins.readDir path;
+
+            list = nixpkgs.lib.mapAttrsToList
+              (name: type:
+                let
+                  newPath = path + ("/" + name);
+                in
+                if type == "directory"
+                then
+                  if recursive
+                  then getFileList true isValidFile newPath
+                  else [ ]
+                else nixpkgs.lib.optional (isValidFile newPath) newPath
+              )
+              contents;
+          in
+          nixpkgs.lib.flatten list;
+
+        overlay = import ./overlays inputs;
+
+        nixosModules = getFileList true (nixpkgs.lib.hasSuffix ".nix") ./modules/nixos;
+
+        hmModules = getFileList true (nixpkgs.lib.hasSuffix ".nix") ./modules/home-manager;
 
         # function to create default system config
         mkNixOS = baseCfg:
-          nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
+          nixpkgs.lib.nixosSystem
+            {
+              system = "x86_64-linux";
+              modules = [
 
-              # Make inputs and overlay accessible as module parameters
-              #{ _module.args.inputs = inputs; }
-              #{ _module.args.self-overlay = self.overlay; }
+                # Make inputs and overlay accessible as module parameters
+                #{ _module.args.inputs = inputs; }
+                #{ _module.args.self-overlay = self.overlay; }
 
-              ({ ... }: {
-                imports = [
-                  {
-                    # Set the $NIX_PATH entry for nixpkgs. This is necessary in
-                    # this setup with flakes, otherwise commands like `nix-shell
-                    # -p pkgs.htop` will keep using an old version of nixpkgs.
-                    # With this entry in $NIX_PATH it is possible (and
-                    # recommended) to remove the `nixos` channel for both users
-                    # and root e.g. `nix-channel --remove nixos`. `nix-channel
-                    # --list` should be empty for all users afterwards
-                    nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-                    nixpkgs.overlays = [
-                      self.overlay
-                      nur.overlay
+                (_: {
+                  imports = nixosModules ++ [
+                    {
+                      # Set the $NIX_PATH entry for nixpkgs. This is necessary in
+                      # this setup with flakes, otherwise commands like `nix-shell
+                      # -p pkgs.htop` will keep using an old version of nixpkgs.
+                      # With this entry in $NIX_PATH it is possible (and
+                      # recommended) to remove the `nixos` channel for both users
+                      # and root e.g. `nix-channel --remove nixos`. `nix-channel
+                      # --list` should be empty for all users afterwards
+                      nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+                      nixpkgs.overlays = [
+                        overlay
+                        neovim.overlay
+                        nur.overlay
+                        polar-dwm.overlay
+                        polar-st.overlay
+                        polar-dmenu.overlay
+                      ];
+                      nixpkgs.config.allowUnfree = true;
+
+                      # DON'T set useGlobalPackages! It's not necessary in newer
+                      # home-manager versions and does not work with configs using
+                      # nixpkgs.config`
+                      # TODO
+                      home-manager.useUserPackages = true;
+                    }
+                    baseCfg
+                    home-manager.nixosModules.home-manager
+                  ];
+
+                  # Let 'nixos-version --json' know the Git revision of this flake.
+                  system.configurationRevision =
+                    nixpkgs.lib.mkIf (self ? rev) self.rev;
+                  nix.registry.nixpkgs.flake = nixpkgs;
+                  nix.registry.pinpox.flake = self;
+                })
+              ];
+            };
+
+        # function to create default system config
+        mkHomeManager = { username, system, config_file ? "/users/home-${username}.nix", ... }:
+          builtins.trace hmModules
+            home-manager.lib.homeManagerConfiguration
+            {
+              system = "x86_64-linux";
+              configuration = "${config_file}";
+              username = "${username}";
+              homeDirectory = "/home/${username}";
+              extraModules = hmModules ++ [
+                { _module.args.inputs = inputs; }
+                #{ _module.args.self-overlay = self.overlay; }
+                {
+                  nixpkgs = {
+                    overlays = [
+                      overlay
                       neovim.overlay
+                      nur.overlay
                     ];
+                    config.allowUnfree = true;
+                  };
+                }
+              ];
+              #extraModules = hmModules ++ [
+              #  {
+              #    # Set the $NIX_PATH entry for nixpkgs. This is necessary in
+              #    # this setup with flakes, otherwise commands like `nix-shell
+              #    # -p pkgs.htop` will keep using an old version of nixpkgs.
+              #    # With this entry in $NIX_PATH it is possible (and
+              #    # recommended) to remove the `nixos` channel for both users
+              #    # and root e.g. `nix-channel --remove nixos`. `nix-channel
+              #    # --list` should be empty for all users afterwards
+              #    nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+              #    nixpkgs.overlays = [
+              #      overlay
+              #      neovim.overlay
+              #      nur.overlay
+              #    ];
 
-                    # DON'T set useGlobalPackages! It's not necessary in newer
-                    # home-manager versions and does not work with configs using
-                    # nixpkgs.config`
-                    home-manager.useUserPackages = true;
-                  }
-                  baseCfg
-                  home-manager.nixosModules.home-manager
-                  (import ./modules/nixos)
-                ];
-
-                # Let 'nixos-version --json' know the Git revision of this flake.
-                system.configurationRevision =
-                  nixpkgs.lib.mkIf (self ? rev) self.rev;
-                nix.registry.nixpkgs.flake = nixpkgs;
-                nix.registry.pinpox.flake = self;
-              })
-            ];
-          };
+              #    # DON'T set useGlobalPackages! It's not necessary in newer
+              #    # home-manager versions and does not work with configs using
+              #    # nixpkgs.config`
+              #    # TODO
+              #    home-manager.useUserPackages = true;
+              #  }
+              #  home-manager.nixosModules.home-manager
+              #];
+            };
 
       in
       {
-        # Expose overlay to flake outputs, to allow using it from other flakes.
-        # Flake inputs are passed to the overlay so that the packages defined in
-        # it can use the sources pinned in flake.lock
-        overlay = final: prev: (import ./overlays inputs) final prev;
-
         # Each subdirectory in ./hosts is a host. Add them all to
         # nixosConfiguratons. Host configurations need a file called
         # configuration.nix that will be read first
@@ -120,11 +194,19 @@
             name = x;
             value = mkNixOS {
               imports = [
-                (import (./hosts + "/${x}/configuration.nix") { inherit self; })
+                (./hosts + "/${x}/configuration.nix")
               ];
             };
           })
           (builtins.attrNames (builtins.readDir ./hosts)));
+
+        homeManagerConfigurations = {
+          polar = mkHomeManager {
+            system = "x86_64-linux";
+            username = "polar";
+            config_file = ./users/home-polar.nix;
+          };
+        };
 
         # Hydra build jobs
         #hydraJobs."<attr>"."<system>" = derivation;
@@ -148,6 +230,12 @@
                 path =
                   deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.blackbear;
                 user = "root";
+              };
+              user = {
+                sshUser = "polar";
+                path =
+                  deploy-rs.lib.x86_64-linux.activate.home-manager self.homeManagerConfigurations.polar;
+                user = "polar";
               };
             };
           };

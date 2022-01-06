@@ -26,13 +26,30 @@ in
 
     boot.cleanTmpDir = true;
 
-    #console.keyMap = "de";
-
-    #custom.system.firewall.enable = true;
-
     environment = {
-      defaultPackages = [ ];
-      shellAliases = mkForce { };
+      systemPackages = with pkgs; [
+        binutils
+        coreutils
+        curl
+        direnv
+        dnsutils
+        fd
+        git
+        git-crypt
+        gnumake
+        gnupg
+        htop
+        moreutils
+        neovim
+        nix-index
+        nmap
+        ripgrep
+        rsync
+        wget
+        whois
+        usbutils
+        utillinux
+      ];
     };
 
     networking = {
@@ -41,14 +58,28 @@ in
     };
 
     nix = {
+      autoOptimiseStore = true;
       binaryCaches = [
         "https://cache.nixos.org"
-        #"https://gerschtli.cachix.org"
       ];
       binaryCachePublicKeys = mkForce [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        #  "gerschtli.cachix.org-1:dWJ/WiIA3W2tTornS/2agax+OI0yQF8ZA2SFjU56vZ0="
       ];
+
+      gc = {
+        automatic = true;
+        dates = "hourly";
+        options = "--delete-older-than 7d";
+      };
+
+      optimise = {
+        automatic = true;
+        dates = [ "daily" ];
+      };
+
+      daemonCPUSchedPolicy = lib.mkDefault "idle";
+      daemonIOSchedPriority = lib.mkDefault 7;
+
       trustedUsers = [ "root" "polar" ];
 
       # TODO  what is difference between this and nixFlakes
@@ -57,6 +88,24 @@ in
       extraOptions = ''
         experimental-features = nix-command flakes
       '';
+    };
+
+    security = {
+      #protectKernelImage = lib.mkDefault true;
+      # TODO find a way to disable this
+      sudo.enable = true;
+      doas = {
+        enable = true;
+        wheelNeedsPassword = false;
+        extraRules = [
+          {
+            users = [ "polar" ];
+            noPass = true;
+            cmd = "nix-collect-garbage";
+            runAs = "root";
+          }
+        ];
+      };
     };
 
     programs.zsh = {
@@ -69,12 +118,15 @@ in
 
     time.timeZone = "America/New_York";
 
+    i18n = {
+      defaultLocale = "en_US.UTF-8";
+    };
+
     users.users = {
       root.shell = pkgs.zsh;
 
       polar = {
-        # FIXME: move mkIf to ids module
-        uid = 1000; #mkIf config.custom.ids.enable config.custom.ids.uids.tobias;
+        uid = 1000;
         extraGroups = [ "wheel" ];
         isNormalUser = true;
         shell = pkgs.zsh;

@@ -26,7 +26,11 @@ polarbear:
 	sudo nixos-rebuild switch --flake .#polarbear
 
 blackbear:
-	deploy ".#blackbear" --ssh-user "root"  --hostname 10.11.11.147
+	deploy ".#blackbear" --ssh-user "root"  --hostname 10.11.11.145
+blackbear-user:
+	deploy ".#blackbear.user" --ssh-user "root"  --hostname 10.11.11.145
+blackbear-system:
+	deploy ".#blackbear.system" --ssh-user "root"  --hostname 10.11.11.145
 
 polar-hm:
 	nix build .#homeConfigurations."polar@polarbear".activationPackage && result/activate && unlink result
