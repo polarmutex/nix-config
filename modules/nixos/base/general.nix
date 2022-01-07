@@ -34,6 +34,7 @@ in
         direnv
         dnsutils
         fd
+        gh
         git
         git-crypt
         gnumake
@@ -45,6 +46,7 @@ in
         nmap
         ripgrep
         rsync
+        tmux
         wget
         whois
         usbutils

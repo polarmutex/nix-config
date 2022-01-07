@@ -18,6 +18,8 @@ in
       enableXserver = mkEnableOption "xserver config" // { default = true; };
 
       laptop = mkEnableOption "services and config for battery, network, backlight";
+
+      hidpi = mkEnableOption "hi dpi monitor" // { default = false; };
     };
 
   };
@@ -42,6 +44,7 @@ in
         ntfs3g
         st
         dmenu
+        arandr
       ];
 
       fonts = {
@@ -112,6 +115,12 @@ in
         users.users.polar.extraGroups = [ "networkmanager" "video" ];
       }
     )
+
+    (mkIf cfg.hidpi
+      {
+        hardware.video.hidpi.enable = lib.mkDefault true;
+        services.xserver.dpi = 163;
+      })
 
   ]);
 
