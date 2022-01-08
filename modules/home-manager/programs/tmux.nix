@@ -1,4 +1,5 @@
 { pkgs, config, lib, ... }:
+with lib;
 let
   tmux_sessionizer = pkgs.writeScriptBin "tmux-sessionizer" ''
     #!/usr/bin/env bash
@@ -30,23 +31,40 @@ let
         tmux switch-client -t $selected_name
     fi
   '';
+  cfg = config.polar.programs.tmux;
 in
 {
-  programs.tmux = {
-    enable = true;
-    terminal = "tmux-256color";
-    escapeTime = 0;
-    aggressiveResize = true;
-    keyMode = "vi";
-    shortcut = "a";
-    baseIndex = 1;
+  ###### interface
+  options = {
 
-    extraConfig = ''
-      setw -g mouse on
-    '';
+    polar.programs.tmux = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable tmux";
+      };
+    };
   };
 
-  home.packages = with pkgs; [
-    tmux_sessionizer
-  ];
+  ###### implementation
+
+  config = mkIf cfg.enable {
+    programs.tmux = {
+      enable = true;
+      terminal = "tmux-256color";
+      escapeTime = 0;
+      aggressiveResize = true;
+      keyMode = "vi";
+      shortcut = "a";
+      baseIndex = 1;
+
+      extraConfig = ''
+        setw -g mouse on
+      '';
+    };
+
+    home.packages = with pkgs; [
+      tmux_sessionizer
+    ];
+  };
 }
