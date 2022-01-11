@@ -6,4 +6,5 @@ let
 in
 self: super: {
   monolisa-font = super.callPackage ../pkgs/monolisa-font { };
+  fathom = super.callPackage ../pkgs/fathom { };
 }

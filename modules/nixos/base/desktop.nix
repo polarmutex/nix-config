@@ -3,7 +3,7 @@
 with lib;
 
 let
-  cfg = config.custom.base.desktop;
+  cfg = config.polar.base.desktop;
 in
 
 {
@@ -12,7 +12,7 @@ in
 
   options = {
 
-    custom.base.desktop = {
+    polar.base.desktop = {
       enable = mkEnableOption "basic desktop config";
 
       enableXserver = mkEnableOption "xserver config" // { default = true; };
@@ -61,7 +61,7 @@ in
 
 
       services.blueman.enable = true;
-      custom.services.openssh.enable = true;
+      polar.services.openssh.enable = true;
 
       services.xserver = mkIf cfg.enableXserver {
         enable = true;

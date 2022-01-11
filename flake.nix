@@ -239,6 +239,20 @@
               };
             };
           };
+          polarvortex = {
+            sshOpts = [ "-p" "22" ];
+            hostname = "polarvortex";
+            fastConnection = true;
+            profiles = {
+              system = {
+                sshUser = "root";
+                path =
+                  deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
+                user = "root";
+              };
+            };
+          };
+
         };
         checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 

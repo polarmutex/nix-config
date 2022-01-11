@@ -2,14 +2,14 @@
 
 with lib;
 let
-  cfg = config.custom.base.general;
+  cfg = config.polar.base.general;
 in
 {
 
   ###### interface
   options = {
 
-    custom.base.general = {
+    polar.base.general = {
       enable = mkEnableOption "basic config" // { default = true; };
 
       hostname = mkOption {
