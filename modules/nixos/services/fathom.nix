@@ -40,11 +40,13 @@ in
         Restart = "on-failure";
         RestartSec = 3;
         WorkingDirectory = "/var/lib/fathom";
-        ExecStart = "${pkgs.my.fathom}/bin/fathom --config=/etc/fathom.env server";
+        ExecStart = "${pkgs.fathom}/bin/fathom --config=/etc/fathom.env server";
       };
     };
 
-    environment.systemPackages = with pkgs; [ my.fathom ];
+    environment.systemPackages = with pkgs; [
+      fathom
+    ];
 
     environment.etc = {
       # Creates /etc/nanorc

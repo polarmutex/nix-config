@@ -3,7 +3,7 @@
 with lib;
 
 let
-  cfg = config.custom.services.openssh;
+  cfg = config.polar.services.openssh;
 in
 
 {
@@ -12,7 +12,7 @@ in
 
   options = {
 
-    custom.services.openssh = {
+    polar.services.openssh = {
       enable = mkEnableOption "openssh";
 
       rootLogin = mkEnableOption "root login via pubkey";

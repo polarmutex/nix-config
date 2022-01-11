@@ -3,7 +3,7 @@
 with lib;
 
 let
-  cfg = config.custom.base.server;
+  cfg = config.polar.base.server;
 in
 
 {
@@ -12,7 +12,7 @@ in
 
   options = {
 
-    custom.base.server = {
+    polar.base.server = {
       enable = mkEnableOption "basic server config";
 
       ipv6Address = mkOption {
@@ -29,7 +29,7 @@ in
 
   config = mkIf cfg.enable {
 
-    custom.services.openssh.enable = true;
+    polar.services.openssh.enable = true;
 
     #networking = mkIf (cfg.ipv6Address != null) {
     #  defaultGateway6 = {
@@ -44,19 +44,6 @@ in
     #    }
     #  ];
     #};
-
-    nix = {
-      gc = {
-        automatic = true;
-        dates = "Mon *-*-* 00:00:00";
-        options = "--delete-older-than 14d";
-      };
-
-      optimise = {
-        automatic = true;
-        dates = [ "Mon *-*-* 01:00:00" ];
-      };
-    };
 
     services.journald.extraConfig = ''
       SystemMaxUse=2G

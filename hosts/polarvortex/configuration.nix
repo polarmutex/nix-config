@@ -3,9 +3,16 @@
 
   imports = [ ./hardware-configuration.nix ];
 
-  polar.server = {
-    enable = true;
-    hostname = "polarvortex";
+  polar = {
+    base.general.hostname = "polarvortex";
+
+    base.server = {
+      enable = true;
+    };
+
+    system = {
+      boot.mode = "linode";
+    };
   };
 
   polar.services = {
@@ -14,9 +21,10 @@
     ssmtp.enable = true;
     blog.enable = true;
     fathom.enable = true;
-    rss-bridge.enable = true;
-    vikunja.enable = true;
+    #rss-bridge.enable = true;
   };
+
+
 
   nix.autoOptimiseStore = true;
 

@@ -3,7 +3,7 @@
   imports = [ ./hardware-configuration.nix ];
 
 
-  custom = {
+  polar = {
 
     base.general.hostname = "blackbear";
 
