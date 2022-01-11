@@ -254,7 +254,7 @@
           };
 
         };
-        checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+        #checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
       }
       // (inputs.flake-utils.lib.eachDefaultSystem (system:
@@ -275,7 +275,7 @@
             ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt --check ${./.}/**/*.nix
             touch $out
           '';
-        };
+        } // (deploy-rs.lib."${system}".deployChecks self.deploy);
         devShell = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             nixFlakes
