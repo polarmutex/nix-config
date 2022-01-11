@@ -4,12 +4,6 @@
   inputs = {
     # Stable NixOS nixpkgs package set; pinned to the 21.11 release.
     nixpkgs = {
-      url = "nixpkgs/nixos-21.11";
-    };
-    # Try to pull new/updated packages from 'unstable' whenever possible, as
-    # these will likely have cached results from the last successful Hydra
-    # jobset.
-    nixpkgs-unstable = {
       url = "nixpkgs/nixos-unstable";
     };
 
@@ -24,7 +18,7 @@
     };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nur.url = "github:nix-community/NUR";
@@ -32,7 +26,7 @@
 
     neovim = {
       url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
 
@@ -48,7 +42,7 @@
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };
@@ -157,30 +151,6 @@
                   };
                 }
               ];
-              #extraModules = hmModules ++ [
-              #  {
-              #    # Set the $NIX_PATH entry for nixpkgs. This is necessary in
-              #    # this setup with flakes, otherwise commands like `nix-shell
-              #    # -p pkgs.htop` will keep using an old version of nixpkgs.
-              #    # With this entry in $NIX_PATH it is possible (and
-              #    # recommended) to remove the `nixos` channel for both users
-              #    # and root e.g. `nix-channel --remove nixos`. `nix-channel
-              #    # --list` should be empty for all users afterwards
-              #    nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-              #    nixpkgs.overlays = [
-              #      overlay
-              #      neovim.overlay
-              #      nur.overlay
-              #    ];
-
-              #    # DON'T set useGlobalPackages! It's not necessary in newer
-              #    # home-manager versions and does not work with configs using
-              #    # nixpkgs.config`
-              #    # TODO
-              #    home-manager.useUserPackages = true;
-              #  }
-              #  home-manager.nixosModules.home-manager
-              #];
             };
 
       in
