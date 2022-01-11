@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
 with lib;
 let
   cfg = config.polar.fonts;
