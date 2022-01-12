@@ -31,7 +31,7 @@ in
       inherit (cfg) forwardX11;
       enable = true;
       #openFirewall = true;
-      permitRootLogin = "yes"; #mkIf (!cfg.rootLogin) "no";
+      permitRootLogin = "no"; #mkIf (!cfg.rootLogin) "no";
       passwordAuthentication = true; #TODOfalse;
       #extraConfig = "MaxAuthTries 3";
     };

@@ -16,6 +16,9 @@ in
         type = types.enum [ "polarbear" "blackbear" "polarvortex" ];
         description = "Host name.";
       };
+
+      doas_persist = mkEnableOption "doas persist" // { default = true; };
+
     };
 
   };
@@ -94,19 +97,27 @@ in
 
     security = {
       #protectKernelImage = lib.mkDefault true;
-      # TODO find a way to disable this
-      sudo.enable = true;
+      sudo.enable = false;
       doas = {
         enable = true;
         wheelNeedsPassword = false;
         extraRules = [
           {
+            groups = [ "wheel" ];
+            persist = true;
+          }
+          {
             users = [ "polar" ];
             noPass = true;
-            cmd = "nix-collect-garbage";
             runAs = "root";
           }
         ];
+      };
+      wrappers.sudo = {
+        setuid = true;
+        owner = "root";
+        group = "root";
+        source = "${pkgs.doas}/bin/doas";
       };
     };
 
