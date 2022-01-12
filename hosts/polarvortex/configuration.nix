@@ -34,7 +34,7 @@
   networking.domain = "brianryall.xyz";
 
   security.acme.acceptTerms = true;
-  security.acme.email = "brian+letsencrypt@brianryall.xyz";
+  security.acme.defaults.email = "brian+letsencrypt@brianryall.xyz";
 
   # Block anything that is not HTTP(s) or SSH.
   # need ssh to be open for git server
