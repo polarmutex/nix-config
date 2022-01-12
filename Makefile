@@ -30,7 +30,7 @@ blackbear:
 blackbear-user:
 	deploy ".#blackbear.user" --ssh-user "root"  --hostname 10.11.11.145
 blackbear-system:
-	deploy ".#blackbear.system" --ssh-user "root"  --hostname 10.11.11.145
+	deploy ".#blackbear.system" --ssh-user "polar" --hostname 10.11.11.145
 
 polarvortex:
 	deploy ".#polarvortex" --ssh-user "root"  --hostname brianryall.xyz
