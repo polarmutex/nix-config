@@ -74,8 +74,8 @@
         overlay = import ./overlays inputs;
 
         hmModules = [
-          ./home_manager/home.nix
-        ];#getFileList true (nixpkgs.lib.hasSuffix ".nix") ./modules/home-manager;
+          ./users/home.nix
+        ];
 
         nixosModules = hostname: [
           sops-nix.nixosModules.sops
@@ -88,7 +88,7 @@
               imports = [
                 { _module.args.inputs = inputs; }
                 (./. + "/hosts/${hostname}/hm.nix")
-              ]; # ++ hmModules;
+              ] ++ hmModules;
             };
           }
         ] ++ getFileList true (nixpkgs.lib.hasSuffix ".nix") ./modules/nixos;
