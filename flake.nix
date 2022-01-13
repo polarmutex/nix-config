@@ -113,8 +113,7 @@
 
         # function to create default system config
         mkNixOS = hostname:
-          builtins.trace hostname
-            nixpkgs.lib.nixosSystem
+          nixpkgs.lib.nixosSystem
             {
               system = "x86_64-linux";
 
@@ -143,8 +142,7 @@
 
         # function to create default system config
         mkHomeManager = { username, system, config_file ? "/users/home-${username}.nix", ... }:
-          builtins.trace hmModules
-            home-manager.lib.homeManagerConfiguration
+          home-manager.lib.homeManagerConfiguration
             {
               system = "x86_64-linux";
               configuration = "${config_file}";
@@ -221,7 +219,7 @@
           polarvortex = {
             sshOpts = [ "-p" "22" ];
             hostname = "polarvortex";
-            fastConnection = true;
+            fastConnection = false;
             profiles = {
               system = {
                 sshUser = "root";
