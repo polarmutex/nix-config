@@ -29,7 +29,7 @@ blackbear:
 	deploy ".#blackbear" -d --ssh-user "polar"  --hostname 10.11.11.145
 
 polarvortex:
-	deploy ".#polarvortex" --ssh-user "root"  --hostname brianryall.xyz
+	deploy ".#polarvortex" --ssh-user "polar"  --hostname brianryall.xyz
 
 polar-hm:
 	nix build .#homeConfigurations."polar@polarbear".activationPackage && result/activate && unlink result

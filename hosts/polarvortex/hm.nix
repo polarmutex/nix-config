@@ -1,10 +1,10 @@
 _:
 {
-  #polar = {
-  #  programs = {
-  #    zsh.enable = true;
-  #  };
-  #  services = { };
-  #};
+  polar = {
+    programs = {
+      zsh.enable = true;
+    };
+    services = { };
+  };
 
 }
