@@ -11,6 +11,7 @@
     services = {
       picom.enable = true;
       wallpapers.enable = true;
+      dunst.enable = true;
     };
   };
 
