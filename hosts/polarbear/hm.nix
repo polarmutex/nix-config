@@ -12,6 +12,7 @@
       picom.enable = true;
       wallpapers.enable = true;
       dunst.enable = true;
+      dwm-status.enable = true;
     };
   };
 
