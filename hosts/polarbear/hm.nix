@@ -49,6 +49,19 @@
     peek
   ];
 
+  services = {
+
+    # Applets, shown in tray
+    # Networking
+    network-manager-applet.enable = true;
+
+    # Bluetooth
+    blueman-applet.enable = true;
+
+    # Pulseaudio
+    pasystray.enable = true;
+  };
+
   # Environment variables
   # systemd.user.sessionVariables = { ZDOTDIR = "/home/polar/.config/zsh"; };
 
