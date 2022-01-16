@@ -1,11 +1,11 @@
 { config, pkgs, lib, ... }:
 with lib;
 let
-  cfg = config.polar.defaults.yubikey;
+  cfg = config.polar.system.yubikey;
 in
 {
 
-  options.polar.defaults.yubikey = {
+  options.polar.system.yubikey = {
     enable = mkEnableOption "yubikey defaults";
   };
   config = mkIf cfg.enable {

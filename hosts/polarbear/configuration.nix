@@ -13,6 +13,7 @@
 
     system = {
       boot.mode = "efi";
+      yubikey.enable = true;
     };
   };
 
