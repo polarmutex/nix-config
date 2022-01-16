@@ -254,6 +254,10 @@
         } // (deploy-rs.lib."${system}".deployChecks self.deploy);
 
         devShell = pkgs.mkShell {
+          sopsPGPKeyDirs = [
+            "./secrets/keys/hosts"
+            "./secrets/keys/users"
+          ];
           nativeBuildInputs = with pkgs; [
             nixFlakes
             nixfmt
@@ -262,7 +266,10 @@
             rnix-lsp
             deploy-rs
             deploy-rs.defaultPackage.x86_64-linux
+            sops
+            (callPackage sops-nix { }).sops-import-keys-hook
           ];
+          shellhook = "zsh";
         };
       }));
 }
