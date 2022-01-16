@@ -9,6 +9,7 @@
       zsh.enable = true;
     };
     services = {
+      gpg.enable = true;
       picom.enable = true;
       wallpapers.enable = true;
       dunst.enable = true;
@@ -32,6 +33,7 @@
     pavucontrol
     playerctl
     spotify
+    stacks
     xfce.exo # thunar "open terminal here"
     xfce.thunar
     xfce.thunar-archive-plugin
