@@ -33,19 +33,19 @@ stdenv.mkDerivation rec {
       # https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-lightweight-syntax-language-server
       config-path = if stdenv.isDarwin then "config_mac" else "config_linux";
     in
-      ''
-        JARs_dir=$out/share/plugins
-        # Copy files
-        install -Dm 444 -t $JARs_dir plugins/*.jar
-        install -Dm 444 -t $out/share/config ${config-path}/*
-        install -Dm 755 ${./jdt-ls-wrapper.sh} $out/bin/jdt-ls
-        launcher="$(ls $JARs_dir/org.eclipse.equinox.launcher_* | sort -V | tail -n1)"
-        substituteInPlace $out/bin/jdt-ls \
-          --subst-var-by shell ${bash}/bin/bash \
-          --subst-var-by jdk ${jdk}/bin/java \
-          --subst-var-by config_path $out/share/config \
-          --subst-var launcher
-      '';
+    ''
+      JARs_dir=$out/share/plugins
+      # Copy files
+      install -Dm 444 -t $JARs_dir plugins/*.jar
+      install -Dm 444 -t $out/share/config ${config-path}/*
+      install -Dm 755 ${./jdt-ls-wrapper.sh} $out/bin/jdt-ls
+      launcher="$(ls $JARs_dir/org.eclipse.equinox.launcher_* | sort -V | tail -n1)"
+      substituteInPlace $out/bin/jdt-ls \
+        --subst-var-by shell ${bash}/bin/bash \
+        --subst-var-by jdk ${jdk}/bin/java \
+        --subst-var-by config_path $out/share/config \
+        --subst-var launcher
+    '';
 
   meta = with lib; {
     homepage = "https://github.com/eclipse/eclipse.jdt.ls";
