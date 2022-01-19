@@ -68,7 +68,7 @@ in
       sumneko-lua-language-server
       # TODO my.jdtls
       nodePackages.svelte-language-server
-      # TODO my.prettierd
+      prettierd
       ripgrep
       python39Packages.python-lsp-server
       python39Packages.pyls-flake8

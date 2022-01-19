@@ -113,13 +113,13 @@ local function plugins(use)
             require("polarmutex.config.harpoon")
         end,
     })
-    use({
-        "ggandor/lightspeed.nvim",
-        event = "BufReadPost",
-        config = function()
-            require("polarmutex.config.lightspeed")
-        end,
-    })
+    --use({
+    --    "ggandor/lightspeed.nvim",
+    --    event = "BufReadPost",
+    --    config = function()
+    --        require("polarmutex.config.lightspeed")
+    --    end,
+    --})
 
     -- Git
     use({

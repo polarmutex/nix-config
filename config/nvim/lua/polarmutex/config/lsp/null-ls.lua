@@ -8,24 +8,22 @@ function M.setup(options)
         debounce = 150,
         save_after_format = false,
         sources = {
-            nls.builtins.formatting.prettierd.with({
-                filetypes = {
-                    "astro",
-                    "javascript",
-                    "javascriptreact",
-                    "typescript",
-                    "typescriptreact",
-                    "vue",
-                    "css",
-                    "scss",
-                    "less",
-                    "html",
-                    "json",
-                    "yaml",
-                    "markdown",
-                    "graphql",
-                },
-            }),
+            nls.builtins.formatting.prettierd,
+            --.with({
+            --    filetypes = {
+            --        "astro",
+            --        "javascript",
+            --        "javascriptreact",
+            --        "typescript",
+            --        "typescriptreact",
+            --        "css",
+            --        "scss",
+            --        "html",
+            --        "json",
+            --        "yaml",
+            --        "markdown",
+            --    },
+            --}),
             nls.builtins.formatting.stylua.with({
                 args = { "--config-path", vim.fn.stdpath("config") .. "/lua/stylua.toml", "-" },
             }),
@@ -38,8 +36,9 @@ function M.setup(options)
             --nls.builtins.diagnostics.flake8,
             nls.builtins.diagnostics.mypy,
         },
+        on_attach = options.on_attach,
+        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".nvim.settings.json", ".git"),
     })
-    lspconfig["null-ls"].setup(options)
 end
 
 function M.has_formatter(ft)
