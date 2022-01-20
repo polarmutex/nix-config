@@ -21,7 +21,7 @@ in
   config = mkIf cfg.enable {
 
     home.packages = with pkgs; [
-      my.logseq
+      logseq
     ];
 
     systemd.user.services.logseq-sync = {
