@@ -22,7 +22,7 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      my.obsidian
+      obsidian
     ];
 
     systemd.user.services.obsidian-sync = {
