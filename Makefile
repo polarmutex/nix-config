@@ -34,6 +34,9 @@ polarvortex:
 polar-hm:
 	nix build .#homeConfigurations."polar@polarbear".activationPackage && result/activate && unlink result
 
+work:
+	nix build .#homeManagerConfigurations."work".activationPackage && result/activate && unlink result
+
 # bootstrap a brand new VM. The VM should have NixOS ISO on the CD drive
 # and just set the password of the root user to "root". This will install
 # NixOS. After installing NixOS, you must reboot and set the root password

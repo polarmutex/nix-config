@@ -164,6 +164,8 @@
               ];
             };
 
+        work_username = (builtins.fromJSON (builtins.readFile ./.secrets/work/info.json)).username;
+
       in
       {
         # Each subdirectory in ./hosts is a host. Add them all to
@@ -178,10 +180,10 @@
           (builtins.attrNames (builtins.readDir ./hosts)));
 
         homeManagerConfigurations = {
-          polar = mkHomeManager {
+          work = mkHomeManager {
             system = "x86_64-linux";
-            username = "polar";
-            config_file = ./users/home-polar.nix;
+            username = "${work_username}";
+            config_file = ./users/work.nix;
           };
         };
 
