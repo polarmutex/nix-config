@@ -29,6 +29,7 @@
   environment.systemPackages = with pkgs; [
     tailscale
     ventoy-bin
+    unzip
   ];
   #virtualisation.virtualbox.host.enable = true;
   #virtualisation.virtualbox.host.enableExtensionPack = true;
