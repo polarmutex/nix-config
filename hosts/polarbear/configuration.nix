@@ -26,7 +26,10 @@
 
   #virtualisation.docker.enable = true;
   #programs.dconf.enable = true;
-  environment.systemPackages = with pkgs; [ tailscale ];
+  environment.systemPackages = with pkgs; [
+    tailscale
+    ventoy-bin
+  ];
   #virtualisation.virtualbox.host.enable = true;
   #virtualisation.virtualbox.host.enableExtensionPack = true;
   #users.extraGroups.vboxusers.members = [ "polar" ];

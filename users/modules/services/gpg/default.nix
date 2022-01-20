@@ -26,7 +26,7 @@ in
       pinentry-gtk2
     ];
 
-    home.file.".gnupg/public.key".source = ./public.key;
+    home.file.".gnupg/public_key.asc".source = ./gpg-0x7F1160FAFC739341-2022-01-20.asc;
     home.file.".ssh/authorized_keys".source = ./authorized_keys;
     home.file.".gnupg/gpg.conf".source = ./gpg.conf;
     home.file.".gnupg/gpg_agent.conf".text = ''
@@ -52,7 +52,7 @@ in
     '';
 
     home.activation.gpgtrust = hm.dag.entryAfter [ "LinkGeneration" ] ''
-      gpg --import ~/.gnupg/public.key
+      gpg --import ~/.gnupg/public_key.asc
     '';
   };
 }
