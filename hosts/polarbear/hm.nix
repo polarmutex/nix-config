@@ -10,6 +10,7 @@
     };
     services = {
       gpg.enable = true;
+      logseq.enable = true;
       picom.enable = true;
       wallpapers.enable = true;
       dunst.enable = true;
