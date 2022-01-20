@@ -6,6 +6,7 @@ _:
 
   imports = [
     ./modules/temp.nix
+    ./modules/dwm.nix
     ./modules/work.nix
     ./modules/fonts.nix
     ./modules/programs/git.nix
