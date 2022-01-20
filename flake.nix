@@ -153,11 +153,7 @@
                 #{ _module.args.self-overlay = self.overlay; }
                 {
                   nixpkgs = {
-                    overlays = [
-                      overlay
-                      neovim.overlay
-                      nur.overlay
-                    ];
+                    overlays = overlays;
                     config.allowUnfree = true;
                   };
                 }

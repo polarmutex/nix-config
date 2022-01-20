@@ -13,6 +13,7 @@
       dunst.enable = true;
       dwm-status.enable = true;
     };
+    fonts.enable = true;
     dwm.enable = true;
     work.enable = true;
   };
