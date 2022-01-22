@@ -6,6 +6,9 @@
     nixpkgs = {
       url = "nixpkgs/nixos-unstable";
     };
+    nixpkgs-local = {
+      url = "github:polarmutex/nixpkgs/neovim-fix";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -26,7 +29,7 @@
 
     neovim = {
       url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-local";
       inputs.flake-utils.follows = "flake-utils";
     };
 
