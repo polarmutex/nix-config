@@ -94,6 +94,7 @@
               ] ++ hmModules;
             };
           }
+          ./secrets
         ] ++ getFileList true (nixpkgs.lib.hasSuffix ".nix") ./modules/nixos;
 
         overlays = [
