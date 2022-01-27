@@ -4,6 +4,7 @@
     programs = {
       firefox.enable = true;
       git.enable = true;
+      neomutt.enable = true;
       neovim.enable = true;
       tmux.enable = true;
       zsh.enable = true;
@@ -64,6 +65,9 @@
 
     # Pulseaudio
     pasystray.enable = true;
+
+    # Keyring
+    gnome-keyring = { enable = true; };
   };
 
   # Environment variables

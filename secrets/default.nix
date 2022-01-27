@@ -2,7 +2,7 @@
 let
   #secret_files = import ./secretdata.nix { inherit lib; };
   secrets = [
-    "work_username"
+    "protonmail_pw"
   ];
   genDefaultPerms = secret: {
     ${secret} = {
