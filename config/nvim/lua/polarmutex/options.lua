@@ -62,8 +62,6 @@ opt.formatoptions = opt.formatoptions
 
 opt.shortmess = opt.shortmess - "S" -- Show Search count
 
-vim.cmd([[colorscheme gruvbox]])
-
 -- don't load the plugins below
 vim.g.loaded_gzip = 1
 vim.g.loaded_tar = 1
