@@ -103,6 +103,7 @@ in
 
     home.packages = with pkgs; [
       protonmail-bridge
+      lynx
     ];
 
     #xdg.configFile = link-one "config" "." "nvim";
