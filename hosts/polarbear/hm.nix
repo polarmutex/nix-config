@@ -52,6 +52,7 @@
     zoom-us
     ansible
     peek
+    vscode
   ];
 
   services = {
