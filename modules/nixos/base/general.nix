@@ -63,11 +63,11 @@ in
     };
 
     nix = {
-      autoOptimiseStore = true;
-      binaryCaches = [
+      settings.auto-optimise-store = true;
+      settings.substituters = [
         "https://cache.nixos.org"
       ];
-      binaryCachePublicKeys = mkForce [
+      settings.trusted-public-keys = mkForce [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       ];
 
@@ -85,7 +85,7 @@ in
       daemonCPUSchedPolicy = lib.mkDefault "idle";
       daemonIOSchedPriority = lib.mkDefault 7;
 
-      trustedUsers = [ "root" "polar" ];
+      settings.trusted-users = [ "root" "polar" ];
 
       # TODO  what is difference between this and nixFlakes
       package = pkgs.nix_2_4;
