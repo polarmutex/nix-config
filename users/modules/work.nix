@@ -22,6 +22,7 @@ in
     };
   };
 
+
   ###### implementation
 
   config = mkIf cfg.enable {
@@ -31,7 +32,6 @@ in
     };
 
     home.packages = with pkgs; [
-      vscode
       cmake
       brave
     ];

@@ -33,7 +33,7 @@
     pavucontrol
     playerctl
     stacks
-    vscode
+    vscodium
     xorg.xrandr
     #yubioath-desktop
   ];
