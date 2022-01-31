@@ -36,6 +36,7 @@
     vscodium
     xorg.xrandr
     #yubioath-desktop
+    zathura
   ];
 
   services = {
