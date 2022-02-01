@@ -18,6 +18,7 @@ _:
     ./modules/services/dunst.nix
     ./modules/services/picom.nix
     ./modules/services/logseq.nix
+    ./modules/services/dendron.nix
     ./modules/services/spotify.nix
     ./modules/services/obsidian.nix
     ./modules/services/protonvpn.nix
