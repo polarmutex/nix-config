@@ -7,8 +7,8 @@
 
 stdenv.mkDerivation rec {
   pname = "jdt-ls";
-  version = "1.3.0";
-  timestamp = "202108171748";
+  version = "1.8.0";
+  timestamp = "202201261434";
 
   src = fetchurl {
     url = "https://download.eclipse.org/jdtls/milestones/${version}/jdt-language-server-${version}-${timestamp}.tar.gz";
