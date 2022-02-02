@@ -66,7 +66,7 @@ in
       nodePackages.vscode-json-languageserver
       rnix-lsp
       sumneko-lua-language-server
-      # TODO my.jdtls
+      jdtls
       nodePackages.svelte-language-server
       prettierd
       ripgrep
