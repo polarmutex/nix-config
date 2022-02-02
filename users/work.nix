@@ -12,6 +12,7 @@
       wallpapers.enable = true;
       dunst.enable = true;
       dwm-status.enable = true;
+      dendron.enable = true;
     };
     fonts.enable = true;
     dwm.enable = true;
