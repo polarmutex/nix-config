@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://download.eclipse.org/jdtls/milestones/${version}/jdt-language-server-${version}-${timestamp}.tar.gz";
-    sha256 = "8563a7a41f3f754ffe0231d8cbda038f48a1df8568d419e4df8830694392d6e5";
+    sha256 = "sha256-aDeFmcyhWPeqtNVHgu/NqSWO+YOJundXxo1ZKE7WlnI=";
   };
 
   # After running unpackPhase, the generic builder changes the current directory
