@@ -1,16 +1,31 @@
-local function get(colorscheme, setting, default)
-    local key = colorscheme .. "_" .. setting
-    if vim.g[key] == nil then return default end
-    return vim.g[key]
-end
+---@class Config
+local config
 
-local config = function(colorscheme)
-    return {
-        bg = get(colorscheme, "transparent_background", false),
-        italic = get(colorscheme, "enable_italic", true),
-        italic_comment = get(colorscheme, "enable_italic_comment", true),
-        gamma = get(colorscheme, "color_gamma", "1.0")
-    }
+-- shim vim for kitty and other generators
+vim = vim or { g = {}, o = {} }
+
+config = {
+    style = "storm",
+    dayBrightness = 0.3,
+    transparent = false,
+    commentStyle = "italic", --"NONE"
+    keywordStyle = "italic", --"NONE",
+    functionStyle = "italic", -- "NONE",
+    variableStyle = "italic", -- "NONE",
+    hideInactiveStatusline = false,
+    terminalColors = true,
+    sidebars = {},
+    colors = {},
+    dev = false,
+    darkFloat = true,
+    darkSidebar = true,
+    transparentSidebar = false,
+    transform_colors = false,
+    lualineBold = false,
+}
+
+if config.style == "day" then
+    vim.o.background = "light"
 end
 
 return config

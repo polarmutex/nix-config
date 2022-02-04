@@ -1,6 +1,5 @@
---local config = require("polarmutex.colorschemes.tokyonight.config")
---config.style = "night"
---require("polarmutex.colorschemes.tokyonight").colorscheme(config)
-
-local config = require("polarmutex.colorschemes.kanagawa.config")
-require("polarmutex.colorschemes.kanagawa").colorscheme(config)
+local config = require("polarmutex.colorschemes.config")
+--config.theme = "tokyonight"
+--config.theme = "gruvbox"
+config.theme = "kanagawa"
+require("polarmutex.colorschemes").colorscheme(config)
