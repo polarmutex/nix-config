@@ -69,58 +69,27 @@ function M.setup(config)
         katanaGray = "#717C7C",
     }
 
-    colors.bg_dark = colors.sumiInk0
-    colors.bg = colors.sumiInk0
-    colors.comment = colors.oldWhite
-    colors.fg_gutter = colors.oldWhite
-
-    util.bg = colors.bg
-    util.day_brightness = config.dayBrightness
-
-    colors.diff = {
-        add = colors.winterGreen,
-        delete = colors.winterRed,
-        change = colors.winterBlue,
-        text = colors.winterYellow,
-    }
-
-    colors.git = {
-        add = colors.autumnGreen,
-        change = colors.autumnYellow,
-        delete = colors.autumnRed,
-    }
-
-    colors.gitSigns = {
-        add = colors.autumnGreen,
-        change = colors.autumnYellow,
-        delete = colors.autumnRed,
-    }
-
-    --colors.git.ignore = colors.dark3
-    colors.black = util.darken(colors.sumiInk0, 0.8, "#000000")
-    colors.border_highlight = colors.waveBlue1
-    colors.border = colors.black
-
-    -- Popups and statusline always get a dark background
-    colors.bg_popup = colors.bg_dark
-    colors.bg_statusline = colors.bg_dark
-
-    -- Sidebar and Floats are configurable
-    colors.bg_sidebar = (config.transparentSidebar and colors.none)
-        or config.darkSidebar and colors.bg_dark
-        or colors.bg
-    colors.bg_float = config.darkFloat and colors.bg_dark or colors.bg
-
-    --colors.bg_visual = util.darken(colors.waveBlue1, 0.7)
-    colors.bg_search = colors.dragonBlue
-    colors.fg_sidebar = colors.fujiGray
+    colors.base00 = colors.sumiInk1
+    colors.base01 = colors.autumnRed
+    colors.base02 = colors.autumnGreen
+    colors.base03 = colors.boatYellow2
+    colors.base04 = colors.crystalBlue
+    colors.base05 = colors.oniViolet
+    colors.base06 = colors.waveAqua1
+    colors.base07 = colors.oldWhite
+    colors.base08 = colors.fujiGray
+    colors.base09 = colors.samuraiRed
+    colors.base0A = colors.springGreen
+    colors.base0B = colors.carpYellow
+    colors.base0C = colors.springBlue
+    colors.base0D = colors.springViolet1
+    colors.base0E = colors.waveAqua2
+    colors.base0F = colors.fujiWhite
 
     colors.error = colors.samuraiRed
     colors.warning = colors.roninYellow
-    colors.info = colors.dragonBlue
-    colors.hint = colors.waveAqua1
-
-    util.color_overrides(colors, config)
+    colors.info = colors.waveAqua1
+    colors.hint = colors.dragonBlue
 
     return colors
 end
