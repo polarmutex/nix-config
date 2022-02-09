@@ -54,5 +54,37 @@ in
       };
       Install = { WantedBy = [ "timers.target" ]; };
     };
+
+    systemd.user.services.biblelog-sync = {
+      Unit = { Description = "biblelog sync"; };
+      Service = {
+        CPUSchedulingPolicy = "idle";
+        IOSchedulingClass = "idle";
+        ExecStart = toString (
+          pkgs.writeShellScript "biblelog-sync" ''
+            #!/usr/bin/env sh
+            DEVLOG_PATH="$HOME/repos/personal/biblelog"
+            cd $DEVLOG_PATH
+            CHANGES_EXIST="$(${pkgs.git}/bin/git status - porcelain | ${pkgs.coreutils}/bin/wc -l)"
+            if [ "$CHANGES_EXIST" -eq 0 ]; then
+              exit 0
+            fi
+            ${pkgs.git}/bin/git pull
+            ${pkgs.git}/bin/git add .
+            ${pkgs.git}/bin/git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S")"
+            ${pkgs.git}/bin/git push -q
+          ''
+        );
+      };
+    };
+
+    systemd.user.timers.biblelog-sync = {
+      Unit = { Description = "biblelog periodic sync"; };
+      Timer = {
+        Unit = "biblelog-sync.service";
+        OnCalendar = "*:0/30";
+      };
+      Install = { WantedBy = [ "timers.target" ]; };
+    };
   };
 }
