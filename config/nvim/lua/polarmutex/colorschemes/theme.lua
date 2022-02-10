@@ -34,85 +34,89 @@ function M.setup(config)
 
     theme.base = {
         -- Vim editor colors
-        Normal = { fg = c.base05, bg = config.transparent and c.none or c.base00 }, -- normal text
+        Normal = { fg = c.fg, bg = config.transparent and c.none or c.bg }, -- normal text
         Bold = { bold = true },
         Debug = { fg = c.base08 }, --    debugging statements
-        Directory = { fg = c.base0D }, -- directory names (and other special names in listings)
+        Directory = { fg = c.fn or c.base0D }, -- directory names (and other special names in listings)
         Error = { fg = c.base00, bg = c.base08 }, -- (preferred) any erroneous construct
-        ErrorMsg = { fg = c.base08, bg = c.base00 }, -- error messages on the command line
-        Exception = { fg = c.base08 }, --  try, catch, throw
-        FoldColumn = { fg = c.base0C, bg = c.base00 }, -- 'foldcolumn'
-        Folded = { fg = c.base03, bg = c.base01 }, -- line used for closed folds
-        IncSearch = { fg = c.base01, bg = c.base09 }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+        ErrorMsg = { fg = c.diag.error }, -- error messages on the command line
+        Exception = { fg = c.sp2 or c.base08 }, --  try, catch, throw
+        FoldColumn = { fg = c.bg_light2 }, -- 'foldcolumn'
+        Folded = { fg = c.bg_light3, bg = c.bg_light0 }, -- line used for closed folds
+        IncSearch = { fg = c.bg_visual, bg = c.diag.warning }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
         Italic = { italic = true },
         Macro = { fg = c.base08 }, --    same as Define
-        MatchParen = { bg = c.base03, bold = true }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-        ModeMsg = { fg = c.base0B, bold = true }, -- 'showmode' message (e.g., "-- INSERT -- ")
-        MoreMsg = { fg = c.base0B }, -- |more-prompt|
-        Question = { fg = c.base0D }, -- |hit-enter| prompt and yes/no questions
-        Search = { fg = c.base01, bg = c.base0A }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
-        Substitute = { fg = c.base01, bg = c.base0A }, -- |:substitute| replacement text highlighting
-        SpecialKey = { fg = c.base03 }, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
+        MatchParen = { bg = c.diag.warning, bold = true }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+        ModeMsg = { fg = c.diag.warning, bold = true }, -- 'showmode' message (e.g., "-- INSERT -- ")
+        MoreMsg = { fg = c.diag.info, bg = c.bg }, -- |more-prompt|
+        MsgArea = { fg = c.fg_dark }, -- Area for messages and cmdline
+        Question = { link = "MoreMsg" }, -- |hit-enter| prompt and yes/no questions
+        Search = { fg = c.fg, bg = c.bg_search }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
+        Substitute = { fg = c.fg, bg = c.git.removed }, -- |:substitute| replacement text highlighting
+        SpecialKey = { link = "NonText" }, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
         TooLong = { fg = c.base08 }, -- TODO desc
         Underlined = { underline = true }, -- (preferred) text that stands out, HTML links
-        Visual = { bg = c.base02 }, -- Visual mode selection
-        VisualNOS = { fg = c.base08 }, -- Visual mode selection when vim is "Not Owning the Selection".
-        WarningMsg = { fg = c.base08 }, -- warning messages
-        WildMenu = { fg = c.base08, bg = c.base0A }, -- current match in 'wildmenu' completion
-        Title = { fg = c.base0D, bold = true }, -- titles for output from ":set all", ":autocmd" etc.
-        Conceal = { fg = c.base0D, bg = c.base00 }, -- placeholder characters substituted for concealed text (see 'conceallevel')
-        Cursor = { fg = c.base00, bg = c.base05 }, -- character under the cursor
-        NonText = { fg = c.base03 }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-        LineNr = { fg = c.base04, bg = c.base00 }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-        SignColumn = { fg = c.base04, bg = config.transparent and c.none or c.base00 }, -- column where |signs| are displayed
-        StatusLine = { fg = c.base05, bg = c.base02 }, -- status line of current window
-        StatusLineNC = { fg = c.base04, bg = c.base01 }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
-        VertSplit = { fg = c.base05, bg = c.base00 }, -- the column separating vertically split windows
-        ColorColumn = { bg = c.base01 }, -- used for the columns set with 'colorcolumn'
-        CursorColumn = { bg = c.base01 }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-        CursorLine = { bg = c.base01 }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
-        CursorLineNr = { fg = c.base04, bg = c.base01 }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-        QuickFixLine = { bg = c.base01, bold = true }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
-        Pmenu = { fg = c.base05, bg = c.base01 }, -- Popup menu: normal item.
-        PmenuSel = { fg = c.base01, bg = c.base05 }, -- Popup menu: selected item.
-        TabLine = { fg = c.base03, bg = c.base01 }, -- tab pages line, not active tab page label
-        TabLineFill = { fg = c.base03, bg = c.base01 }, -- tab pages line, where there are no labels
-        TabLineSel = { fg = c.base0B, bg = c.base01 }, -- tab pages line, active tab page label
+        Visual = { bg = c.bg_visual }, -- Visual mode selection
+        VisualNOS = { link = "Visual" }, -- Visual mode selection when vim is "Not Owning the Selection".
+        WarningMsg = { fg = c.diag.warning }, -- warning messages
+        WildMenu = { link = "Pmenu" }, -- current match in 'wildmenu' completion
+        Title = { fg = c.fn, bold = true }, -- titles for output from ":set all", ":autocmd" etc.
+        Conceal = { fg = c.bg_light3 or c.base0D, bg = c.base00 }, -- placeholder characters substituted for concealed text (see 'conceallevel')
+        Cursor = { fg = c.bg or c.base00, bg = c.fg or c.base05 }, -- character under the cursor
+        lCursor = { link = "Cursor" },
+        CursorIM = { link = "Cursor" },
+        NonText = { fg = c.bg_light2 }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+        LineNr = { fg = c.bg_light2 }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+        SignColumn = { fg = c.bg_light2, bg = config.transparent and c.none or c.base00 }, -- column where |signs| are displayed
+        StatusLine = { fg = c.fg_dark, bg = c.bg_status }, -- status line of current window
+        StatusLineNC = { fg = c.fg_comment, bg = c.bg_status }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+        VertSplit = { fg = c.bg_status, bg = c.bg_status }, -- the column separating vertically split windows
+        ColorColumn = { bg = c.bg_light0 or c.base01 }, -- used for the columns set with 'colorcolumn'
+        CursorColumn = { bg = c.bg_light1 or c.base01 }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
+        CursorLine = { bg = c.bg_light1 or c.base01 }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
+        CursorLineNr = { fg = c.diag.warning, bold = true }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+        QuickFixLine = { link = "CursorLine" }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
+        Pmenu = { fg = c.fg, bg = c.bg_menu }, -- Popup menu: normal item.
+        PmenuSel = { bg = c.bg_menu_sel }, -- Popup menu: selected item.
+        TabLine = { fg = c.bg_light3, bg = c.bg_dark }, -- tab pages line, not active tab page label
+        TabLineFill = { bg = c.bg }, -- tab pages line, where there are no labels
+        TabLineSel = { fg = c.fg_dark, bg = c.bg_light1 }, -- tab pages line, active tab page label
+        Whitespace = { fg = c.bg_light2 }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
 
         -- Standard syntax highlighting
-        Boolean = { fg = c.base09 }, --  a boolean constant: TRUE, false
-        Character = { fg = c.base08 }, --  a character constant: 'c', '\n'
-        Comment = { fg = c.base03 }, -- any comment
+        Boolean = { fg = c.co }, --  a boolean constant: TRUE, false
+        Character = { link = "String" }, --  a character constant: 'c', '\n'
+        Comment = { fg = c.fg_comment }, -- any comment
         Conditional = { fg = c.base0E }, --  if, then, else, endif, switch, etc.
-        Constant = { fg = c.base09 }, -- (preferred) any constant
+        Constant = { fg = c.co }, -- (preferred) any constant
         Define = { fg = c.base0E }, --   preprocessor #define
         Delimiter = { fg = c.base0F }, --  character that needs attention
-        Float = { fg = c.base09 }, --    a floating point constant: 2.3e10
-        Function = { fg = c.base0D }, -- function name (also: methods for classes)
-        Identifier = { fg = c.base08 }, -- (preferred) any variable name
+        Float = { link = "Number" }, --    a floating point constant: 2.3e10
+        Function = { fg = c.fn }, -- function name (also: methods for classes)
+        Identifier = { fg = c.id }, -- (preferred) any variable name
         Include = { fg = c.base0D }, --  preprocessor #include
-        Keyword = { fg = c.base0E }, --  any other keyword
+        Keyword = { fg = c.kw }, --  any other keyword
         Label = { fg = c.base0A }, --    case, default, etc.
-        Number = { fg = c.base09 }, --  a number constant: 234, 0xff
-        Operator = { fg = c.base05 }, -- "sizeof", "+", "*", etc.
-        PreProc = { fg = c.base0A }, -- (preferred) generic Preprocessor
+        Number = { fg = c.nu }, --  a number constant: 234, 0xff
+        Operator = { fg = c.op }, -- "sizeof", "+", "*", etc.
+        PreProc = { fg = c.pp }, -- (preferred) generic Preprocessor
         Repeat = { fg = c.base0A }, --   for, do, while, etc.
-        Special = { fg = c.base0C }, -- (preferred) any special symbol
+        Special = { fg = c.sp }, -- (preferred) any special symbol
         SpecialChar = { fg = c.base0F }, --  special character in a constant
-        Statement = { fg = c.base08 }, -- (preferred) any statement
+        Statement = { fg = c.sm }, -- (preferred) any statement
         StorageClass = { fg = c.base0A }, -- static, register, volatile, etc.
-        String = { fg = c.base0B }, --   a string constant: "this is a string"
+        String = { fg = c.st }, --   a string constant: "this is a string"
         Structure = { fg = c.base0E }, --  struct, union, enum, etc.
         Tag = { fg = c.base0A }, --    you can use CTRL-] on this
-        Todo = { fg = c.base0A, bg = c.base01 }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
-        Type = { fg = c.base0A }, -- (preferred) int, long, char, etc.
+        Todo = { fg = c.fg_reverse, bg = c.diag.info, bold = true }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+        Type = { fg = c.ty }, -- (preferred) int, long, char, etc.
         Typedef = { fg = c.base0A }, --  A typedef
 
         -- Diff highlighting
-        DiffAdd = { fg = c.base0B, bg = c.base00 }, -- diff mode: Added line |diff.txt|
-        DiffChange = { fg = c.base03, bg = c.base00 }, -- diff mode: Changed line |diff.txt|
-        DiffDelete = { fg = c.base08, bg = c.base00 }, -- diff mode: Deleted line |diff.txt|
-        DiffText = { fg = c.base0D, bg = c.base00 }, -- diff mode: Changed text within a changed line |diff.txt|
+        DiffAdd = { bg = c.diff.add }, -- diff mode: Added line |diff.txt|
+        DiffChange = { bg = c.diff.change }, -- diff mode: Changed line |diff.txt|
+        DiffDelete = { fg = c.git.removed, bg = c.diff.delete }, -- diff mode: Deleted line |diff.txt|
+        DiffText = { bg = c.diff.text }, -- diff mode: Changed text within a changed line |diff.txt|
         DiffAdded = { fg = c.base0B, bg = c.base00 }, -- TODO
         DiffFile = { fg = c.base08, bg = c.base00 }, -- TODO
         DiffNewFile = { fg = c.base0B, bg = c.base00 }, -- TODO
@@ -120,10 +124,10 @@ function M.setup(config)
         DiffRemoved = { fg = c.base08, bg = c.base00 }, -- TODO
 
         -- Spelling highlighting
-        SpellBad = { undercurl = true }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
-        SpellCap = { undercurl = true }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
-        SpellLocal = { undercurl = true }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
-        SpellRare = { undercurl = true }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
+        SpellBad = { undercurl = true, sp = c.diag.error }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
+        SpellCap = { undercurl = true, sp = c.diag.warning }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
+        SpellLocal = { undercurl = true, sp = c.diag.warning }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
+        SpellRare = { undercurl = true, sp = c.diag.warning }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
 
         DiagnosticError = { fg = c.error }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
         DiagnosticWarn = { fg = c.warining }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
@@ -159,7 +163,6 @@ function M.setup(config)
         -- TermCursor  = { }, -- cursor in a focused terminal
         -- TermCursorNC= { }, -- cursor in an unfocused terminal
         --SignColumnSB = { bg = c.bg_sidebar, fg = c.fg_gutter }, -- column where |signs| are displayed
-        --MsgArea = { fg = c.fg_dark }, -- Area for messages and cmdline
         -- MsgSeparator= { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
         --NormalNC = { fg = c.fg, bg = config.transparent and c.none or c.bg }, -- normal text in non-current windows
         --NormalSB = { fg = c.fg_sidebar, bg = c.bg_sidebar }, -- normal text in non-current windows
@@ -167,7 +170,6 @@ function M.setup(config)
         --FloatBorder = { fg = c.border_highlight, bg = c.bg_float },
         --PmenuSbar = { bg = util.lighten(c.bg_popup, 0.95) }, -- Popup menu: scrollbar.
         --PmenuThumb = { bg = c.fg_gutter }, -- Popup menu: Thumb of the scrollbar.
-        --Whitespace = { fg = c.fg_gutter }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     }
 
     if not vim.diagnostic then
@@ -195,61 +197,61 @@ function M.setup(config)
         -- TSError -> Error for example, so you do not have to define these unless
         -- you explicitly want to support Treesitter's improved syntax awareness.
 
-        TSAnnotation = { fg = c.base0F }, -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
-        TSAttribute = { fg = c.base0A }, -- (unstable) TODO: docs
-        TSBoolean = { fg = c.base09 }, -- For booleans.
-        TSCharacter = { fg = c.base08, italic = true }, -- For characters.
-        TSComment = { fg = c.base03 }, -- For comment blocks.
-        TSConstructor = { fg = c.base0D }, -- For constructor calls and definitions: `= { }` in Lua, and Java constructors.
-        TSConditional = { fg = c.base0E }, -- For keywords related to conditionnals.
-        TSConstant = { fg = c.base09 }, -- For constants
-        TSConstBuiltin = { fg = c.base09, italic = true }, -- For constant that are built in the language: `nil` in Lua.
-        TSConstMacro = { fg = c.base08 }, -- For constants that are defined by macros: `NULL` in C.
-        TSError = { fg = c.error }, -- For syntax/parser errors.
-        TSException = { fg = c.base08 }, -- For exception related keywords.
-        TSField = { fg = c.base05 }, -- For fields.
-        TSFloat = { fg = c.base09 }, -- For floats.
-        TSFunction = { fg = c.base0D }, -- For function (calls and definitions).
-        TSFuncBuiltin = { fg = c.base0D, italic = true }, -- For builtin functions: `table.insert` in Lua.
-        TSFuncMacro = { fg = c.base08 }, -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust.
-        TSInclude = { fg = c.base0D }, -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
-        TSKeyword = { fg = c.base0E }, -- For keywords that don't fall in previous categories.
-        TSKeywordFunction = { fg = c.base0E }, -- For keywords used to define a fuction.
-        TSKeywordOperator = { fg = c.base0E }, -- TODO
-        TSLabel = { fg = c.base0A }, -- For labels: `label:` in C and `:label:` in Lua.
-        TSMethod = { fg = c.base0D }, -- For method calls and definitions.
-        TSNamespace = { fg = c.base08 }, -- For identifiers referring to modules and namespaces.
-        TSNone = { fg = c.base05 }, -- TODO: docs
-        TSNumber = { fg = c.base09 }, -- For all numbers
-        TSOperator = { fg = c.base05 }, -- For any operator: `+`, but also `->` and `*` in C.
-        TSParameter = { fg = c.base05 }, -- For parameters of a function.
-        TSParameterReference = { fg = c.base05 }, -- For references to parameters of a function.
-        TSProperty = { fg = c.base05 }, -- Same as `TSField`.
-        TSPunctDelimiter = { fg = c.base0F }, -- For delimiters ie: `.`
-        TSPunctBracket = { fg = c.base05 }, -- For brackets and parens.
-        TSPunctSpecial = { fg = c.base05 }, -- For special punctutation that does not fall in the catagories before.
-        TSRepeat = { fg = c.base0A }, -- For keywords related to loops.
-        TSString = { fg = c.base0B }, -- For strings.
-        TSStringRegex = { fg = c.base0C }, -- For regexes.
-        TSStringEscape = { fg = c.base0C }, -- For escape characters within a string.
-        TSSymbol = { fg = c.base0B }, -- For identifiers referring to symbols or atoms.
-        TSTag = { fg = c.base0A }, -- Tags like html tag names.
-        TSTagDelimiter = { fg = c.base0F }, -- Tag delimiter like `<` `>` `/`
-        TSText = { fg = c.base05 }, -- For strings considered text in a markup language.
-        TSStrong = { bold = true },
-        TSEmphasis = { fg = c.base09, italic = true }, -- For text to be represented with emphasis.
-        TSUnderline = { underline = true }, -- For text to be represented with an underline.
+        --TSAnnotation = { fg = c.base0F }, -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
+        --TSAttribute = { fg = c.base0A }, -- (unstable) TODO: docs
+        --TSBoolean = { fg = c.base09 }, -- For booleans.
+        --TSCharacter = { fg = c.base08, italic = true }, -- For characters.
+        --TSComment = { fg = c.fg_comment or c.base03 }, -- For comment blocks.
+        --TSConstructor = { fg = c.base0D }, -- For constructor calls and definitions: `= { }` in Lua, and Java constructors.
+        --TSConditional = { fg = c.base0E }, -- For keywords related to conditionnals.
+        --TSConstant = { fg = c.base09 }, -- For constants
+        --TSConstBuiltin = { fg = c.base09, italic = true }, -- For constant that are built in the language: `nil` in Lua.
+        --TSConstMacro = { fg = c.base08 }, -- For constants that are defined by macros: `NULL` in C.
+        --TSError = { fg = c.error }, -- For syntax/parser errors.
+        --TSException = { fg = c.base08 }, -- For exception related keywords.
+        --TSField = { fg = c.base05 }, -- For fields.
+        --TSFloat = { fg = c.base09 }, -- For floats.
+        --TSFunction = { fg = c.base0D }, -- For function (calls and definitions).
+        --TSFuncBuiltin = { fg = c.base0D, italic = true }, -- For builtin functions: `table.insert` in Lua.
+        --TSFuncMacro = { fg = c.base08 }, -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust.
+        --TSInclude = { fg = c.base0D }, -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
+        --TSKeyword = { fg = c.base0E }, -- For keywords that don't fall in previous categories.
+        --TSKeywordFunction = { fg = c.base0E }, -- For keywords used to define a fuction.
+        --TSKeywordOperator = { fg = c.base0E }, -- TODO
+        --TSLabel = { fg = c.base0A }, -- For labels: `label:` in C and `:label:` in Lua.
+        --TSMethod = { fg = c.base0D }, -- For method calls and definitions.
+        --TSNamespace = { fg = c.base08 }, -- For identifiers referring to modules and namespaces.
+        --TSNone = { fg = c.base05 }, -- TODO: docs
+        --TSNumber = { fg = c.base09 }, -- For all numbers
+        --TSOperator = { fg = c.base05 }, -- For any operator: `+`, but also `->` and `*` in C.
+        --TSParameter = { fg = c.base05 }, -- For parameters of a function.
+        --TSParameterReference = { fg = c.base05 }, -- For references to parameters of a function.
+        --TSProperty = { fg = c.base05 }, -- Same as `TSField`.
+        --TSPunctDelimiter = { fg = c.base0F }, -- For delimiters ie: `.`
+        --TSPunctBracket = { fg = c.base05 }, -- For brackets and parens.
+        --TSPunctSpecial = { fg = c.base05 }, -- For special punctutation that does not fall in the catagories before.
+        --TSRepeat = { fg = c.base0A }, -- For keywords related to loops.
+        --TSString = { fg = c.base0B }, -- For strings.
+        --TSStringRegex = { fg = c.base0C }, -- For regexes.
+        --TSStringEscape = { fg = c.base0C }, -- For escape characters within a string.
+        --TSSymbol = { fg = c.base0B }, -- For identifiers referring to symbols or atoms.
+        --TSTag = { fg = c.base0A }, -- Tags like html tag names.
+        --TSTagDelimiter = { fg = c.base0F }, -- Tag delimiter like `<` `>` `/`
+        --TSText = { fg = c.base05 }, -- For strings considered text in a markup language.
+        --TSStrong = { bold = true },
+        --TSEmphasis = { fg = c.base09, italic = true }, -- For text to be represented with emphasis.
+        --TSUnderline = { underline = true }, -- For text to be represented with an underline.
         --TSStrike = { strikethrough = true }, -- For strikethrough text.
-        TSTitle = { fg = c.base0D }, -- Text that is part of a title.
-        TSLiteral = { fg = c.base09 }, -- Literal text.
-        TSURI = { fg = c.base09, underline = true }, -- Any URI like a link or email.
-        TSType = { fg = c.base0A }, -- For types.
-        TSTypeBuiltin = { fg = c.base0A, italic = true }, -- For builtin types.
-        TSVariable = { fg = c.base08 }, -- Any variable name that does not have another highlight.
-        TSVariableBuiltin = { fg = c.base08, italic = true }, -- Variable names that are defined by the languages, like `this` or `self`.
-        TSDefinition = { underline = true, sp = c.base04 },
-        TSDefinitionUsage = { underline = true, sp = c.base04 },
-        TSCurrentScope = { bold = true },
+        --TSTitle = { fg = c.base0D }, -- Text that is part of a title.
+        --TSLiteral = { fg = c.base09 }, -- Literal text.
+        --TSURI = { fg = c.base09, underline = true }, -- Any URI like a link or email.
+        --TSType = { fg = c.base0A }, -- For types.
+        --TSTypeBuiltin = { fg = c.base0A, italic = true }, -- For builtin types.
+        --TSVariable = { fg = c.base08 }, -- Any variable name that does not have another highlight.
+        --TSVariableBuiltin = { fg = c.base08, italic = true }, -- Variable names that are defined by the languages, like `this` or `self`.
+        --TSDefinition = { underline = true, sp = c.base04 },
+        --TSDefinitionUsage = { underline = true, sp = c.base04 },
+        --TSCurrentScope = { bold = true },
         --TSNote = { fg = c.bg, bg = c.info },
         --TSWarning = { fg = c.bg, bg = c.warning },
         --TSDanger = { fg = c.bg, bg = c.error },
@@ -261,11 +263,12 @@ function M.setup(config)
         --LspTroubleNormal = { fg = c.fg_sidebar, bg = c.bg_sidebar },
 
         -- diff
-        --diffAdded = { fg = c.git.add },
-        --diffRemoved = { fg = c.git.delete },
-        --diffChanged = { fg = c.git.change },
-        --diffOldFile = { fg = c.yellow },
-        --diffNewFile = { fg = c.orange },
+        diffAdded = { fg = c.git.added },
+        diffRemoved = { fg = c.git.removed },
+        diffDeleted = { fg = c.git.removed },
+        diffChanged = { fg = c.git.changed },
+        diffOldFile = { fg = c.git.removed },
+        diffNewFile = { fg = c.git.added },
         --diffFile = { fg = c.blue },
         --diffLine = { fg = c.comment },
         --diffIndexLine = { fg = c.magenta },
@@ -280,57 +283,55 @@ function M.setup(config)
         --NeogitDiffAddHighlight = { fg = c.git.add, bg = c.diff.add },
 
         -- GitSigns
-        --GitSignsAdd = { fg = c.gitSigns.add }, -- diff mode: Added line |diff.txt|
-        --GitSignsChange = { fg = c.gitSigns.change }, -- diff mode: Changed line |diff.txt|
-        --GitSignsDelete = { fg = c.gitSigns.delete }, -- diff mode: Deleted line |diff.txt|
+        GitSignsAdd = { link = "diffAdded" }, -- diff mode: Added line |diff.txt|
+        GitSignsChange = { link = "diffChanged" }, -- diff mode: Changed line |diff.txt|
+        GitSignsDelete = { link = "diffDeleted" }, -- diff mode: Deleted line |diff.txt|
+        GitSignsDeleteLn = { bg = c.diff.delete },
 
         -- Telescope
-        --TelescopeBorder = { fg = c.border_highlight, bg = c.bg_float },
+        TelescopeBorder = { link = "FloatBorder" },
         --TelescopeNormal = { fg = c.fg, bg = c.bg_float },
 
         -- NeoVim
-        --healthError = { fg = c.error },
-        --healthSuccess = { fg = c.green1 },
-        --healthWarning = { fg = c.warning },
+        healthError = { fg = c.diag.error },
+        healthSuccess = { fg = c.diag.good },
+        healthWarning = { fg = c.diag.warning },
 
         -- Cmp
-        --CmpDocumentation = { fg = c.fg, bg = c.bg_float },
-        --CmpDocumentationBorder = { fg = c.border_highlight, bg = c.bg_float },
+        CmpDocumentation = { fg = c.fg, bg = c.bg_popup },
+        CmpDocumentationBorder = { fg = c.fg_border, bg = "NONE" },
+        CmpItemAbbr = { fg = c.fg, bg = "NONE" },
+        CmpItemAbbrDeprecated = { fg = c.fg_comment, bg = "NONE" }, --TODO strikethrough ?
+        CmpItemAbbrMatch = { fg = c.fn, bg = "NONE" },
+        CmpItemAbbrMatchFuzzy = { link = "CmpItemAbbrMatch" },
+        CmpItemKindDefault = { fg = c.dep, bg = "NONE" },
+        CmpItemMenu = { fg = c.fg_comment, bg = "NONE" },
+        CmpItemKindVariable = { fg = c.fg_dark, bg = "NONE" },
+        CmpItemKindFunction = { link = "Function" },
+        CmpItemKindMethod = { link = "Function" },
+        CmpItemKindConstructor = { link = "TSConstructor" },
+        CmpItemKindClass = { link = "Type" },
+        CmpItemKindInterface = { link = "Type" },
+        CmpItemKindStruct = { link = "Type" },
+        CmpItemKindProperty = { link = "TSProperty" },
+        CmpItemKindField = { link = "TSField" },
+        CmpItemKindEnum = { link = "Identifier" },
+        CmpItemKindSnippet = { fg = c.sp, bg = "NONE" },
+        CmpItemKindText = { link = "TSText" },
+        CmpItemKindModule = { link = "TSInclude" },
+        CmpItemKindFile = { link = "Directory" },
+        CmpItemKindFolder = { link = "Directory" },
+        CmpItemKindKeyword = { link = "TSKeyword" },
+        CmpItemKindTypeParameter = { link = "Identifier" },
+        CmpItemKindConstant = { link = "Constant" },
+        CmpItemKindOperator = { link = "Operator" },
+        CmpItemKindReference = { link = "TSParameterReference" },
+        CmpItemKindEnumMember = { link = "TSField" },
 
-        --CmpItemAbbr = { fg = c.fg, bg = c.none },
-        --CmpItemAbbrDeprecated = { fg = c.fg_gutter, bg = c.none, style = "strikethrough" },
-        --CmpItemAbbrMatch = { fg = c.blue1, bg = c.none },
-        --CmpItemAbbrMatchFuzzy = { fg = c.blue1, bg = c.none },
-
-        --CmpItemKindDefault = { fg = c.fg_dark, bg = c.none },
-        --CmpItemMenu = { fg = c.comment, bg = c.none },
-
-        --CmpItemKindKeyword = { fg = c.cyan, bg = c.none },
-
-        --CmpItemKindVariable = { fg = c.magenta, bg = c.none },
-        --CmpItemKindConstant = { fg = c.magenta, bg = c.none },
-        --CmpItemKindReference = { fg = c.magenta, bg = c.none },
-        --CmpItemKindValue = { fg = c.magenta, bg = c.none },
-
-        --CmpItemKindFunction = { fg = c.blue, bg = c.none },
-        --CmpItemKindMethod = { fg = c.blue, bg = c.none },
-        --CmpItemKindConstructor = { fg = c.blue, bg = c.none },
-
-        --CmpItemKindClass = { fg = c.orange, bg = c.none },
-        --CmpItemKindInterface = { fg = c.orange, bg = c.none },
-        --CmpItemKindStruct = { fg = c.orange, bg = c.none },
-        --CmpItemKindEvent = { fg = c.orange, bg = c.none },
-        --CmpItemKindEnum = { fg = c.orange, bg = c.none },
-        --CmpItemKindUnit = { fg = c.orange, bg = c.none },
-
-        --CmpItemKindModule = { fg = c.yellow, bg = c.none },
-
-        --CmpItemKindProperty = { fg = c.green1, bg = c.none },
-        --CmpItemKindField = { fg = c.green1, bg = c.none },
-        --CmpItemKindTypeParameter = { fg = c.green1, bg = c.none },
-        --CmpItemKindEnumMember = { fg = c.green1, bg = c.none },
-        --CmpItemKindOperator = { fg = c.green1, bg = c.none },
-        --CmpItemKindSnippet = { fg = c.dark5, bg = c.none },
+        CmpItemKindValue = { link = "String" },
+        CmpItemKindUnit = {},
+        CmpItemKindEvent = {},
+        CmpItemKindColor = {},
     }
 
     theme.defer = {}

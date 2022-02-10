@@ -86,10 +86,65 @@ function M.setup(config)
     colors.base0E = colors.waveAqua2
     colors.base0F = colors.fujiWhite
 
-    colors.error = colors.samuraiRed
-    colors.warning = colors.roninYellow
-    colors.info = colors.waveAqua1
-    colors.hint = colors.dragonBlue
+    colors.bg = colors.sumiInk1
+    colors.bg_dim = colors.sumiInk1b
+    colors.bg_dark = colors.sumiInk0
+    colors.bg_light0 = colors.sumiInk2
+    colors.bg_light1 = colors.sumiInk3
+    colors.bg_light2 = colors.sumiInk4
+    colors.bg_light3 = colors.springViolet1
+
+    colors.bg_menu = colors.waveBlue1
+    colors.bg_menu_sel = colors.waveBlue2
+
+    colors.bg_status = colors.sumiInk0
+    colors.bg_visual = colors.waveBlue1
+    colors.bg_search = colors.waveBlue2
+
+    colors.fg_border = colors.sumiInk4
+    colors.fg_dark = colors.oldWhite
+    colors.fg_reverse = colors.waveBlue1
+
+    colors.fg_comment = colors.fujiGray
+    colors.fg = colors.fujiWhite
+
+    colors.co = colors.surimiOrange
+    colors.st = colors.springGreen
+    colors.nu = colors.sakuraPink
+    colors.id = colors.carpYellow
+    colors.fn = colors.crystalBlue
+    colors.sm = colors.oniViolet
+    colors.kw = colors.oniViolet
+    colors.op = colors.boatYellow2
+    colors.pp = colors.surimiOrange
+    colors.ty = colors.waveAqua2
+    colors.sp = colors.springBlue
+    colors.sp2 = colors.waveRed
+    colors.sp3 = colors.peachRed
+    colors.br = colors.springViolet2
+    colors.re = colors.boatYellow2
+    colors.dep = colors.katanaGray
+
+    colors.diag = {
+        error = colors.samuraiRed,
+        warning = colors.roninYellow,
+        info = colors.dragonBlue,
+        hint = colors.waveAqua1,
+        good = colors.springGreen,
+    }
+
+    colors.diff = {
+        add = colors.winterGreen,
+        delete = colors.winterRed,
+        change = colors.winterBlue,
+        text = colors.winterYellow,
+    }
+
+    colors.git = {
+        added = colors.autumnGreen,
+        removed = colors.autumnRed,
+        changed = colors.autumnYellow,
+    }
 
     return colors
 end
