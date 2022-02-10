@@ -13,6 +13,7 @@
       dunst.enable = true;
       dwm-status.enable = true;
       dendron.enable = true;
+      dendron.work = true;
     };
     fonts.enable = true;
     dwm.enable = true;
