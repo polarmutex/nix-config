@@ -111,6 +111,9 @@
           inherit system overlays;
           config = {
             allowUnfree = true;
+            permittedInsecurePackages = [
+              "electron-13.6.9"
+            ];
           };
         };
 
@@ -158,7 +161,12 @@
                 {
                   nixpkgs = {
                     overlays = overlays;
-                    config.allowUnfree = true;
+                    config = {
+                      allowUnfree = true;
+                      permittedInsecurePackages = [
+                        "electron-13.6.9"
+                      ];
+                    };
                   };
                 }
               ];
