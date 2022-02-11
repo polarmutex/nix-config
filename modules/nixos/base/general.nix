@@ -95,9 +95,6 @@ in
       '';
 
     };
-    nixpkgs.config.permittedInsecurePackages = [
-      "electron-13.6.9"
-    ];
 
     security = {
       #protectKernelImage = lib.mkDefault true;
