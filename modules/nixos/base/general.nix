@@ -93,7 +93,11 @@ in
       extraOptions = ''
         experimental-features = nix-command flakes
       '';
+
     };
+    nixpkgs.config.permittedInsecurePackages = [
+      "electron-13.6.9"
+    ];
 
     security = {
       #protectKernelImage = lib.mkDefault true;
