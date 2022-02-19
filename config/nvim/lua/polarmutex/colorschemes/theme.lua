@@ -299,14 +299,14 @@ function M.setup(config)
 
         -- Cmp
         CmpDocumentation = { fg = c.fg, bg = c.bg_popup },
-        CmpDocumentationBorder = { fg = c.fg_border, bg = "NONE" },
-        CmpItemAbbr = { fg = c.fg, bg = "NONE" },
-        CmpItemAbbrDeprecated = { fg = c.fg_comment, bg = "NONE" }, --TODO strikethrough ?
-        CmpItemAbbrMatch = { fg = c.fn, bg = "NONE" },
+        --CmpDocumentationBorder = { fg = c.fg_border, bg = "NONE" },
+        --CmpItemAbbr = { fg = c.fg, bg = "NONE" },
+        --CmpItemAbbrDeprecated = { fg = c.fg_comment, bg = "NONE" }, --TODO strikethrough ?
+        --CmpItemAbbrMatch = { fg = c.fn, bg = "NONE" },
         CmpItemAbbrMatchFuzzy = { link = "CmpItemAbbrMatch" },
-        CmpItemKindDefault = { fg = c.dep, bg = "NONE" },
-        CmpItemMenu = { fg = c.fg_comment, bg = "NONE" },
-        CmpItemKindVariable = { fg = c.fg_dark, bg = "NONE" },
+        --CmpItemKindDefault = { fg = c.dep, bg = "NONE" },
+        --CmpItemMenu = { fg = c.fg_comment, bg = "NONE" },
+        --CmpItemKindVariable = { fg = c.fg_dark, bg = "NONE" },
         CmpItemKindFunction = { link = "Function" },
         CmpItemKindMethod = { link = "Function" },
         CmpItemKindConstructor = { link = "TSConstructor" },
@@ -316,7 +316,7 @@ function M.setup(config)
         CmpItemKindProperty = { link = "TSProperty" },
         CmpItemKindField = { link = "TSField" },
         CmpItemKindEnum = { link = "Identifier" },
-        CmpItemKindSnippet = { fg = c.sp, bg = "NONE" },
+        --CmpItemKindSnippet = { fg = c.sp, bg = "NONE" },
         CmpItemKindText = { link = "TSText" },
         CmpItemKindModule = { link = "TSInclude" },
         CmpItemKindFile = { link = "Directory" },
@@ -329,9 +329,9 @@ function M.setup(config)
         CmpItemKindEnumMember = { link = "TSField" },
 
         CmpItemKindValue = { link = "String" },
-        CmpItemKindUnit = {},
-        CmpItemKindEvent = {},
-        CmpItemKindColor = {},
+        --CmpItemKindUnit = {},
+        --CmpItemKindEvent = {},
+        --CmpItemKindColor = {},
     }
 
     theme.defer = {}
