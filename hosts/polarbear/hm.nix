@@ -53,6 +53,7 @@
     ansible
     peek
     vscodium
+    protonvpn-cli
   ];
 
   services = {
