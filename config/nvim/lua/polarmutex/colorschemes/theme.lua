@@ -129,18 +129,18 @@ function M.setup(config)
         SpellLocal = { undercurl = true, sp = c.diag.warning }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
         SpellRare = { undercurl = true, sp = c.diag.warning }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
 
-        DiagnosticError = { fg = c.error }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
-        DiagnosticWarn = { fg = c.warining }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
-        DiagnosticInfo = { fg = c.info }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
-        DiagnosticHint = { fg = c.hint }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
-        DiagnosticVirtualTextError = { fg = c.error }, -- Used for "Error" diagnostic virtual text
-        DiagnosticVirtualTextWarn = { fg = c.warning }, -- Used for "Warning" diagnostic virtual text
-        DiagnosticVirtualTextInfo = { fg = c.info }, -- Used for "Information" diagnostic virtual text
-        DiagnosticVirtualTextHint = { fg = c.hint }, -- Used for "Hint" diagnostic virtual text
-        DiagnosticUnderlineError = { undercurl = true, sp = c.error }, -- Used to underline "Error" diagnostics
-        DiagnosticUnderlineWarn = { undercurl = true, sp = c.warning }, -- Used to underline "Warning" diagnostics
-        DiagnosticUnderlineInfo = { undercurl = true, sp = c.info }, -- Used to underline "Information" diagnostics
-        DiagnosticUnderlineHint = { undercurl = true, sp = c.hint }, -- Used to underline "Hint" diagnostics
+        DiagnosticError = { fg = c.diag.error }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
+        DiagnosticWarn = { fg = c.diag.warning }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
+        DiagnosticInfo = { fg = c.diag.info }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
+        DiagnosticHint = { fg = c.diag.hint }, -- Used as the base highlight group. Other Diagnostic highlights link to this by default
+        DiagnosticVirtualTextError = { fg = c.diag.error }, -- Used for "Error" diagnostic virtual text
+        DiagnosticVirtualTextWarn = { fg = c.diag.warning }, -- Used for "Warning" diagnostic virtual text
+        DiagnosticVirtualTextInfo = { fg = c.diag.info }, -- Used for "Information" diagnostic virtual text
+        DiagnosticVirtualTextHint = { fg = c.diag.hint }, -- Used for "Hint" diagnostic virtual text
+        DiagnosticUnderlineError = { undercurl = true, sp = c.diag.error }, -- Used to underline "Error" diagnostics
+        DiagnosticUnderlineWarn = { undercurl = true, sp = c.diag.warning }, -- Used to underline "Warning" diagnostics
+        DiagnosticUnderlineInfo = { undercurl = true, sp = c.diag.info }, -- Used to underline "Information" diagnostics
+        DiagnosticUnderlineHint = { undercurl = true, sp = c.diag.hint }, -- Used to underline "Hint" diagnostics
 
         -- These groups are for the native LSP client. Some other LSP clients may
         -- use these groups, or use their own. Consult your LSP client's
