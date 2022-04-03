@@ -21,7 +21,7 @@ let
         exit 0
     fi
 
-    if ! tmux has-session -t $selected_name 2> /dev/null; then
+    if ! tmux has-session -t=$selected_name 2> /dev/null; then
         tmux new-session -ds $selected_name -c $selected
     fi
 
