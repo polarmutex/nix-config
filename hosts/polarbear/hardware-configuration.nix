@@ -16,8 +16,19 @@
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" "wl" ];
+  #boot.extraModulePackages = [
+  #  pkgs.linuxPackages_latest.broadcom_sta
+  #];
+  # Fix till this is merged - https://github.com/NixOS/nixpkgs/issues/166035
   boot.extraModulePackages = [
-    pkgs.linuxPackages_latest.broadcom_sta
+    (config.boot.kernelPackages.broadcom_sta.overrideAttrs (old: {
+      patches = old.patches ++ [
+        (builtins.fetchurl {
+          url = "https://raw.githubusercontent.com/archlinux/svntogit-community/5ec5b248976f84fcd7e3d7fae49ee91289912d12/trunk/012-linux517.patch";
+          sha256 = "df557afdb0934ed2de6ab967a350d777cbb7b53bf0b1bdaaa7f77a53102f30ac";
+        })
+      ];
+    }))
   ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
