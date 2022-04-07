@@ -34,5 +34,6 @@
   #virtualisation.virtualbox.host.enable = true;
   #virtualisation.virtualbox.host.enableExtensionPack = true;
   #users.extraGroups.vboxusers.members = [ "polar" ];
+  hardware.opengl.driSupport32Bit = true;
 
 }

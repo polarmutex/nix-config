@@ -54,6 +54,15 @@
     peek
     vscodium
     protonvpn-cli
+
+    # gaming
+    lutris
+    wineWowPackages.staging
+    winetricks
+    vulkan-tools
+    vulkan-loader
+    vulkan-headers
+    glxinfo
   ];
 
   services = {
