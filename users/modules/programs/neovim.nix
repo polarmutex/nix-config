@@ -77,6 +77,7 @@ in
       #TODO python39Packages.mypy
       python39Packages.pyls-isort
       python39Packages.python-lsp-black
+      rust-analyzer
     ];
 
     xdg.configFile = link-one "config" "." "nvim";
