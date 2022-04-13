@@ -54,6 +54,7 @@
     peek
     vscodium
     protonvpn-cli
+    xclip
 
     # gaming
     lutris
