@@ -28,6 +28,7 @@
     cmake
     exa
     gh
+    graphviz
     htop
     lazydocker
     networkmanagerapplet
