@@ -11,7 +11,7 @@ cmp.setup({
             require("luasnip").lsp_expand(args.body)
         end,
     },
-    mapping = {
+    mapping = cmp.mapping.preset.insert({
         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
@@ -21,7 +21,7 @@ cmp.setup({
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
         }),
-    },
+    }),
     sources = {
         { name = "emoji" },
         { name = "nvim_lua" },
