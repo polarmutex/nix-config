@@ -20,7 +20,7 @@ in
   config = mkIf cfg.virtualbox.enable {
 
     virtualisation.docker.enable = true;
-    users.users.polar.extraGroups = [ "libvirt" ];
+    users.users.polar.extraGroups = [ "libvirt docker" ];
 
     virtualisation.libvirtd.enable = true;
 
