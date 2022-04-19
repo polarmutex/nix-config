@@ -19,6 +19,7 @@
       dwm-status.enable = true;
       stacks.enable = true;
     };
+    fonts.enable = true;
   };
 
   home.packages = with pkgs; [

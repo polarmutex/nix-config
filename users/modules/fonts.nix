@@ -23,9 +23,9 @@ in
       (pkgs.nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
     ];
 
-    home.file.".local/share/fonts/MonoLisa-Regular.otf".source = ../../.secrets/MonoLisa-Regular.otf;
-    home.file.".local/share/fonts/MonoLisa-Bold.otf".source = ../../.secrets/MonoLisa-Bold.otf;
-    home.file.".local/share/fonts/MonoLisa-BoldItalic.otf".source = ../../.secrets/MonoLisa-BoldItalic.otf;
-    home.file.".local/share/fonts/MonoLisa-RegularItalic.otf".source = ../../.secrets/MonoLisa-RegularItalic.otf;
+    home.file.".local/share/fonts/MonoLisa-Regular-Nerd-Font-Complete.otf".source = ../../.secrets/MonoLisa-Regular-Nerd-Font-Complete.otf;
+    home.file.".local/share/fonts/MonoLisa-Regular-Italic-Nerd-Font-Complete.otf".source = ../../.secrets/MonoLisa-Regular-Italic-Nerd-Font-Complete.otf;
+    home.file.".local/share/fonts/MonoLisa-Bold-Nerd-Font-Complete.otf".source = ../../.secrets/MonoLisa-Bold-Nerd-Font-Complete.otf;
+    home.file.".local/share/fonts/MonoLisa-Bold-Italic-Nerd-Font-Complete.otf".source = ../../.secrets/MonoLisa-Bold-Italic-Nerd-Font-Complete.otf;
   };
 }
