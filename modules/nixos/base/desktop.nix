@@ -76,7 +76,7 @@ in
       hardware.pulseaudio = {
         enable = true;
         package = pkgs.pulseaudioFull;
-        extraModules = [ pkgs.pulseaudio-modules-bt ];
+        extraModules = [ ];
         extraConfig = ''
           load-module module-switch-on-connect
         '';
