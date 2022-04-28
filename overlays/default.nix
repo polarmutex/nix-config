@@ -15,4 +15,15 @@ self: super: {
   #dwm = super.callPackage ../pkgs/dwm { };
   prettierd = super.callPackage ../pkgs/prettierd { };
   stacks = super.callPackage ../pkgs/stacks { };
+  # TODO REMOVE WHEN FIXED
+  sumneko-lua-language-server = super.sumneko-lua-language-server.overrideAttrs (old: rec {
+    version = "3.2.1";
+    src = super.fetchFromGitHub {
+      owner = "sumneko";
+      repo = "lua-language-server";
+      rev = version;
+      sha256 = "sha256-rxferVxTWmclviDshHhBmbCezOI+FvcfUW3gAkBQNHQ=";
+      fetchSubmodules = true;
+    };
+  });
 }
