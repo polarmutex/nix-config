@@ -26,4 +26,5 @@ self: super: {
       fetchSubmodules = true;
     };
   });
+  beancount-language-server = super.callPackage ../pkgs/beancount-language-server { };
 }

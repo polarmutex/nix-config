@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, inputs, ... }:
 with lib;
 let
   dot = path: "${config.home.homeDirectory}/repos/personal/nix-dotfiles/${path}";
@@ -78,6 +78,7 @@ in
       python39Packages.pyls-isort
       python39Packages.python-lsp-black
       rust-analyzer
+      beancount-language-server
     ];
 
     xdg.configFile = link-one "config" "." "nvim";
