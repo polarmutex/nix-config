@@ -19,7 +19,7 @@ end
 
 function M.format()
     if M.autoformat then
-        vim.lsp.buf.formatting_sync()
+        vim.lsp.buf.format()
     end
 end
 
@@ -42,7 +42,7 @@ function M.setup(client, buf)
         autocmd! * <buffer>
         autocmd BufWritePre <buffer> lua require("polarmutex.config.lsp.formatting").format()
       augroup END
-    ]])
+    ]]   )
     end
 end
 
