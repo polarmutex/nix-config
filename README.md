@@ -1,5 +1,11 @@
 # PolarMutex Nix Config
 
+## nix-direnv
+
+```bash
+echo "use flake" >> .envrc && direnv allow
+```
+
 Took inspiration from the following:
 
 - [wiltaylor](https://github.com/wiltaylor/dotfiles)

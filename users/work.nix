@@ -2,6 +2,7 @@
 {
   polar = {
     programs = {
+      direnv.enable = true;
       git.enable = true;
       neovim.enable = true;
       tmux.enable = true;
