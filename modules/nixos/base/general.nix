@@ -34,7 +34,6 @@ in
         binutils
         coreutils
         curl
-        direnv
         dnsutils
         fd
         gh

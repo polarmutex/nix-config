@@ -9,6 +9,7 @@ _:
     ./modules/dwm.nix
     ./modules/work.nix
     ./modules/fonts.nix
+    ./modules/programs/direnv.nix
     ./modules/programs/git.nix
     ./modules/programs/zsh.nix
     ./modules/programs/tmux.nix

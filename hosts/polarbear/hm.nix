@@ -2,6 +2,7 @@
 {
   polar = {
     programs = {
+      direnv.enable = true;
       firefox.enable = true;
       git.enable = true;
       neomutt.enable = true;

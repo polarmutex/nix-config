@@ -68,7 +68,6 @@ in
         zle -N down-line-or-beginning-search
         bindkey "^[[A" up-line-or-beginning-search # Up
         bindkey "^[[B" down-line-or-beginning-search # Down
-        eval "$(direnv hook zsh)"
       '';
       initExtra = ''
         eval "$(starship init zsh)"
