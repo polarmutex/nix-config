@@ -1,4 +1,5 @@
 {
+
   description = "PolarMutex Nix Configuration";
 
   inputs = {
@@ -22,6 +23,13 @@
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    neovim-flake = {
+      url = "github:polarmutex/neovim-flake";
+    };
+    nix2vim = {
+      url = "github:polarmutex/nix2vim";
     };
 
     nur.url = "github:nix-community/NUR";
@@ -76,8 +84,9 @@
 
         overlay = import ./overlays inputs;
 
-        hmModules = [
+        hmModules = system: [
           ./users/home.nix
+          inputs.neovim-flake.home-managerModule."${system}"
         ];
 
         nixosModules = hostname: [
@@ -100,6 +109,7 @@
         overlays = [
           overlay
           neovim.overlay
+          nix2vim.overlay
           nur.overlay
           polar-dwm.overlay
           polar-st.overlay
@@ -155,12 +165,14 @@
               configuration = "${config_file}";
               username = "${username}";
               homeDirectory = "/home/${username}";
-              extraModules = hmModules ++ [
+              extraModules = hmModules system ++ [
                 { _module.args.inputs = inputs; }
                 #{ _module.args.self-overlay = self.overlay; }
                 {
                   nixpkgs = {
-                    overlays = overlays;
+                    overlays = overlays ++ [
+		    	inputs.neovim-flake.overlay."${system}"
+		    ];
                     config = {
                       allowUnfree = true;
                       permittedInsecurePackages = [
