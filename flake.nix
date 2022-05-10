@@ -26,10 +26,8 @@
     };
 
     neovim-flake = {
-      url = "github:polarmutex/neovim-flake";
-    };
-    nix2vim = {
-      url = "github:polarmutex/nix2vim";
+      #url = "github:polarmutex/neovim-flake";
+      url = "path:/home/polar/repos/personal/neovim-flake";
     };
 
     nur.url = "github:nix-community/NUR";
@@ -84,9 +82,9 @@
 
         overlay = import ./overlays inputs;
 
-        hmModules = system: [
+        hmModules = [
           ./users/home.nix
-          inputs.neovim-flake.home-managerModule."${system}"
+          inputs.neovim-flake.home-managerModule
         ];
 
         nixosModules = hostname: [
@@ -109,16 +107,22 @@
         overlays = [
           overlay
           neovim.overlay
-          nix2vim.overlay
           nur.overlay
           polar-dwm.overlay
           polar-st.overlay
           polar-dmenu.overlay
           deploy-rs.overlay
+          (self: last: {
+          neovim-polar = neovim-flake.packages."${self.system}".neovim-polar;
+        })
+          (self: last: {
+          luaConfigBuilder = neovim-flake.packages."${self.system}".luaConfigBuilder;
+        })
         ];
 
         pkgs = system: import nixpkgs {
-          inherit system overlays;
+          inherit system;
+          overlays = overlays;
           config = {
             allowUnfree = true;
             permittedInsecurePackages = [
@@ -129,10 +133,10 @@
 
 
         # function to create default system config
-        mkNixOS = hostname:
+        mkNixOS = hostname: system:
           nixpkgs.lib.nixosSystem
             {
-              system = "x86_64-linux";
+              system = system;
 
               modules = [
                 { _module.args.inputs = inputs; }
@@ -140,7 +144,7 @@
                 {
                   nixpkgs = {
                     pkgs = pkgs "x86_64-linux";
-                    inherit ((pkgs "x86_64-linux")) config;
+                    inherit ((pkgs system)) config;
                   };
                   system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
                   nix = {
@@ -165,14 +169,12 @@
               configuration = "${config_file}";
               username = "${username}";
               homeDirectory = "/home/${username}";
-              extraModules = hmModules system ++ [
+              extraModules = hmModules ++ [
                 { _module.args.inputs = inputs; }
                 #{ _module.args.self-overlay = self.overlay; }
                 {
                   nixpkgs = {
-                    overlays = overlays ++ [
-		    	inputs.neovim-flake.overlay."${system}"
-		    ];
+                    overlays = overlays;
                     config = {
                       allowUnfree = true;
                       permittedInsecurePackages = [
@@ -195,7 +197,7 @@
         nixosConfigurations = builtins.listToAttrs (map
           (hostname: {
             name = hostname;
-            value = mkNixOS hostname;
+            value = mkNixOS hostname "x86_64-linux";
           })
           (builtins.attrNames (builtins.readDir ./hosts)));
 
