@@ -4,7 +4,13 @@
     programs = {
       direnv.enable = true;
       git.enable = true;
-      neovim.enable = true;
+      neovim = {
+        enable = true;
+        lsp = {
+          lua = true;
+          python = true;
+        };
+      };
       tmux.enable = true;
       zsh.enable = true;
     };
