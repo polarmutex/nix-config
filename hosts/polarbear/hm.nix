@@ -6,7 +6,14 @@
       firefox.enable = true;
       git.enable = true;
       neomutt.enable = true;
-      neovim.enable = true;
+      neovim = {
+        enable = true;
+        lsp = {
+          nix = true;
+          rust = true;
+          lua = true;
+        };
+      };
       tmux.enable = true;
       zsh.enable = true;
     };
