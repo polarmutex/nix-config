@@ -107,17 +107,15 @@
         overlays = [
           overlay
           neovim.overlay
+          neovim-flake.overlay
           nur.overlay
           polar-dwm.overlay
           polar-st.overlay
           polar-dmenu.overlay
           deploy-rs.overlay
-          (self: last: {
-          neovim-polar = neovim-flake.packages."${self.system}".neovim-polar;
-        })
-          (self: last: {
-          luaConfigBuilder = neovim-flake.packages."${self.system}".luaConfigBuilder;
-        })
+	  (final: prev: {
+	    neovim-polar = neovim-flake.defaultPackage.x86_64-linux;
+	  })
         ];
 
         pkgs = system: import nixpkgs {
