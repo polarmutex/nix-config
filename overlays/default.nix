@@ -6,7 +6,6 @@ let
 in
 self: super: {
   monolisa-font = super.callPackage ../pkgs/monolisa-font { };
-  jdtls = super.callPackage ../pkgs/jdt-language-server { };
   #tree-sitter-beancount = super.callPackage ../pkgs/tree-sitter-beancount { };
   #tree-sitter-svelte = super.callPackage ../pkgs/tree-sitter-svelte { };
   fathom = super.callPackage ../pkgs/fathom { };
