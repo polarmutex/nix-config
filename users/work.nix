@@ -9,6 +9,7 @@
         lsp = {
           lua = true;
           python = true;
+          java = true;
         };
       };
       tmux.enable = true;
