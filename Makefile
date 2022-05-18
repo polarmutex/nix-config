@@ -37,6 +37,9 @@ polar-hm:
 work:
 	nix build .#homeManagerConfigurations."work".activationPackage && result/activate && unlink result
 
+update_local_neovim:
+	nix flake lock --update-input neovim-flake
+
 # bootstrap a brand new VM. The VM should have NixOS ISO on the CD drive
 # and just set the password of the root user to "root". This will install
 # NixOS. After installing NixOS, you must reboot and set the root password
