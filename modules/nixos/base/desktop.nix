@@ -69,6 +69,10 @@ in
         displayManager.lightdm.enable = true;
 
         windowManager.dwm.enable = true;
+        windowManager.awesome = {
+          enable = true;
+          package = pkgs.awesome-polar;
+        };
       };
 
       # Enable sound.
