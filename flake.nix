@@ -25,6 +25,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    awesome-flake = {
+      #url = "github:polarmutex/awesome-flake";
+      url = "path:/home/polar/repos/personal/awesome-flake";
+    };
     neovim-flake = {
       #url = "github:polarmutex/neovim-flake";
       url = "path:/home/polar/repos/personal/neovim-flake";
@@ -85,6 +89,7 @@
         hmModules = [
           ./users/home.nix
           inputs.neovim-flake.home-managerModule
+          inputs.awesome-flake.home-managerModule
         ];
 
         nixosModules = hostname: [
@@ -113,9 +118,10 @@
           polar-st.overlay
           polar-dmenu.overlay
           deploy-rs.overlay
-	  (final: prev: {
-	    neovim-polar = neovim-flake.defaultPackage.x86_64-linux;
-	  })
+          (final: prev: {
+            neovim-polar = neovim-flake.defaultPackage.x86_64-linux;
+            awesome-polar = awesome-flake.defaultPackage.x86_64-linux;
+          })
         ];
 
         pkgs = system: import nixpkgs {
