@@ -71,7 +71,7 @@ in
         windowManager.dwm.enable = true;
         windowManager.awesome = {
           enable = true;
-          package = pkgs.awesome-polar;
+          package = pkgs.awesome-git;
         };
       };
 
