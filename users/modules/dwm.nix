@@ -28,7 +28,8 @@ in
     xsession = {
       enable = true;
       windowManager = {
-        command = "${pkgs.dwm}/bin/dwm";
+        #command = "${pkgs.dwm}/bin/dwm";
+        command = "${pkgs.awesome-git}/bin/awesome";
       };
       initExtra = ''
         feh --bg-fill --random ~/.config/wallpapers/* &
