@@ -10,6 +10,9 @@
     nixpkgs-local = {
       url = "github:polarmutex/nixpkgs/neovim-fix";
     };
+    nixpkgs-master = {
+      url = "nixpkgs/master";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -122,6 +125,7 @@
           (final: prev: {
             neovim-polar = neovim-flake.defaultPackage.x86_64-linux;
           })
+          (import ./overlays/node-ifd.nix)
         ];
 
         pkgs = system: import nixpkgs {
