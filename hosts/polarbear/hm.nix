@@ -59,7 +59,7 @@
     element-desktop
     qmk
     zoom-us
-    ansible
+    #ansible
     peek
     vscodium
     protonvpn-cli
@@ -73,6 +73,10 @@
     vulkan-loader
     vulkan-headers
     glxinfo
+
+    # prettierd need nodejs on system path
+    nodejs
+    myNodePackages
   ];
 
   services = {

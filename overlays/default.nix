@@ -4,15 +4,15 @@ let
   # instead of having to keep sha256 hashes in each package for src
   inherit inputs;
 in
-self: super: {
-  monolisa-font = super.callPackage ../pkgs/monolisa-font { };
+final: prev: {
+  monolisa-font = prev.callPackage ../pkgs/monolisa-font { };
   #tree-sitter-beancount = super.callPackage ../pkgs/tree-sitter-beancount { };
   #tree-sitter-svelte = super.callPackage ../pkgs/tree-sitter-svelte { };
-  fathom = super.callPackage ../pkgs/fathom { };
-  logseq = super.callPackage ../pkgs/logseq { };
+  fathom = prev.callPackage ../pkgs/fathom { };
+  logseq = prev.callPackage ../pkgs/logseq { };
   #obsidian = super.callPackage ../pkgs/obsidian { };
   #dwm = super.callPackage ../pkgs/dwm { };
-  prettierd = super.callPackage ../pkgs/prettierd { };
-  stacks = super.callPackage ../pkgs/stacks { };
-  beancount-language-server = super.callPackage ../pkgs/beancount-language-server { };
+  #prettierd = prev.callPackage ../pkgs/prettierd { };
+  stacks = prev.callPackage ../pkgs/stacks { };
+  beancount-language-server = prev.callPackage ../pkgs/beancount-language-server { };
 }
