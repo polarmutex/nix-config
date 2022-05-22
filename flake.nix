@@ -31,10 +31,12 @@
     awesome-flake = {
       #url = "github:polarmutex/awesome-flake";
       url = "path:/home/polar/repos/personal/awesome-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     neovim-flake = {
       #url = "github:polarmutex/neovim-flake";
       url = "path:/home/polar/repos/personal/neovim-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nur.url = "github:nix-community/NUR";
