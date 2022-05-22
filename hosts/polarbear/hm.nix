@@ -12,6 +12,7 @@
           nix = true;
           rust = true;
           lua = true;
+          beancount = true;
         };
       };
       tmux.enable = true;
