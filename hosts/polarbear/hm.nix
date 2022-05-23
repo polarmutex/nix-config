@@ -65,6 +65,7 @@
     vscodium
     protonvpn-cli
     xclip
+    wezterm-git
 
     # gaming
     lutris

@@ -15,4 +15,7 @@ final: prev: {
   #prettierd = prev.callPackage ../pkgs/prettierd { };
   stacks = prev.callPackage ../pkgs/stacks { };
   beancount-language-server = prev.callPackage ../pkgs/beancount-language-server { };
+  wezterm-git = prev.callPackage ../pkgs/wezterm {
+    inputs = inputs;
+  };
 }
