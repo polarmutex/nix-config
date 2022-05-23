@@ -10,6 +10,7 @@
           lua = true;
           python = true;
           java = true;
+          rust = true;
         };
       };
       tmux.enable = true;
