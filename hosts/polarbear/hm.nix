@@ -60,7 +60,7 @@
     element-desktop
     qmk
     zoom-us
-    #ansible
+    ansible
     peek
     vscodium
     protonvpn-cli
