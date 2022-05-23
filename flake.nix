@@ -39,6 +39,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    wezterm-git-src = {
+      type = "git";
+      url = "https://github.com/wez/wezterm.git";
+      ref = "main";
+      submodules = true;
+      flake = false;
+    };
+
     nur.url = "github:nix-community/NUR";
     hardware.url = "github:nixos/nixos-hardware";
 
@@ -125,7 +133,7 @@
           deploy-rs.overlay
           awesome-flake.overlay
           (final: prev: {
-            neovim-polar = neovim-flake.defaultPackage.x86_64-linux;
+            neovim-polar = neovim-flake.defaultPackage.${final.system};
           })
           (import ./overlays/node-ifd.nix)
         ];
