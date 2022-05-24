@@ -123,7 +123,6 @@
           polar-st.overlay
           polar-dmenu.overlay
           deploy-rs.overlay
-          awesome-flake.overlay
           (final: prev: {
             neovim-polar = neovim-flake.defaultPackage.${final.system};
           })
