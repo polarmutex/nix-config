@@ -57,6 +57,7 @@ in
   ###### implementation
 
   config = mkIf cfg.enable {
+    home.sessionVariables.TERMINAL = "${pkgs.wezterm-git}/bin/wezterm";
     xdg.configFile."wezterm/wezterm.lua".source = link "wezterm.lua";
   };
 }
