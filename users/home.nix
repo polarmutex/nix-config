@@ -15,6 +15,7 @@ _:
     ./modules/programs/zsh.nix
     ./modules/programs/tmux.nix
     ./modules/programs/neomutt.nix
+    ./modules/programs/wezterm.nix
     ./modules/programs/firefox/firefox.nix
     ./modules/services/dunst.nix
     ./modules/services/picom.nix
