@@ -39,7 +39,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nur.url = "github:polarmutex/nur";
+    nur.url = "github:nix-community/NUR";
+    polar-nur.url = "github:polarmutex/nur";
     hardware.url = "github:nixos/nixos-hardware";
 
     neovim = {
@@ -119,6 +120,7 @@
           neovim.overlay
           neovim-flake.overlay
           nur.overlay
+          polar-nur.overlay
           polar-dwm.overlay
           polar-st.overlay
           polar-dmenu.overlay
