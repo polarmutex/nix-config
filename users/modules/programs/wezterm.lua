@@ -2,7 +2,8 @@ local wezterm = require("wezterm")
 wezterm.add_to_config_reload_watch_list("~/.config/wezterm")
 return {
 	font = wezterm.font("MonoLisa Nerd Font"),
-	font_size = 8,
+	font_size = 11,
+	check_for_updates = false,
 	window_background_opacity = 0.9,
 	enable_tab_bar = false,
 	colors = {

@@ -16,6 +16,7 @@
         };
       };
       tmux.enable = true;
+      wezterm.enable = true;
       zsh.enable = true;
     };
     services = {
