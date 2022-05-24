@@ -39,15 +39,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    wezterm-git-src = {
-      type = "git";
-      url = "https://github.com/wez/wezterm.git";
-      ref = "main";
-      submodules = true;
-      flake = false;
-    };
-
-    nur.url = "github:nix-community/NUR";
+    nur.url = "github:polarmutex/nur";
     hardware.url = "github:nixos/nixos-hardware";
 
     neovim = {
