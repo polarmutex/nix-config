@@ -72,6 +72,10 @@ in
         windowManager.awesome = {
           enable = true;
           package = pkgs.awesome-git;
+          luaModules = [
+            pkgs.bling-git
+            pkgs.rubato-git
+          ];
         };
       };
 
