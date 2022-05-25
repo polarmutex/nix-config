@@ -6,6 +6,10 @@ return {
 	check_for_updates = false,
 	window_background_opacity = 0.9,
 	enable_tab_bar = false,
+
+	front_end = "OpenGL",
+	enable_wayland = false,
+
 	colors = {
 		foreground = "#c0caf5",
 		background = "#1a1b26",
