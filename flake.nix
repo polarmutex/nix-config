@@ -120,7 +120,7 @@
           neovim.overlay
           neovim-flake.overlay
           nur.overlay
-          polar-nur.overlay
+          polar-nur.overlays.default
           polar-dwm.overlay
           polar-st.overlay
           polar-dmenu.overlay
