@@ -39,14 +39,17 @@
     arandr
     appimage-run
     brave
+    brightnessctl
     exa
     gcc
     htop
     fd
+    inotify-tools
     networkmanagerapplet
     nix-index
     pavucontrol
     playerctl
+    rofi
     spotify
     xfce.exo # thunar "open terminal here"
     xfce.thunar
@@ -56,6 +59,7 @@
     xfce.xfce4-volumed-pulse
     xfce.xfconf # thunar save settings
     xorg.xrandr
+    xorg.xdpyinfo
     #yubioath-desktop
     ytfzf
     element-desktop

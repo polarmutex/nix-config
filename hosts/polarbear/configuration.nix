@@ -23,6 +23,7 @@
   #services.printing.enable = true;
   services.tailscale.enable = true;
   #hardware.sane.enable = true;
+  services.upower.enable = true;
 
   virtualisation.docker.enable = true;
   #programs.dconf.enable = true;
