@@ -28,7 +28,7 @@
       dendron.work = true;
     };
     fonts.enable = true;
-    dwm.enable = true;
+    awesome.enable = true;
     work.enable = true;
   };
 
@@ -44,6 +44,7 @@
     graphviz
     htop
     lazydocker
+    libreoffice-fresh
     networkmanagerapplet
     nix-index
     pavucontrol

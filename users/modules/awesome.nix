@@ -1,17 +1,17 @@
 { pkgs, config, lib, ... }:
 with lib;
 let
-  cfg = config.polar.dwm;
+  cfg = config.polar.awesome;
 in
 {
   ###### interface
   options = {
 
-    polar.dwm = {
+    polar.awesome = {
       enable = mkOption {
         type = types.bool;
         default = false;
-        description = "Enable dwm xsession";
+        description = "Enable awesome xsession";
       };
     };
   };
@@ -20,18 +20,24 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      dwm
-      st
       rofi
+      st
     ];
 
     xsession = {
       enable = true;
       windowManager = {
-        command = "${pkgs.dwm}/bin/dwm";
+        awesome = {
+          enable = true;
+          package = pkgs.awesome-git;
+          luaModules = [
+            pkgs.awesome-battery-widget-git
+            pkgs.bling-git
+            pkgs.rubato-git
+          ];
+        };
       };
       initExtra = ''
-        feh --bg-fill --random ~/.config/wallpapers/* &
         xrdb ~/.Xresources
       '';
     };
