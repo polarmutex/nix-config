@@ -68,7 +68,7 @@
     ansible
     peek
     vscodium
-    protonvpn-cli
+    protonvpn-cli_2
     xclip
     wezterm-git
 
