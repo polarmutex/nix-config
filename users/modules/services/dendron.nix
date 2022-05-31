@@ -62,7 +62,7 @@ in
           Install = { WantedBy = [ "timers.target" ]; };
         };
       }
-      (mkIf (cfg.work == false) {
+      (mkIf (!cfg.work) {
         systemd.user.services.workspace-sync = {
           Unit = {
             Description = "personal workspace sync";
@@ -131,7 +131,7 @@ in
           Install = { WantedBy = [ "timers.target" ]; };
         };
       })
-      (mkIf (cfg.work == true) {
+      (mkIf cfg.work {
         systemd.user.services.workspace-sync = {
           Unit = {
             Description = "work workspace sync";
