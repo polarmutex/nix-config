@@ -57,7 +57,7 @@ in
   ###### implementation
 
   config = mkIf cfg.enable {
-    home.sessionVariables.TERMINAL = "${pkgs.wezterm-git}/bin/wezterm start --always-new-process";
+    home.sessionVariables.TERMINAL = "wezterm start --always-new-process";
     xdg.configFile."wezterm/wezterm.lua".source = link "wezterm.lua";
   };
 }
