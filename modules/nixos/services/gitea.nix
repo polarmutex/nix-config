@@ -70,13 +70,21 @@ in
       # NixOS module uses `gitea dump` to backup repositories and the database,
       # but it produces a single .zip file that's not very restic friendly.
       # I configure my backup system manually below.
-      dump.enable = false;
+      dump = {
+        enable = true;
+        backupDir = "/backup/gitea";
+      };
       database = {
         type = "postgres";
         # user needs to be the same as gitea user
         user = "git";
       };
     };
+
+    systemd.tmpfiles.rules = [
+      "z ${config.services.gitea.dump.backupDir} 750 git gitea - -"
+      "d ${config.services.gitea.dump.backupDir} 750 git gitea - -"
+    ];
 
     services.nginx = {
       virtualHosts = {
