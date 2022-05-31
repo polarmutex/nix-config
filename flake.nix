@@ -112,7 +112,6 @@
               ] ++ hmModules;
             };
           }
-          ./secrets
         ] ++ getFileList true (nixpkgs.lib.hasSuffix ".nix") ./modules/nixos;
 
         overlays = [
@@ -133,7 +132,7 @@
 
         pkgs = system: import nixpkgs {
           inherit system;
-          overlays = overlays;
+          inherit overlays;
           config = {
             allowUnfree = true;
             permittedInsecurePackages = [
@@ -147,7 +146,7 @@
         mkNixOS = hostname: system:
           nixpkgs.lib.nixosSystem
             {
-              system = system;
+              inherit system;
 
               modules = [
                 { _module.args.inputs = inputs; }
@@ -185,7 +184,7 @@
                 #{ _module.args.self-overlay = self.overlay; }
                 {
                   nixpkgs = {
-                    overlays = overlays;
+                    inherit overlays;
                     config = {
                       allowUnfree = true;
                       permittedInsecurePackages = [
@@ -253,11 +252,11 @@
           };
           polarvortex = {
             sshOpts = [ "-p" "22" ];
-            hostname = "polarvortex";
+            hostname = "brianryall.xyz";
             fastConnection = false;
             profiles = {
               system = {
-                sshUser = "root";
+                sshUser = "polar";
                 path =
                   deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
                 user = "root";
@@ -294,12 +293,12 @@
             "./secrets/keys/users"
           ];
           nativeBuildInputs = with pkgs; [
+            age
             nixFlakes
             nixfmt
             nixpkgs-fmt
             statix
             rnix-lsp
-            deploy-rs
             deploy-rs.defaultPackage.x86_64-linux
             sops
             (callPackage sops-nix { }).sops-import-keys-hook

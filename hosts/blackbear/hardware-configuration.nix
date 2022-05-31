@@ -37,6 +37,7 @@
     }
   ];
 
-  virtualisation.virtualbox.guest.enable = true;
+  # broken ???
+  #virtualisation.virtualbox.guest.enable = true;
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 }

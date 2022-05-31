@@ -4,7 +4,9 @@ _:
     programs = {
       zsh.enable = true;
     };
-    services = { };
+    services = {
+      gpg.enable = true;
+    };
   };
 
 }

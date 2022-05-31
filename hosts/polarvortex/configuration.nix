@@ -18,7 +18,7 @@
   polar.services = {
     miniflux.enable = true;
     gitea.enable = true;
-    ssmtp.enable = true;
+    #TODO ssmtp.enable = true;
     blog.enable = true;
     fathom.enable = true;
     #rss-bridge.enable = true;
