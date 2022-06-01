@@ -32,11 +32,13 @@
       #url = "github:polarmutex/awesome-flake";
       url = "path:/home/polar/repos/personal/awesome-flake";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.polar-nur.follows = "polar-nur";
     };
     neovim-flake = {
       #url = "github:polarmutex/neovim-flake";
       url = "path:/home/polar/repos/personal/neovim-flake";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.polar-nur.follows = "polar-nur";
     };
 
     nur.url = "github:nix-community/NUR";
@@ -125,7 +127,7 @@
           polar-dmenu.overlay
           deploy-rs.overlay
           (final: prev: {
-            neovim-polar = neovim-flake.defaultPackage.${final.system};
+            neovim-polar = neovim-flake.packages.${final.system}.default;
           })
           (import ./overlays/node-ifd.nix)
         ];
