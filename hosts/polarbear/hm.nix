@@ -44,6 +44,7 @@
     gcc
     htop
     fd
+    inferno
     inotify-tools
     networkmanagerapplet
     nix-index
