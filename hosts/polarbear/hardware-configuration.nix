@@ -17,7 +17,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" "wl" ];
   boot.extraModulePackages = [
-    #pkgs.linuxPackages_latest.broadcom_sta
+    pkgs.linuxPackages_latest.broadcom_sta
   ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
