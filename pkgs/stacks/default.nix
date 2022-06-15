@@ -1,11 +1,11 @@
 { pkgs, lib, fetchurl, appimageTools }:
 appimageTools.wrapType2 rec {
   pname = "stacks-task-manager";
-  version = "1.8.3";
+  version = "1.9.1";
 
   src = fetchurl {
     url = "https://github.com/stacks-task-manager/stacks/releases/download/v${version}/Stacks-Linux-${version}.AppImage";
-    sha256 = "sha256-gCjTieIyKGBtbNidAre6wAV7CPItJb26pdLVpfHMio0=";
+    sha256 = "sha256-FDmf8/taudTXiKV56raAbZ/fbBzzCroXpcZL7KF3y1Y=";
   };
 
   profile = ''
