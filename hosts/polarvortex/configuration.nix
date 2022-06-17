@@ -51,9 +51,10 @@
   # Tell the firewall to implicitly trust packets routed over Tailscale:
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
-  security.auditd.enable = true;
-  security.audit.enable = true;
-  security.audit.rules = [ "-a exit,always -F arch=b64 -S execve" ];
+  # TODO look into and limit space
+  #security.auditd.enable = true;
+  #security.audit.enable = true;
+  #security.audit.rules = [ "-a exit,always -F arch=b64 -S execve" ];
 
   services.nginx = {
     enable = true;
