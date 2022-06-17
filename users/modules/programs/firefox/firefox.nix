@@ -106,6 +106,15 @@ let
     "browser.contentblocking.category" = "strict";
 
     /*** [SECTION 2800]: SHUTDOWN & SANITIZING ***/
+    /* 2801: delete cookies and site data on exit
+      * 0=keep until they expire (default), 2=keep until you close Firefox
+      * [NOTE] A "cookie" block permission also controls localStorage/sessionStorage, indexedDB,
+      * sharedWorkers and serviceWorkers. serviceWorkers require an "Allow" permission
+      * [SETTING] Privacy & Security>Cookies and Site Data>Delete cookies and site data when Firefox is closed
+      * [SETTING] to add site exceptions: Ctrl+I>Permissions>Cookies>Allow
+      * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Settings ***/
+    "network.cookie.lifetimePolicy" = 2;
+
     /*** [SECTION 4500]: RFP (RESIST FINGERPRINTING)
       RFP covers a wide range of ongoing fingerprinting solutions.
       It is an all-or-nothing buy in: you cannot pick and choose what parts you want
