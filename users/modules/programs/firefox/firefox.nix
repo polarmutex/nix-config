@@ -211,7 +211,7 @@ let
     "security.webauth.webauthn_enable_softtoken" = true;
     "security.webauth.webauthn_enable_usbtoken" = true;
     "browser.urlbar.placeholderName" = "DuckDuckGo";
-    "browser.search.defaultenginename" = "DuckDuckGo";
+    #"browser.search.defaultenginename" = "DuckDuckGo";
     "font.name.serif.x-western" = "MonoLisa Nerd Font";
 
 
@@ -242,9 +242,9 @@ in
         vimium
         ublock-origin
         multi-account-containers
-        # smart-referer
         skip-redirect
         canvasblocker
+        # smart-referer
 
         #darkreader
         # auto-accepts cookies, use only with privacy-badger & ublock-origin
