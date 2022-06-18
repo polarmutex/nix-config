@@ -13,6 +13,7 @@
           rust = true;
           lua = true;
           beancount = true;
+          typescript = true;
         };
       };
       tmux.enable = true;
