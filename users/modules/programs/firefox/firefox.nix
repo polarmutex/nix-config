@@ -236,7 +236,11 @@ in
   config = mkIf cfg.enable {
     programs.firefox = {
       enable = true;
-      package = pkgs.firefox;
+      package = pkgs.firefox.override {
+        cfg = {
+          smartcardSupport = true;
+        };
+      };
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         onepassword-password-manager
         vimium

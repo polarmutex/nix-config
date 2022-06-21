@@ -4,6 +4,7 @@
     programs = {
       direnv.enable = true;
       git.enable = true;
+      firefox.enable = true;
       neovim = {
         enable = true;
         lsp = {

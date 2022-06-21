@@ -189,6 +189,10 @@
                     inherit overlays;
                     config = {
                       allowUnfree = true;
+                      allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+                        "onepassword-password-manager"
+                        "languagetool"
+                      ];
                       permittedInsecurePackages = [
                         "electron-13.6.9"
                       ];
