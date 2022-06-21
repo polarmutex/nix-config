@@ -47,6 +47,7 @@
     nix-index
     pavucontrol
     playerctl
+    poetry
     stacks
     vscodium
     xorg.xrandr
