@@ -37,4 +37,15 @@
   #users.extraGroups.vboxusers.members = [ "polar" ];
   hardware.opengl.driSupport32Bit = true;
 
+  # udiskctl service to manipulate storage devices. Mount and unmount without the need for sudo
+  services.udisks2.enable = true;
+
+  # Userspace virtual file system
+  services.gvfs.enable = true;
+
+  # Enable thumbnail service
+  services.tumbler.enable = true;
+
+  networking.networkmanager.enable = true;
+
 }

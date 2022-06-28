@@ -40,13 +40,13 @@ in
       root.openssh.authorizedKeys.keyFiles = [
         (builtins.fetchurl {
           url = "https://github.com/polarmutex.keys";
-          sha256 = "sha256:01vg72kgaw8scgmfif1sm9wnzq3iis834gn8axhpwl2czxcfysl9";
+          sha256 = "sha256:1083pj4mb4lndcfa4s0wykgn67y0ampfz9f4nivivlq0549h2kq1";
         })
       ];
       polar.openssh.authorizedKeys.keyFiles = [
         (builtins.fetchurl {
           url = "https://github.com/polarmutex.keys";
-          sha256 = "sha256:01vg72kgaw8scgmfif1sm9wnzq3iis834gn8axhpwl2czxcfysl9";
+          sha256 = "sha256:1083pj4mb4lndcfa4s0wykgn67y0ampfz9f4nivivlq0549h2kq1";
         })
       ];
     };

@@ -14,6 +14,7 @@
           lua = true;
           beancount = true;
           typescript = true;
+          cpp = true;
         };
       };
       tmux.enable = true;
@@ -47,6 +48,7 @@
     fd
     inferno
     inotify-tools
+    networkmanager
     networkmanagerapplet
     nix-index
     pavucontrol
@@ -86,6 +88,7 @@
     # prettierd need nodejs on system path
     nodejs
     myNodePackages
+    beancount
   ];
 
   services = {
