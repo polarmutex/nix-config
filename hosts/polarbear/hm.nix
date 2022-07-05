@@ -15,6 +15,9 @@
           beancount = true;
           typescript = true;
           cpp = true;
+          astro = true;
+          svelte = true;
+          python = true;
         };
       };
       tmux.enable = true;
