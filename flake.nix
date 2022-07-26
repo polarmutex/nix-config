@@ -75,7 +75,7 @@
   };
 
   outputs =
-    { self, ... }@inputs:
+    { self, flake-utils, ... }@inputs:
       with inputs;
       let
         getFileList = recursive: isValidFile: path:
@@ -97,8 +97,6 @@
               contents;
           in
           nixpkgs.lib.flatten list;
-
-        overlay = import ./overlays inputs;
 
         hmModules = [
           ./users/home.nix
@@ -122,25 +120,19 @@
           }
         ] ++ getFileList true (nixpkgs.lib.hasSuffix ".nix") ./modules/nixos;
 
-        overlays = [
-          overlay
-          neovim.overlay
-          neovim-flake.overlay
-          nur.overlay
-          polar-nur.overlays.default
-          polar-dwm.overlay
-          polar-st.overlay
-          polar-dmenu.overlay
-          deploy-rs.overlay
-          (final: _prev: {
-            neovim-polar = neovim-flake.packages.${final.system}.default;
-          })
-          (import ./overlays/node-ifd.nix)
-        ];
-
         pkgs = system: import nixpkgs {
           inherit system;
-          inherit overlays;
+          overlays = [
+            nur.overlay
+            polar-nur.overlays.default
+            (final: _prev: {
+              neovim-polar = neovim-flake.packages.${final.system}.default;
+            })
+            (import ./nix/overlays/node-ifd.nix)
+            neovim-flake.overlay
+            (import ./nix/overlays/monolisa-font.nix)
+            (import ./nix/overlays/fathom.nix)
+          ];
           config = {
             allowUnfree = true;
             permittedInsecurePackages = [
@@ -278,9 +270,11 @@
 
         };
 
+        overlays.default = import ./nix/overlay.nix inputs;
+
       }
       //
-      (inputs.flake-utils.lib.eachSystem [
+      flake-utils.lib.eachSystem [
         "x86_64-linux"
         "aarch64-linux"
         "aarch64-darwin"
@@ -297,13 +291,12 @@
             nixpkgs
             {
               inherit system;
-              inherit overlays;
-              #overlays = [
-              #  self.overlays.default
-              #];
+              overlays = [
+                self.overlays.default
+              ];
               config.allowUnfree = true;
               config.allowAliases = true;
             };
-        }));
+        });
 }
 
