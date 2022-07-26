@@ -1,7 +1,5 @@
 { lib
 , stdenv
-, fetchurl
-, makeWrapper
 , pkgs
 }:
 stdenv.mkDerivation rec {

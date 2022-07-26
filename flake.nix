@@ -66,6 +66,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
   };
 
   outputs =
@@ -126,7 +132,7 @@
           polar-st.overlay
           polar-dmenu.overlay
           deploy-rs.overlay
-          (final: prev: {
+          (final: _prev: {
             neovim-polar = neovim-flake.packages.${final.system}.default;
           })
           (import ./overlays/node-ifd.nix)
@@ -174,12 +180,12 @@
             };
 
         # function to create default system config
-        mkHomeManager = { username, system, config_file ? "/users/home-${username}.nix", ... }:
+        mkHomeManager = { username, _system, config_file ? "/users/home-${username}.nix", ... }:
           home-manager.lib.homeManagerConfiguration
             {
               system = "x86_64-linux";
-              configuration = "${config_file}";
-              username = "${username}";
+              configuration = config_file;
+              inherit username;
               homeDirectory = "/home/${username}";
               extraModules = hmModules ++ [
                 { _module.args.inputs = inputs; }
@@ -211,16 +217,16 @@
         # configuration.nix that will be read first
         # Used with `nixos-rebuild --flake .#<hostname>`
         nixosConfigurations = builtins.listToAttrs (map
-          (hostname: {
-            name = hostname;
-            value = mkNixOS hostname "x86_64-linux";
+          (name: {
+            inherit name;
+            value = mkNixOS name "x86_64-linux";
           })
           (builtins.attrNames (builtins.readDir ./hosts)));
 
         homeManagerConfigurations = {
           work = mkHomeManager {
             system = "x86_64-linux";
-            username = "${work_username}";
+            username = work_username;
             config_file = ./users/work.nix;
           };
         };
@@ -273,44 +279,31 @@
         };
 
       }
-      // (inputs.flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages."${system}";
-      in
-      {
-        # Executed by `nix flake check`
-        #checks."<system>"."<name>" = derivation;
-        checks = {
-          statix = pkgs.runCommand "statix" { } ''
-            ${pkgs.statix}/bin/statix check ${./.} --format errfmt | tee output
-            [[ "$(cat output)" == "" ]];
-            touch $out
-          '';
-          nixpkgs-fmt = pkgs.runCommand "nixpkgs-fmt" { } ''
-            shopt -s globstar
-            ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt --check ${./.}/**/*.nix
-            touch $out
-          '';
-        } // (deploy-rs.lib."${system}".deployChecks self.deploy);
+      //
+      (inputs.flake-utils.lib.eachSystem [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ]
+        (system:
+        {
+          # Executed by `nix flake check`
+          checks = import ./nix/checks.nix inputs system;
 
-        devShell = pkgs.mkShell {
-          sopsPGPKeyDirs = [
-            "./secrets/keys/hosts"
-            "./secrets/keys/users"
-          ];
-          nativeBuildInputs = with pkgs; [
-            age
-            nixFlakes
-            nixfmt
-            nixpkgs-fmt
-            statix
-            rnix-lsp
-            deploy-rs.defaultPackage.x86_64-linux
-            sops
-            (callPackage sops-nix { }).sops-import-keys-hook
-          ];
-          shellhook = "zsh";
-        };
-      }));
+          devShells.default = import ./nix/dev-shells.nix inputs system;
+
+          pkgs = import
+            nixpkgs
+            {
+              inherit system;
+              inherit overlays;
+              #overlays = [
+              #  self.overlays.default
+              #];
+              config.allowUnfree = true;
+              config.allowAliases = true;
+            };
+        }));
 }
 

@@ -1,5 +1,5 @@
 # Configuration for polarvortex
-{ self, pkgs, ... }: {
+{ pkgs, ... }: {
 
   imports = [ ./hardware-configuration.nix ];
 

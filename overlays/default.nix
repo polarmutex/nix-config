@@ -4,7 +4,7 @@ let
   # instead of having to keep sha256 hashes in each package for src
   inherit inputs;
 in
-final: prev: {
+_final: prev: {
   monolisa-font = prev.callPackage ../pkgs/monolisa-font { };
   #tree-sitter-beancount = super.callPackage ../pkgs/tree-sitter-beancount { };
   #tree-sitter-svelte = super.callPackage ../pkgs/tree-sitter-svelte { };

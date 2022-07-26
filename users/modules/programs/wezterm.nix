@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ config, lib, ... }:
 with lib;
 let
   #tmux_sessionizer = pkgs.writeScriptBin "tmux-sessionizer" ''

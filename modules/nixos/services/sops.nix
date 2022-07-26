@@ -1,17 +1,17 @@
-{ config, pkgs, lib, inputs, ... }:
-let
-  #secret_files = import ./secretdata.nix { inherit lib; };
-  secrets = [
-    "protonmail_pw"
-  ];
-  genDefaultPerms = secret: {
-    ${secret} = {
-      mode = "0440";
-      owner = config.users.users.polar.name;
-      inherit (config.users.users.polar) group;
-    };
-  };
-in
+{ _, ... }:
+#let
+#secret_files = import ./secretdata.nix { inherit lib; };
+#secrets = [
+#  "protonmail_pw"
+#];
+#genDefaultPerms = secret: {
+#  ${secret} = {
+#    mode = "0440";
+#    owner = config.users.users.polar.name;
+#    inherit (config.users.users.polar) group;
+#  };
+#};
+#in
 {
   config = {
     sops = {

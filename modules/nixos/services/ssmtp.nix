@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, lib, ... }:
 with lib;
 let
   cfg = config.polar.services.ssmtp;
@@ -16,7 +16,7 @@ in
       enable = true;
 
       hostName = "smtp.gmail.com:587";
-      domain = "${domain}";
+      inherit domain;
       useTLS = true;
       useSTARTTLS = true;
       root = "bryall@gmail.com";
