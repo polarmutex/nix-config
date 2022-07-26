@@ -1,8 +1,0 @@
-{
-  "url": "https://github.com/polarmutex/dwm",
-  "rev": "490d8ea9a218e8c8ec5926ac7da28f289de61d69",
-  "sha256": "sha256-vfIrKejNX9Zz0d6IFKUE3n2OLnn5vqNWAhq2eaQh4gU=",
-  "fetchSubmodules": false,
-  "deepClone": false,
-  "leaveDotGit": false
-}
