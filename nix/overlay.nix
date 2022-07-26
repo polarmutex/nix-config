@@ -33,4 +33,7 @@ composeManyExtensions (localOverlays ++ [
   polar-st.overlay
   polar-dmenu.overlay
   (import ./overlays/node-ifd.nix)
+  (final: _prev: {
+    neovim-polar = neovim-flake.packages.${final.system}.default;
+  })
 ])
