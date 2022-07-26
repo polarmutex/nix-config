@@ -28,14 +28,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1658782362,
-        "narHash": "sha256-Mpv7fEFyV9b1eUa6H6JqmRTa4lg5BRm4KY2s7KUV2o8=",
-        "path": "/home/polar/repos/personal/awesome-flake",
-        "type": "path"
+        "lastModified": 1658782360,
+        "narHash": "sha256-ti+APSgaw4DpqW6uFxJO1juNY575D4dCn63iozRkz8k=",
+        "owner": "polarmutex",
+        "repo": "awesome-flake",
+        "rev": "f86b76df4137c240e200df66b549dcd8b8ccdc12",
+        "type": "github"
       },
       "original": {
-        "path": "/home/polar/repos/personal/awesome-flake",
-        "type": "path"
+        "owner": "polarmutex",
+        "repo": "awesome-flake",
+        "type": "github"
       }
     },
     "awesome-git-src": {
@@ -123,6 +126,22 @@
       }
     },
     "bling": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1658565404,
+        "narHash": "sha256-sUUMgdAmXAB/2ocwoo2OTZlWRbSRLdKi1oZB20qRNWU=",
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "rev": "70c894e58bb88dea55e9799ad373fdaea309da9e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "type": "github"
+      }
+    },
+    "bling-git": {
       "flake": false,
       "locked": {
         "lastModified": 1655411919,
@@ -692,11 +711,11 @@
         "which-key-nvim-src": "which-key-nvim-src"
       },
       "locked": {
-        "lastModified": 1658795866,
-        "narHash": "sha256-OsJ2azVmgRJ3yUeI7k4Eo9XegnMDX21cWDTHBA1INYA=",
+        "lastModified": 1658862183,
+        "narHash": "sha256-H/78ISyjhAe9PcDuhhjJ/WhbcSMY8ci9Ssk39/qsCjc=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "54cf9e546ad357f1318d71b9d2cacdc6556f287f",
+        "rev": "fbdb92ff0f65c22e9e889c3f1c9057ef6763a779",
         "type": "github"
       },
       "original": {
