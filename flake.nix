@@ -29,8 +29,8 @@
     };
 
     awesome-flake = {
-      #url = "github:polarmutex/awesome-flake";
-      url = "path:/home/polar/repos/personal/awesome-flake";
+      url = "github:polarmutex/awesome-flake";
+      #url = "path:/home/polar/repos/personal/awesome-flake";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.polar-nur.follows = "polar-nur";
     };
@@ -175,13 +175,17 @@
         mkHomeManager = { username, _system, config_file ? "/users/home-${username}.nix", ... }:
           home-manager.lib.homeManagerConfiguration
             {
-              system = "x86_64-linux";
-              configuration = config_file;
-              inherit username;
-              homeDirectory = "/home/${username}";
-              extraModules = hmModules ++ [
+              pkgs = nixpkgs.legacyPackages."${system}";
+              #system = "x86_64-linux";
+              #configuration = "${config_file}";
+              #username = "${username}";
+              #homeDirectory = "/home/${username}";
+              modules = hmModules ++ [
                 { _module.args.inputs = inputs; }
                 #{ _module.args.self-overlay = self.overlay; }
+                {
+                  imports = [ "${config_file}" ];
+                }
                 {
                   nixpkgs = {
                     inherit overlays;

@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
+  home.username = "blueguardian";
+  home.homeDirectory = "/home/blueguardian";
   polar = {
     programs = {
       direnv.enable = true;
