@@ -172,7 +172,7 @@
             };
 
         # function to create default system config
-        mkHomeManager = { username, _system, config_file ? "/users/home-${username}.nix", ... }:
+        mkHomeManager = { username, system, config_file ? "/users/home-${username}.nix", ... }:
           home-manager.lib.homeManagerConfiguration
             {
               pkgs = nixpkgs.legacyPackages."${system}";
@@ -188,7 +188,17 @@
                 }
                 {
                   nixpkgs = {
-                    inherit overlays;
+          overlays = [
+            nur.overlay
+            polar-nur.overlays.default
+            (final: _prev: {
+              neovim-polar = neovim-flake.packages.${final.system}.default;
+            })
+            (import ./nix/overlays/node-ifd.nix)
+            neovim-flake.overlay
+            (import ./nix/overlays/monolisa-font.nix)
+            (import ./nix/overlays/fathom.nix)
+          ];
                     config = {
                       allowUnfree = true;
                       allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
