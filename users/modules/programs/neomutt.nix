@@ -1,31 +1,31 @@
 { pkgs, config, lib, ... }:
 with lib;
 let
-  dot = path: "${config.home.homeDirectory}/repos/personal/nix-dotfiles/${path}";
+  #dot = path: "${config.home.homeDirectory}/repos/personal/nix-dotfiles/${path}";
 
-  link = path:
-    let
-      fullpath = dot path;
-    in
-    config.lib.file.mkOutOfStoreSymlink fullpath;
+  #link = path:
+  #  let
+  #    fullpath = dot path;
+  #  in
+  #  config.lib.file.mkOutOfStoreSymlink fullpath;
 
-  link-one = from: to: path:
-    let
-      paths = builtins.attrNames { "${path}" = "directory"; };
-      mkPath = path:
-        let
-          orig = "${from}/${path}";
-        in
-        {
-          name = "${to}/${path}";
-          value = {
-            source = link orig;
-          };
-        };
-    in
-    builtins.listToAttrs (
-      map mkPath paths
-    );
+  #link-one = from: to: path:
+  #  let
+  #    paths = builtins.attrNames { "${path}" = "directory"; };
+  #    mkPath = path:
+  #      let
+  #        orig = "${from}/${path}";
+  #      in
+  #      {
+  #        name = "${to}/${path}";
+  #        value = {
+  #          source = link orig;
+  #        };
+  #      };
+  #  in
+  #  builtins.listToAttrs (
+  #    map mkPath paths
+  #  );
 
   name = "Brian Ryall";
 
@@ -56,7 +56,7 @@ in
           userName = "brian@brianryall.xyz";
           passwordCommand = "cat /var/run/secrets/protonmail_pw";
           primary = true;
-          realName = "${name}";
+          realName = name;
           neomutt.enable = true;
           imap = {
             host = "127.0.0.1";

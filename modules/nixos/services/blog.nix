@@ -3,10 +3,6 @@ let
   cfg = config.polar.services.blog;
   inherit (config.networking) domain;
 
-  makeHostInfo = name: {
-    name = "${name}.${domain}";
-    value = "/var/www/${name}";
-  };
 in
 {
   options.polar.services.blog = {

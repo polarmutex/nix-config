@@ -19,4 +19,7 @@
 
   time.hardwareClockInLocalTime = true;
 
+  environment.systemPackages = with pkgs; [
+  ];
+
 }

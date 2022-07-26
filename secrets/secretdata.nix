@@ -1,7 +1,7 @@
-{ lib }:
+{ lib, ... }:
 
 lib.mapAttrs'
-  (name: v: (lib.nameValuePair name {
+  (name: _: (lib.nameValuePair name {
     sopsFile = ./encrypted + "/${name}";
     format = "binary";
   }))

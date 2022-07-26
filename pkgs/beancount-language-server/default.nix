@@ -1,7 +1,5 @@
 { lib
 , stdenv
-, fetchurl
-, makeWrapper
 , pkgs
 , rustPlatform
 , nix
