@@ -31,10 +31,16 @@
     tailscale
     ventoy-bin
     unzip
+    virt-manager
   ];
-  #virtualisation.virtualbox.host.enable = true;
-  #virtualisation.virtualbox.host.enableExtensionPack = true;
-  #users.extraGroups.vboxusers.members = [ "polar" ];
+  #virtualisation.libvirtd.enable = true;
+  #programs.dconf.enable = true;
+  #users.users.polar.extraGroups = [ "libvirtd" ];
+
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  users.extraGroups.vboxusers.members = [ "polar" ];
+
   hardware.opengl.driSupport32Bit = true;
 
   # udiskctl service to manipulate storage devices. Mount and unmount without the need for sudo
