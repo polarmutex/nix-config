@@ -7,11 +7,8 @@
     nixpkgs = {
       url = "nixpkgs/nixos-unstable";
     };
-    nixpkgs-local = {
-      url = "github:polarmutex/nixpkgs/neovim-fix";
-    };
-    nixpkgs-master = {
-      url = "nixpkgs/master";
+    nixpkgs-22_05 = {
+      url = "nixpkgs/22.05";
     };
 
     home-manager = {
@@ -47,7 +44,7 @@
 
     neovim = {
       url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs-local";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
 
@@ -78,98 +75,9 @@
     { self, flake-utils, ... }@inputs:
       with inputs;
       let
-        getFileList = recursive: isValidFile: path:
-          let
-            contents = builtins.readDir path;
-
-            list = nixpkgs.lib.mapAttrsToList
-              (name: type:
-                let
-                  newPath = path + ("/" + name);
-                in
-                if type == "directory"
-                then
-                  if recursive
-                  then getFileList true isValidFile newPath
-                  else [ ]
-                else nixpkgs.lib.optional (isValidFile newPath) newPath
-              )
-              contents;
-          in
-          nixpkgs.lib.flatten list;
-
-        hmModules = [
-          ./users/home.nix
-          inputs.neovim-flake.home-managerModule
-          inputs.awesome-flake.home-managerModule
-        ];
-
-        nixosModules = hostname: [
-          sops-nix.nixosModules.sops
-          nixpkgs.nixosModules.notDetected
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.polar = {
-              imports = [
-                { _module.args.inputs = inputs; }
-                (./. + "/hosts/${hostname}/hm.nix")
-              ] ++ hmModules;
-            };
-          }
-        ] ++ getFileList true (nixpkgs.lib.hasSuffix ".nix") ./modules/nixos;
-
-        pkgs = system: import nixpkgs {
-          inherit system;
-          overlays = [
-            nur.overlay
-            polar-nur.overlays.default
-            (final: _prev: {
-              neovim-polar = neovim-flake.packages.${final.system}.default;
-            })
-            (import ./nix/overlays/node-ifd.nix)
-            neovim-flake.overlay
-            (import ./nix/overlays/monolisa-font.nix)
-            (import ./nix/overlays/fathom.nix)
-          ];
-          config = {
-            allowUnfree = true;
-            permittedInsecurePackages = [
-              "electron-13.6.9"
-            ];
-          };
-        };
 
 
-        # function to create default system config
-        mkNixOS = hostname: system:
-          nixpkgs.lib.nixosSystem
-            {
-              inherit system;
 
-              modules = [
-                { _module.args.inputs = inputs; }
-                (import (./hosts + "/${hostname}/configuration.nix"))
-                {
-                  nixpkgs = {
-                    pkgs = pkgs "x86_64-linux";
-                    inherit ((pkgs system)) config;
-                  };
-                  system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
-                  nix = {
-                    #TODO in base package = (pkgs "x86_64-linux").nixFlakes;
-                    nixPath =
-                      let path = toString ./.; in
-                      (nixpkgs.lib.mapAttrsToList (name: _v: "${name}=${inputs.${name}}") inputs) ++ [ "repl=${path}/repl.nix" ];
-                    registry =
-                      (nixpkgs.lib.mapAttrs'
-                        (name: _v: nixpkgs.lib.nameValuePair name { flake = inputs.${name}; })
-                        inputs) // { ${hostname}.flake = self; };
-                  };
-                }
-              ] ++ (nixosModules hostname);
-            };
 
         # function to create default system config
         mkHomeManager = { username, system, config_file ? "/users/home-${username}.nix", ... }:
@@ -188,17 +96,17 @@
                 }
                 {
                   nixpkgs = {
-          overlays = [
-            nur.overlay
-            polar-nur.overlays.default
-            (final: _prev: {
-              neovim-polar = neovim-flake.packages.${final.system}.default;
-            })
-            (import ./nix/overlays/node-ifd.nix)
-            neovim-flake.overlay
-            (import ./nix/overlays/monolisa-font.nix)
-            (import ./nix/overlays/fathom.nix)
-          ];
+                    overlays = [
+                      nur.overlay
+                      polar-nur.overlays.default
+                      (final: _prev: {
+                        neovim-polar = neovim-flake.packages.${final.system}.default;
+                      })
+                      (import ./nix/overlays/node-ifd.nix)
+                      neovim-flake.overlay
+                      (import ./nix/overlays/monolisa-font.nix)
+                      (import ./nix/overlays/fathom.nix)
+                    ];
                     config = {
                       allowUnfree = true;
                       allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
@@ -222,12 +130,13 @@
         # nixosConfiguratons. Host configurations need a file called
         # configuration.nix that will be read first
         # Used with `nixos-rebuild --flake .#<hostname>`
-        nixosConfigurations = builtins.listToAttrs (map
-          (name: {
-            inherit name;
-            value = mkNixOS name "x86_64-linux";
-          })
-          (builtins.attrNames (builtins.readDir ./hosts)));
+        nixosConfigurations = import ./nixos/configurations.nix inputs;
+        #nixosConfigurations = builtins.listToAttrs (map
+        #  (name: {
+        #    inherit name;
+        #    value = mkNixOS name "x86_64-linux";
+        #  })
+        #  (builtins.attrNames (builtins.readDir ./hosts)));
 
         homeManagerConfigurations = {
           work = mkHomeManager {
@@ -248,41 +157,42 @@
           # self.hmConfigurations);
         */
 
-        deploy.nodes = {
-          blackbear = {
-            sshOpts = [ "-p" "22" ];
-            hostname = "blackbear";
-            fastConnection = true;
-            profiles = {
-              system = {
-                sshUser = "polar";
-                path =
-                  deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.blackbear;
-                user = "root";
-              };
-              #user = {
-              #  sshUser = "polar";
-              #  path =
-              #    deploy-rs.lib.x86_64-linux.activate.home-manager self.homeManagerConfigurations.polar;
-              #  user = "polar";
-              #};
-            };
-          };
-          polarvortex = {
-            sshOpts = [ "-p" "22" ];
-            hostname = "brianryall.xyz";
-            fastConnection = false;
-            profiles = {
-              system = {
-                sshUser = "polar";
-                path =
-                  deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
-                user = "root";
-              };
-            };
-          };
+        deploy = import ./nix/deploy-rs.nix inputs;
+        #deploy.nodes = {
+        #  blackbear = {
+        #    sshOpts = [ "-p" "22" ];
+        #    hostname = "blackbear";
+        #    fastConnection = true;
+        #    profiles = {
+        #      system = {
+        #        sshUser = "polar";
+        #        path =
+        #          deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.blackbear;
+        #        user = "root";
+        #      };
+        #      #user = {
+        #      #  sshUser = "polar";
+        #      #  path =
+        #      #    deploy-rs.lib.x86_64-linux.activate.home-manager self.homeManagerConfigurations.polar;
+        #      #  user = "polar";
+        #      #};
+        #    };
+        #  };
+        #  polarvortex = {
+        #    sshOpts = [ "-p" "22" ];
+        #    hostname = "brianryall.xyz";
+        #    fastConnection = false;
+        #    profiles = {
+        #      system = {
+        #        sshUser = "polar";
+        #        path =
+        #          deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
+        #        user = "root";
+        #      };
+        #    };
+        #  };
 
-        };
+        #};
 
         overlays.default = import ./nix/overlay.nix inputs;
 
