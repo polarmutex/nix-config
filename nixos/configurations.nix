@@ -106,23 +106,33 @@ let
   #
   # NEW
   #
-  nixosSystem = nixpkgs.lib.nixosSystem;
-  defaultModules = [
-    {
-      _module.args.self = self;
-      _module.args.inputs = self.inputs;
-    }
-  ];
+  hostPkgs = localSystem: {
+    nixpkgs = {
+      localSystem.system = localSystem;
+      pkgs = self.pkgs.${localSystem};
+    };
+  };
+  genConfiguration = hostname: localSystem:
+    nixpkgs.lib.nixosSystem {
+      system = localSystem;
+      modules = [
+        {
+          _module.args.self = self;
+          _module.args.inputs = self.inputs;
+        }
+        (../nixos + "/${hostname}/configuration.nix")
+        (hostPkgs localSystem)
+      ];
+      #specialArgs = {
+      #  impermanence = impermanence.nixosModules;
+      #  nixos-hardware = nixos-hardware.nixosModules;
+      #};
+    };
 in
 {
   polarbear = mkNixOS "polarbear" "x86_64-linux";
 
   polarvortex = mkNixOS "polarvortex" "x86_64-linux";
 
-  blackbear = nixosSystem {
-    system = "x86_64-linux";
-    modules = defaultModules ++ [
-      ./blackbear/configuration.nix
-    ];
-  };
+  blackbear = genConfiguration "blackbear" "x86_64-linux";
 }
