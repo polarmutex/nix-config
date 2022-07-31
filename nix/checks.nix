@@ -12,9 +12,9 @@ with self.pkgs.${system};
     {
       src = lib.cleanSource ../.;
       hooks = {
-        nix-linter.enable = true;
-        nixpkgs-fmt.enable = true;
-        statix.enable = true;
+        #nix-linter.enable = true;
+        #nixpkgs-fmt.enable = true;
+        #statix.enable = true;
         #stylua = {
         #  enable = true;
         #  types = [ "file" "lua" ];

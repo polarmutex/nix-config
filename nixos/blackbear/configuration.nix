@@ -2,14 +2,20 @@
 {
   imports = [
     ./hardware-configuration.nix
-    #../modules/core
+    ../modules/core
+    ../modules/dev
+    ../modules/hardware/bluetooth.nix
+    ../modules/hardware/nvidia.nix
+    ../modules/hardware/yubikey.nix
+    ../modules/graphical
+    ../modules/graphical/awesomewm.nix
+    ../modules/graphical/trusted.nix
   ];
 
   system.stateVersion = "2021.05";
 
   networking.hostId = "e58e2ad4";
   networking.hostName = "blackbear";
-  networking.useDHCP = lib.mkDefault true;
 
   time.timeZone = "US/Eastern";
 
@@ -38,18 +44,14 @@
     initialPassword = "nixos";
     shell = pkgs.zsh;
   };
+  programs._1password-gui.polkitPolicyOwners = [ "polar" ];
 
   # services
-  services.openssh = {
-    enable = true;
-    permitRootLogin = "yes";
-  };
   services.zfs = {
     autoSnapshot.enable = true;
     autoScrub.enable = true;
     #trim.enable = true;
   };
 
-  security.sudo.wheelNeedsPassword = false;
   nix.settings.trusted-users = [ "root" "@wheel" ];
 }

@@ -26,7 +26,7 @@ polarbear:
 	sudo nixos-rebuild switch --flake .#polarbear
 
 blackbear:
-	deploy ".#blackbear" -d --hostname 10.11.11.145
+	deploy ".#blackbear" -d --hostname 10.11.11.172
 
 polarvortex:
 	deploy ".#polarvortex" --ssh-user "polar"  --hostname brianryall.xyz
