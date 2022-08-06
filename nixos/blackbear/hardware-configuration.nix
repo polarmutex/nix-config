@@ -16,22 +16,38 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
-  #boot.kernelPackages = pkgs.linuxPackages;
-  #boot.kernelPackages = pkgs.linuxKernel.packageAliases.linux_latest;
 
   fileSystems."/" =
     {
-      device = "rpool/root/nixos";
+      device = "rpool/nixos/root";
       fsType = "zfs";
+      options = [ "zfsutil" "X-mount.mkdir" ];
     };
+
   fileSystems."/home" =
     {
-      device = "rpool/home";
+      device = "rpool/nixos/home";
       fsType = "zfs";
+      options = [ "zfsutil" "X-mount.mkdir" ];
     };
+
+  fileSystems."/var/lib" =
+    {
+      device = "rpool/nixos/var/lib";
+      fsType = "zfs";
+      options = [ "zfsutil" "X-mount.mkdir" ];
+    };
+
+  fileSystems."/var/log" =
+    {
+      device = "rpool/nixos/var/log";
+      fsType = "zfs";
+      options = [ "zfsutil" "X-mount.mkdir" ];
+    };
+
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-uuid/B521-EB4A";
+      device = "/dev/disk/by-uuid/2188-0B91";
       fsType = "vfat";
     };
 

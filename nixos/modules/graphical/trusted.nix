@@ -3,9 +3,9 @@
     #_1password = {
     #  enable = true;
     #};
-    _1password-gui = {
-      enable = true;
-    };
+    #_1password-gui = {
+    #  enable = true;
+    #};
   };
 
   #security.pam.services.login.enableGnomeKeyring = true;

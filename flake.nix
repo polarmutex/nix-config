@@ -4,11 +4,11 @@
 
   inputs = {
     # Stable NixOS nixpkgs package set; pinned to the 21.11 release.
-    nixpkgs = {
+    nixpkgs-unstable = {
       url = "nixpkgs/nixos-unstable";
     };
-    nixpkgs-22_05 = {
-      url = "nixpkgs/22.05";
+    nixpkgs = {
+      url = "nixpkgs/nixos-22.05";
     };
 
     home-manager = {
@@ -217,6 +217,9 @@
               inherit system;
               overlays = [
                 self.overlays.default
+                (final: prev: {
+                  unstable = import inputs.nixpkgs-unstable { system = final.system; };
+                })
               ];
               config.allowUnfree = true;
               config.allowAliases = true;
