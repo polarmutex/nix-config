@@ -130,9 +130,9 @@ let
     };
 in
 {
-  polarbear = mkNixOS "polarbear" "x86_64-linux";
+  #polarbear = mkNixOS "polarbear" "x86_64-linux";
 
-  polarvortex = mkNixOS "polarvortex" "x86_64-linux";
+  #polarvortex = mkNixOS "polarvortex" "x86_64-linux";
 
   blackbear = genConfiguration "blackbear" "x86_64-linux";
 }

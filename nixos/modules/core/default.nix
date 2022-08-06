@@ -8,7 +8,6 @@
 
   #boot.kernelParams = [ "log_buf_len=10M" ];
 
-  system.stateVersion = "2021.05";
   time.timeZone = "US/Eastern";
   i18n.defaultLocale = "en_US.UTF-8";
 
