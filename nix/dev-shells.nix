@@ -21,10 +21,11 @@ mkShell
     nix-linter
     nixpkgs-fmt
     #ragenix
-    rnix-lsp
+    #rnix-lsp
     sops
     (callPackage sops-nix { }).sops-import-keys-hook
     statix
+    home-manager
 
     # GitHub Actions
     act
@@ -33,9 +34,9 @@ mkShell
     shellcheck
 
     # Misc
-    jq
+    #jq
     pre-commit
-    rage
+    #rage
   ];
 
   shellHook = ''
