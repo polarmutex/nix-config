@@ -15,7 +15,7 @@
     daemonCPUSchedPolicy = "batch";
     daemonIOSchedPriority = 5;
     distributedBuilds = true;
-    extraOptions  = ''
+    extraOptions = ''
       experimental-features = nix-command flakes
     '';
     optimise = {

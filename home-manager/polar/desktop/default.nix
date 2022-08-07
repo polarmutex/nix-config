@@ -4,7 +4,7 @@
     ./wezterm.nix
   ];
   home.packages = with pkgs; [
-  pinentry-gnome
+    pinentry-gnome
   ];
 
   services.gpg-agent.pinentryFlavor = "gnome3";

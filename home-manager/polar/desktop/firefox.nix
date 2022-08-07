@@ -218,35 +218,35 @@ let
   };
 in
 {
-    programs.firefox = {
-      enable = true;
-      package = pkgs.firefox.override {
-        cfg = {
-          smartcardSupport = true;
-        };
-      };
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-        onepassword-password-manager
-        vimium
-        ublock-origin
-        multi-account-containers
-        skip-redirect
-        canvasblocker
-        # smart-referer
-
-        #darkreader
-        # auto-accepts cookies, use only with privacy-badger & ublock-origin
-        i-dont-care-about-cookies
-        languagetool
-        link-cleaner
-      ];
-
-      profiles = {
-        default = {
-          id = 0;
-          settings = sharedSettings;
-          #userChrome = disableWebRtcIndicator;
-        };
+  programs.firefox = {
+    enable = true;
+    package = pkgs.firefox.override {
+      cfg = {
+        smartcardSupport = true;
       };
     };
+    extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      onepassword-password-manager
+      vimium
+      ublock-origin
+      multi-account-containers
+      skip-redirect
+      canvasblocker
+      # smart-referer
+
+      #darkreader
+      # auto-accepts cookies, use only with privacy-badger & ublock-origin
+      i-dont-care-about-cookies
+      languagetool
+      link-cleaner
+    ];
+
+    profiles = {
+      default = {
+        id = 0;
+        settings = sharedSettings;
+        #userChrome = disableWebRtcIndicator;
+      };
+    };
+  };
 }
