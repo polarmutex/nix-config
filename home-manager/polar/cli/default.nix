@@ -2,6 +2,7 @@
   imports = [
   ./direnv.nix
   ./nix.nix
+  ./tmux.nix
   ./zsh.nix
   ];
   home.packages = with pkgs; [
