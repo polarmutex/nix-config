@@ -1,5 +1,8 @@
 { pkgs, ... }: {
   imports = [
+  ./direnv.nix
+  ./nix.nix
+  ./zsh.nix
   ];
   home.packages = with pkgs; [
     exa # Better ls
