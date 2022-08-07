@@ -26,8 +26,8 @@
     };
 
     awesome-flake = {
-      url = "github:polarmutex/awesome-flake";
-      #url = "path:/home/polar/repos/personal/awesome-flake";
+      #url = "github:polarmutex/awesome-flake";
+      url = "path:/home/polar/repos/personal/awesome-flake/main";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.polar-nur.follows = "polar-nur";
     };
@@ -69,6 +69,8 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
+    nix2vim.url = "github:gytis-ivaskevicius/nix2vim";
+
   };
 
   outputs =
@@ -80,47 +82,47 @@
 
 
         # function to create default system config
-        mkHomeManager = { username, system, config_file ? "/users/home-${username}.nix", ... }:
-          home-manager.lib.homeManagerConfiguration
-            {
-              pkgs = nixpkgs.legacyPackages."${system}";
-              #system = "x86_64-linux";
-              #configuration = "${config_file}";
-              #username = "${username}";
-              #homeDirectory = "/home/${username}";
-              modules = hmModules ++ [
-                { _module.args.inputs = inputs; }
-                #{ _module.args.self-overlay = self.overlay; }
-                {
-                  imports = [ "${config_file}" ];
-                }
-                {
-                  nixpkgs = {
-                    overlays = [
-                      nur.overlay
-                      polar-nur.overlays.default
-                      (final: _prev: {
-                        neovim-polar = neovim-flake.packages.${final.system}.default;
-                      })
-                      (import ./nix/overlays/node-ifd.nix)
-                      neovim-flake.overlay
-                      (import ./nix/overlays/monolisa-font.nix)
-                      (import ./nix/overlays/fathom.nix)
-                    ];
-                    config = {
-                      allowUnfree = true;
-                      allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-                        "onepassword-password-manager"
-                        "languagetool"
-                      ];
-                      permittedInsecurePackages = [
-                        "electron-13.6.9"
-                      ];
-                    };
-                  };
-                }
-              ];
-            };
+        #mkHomeManager = { username, system, config_file ? "/users/home-${username}.nix", ... }:
+        #  home-manager.lib.homeManagerConfiguration
+        #    {
+        #      pkgs = nixpkgs.legacyPackages."${system}";
+        #      #system = "x86_64-linux";
+        #      #configuration = "${config_file}";
+        #      #username = "${username}";
+        #      #homeDirectory = "/home/${username}";
+        #      modules = hmModules ++ [
+        #        { _module.args.inputs = inputs; }
+        #        #{ _module.args.self-overlay = self.overlay; }
+        #        {
+        #          imports = [ "${config_file}" ];
+        #        }
+        #        {
+        #          nixpkgs = {
+        #            overlays = [
+        #              nur.overlay
+        #              polar-nur.overlays.default
+        #              (final: _prev: {
+        #                neovim-polar = neovim-flake.packages.${final.system}.default;
+        #              })
+        #              (import ./nix/overlays/node-ifd.nix)
+        #              neovim-flake.overlay
+        #              (import ./nix/overlays/monolisa-font.nix)
+        #              (import ./nix/overlays/fathom.nix)
+        #            ];
+        #            config = {
+        #              allowUnfree = true;
+        #              allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+        #                "onepassword-password-manager"
+        #                "languagetool"
+        #              ];
+        #              permittedInsecurePackages = [
+        #                "electron-13.6.9"
+        #              ];
+        #            };
+        #          };
+        #        }
+        #      ];
+        #    };
 
         work_username = (builtins.fromJSON (builtins.readFile ./.secrets/work/info.json)).username;
 
@@ -138,13 +140,14 @@
         #  })
         #  (builtins.attrNames (builtins.readDir ./hosts)));
 
-        homeManagerConfigurations = {
-          work = mkHomeManager {
-            system = "x86_64-linux";
-            username = work_username;
-            config_file = ./users/work.nix;
-          };
-        };
+        homeConfigurations = import ./home-manager/configurations.nix inputs;
+        #homeManagerConfigurations = {
+        #  work = mkHomeManager {
+        #    system = "x86_64-linux";
+        #    username = work_username;
+        #    config_file = ./users/work.nix;
+        #  };
+        #};
 
         # Hydra build jobs
         #hydraJobs."<attr>"."<system>" = derivation;
@@ -218,7 +221,9 @@
               overlays = [
                 self.overlays.default
                 (final: prev: {
-                  unstable = import inputs.nixpkgs-unstable { system = final.system; };
+                  unstable = import inputs.nixpkgs-unstable { system = final.system; overlays = [
+                self.overlays.default
+                  ];};
                 })
               ];
               config.allowUnfree = true;

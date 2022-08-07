@@ -15,9 +15,12 @@
     daemonCPUSchedPolicy = "batch";
     daemonIOSchedPriority = 5;
     distributedBuilds = true;
+    extraOptions  = ''
+      experimental-features = nix-command flakes
+    '';
     optimise = {
       automatic = true;
       dates = [ "03:00" ];
     };
   };
-}
+}#

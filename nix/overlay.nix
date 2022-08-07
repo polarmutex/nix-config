@@ -8,6 +8,7 @@
 , polar-dwm
 , polar-nur
 , polar-st
+, nix2vim
 , ...
 }:
 
@@ -32,6 +33,7 @@ composeManyExtensions (localOverlays ++ [
   polar-dwm.overlay
   polar-st.overlay
   polar-dmenu.overlay
+  nix2vim.overlay
   (import ./overlays/node-ifd.nix)
   (final: _prev: {
     neovim-polar = neovim-flake.packages.${final.system}.default;
