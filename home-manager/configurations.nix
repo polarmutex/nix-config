@@ -39,8 +39,9 @@ in
     hostname = "polarbear";
     system = "x86_64-linux";
     features = [
-    "trusted"
     "desktop"
+    "dev"
+    "trusted"
     ];
     config_file = ../nixos/polarbear/home-manager.nix;
   };
