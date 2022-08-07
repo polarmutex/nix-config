@@ -13,15 +13,12 @@ in
 
   programs = {
     home-manager.enable = true;
-    git.enable = true;
   };
 
   polar.programs.awesome.enable = true;
 
   home.packages = with pkgs; [
   ansible
-  lazygit
-  git-crypt
   ];
 
   home = {
