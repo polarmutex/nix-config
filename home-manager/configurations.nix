@@ -40,7 +40,7 @@ in
     system = "x86_64-linux";
     features = [
     "trusted"
-    "desktop/wezterm.nix"
+    "desktop"
     ];
     config_file = ../nixos/polarbear/home-manager.nix;
   };

@@ -223,7 +223,8 @@
                 (final: prev: {
                   unstable = import inputs.nixpkgs-unstable { system = final.system; overlays = [
                 self.overlays.default
-                  ];};
+                  ];
+              config.allowUnfree = true;};
                 })
               ];
               config.allowUnfree = true;
