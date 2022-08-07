@@ -28,21 +28,21 @@ let
   '';
 in
 {
-    programs.tmux = {
-      enable = true;
-      terminal = "tmux-256color";
-      escapeTime = 0;
-      aggressiveResize = true;
-      keyMode = "vi";
-      shortcut = "a";
-      baseIndex = 1;
+  programs.tmux = {
+    enable = true;
+    terminal = "tmux-256color";
+    escapeTime = 0;
+    aggressiveResize = true;
+    keyMode = "vi";
+    shortcut = "a";
+    baseIndex = 1;
 
-      extraConfig = ''
-        setw -g mouse on
-      '';
-    };
+    extraConfig = ''
+      setw -g mouse on
+    '';
+  };
 
-    home.packages = with pkgs; [
-      tmux_sessionizer
-    ];
+  home.packages = with pkgs; [
+    tmux_sessionizer
+  ];
 }

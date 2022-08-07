@@ -6,7 +6,7 @@ let
 in
 {
   imports = [
-  ./cli
+    ./cli
   ]
   # Import features that have modules
   ++ filter pathExists (map (feature: ./${feature}) features);
@@ -18,7 +18,7 @@ in
   polar.programs.awesome.enable = true;
 
   home.packages = with pkgs; [
-  ansible
+    ansible
   ];
 
   home = {

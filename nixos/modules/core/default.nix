@@ -17,7 +17,6 @@
       gitAndTools.gitFull
       gptfdisk
       gnumake
-      neovim
       rsync
       wget
     ];

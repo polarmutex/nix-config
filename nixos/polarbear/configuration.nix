@@ -26,12 +26,9 @@
     coreutils
     gitAndTools.gitFull
     gptfdisk
-    neovim
-    vim
     wget
     firefox
     wezterm
-    nix2vimDemo
     protonvpn-cli_2
   ];
 

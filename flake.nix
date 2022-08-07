@@ -32,8 +32,8 @@
       inputs.polar-nur.follows = "polar-nur";
     };
     neovim-flake = {
-      url = "github:polarmutex/neovim-flake";
-      #url = "path:/home/polar/repos/personal/neovim-flake";
+      #url = "github:polarmutex/neovim-flake";
+      url = "path:/home/polar/repos/personal/neovim-flake/main";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.polar-nur.follows = "polar-nur";
     };
@@ -221,10 +221,13 @@
               overlays = [
                 self.overlays.default
                 (final: prev: {
-                  unstable = import inputs.nixpkgs-unstable { system = final.system; overlays = [
-                self.overlays.default
-                  ];
-              config.allowUnfree = true;};
+                  unstable = import inputs.nixpkgs-unstable {
+                    system = final.system;
+                    overlays = [
+                      self.overlays.default
+                    ];
+                    config.allowUnfree = true;
+                  };
                 })
               ];
               config.allowUnfree = true;

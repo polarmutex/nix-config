@@ -12,6 +12,6 @@ let
   cfg = config.polar.programs.wezterm;
 in
 {
-    home.sessionVariables.TERMINAL = "wezterm start --always-new-process";
-    xdg.configFile."wezterm/wezterm.lua".source = link "wezterm.lua";
+  home.sessionVariables.TERMINAL = "wezterm start --always-new-process";
+  xdg.configFile."wezterm/wezterm.lua".source = link "wezterm.lua";
 }

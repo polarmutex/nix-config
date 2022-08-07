@@ -8,7 +8,7 @@
     _1password-gui = {
       enable = true;
       package = pkgs.unstable._1password-gui;
-      polkitPolicyOwners = ["polar"];
+      polkitPolicyOwners = [ "polar" ];
       gid = 5000;
     };
   };

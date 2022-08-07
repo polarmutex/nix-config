@@ -2,25 +2,25 @@
 with lib;
 {
 
-    programs.git = {
-      enable = true;
-      userName = "Brian Ryall";
-      userEmail = "brian@brianryall.xyz";
-      extraConfig = {
-        init = {
-          defaultBranch = "main";
-        };
+  programs.git = {
+    enable = true;
+    userName = "Brian Ryall";
+    userEmail = "brian@brianryall.xyz";
+    extraConfig = {
+      init = {
+        defaultBranch = "main";
       };
-      includes = [
-      ];
-      signing = {
+    };
+    includes = [
+    ];
+    signing = {
       signByDefault = true;
       key = "0x7F1160FAFC739341";
     };
-    };
+  };
 
-    home.packages = with pkgs; [
-  git-crypt
-      lazygit
-    ];
+  home.packages = with pkgs; [
+    git-crypt
+    lazygit
+  ];
 }

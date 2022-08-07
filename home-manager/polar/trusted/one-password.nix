@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 {
   systemd.user.services._1password = {
     Unit = {
