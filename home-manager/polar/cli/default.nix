@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   imports = [
   ./direnv.nix
+  ./git.nix
   ./htop.nix
   ./nix.nix
   ./tmux.nix
