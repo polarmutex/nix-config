@@ -40,7 +40,8 @@ work:
 	home-manager switch  --flake .#work
 
 update_local_neovim:
-	nix flake lock --update-input neovim-flake --update-input awesome-flake
+	nix flake lock --update-input neovim-flake;
+	home-manager switch --flake .#"polar@polarbear"
 
 # bootstrap a brand new VM. The VM should have NixOS ISO on the CD drive
 # and just set the password of the root user to "root". This will install
