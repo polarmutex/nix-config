@@ -34,8 +34,10 @@ polarvortex:
 polar-hm:
 	nix build .#homeConfigurations."polar@polarbear".activationPackage && result/activate && unlink result
 
+#work:
+#	nix build .#homeManagerConfigurations."work".activationPackage && result/activate && unlink result
 work:
-	nix build .#homeManagerConfigurations."work".activationPackage && result/activate && unlink result
+	home-manager switch  --flake .#work
 
 update_local_neovim:
 	nix flake lock --update-input neovim-flake --update-input awesome-flake

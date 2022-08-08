@@ -9,27 +9,27 @@
 , ...
 }:
 let
-inherit (builtins) elemAt match any mapAttrs attrValues attrNames listToAttrs;
+  inherit (builtins) elemAt match any mapAttrs attrValues attrNames listToAttrs;
   hostPkgs = localSystem: {
     nixpkgs = {
       localSystem.system = localSystem;
       pkgs = self.pkgs.${localSystem};
     };
   };
-  genConfiguration = {
-    username
+  genConfiguration =
+    { username
     , hostname ? null
     , system
-    , features ? []
-    , config_file
+    , features ? [ ]
+    , config_file ? ./polar2
     }: home-manager.lib.homeManagerConfiguration {
       pkgs = self.pkgs.${system}.unstable;
       extraSpecialArgs = {
         inherit hostname username features;
       };
       modules = attrValues (import ./modules) ++ [
-      ./${username}
-      awesome-flake.home-managerModule
+        config_file
+        awesome-flake.home-managerModule
       ];
     };
 in
@@ -39,10 +39,19 @@ in
     hostname = "polarbear";
     system = "x86_64-linux";
     features = [
-    "desktop"
-    "dev"
-    "trusted"
+      "desktop"
+      "dev"
+      "trusted"
     ];
-    config_file = ../nixos/polarbear/home-manager.nix;
+  };
+  "work" = genConfiguration {
+    username = "blueguardian";
+    hostname = "";
+    system = "x86_64-linux";
+    features = [
+      "trusted"
+      "desktop"
+    ];
+    config_file = ./work;
   };
 }
