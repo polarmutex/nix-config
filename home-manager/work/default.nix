@@ -30,6 +30,8 @@ in
 
   home.packages = with pkgs; [
     ansible
+    arandr
+    brave
   ];
 
   home = {
