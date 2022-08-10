@@ -24,9 +24,6 @@ composeManyExtensions (localOverlays ++ [
   deploy-rs.overlay
   neovim.overlay
   #neovim-flake.overlay
-  # (final: _prev: {
-  #   neovim-polar = neovim-flake.packages.${final.system}.default; #TODO still needed
-  # })
   #nixgl.overlay
   nur.overlay
   polar-nur.overlays.default
