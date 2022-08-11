@@ -32,6 +32,7 @@ in
     ansible
     arandr
     brave
+    lazydocker # till i switch to podman
   ];
 
   home = {
