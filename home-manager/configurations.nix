@@ -21,7 +21,7 @@ let
     , hostname ? null
     , system
     , features ? [ ]
-    , config_file ? ./polar2
+    , config_file ? ./polar
     }: home-manager.lib.homeManagerConfiguration {
       pkgs = self.pkgs.${system}.unstable;
       extraSpecialArgs = {
