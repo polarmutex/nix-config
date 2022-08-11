@@ -34,7 +34,7 @@
     neovim-flake = {
       #url = "github:polarmutex/neovim-flake";
       url = "path:/home/polar/repos/personal/neovim-flake/main";
-      inputs.nixpkgs.follows = "nixpkgs";
+      #inputs.nixpkgs.follows = "nixpkgs";
       inputs.polar-nur.follows = "polar-nur";
     };
 
