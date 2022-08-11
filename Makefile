@@ -31,8 +31,8 @@ blackbear:
 polarvortex:
 	deploy ".#polarvortex" --ssh-user "polar"  --hostname brianryall.xyz
 
-polar-hm:
-	nix build .#homeConfigurations."polar@polarbear".activationPackage && result/activate && unlink result
+polarbear-home:
+	home-manager switch  --flake .#"polar@polarbear"
 
 #work:
 #	nix build .#homeManagerConfigurations."work".activationPackage && result/activate && unlink result
