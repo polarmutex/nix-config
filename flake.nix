@@ -26,15 +26,15 @@
     };
 
     awesome-flake = {
-      #url = "github:polarmutex/awesome-flake";
-      url = "path:/home/polar/repos/personal/awesome-flake/main";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:polarmutex/awesome-flake";
+      #url = "path:/home/polar/repos/personal/awesome-flake/main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.polar-nur.follows = "polar-nur";
     };
     neovim-flake = {
       #url = "github:polarmutex/neovim-flake";
       url = "path:/home/polar/repos/personal/neovim-flake/main";
-      #inputs.nixpkgs.follows = "nixpkgs";
+      #inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.polar-nur.follows = "polar-nur";
     };
 
@@ -44,7 +44,7 @@
 
     neovim = {
       url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.flake-utils.follows = "flake-utils";
     };
 
@@ -54,18 +54,18 @@
 
     rnix-lsp = {
       url = "github:nix-community/rnix-lsp";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.utils.follows = "flake-utils";
     };
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.flake-utils.follows = "flake-utils";
     };
 
