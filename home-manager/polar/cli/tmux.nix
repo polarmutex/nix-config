@@ -30,7 +30,8 @@ in
 {
   programs.tmux = {
     enable = true;
-    terminal = "tmux-256color";
+    sensibleOnTop = true;
+    #terminal = "tmux-256color";
     escapeTime = 0;
     aggressiveResize = true;
     keyMode = "vi";
@@ -39,6 +40,12 @@ in
 
     extraConfig = ''
       setw -g mouse on
+
+      # for true color
+      # Enable RGB colour if running in xterm(1)
+      set-option -sa terminal-overrides ",xterm*:Tc"
+      # Change the default $TERM to tmux-256color
+      set -g default-terminal "tmux-256color"
     '';
   };
 
