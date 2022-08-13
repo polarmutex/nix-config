@@ -15,8 +15,6 @@ in
     home-manager.enable = true;
   };
 
-  polar.programs.awesome.enable = true;
-
   home.packages = with pkgs; [
     ansible
   ];

@@ -29,7 +29,6 @@ let
       };
       modules = attrValues (import ./modules) ++ [
         config_file
-        awesome-flake.home-managerModule
       ];
     };
 in
@@ -40,6 +39,7 @@ in
     system = "x86_64-linux";
     features = [
       "desktop"
+      "desktop/awesome.nix"
       "dev"
       "trusted"
     ];

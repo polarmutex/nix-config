@@ -33,6 +33,7 @@ in
     arandr
     brave
     lazydocker # till i switch to podman
+    rofi
   ];
 
   home = {
@@ -46,8 +47,6 @@ in
     export JDTLS_HOME=$HOME/jdtls
     xhost +local:docker
   '';
-
-  polar.programs.awesome.enable = true;
 
   xsession = {
     enable = true;
@@ -65,6 +64,9 @@ in
     #initExtra = ''
     #  xrdb ~/.Xresources
     #'';
+  };
+  home.file = {
+    ".config/awesome".source = "${pkgs.awesome-config-polar}";
   };
 
   services = {

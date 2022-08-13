@@ -1,6 +1,7 @@
 { deploy-rs
 , neovim
 , neovim-flake
+, awesome-flake
   #, nixgl
 , nixpkgs
 , nur
@@ -23,7 +24,8 @@ composeManyExtensions (localOverlays ++ [
   #composeManyExtensions ([
   deploy-rs.overlay
   neovim.overlay
-  #neovim-flake.overlay
+  neovim-flake.overlays.default
+  awesome-flake.overlays.default
   #nixgl.overlay
   nur.overlay
   polar-nur.overlays.default
@@ -31,7 +33,4 @@ composeManyExtensions (localOverlays ++ [
   polar-st.overlay
   polar-dmenu.overlay
   (import ./overlays/node-ifd.nix)
-  (final: _prev: {
-    neovim-polar = neovim-flake.packages.${final.system}.default;
-  })
 ])
