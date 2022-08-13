@@ -9,4 +9,13 @@
   ];
 
   services.gpg-agent.pinentryFlavor = "gnome3";
+
+  services.picom = {
+    backend = "glx";
+    enable = true;
+    # package = ; # TODO
+
+    activeOpacity = 1.0;
+    shadow = true;
+  };
 }
