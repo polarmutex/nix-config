@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   imports = [
     ./firefox.nix
+    ./wallpaper.nix
     ./wezterm.nix
   ];
   home.packages = with pkgs; [
