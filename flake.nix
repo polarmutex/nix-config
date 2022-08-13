@@ -27,15 +27,9 @@
 
     awesome-flake = {
       url = "github:polarmutex/awesome-flake";
-      #url = "path:/home/polar/repos/personal/awesome-flake/main";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-      inputs.polar-nur.follows = "polar-nur";
     };
     neovim-flake = {
       url = "github:polarmutex/neovim-flake";
-      #url = "path:/home/polar/repos/personal/neovim-flake/main";
-      #inputs.nixpkgs.follows = "nixpkgs-unstable";
-      inputs.polar-nur.follows = "polar-nur";
     };
 
     nur.url = "github:nix-community/NUR";
@@ -78,76 +72,14 @@
       with inputs;
       let
 
-
-
-
-        # function to create default system config
-        #mkHomeManager = { username, system, config_file ? "/users/home-${username}.nix", ... }:
-        #  home-manager.lib.homeManagerConfiguration
-        #    {
-        #      pkgs = nixpkgs.legacyPackages."${system}";
-        #      #system = "x86_64-linux";
-        #      #configuration = "${config_file}";
-        #      #username = "${username}";
-        #      #homeDirectory = "/home/${username}";
-        #      modules = hmModules ++ [
-        #        { _module.args.inputs = inputs; }
-        #        #{ _module.args.self-overlay = self.overlay; }
-        #        {
-        #          imports = [ "${config_file}" ];
-        #        }
-        #        {
-        #          nixpkgs = {
-        #            overlays = [
-        #              nur.overlay
-        #              polar-nur.overlays.default
-        #              (final: _prev: {
-        #                neovim-polar = neovim-flake.packages.${final.system}.default;
-        #              })
-        #              (import ./nix/overlays/node-ifd.nix)
-        #              neovim-flake.overlay
-        #              (import ./nix/overlays/monolisa-font.nix)
-        #              (import ./nix/overlays/fathom.nix)
-        #            ];
-        #            config = {
-        #              allowUnfree = true;
-        #              allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-        #                "onepassword-password-manager"
-        #                "languagetool"
-        #              ];
-        #              permittedInsecurePackages = [
-        #                "electron-13.6.9"
-        #              ];
-        #            };
-        #          };
-        #        }
-        #      ];
-        #    };
-
         work_username = (builtins.fromJSON (builtins.readFile ./.secrets/work/info.json)).username;
 
       in
       {
-        # Each subdirectory in ./hosts is a host. Add them all to
-        # nixosConfiguratons. Host configurations need a file called
-        # configuration.nix that will be read first
         # Used with `nixos-rebuild --flake .#<hostname>`
         nixosConfigurations = import ./nixos/configurations.nix inputs;
-        #nixosConfigurations = builtins.listToAttrs (map
-        #  (name: {
-        #    inherit name;
-        #    value = mkNixOS name "x86_64-linux";
-        #  })
-        #  (builtins.attrNames (builtins.readDir ./hosts)));
 
         homeConfigurations = import ./home-manager/configurations.nix inputs;
-        #homeManagerConfigurations = {
-        #  work = mkHomeManager {
-        #    system = "x86_64-linux";
-        #    username = work_username;
-        #    config_file = ./users/work.nix;
-        #  };
-        #};
 
         # Hydra build jobs
         #hydraJobs."<attr>"."<system>" = derivation;
@@ -194,7 +126,6 @@
         #      };
         #    };
         #  };
-
         #};
 
         overlays.default = import ./nix/overlay.nix inputs;
@@ -207,8 +138,8 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ]
-        (system:
-        {
+        (system: {
+
           # Executed by `nix flake check`
           checks = import ./nix/checks.nix inputs system;
 
