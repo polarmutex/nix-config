@@ -1,7 +1,7 @@
 { pkgs, config, lib, ... }:
 with lib;
 let
-  tmux_sessionizer = pkgs.writeScriptBin "tmux-sessionizer" ''
+  tmux_sessionizer_old = pkgs.writeScriptBin "tmux-sessionizer" ''
     #!/usr/bin/env bash
     if [[ $# -eq 1 ]]; then
         selected=$1
@@ -43,13 +43,15 @@ in
 
       # for true color
       # Enable RGB colour if running in xterm(1)
-      set-option -sa terminal-overrides ",xterm*:Tc"
+      #set-option -sa terminal-overrides ",xterm*:Tc"
       # Change the default $TERM to tmux-256color
-      set -g default-terminal "tmux-256color"
+      #set -g default-terminal "tmux-256color"
+      set -g default-terminal "xterm-256color"
+      set -ag terminal-overrides ",xterm-256color:RGB"
     '';
   };
 
   home.packages = with pkgs; [
-    tmux_sessionizer
+    tmux-sessionizer
   ];
 }

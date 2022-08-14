@@ -9,7 +9,7 @@
 , polar-dwm
 , polar-nur
 , polar-st
-, nix2vim
+, tmux-sessionizer
 , ...
 }:
 
@@ -33,4 +33,7 @@ composeManyExtensions (localOverlays ++ [
   polar-st.overlay
   polar-dmenu.overlay
   (import ./overlays/node-ifd.nix)
+  (final: prev: {
+    tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
+  })
 ])

@@ -45,6 +45,7 @@
     polar-dwm.url = "github:polarmutex/dwm";
     polar-st.url = "github:polarmutex/st";
     polar-dmenu.url = "github:polarmutex/dmenu";
+    tmux-sessionizer.url = "github:polarmutex/tmux-sessionizer";
 
     rnix-lsp = {
       url = "github:nix-community/rnix-lsp";
@@ -63,7 +64,6 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
-    nix2vim.url = "github:gytis-ivaskevicius/nix2vim";
 
   };
 
