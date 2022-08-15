@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, inputs, ... }:
 with lib;
 let
   tmux_sessionizer_old = pkgs.writeScriptBin "tmux-sessionizer" ''
@@ -37,6 +37,17 @@ in
     keyMode = "vi";
     shortcut = "a";
     baseIndex = 1;
+
+    plugins = with pkgs; [
+      {
+        plugin = tmuxPlugins.gruvbox;
+        extraConfig = "set -g @tmux-gruvbox 'dark'";
+      }
+      #{
+      #  plugin = myTmuxPlugins.tokoyo-night-tmux;
+      #  extraConfig = "set -g @plugin 'janoamaral/tokyo-night-tmux'";
+      #}
+    ];
 
     extraConfig = ''
       setw -g mouse on
