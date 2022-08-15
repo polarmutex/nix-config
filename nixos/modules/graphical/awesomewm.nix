@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   services.xserver = {
     enable = true;
+    updateDbusEnvironment = true;
     libinput = {
       enable = true;
       mouse.naturalScrolling = true;
