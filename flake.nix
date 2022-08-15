@@ -4,12 +4,12 @@
 
   inputs = {
     # Stable NixOS nixpkgs package set; pinned to the 21.11 release.
-    nixpkgs-unstable = {
+    nixpkgs = {
       url = "nixpkgs/nixos-unstable";
     };
-    nixpkgs = {
-      url = "nixpkgs/nixos-22.05";
-    };
+    #nixpkgs = {
+    #  url = "nixpkgs/nixos-22.05";
+    #};
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -38,7 +38,7 @@
 
     neovim = {
       url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      #inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
 
@@ -49,21 +49,20 @@
 
     rnix-lsp = {
       url = "github:nix-community/rnix-lsp";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.utils.follows = "flake-utils";
     };
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-
 
   };
 
@@ -151,15 +150,15 @@
               inherit system;
               overlays = [
                 self.overlays.default
-                (final: prev: {
-                  unstable = import inputs.nixpkgs-unstable {
-                    system = final.system;
-                    overlays = [
-                      self.overlays.default
-                    ];
-                    config.allowUnfree = true;
-                  };
-                })
+                #(final: prev: {
+                #  unstable = import inputs.nixpkgs-unstable {
+                #    system = final.system;
+                #    overlays = [
+                #      self.overlays.default
+                #    ];
+                #    config.allowUnfree = true;
+                #  };
+                #})
               ];
               config.allowUnfree = true;
               config.allowAliases = true;

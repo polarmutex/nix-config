@@ -23,7 +23,7 @@ let
     , features ? [ ]
     , config_file ? ./polar
     }: home-manager.lib.homeManagerConfiguration {
-      pkgs = self.pkgs.${system}.unstable;
+      pkgs = self.pkgs.${system};
       extraSpecialArgs = {
         inherit hostname username features;
       };
