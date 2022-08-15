@@ -1133,14 +1133,17 @@
         "trouble-nvim-src": "trouble-nvim-src"
       },
       "locked": {
-        "lastModified": 1660485950,
-        "narHash": "sha256-z3mFct5l8zhFxs6uc5WqValWFR2q8kTaqNKiJ5cyWPU=",
-        "path": "/home/polar/repos/personal/neovim-flake/main",
-        "type": "path"
+        "lastModified": 1660539576,
+        "narHash": "sha256-ulfKsN/2MtUAl6jMkI1xZ5RJdvQyGXYIF2/29tB1+Jo=",
+        "owner": "polarmutex",
+        "repo": "neovim-flake",
+        "rev": "a1ff491c50ba8440658d7d5bed32a74a3d589e13",
+        "type": "github"
       },
       "original": {
-        "path": "/home/polar/repos/personal/neovim-flake/main",
-        "type": "path"
+        "owner": "polarmutex",
+        "repo": "neovim-flake",
+        "type": "github"
       }
     },
     "neovim_2": {
