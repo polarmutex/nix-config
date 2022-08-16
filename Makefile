@@ -26,19 +26,22 @@ polarbear:
 	sudo nixos-rebuild switch --flake .#polarbear
 
 blackbear:
-	deploy ".#blackbear" -d --ssh-user "polar"  --hostname 10.11.11.145
+	deploy ".#blackbear" -d --hostname 10.11.11.172
 
 polarvortex:
 	deploy ".#polarvortex" --ssh-user "polar"  --hostname brianryall.xyz
 
-polar-hm:
-	nix build .#homeConfigurations."polar@polarbear".activationPackage && result/activate && unlink result
+polarbear-home:
+	home-manager switch  --flake .#"polar@polarbear"
 
+#work:
+#	nix build .#homeManagerConfigurations."work".activationPackage && result/activate && unlink result
 work:
-	nix build .#homeManagerConfigurations."work".activationPackage && result/activate && unlink result
+	home-manager switch  --flake .#work
 
 update_local_neovim:
-	nix flake lock --update-input neovim-flake --update-input awesome-flake
+	nix flake lock --update-input neovim-flake;
+	home-manager switch --flake .#"polar@polarbear"
 
 # bootstrap a brand new VM. The VM should have NixOS ISO on the CD drive
 # and just set the password of the root user to "root". This will install

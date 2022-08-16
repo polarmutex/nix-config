@@ -1,6 +1,7 @@
 { deploy-rs
 , neovim
 , neovim-flake
+, awesome-flake
   #, nixgl
 , nixpkgs
 , nur
@@ -8,6 +9,7 @@
 , polar-dwm
 , polar-nur
 , polar-st
+, tmux-sessionizer
 , ...
 }:
 
@@ -22,10 +24,8 @@ composeManyExtensions (localOverlays ++ [
   #composeManyExtensions ([
   deploy-rs.overlay
   neovim.overlay
-  neovim-flake.overlay
-  # (final: _prev: {
-  #   neovim-polar = neovim-flake.packages.${final.system}.default; #TODO still needed
-  # })
+  neovim-flake.overlays.default
+  awesome-flake.overlays.default
   #nixgl.overlay
   nur.overlay
   polar-nur.overlays.default
@@ -33,7 +33,7 @@ composeManyExtensions (localOverlays ++ [
   polar-st.overlay
   polar-dmenu.overlay
   (import ./overlays/node-ifd.nix)
-  (final: _prev: {
-    neovim-polar = neovim-flake.packages.${final.system}.default;
+  (final: prev: {
+    tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
   })
 ])
