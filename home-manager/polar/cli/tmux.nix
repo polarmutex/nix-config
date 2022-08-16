@@ -56,9 +56,9 @@ in
       # Enable RGB colour if running in xterm(1)
       #set-option -sa terminal-overrides ",xterm*:Tc"
       # Change the default $TERM to tmux-256color
-      #set -g default-terminal "tmux-256color"
-      set -g default-terminal "xterm-256color"
-      set -ag terminal-overrides ",xterm-256color:RGB"
+      set -g default-terminal "tmux-256color"
+      #set -g default-terminal "xterm-256color"
+      set -ag terminal-overrides ",tmux-256color:RGB"
     '';
   };
 
