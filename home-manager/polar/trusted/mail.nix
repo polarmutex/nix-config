@@ -59,29 +59,29 @@ let
   };
 in
 {
-  accounts.email = {
-    maildirBasePath = "mail";
-    accounts = {
-      inherit proton;
-    };
-  };
+  #accounts.email = {
+  #  maildirBasePath = "mail";
+  #  accounts = {
+  #    inherit proton;
+  #  };
+  #};
 
   programs.password-store = {
     enable = true;
     package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
   };
 
-  programs.mbsync = {
-    enable = true;
-  };
+  #programs.mbsync = {
+  #  enable = true;
+  #};
 
-  services.mbsync = {
-    enable = true; # disabled because it kept asking for my password
-    verbose = true; # to help debug problems in journalctl
-    frequency = "*:0/5";
-    # TODO add a echo for the log
-    postExec = "${pkgs.notmuch}/bin/notmuch new";
-  };
+  #services.mbsync = {
+  #  enable = true; # disabled because it kept asking for my password
+  #  verbose = true; # to help debug problems in journalctl
+  #  frequency = "*:0/5";
+  #  # TODO add a echo for the log
+  #  postExec = "${pkgs.notmuch}/bin/notmuch new";
+  #};
   #systemd.user.services.mbsync = {
   #  Service = {
   #    # TODO need DBUS_SESSION_BUS_ADDRESS
@@ -104,6 +104,11 @@ in
   home.packages = with pkgs; [
     #protonmail-bridge
     thunderbird
+    isync
+    mutt-wizard
+    notmuch
+    afew
+    lynx
   ];
 
   systemd.user.services."proton-bridge" = {
