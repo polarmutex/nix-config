@@ -8,4 +8,5 @@
     st
     arandr
   ];
+  networking.networkmanager.enable = true;
 }

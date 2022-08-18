@@ -5,10 +5,24 @@
     ./wezterm.nix
   ];
   home.packages = with pkgs; [
+    networkmanager
     pinentry-gnome
   ];
 
   services.gpg-agent.pinentryFlavor = "gnome3";
+
+  services = {
+
+    # Applets, shown in tray
+    # Networking
+    network-manager-applet.enable = true;
+
+    # Bluetooth
+    blueman-applet.enable = true;
+
+    # Pulseaudio
+    pasystray.enable = true;
+  };
 
   services.picom = {
     backend = "glx";
