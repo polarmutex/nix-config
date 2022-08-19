@@ -13,19 +13,6 @@ let
       PGP: ${gpg.key}
     '';
   };
-  mbsyncConfig = {
-    enable = true;
-    extraConfig.channel = {
-      # unlimited
-      # when setting MaxMessages, set ExpireUnread
-      MaxMessages = 20000;
-      # size[k|m][b]
-      MaxSize = "1m";
-      CopyArrivalDate = "yes"; # Keeps the time stamp based message sorting intact.
-    };
-    create = "maildir"; # create missing mailboxes
-    expunge = "both";
-  };
 
   proton = {
     primary = true;
@@ -33,8 +20,15 @@ let
     aliases = [ ];
     inherit realName;
     userName = "bryall@proton.me";
-    mbsync = mbsyncConfig // {
-      remove = "both";
+    mbsync = {
+      enable = true;
+      create = "maildir";
+      expunge = "both";
+      patterns = [ "INBOX" "Sent" "Drafts" "Spam" "Archive" "Trash" ]; #"Labels/*"
+      #extraConfig.channel = {
+      #  MaxMessages = 2000;
+      #  ExpireUnread = "yes";
+      #};
     };
     imap = {
       host = "127.0.0.1";
@@ -55,25 +49,25 @@ let
       };
     };
     passwordCommand = "${pkgs.pass}/bin/pass show proton-bridge";
-    neomutt.enable = true;
+    #neomutt.enable = true;
   };
 in
 {
-  #accounts.email = {
-  #  maildirBasePath = "mail";
-  #  accounts = {
-  #    inherit proton;
-  #  };
-  #};
+  accounts.email = {
+    maildirBasePath = "mail";
+    accounts = {
+      inherit proton;
+    };
+  };
 
   programs.password-store = {
     enable = true;
     package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
   };
 
-  #programs.mbsync = {
-  #  enable = true;
-  #};
+  programs.mbsync = {
+    enable = true;
+  };
 
   #services.mbsync = {
   #  enable = true; # disabled because it kept asking for my password
@@ -104,7 +98,6 @@ in
   home.packages = with pkgs; [
     #protonmail-bridge
     thunderbird
-    isync
     mutt-wizard
     notmuch
     afew
