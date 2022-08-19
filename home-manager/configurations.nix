@@ -40,6 +40,7 @@ in
     features = [
       "desktop"
       "desktop/awesome.nix"
+      "desktop/obsidian.nix"
       "dev"
       "trusted"
     ];
