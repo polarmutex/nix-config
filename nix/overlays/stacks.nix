@@ -1,11 +1,11 @@
 final: prev: {
-  stacks = final.appimageTools.wrapType2 rec{
+  stacks-task-manager = final.appimageTools.wrapType2 rec{
     pname = "stacks-task-manager";
-    version = "1.9.7";
+    version = "1.9.10";
 
-    src = final.lib.fetchurl {
+    src = prev.fetchurl {
       url = "https://github.com/stacks-task-manager/stacks/releases/download/v${version}/Stacks-Linux-${version}.AppImage";
-      sha256 = "sha256-TN49SSO+98kBjtpU3unh8UT+uPUDw9yn65/fBmCMdhA=";
+      sha256 = "sha256-Yte0EbD4S2ojYR20MsoiZcZNyc1hsxNfcL3wtfJ3eDU=";
     };
 
     profile = ''

@@ -41,6 +41,7 @@ in
       "desktop"
       "desktop/awesome.nix"
       "desktop/obsidian.nix"
+      "desktop/stacks-taskmang.nix"
       "dev"
       "trusted"
     ];
