@@ -7,6 +7,7 @@
   home.packages = with pkgs; [
     networkmanager
     pinentry-gnome
+    vscodium
   ];
 
   services.gpg-agent.pinentryFlavor = "gnome3";
