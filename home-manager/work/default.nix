@@ -34,6 +34,7 @@ in
     brave
     lazydocker # till i switch to podman
     rofi
+    vscodium
   ];
 
   home = {
@@ -80,6 +81,10 @@ in
 
     # Pulseaudio
     #pasystray.enable = true;
+  };
+
+  programs.autorandr = {
+    enable = true;
   };
 
 }
