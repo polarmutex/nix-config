@@ -1,11 +1,12 @@
 { pkgs, ... }: {
   imports = [
     ./direnv.nix
+    ./fish.nix
     ./git.nix
     ./htop.nix
     ./nix.nix
     ./tmux.nix
-    ./zsh.nix
+    #./zsh.nix
   ];
   home.packages = with pkgs; [
     exa # Better ls
