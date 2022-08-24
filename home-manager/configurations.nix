@@ -40,6 +40,7 @@ in
     features = [
       "desktop"
       "desktop/awesome.nix"
+      "desktop/dendron.nix"
       "desktop/obsidian.nix"
       "desktop/stacks-taskmang.nix"
       "dev"
