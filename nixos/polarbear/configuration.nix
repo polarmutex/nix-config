@@ -40,27 +40,17 @@
     shell = pkgs.fish;
   };
 
-  # services
   #services.zfs = {
   #  autoSnapshot.enable = true;
   #  autoScrub.enable = true;
   #  #trim.enable = true;
   #};
 
-  #nix.settings = {
-  #trusted-users = [ "root" "@wheel" ]
-  #};
-
   services.openssh.enable = true;
 
-
-  #services.xserver.enable = true;
-  #services.xserver.displayManager.lightdm.enable = true;
-  #services.xserver.windowManager.awesome = {
-  #    enable = true;
-  #    package = pkgs.awesome;
-  #    luaModules = [
-  #    ];
-  #  };
+  # Virtualbox
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  users.extraGroups.vboxusers.members = [ "polar" ];
 
 }
