@@ -22,5 +22,10 @@
       automatic = true;
       dates = [ "03:00" ];
     };
+    gc = {
+      automatic = true;
+      dates = "hourly";
+      options = "--delete-older-than 7d";
+    };
   };
 }#
