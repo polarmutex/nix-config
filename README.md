@@ -77,7 +77,7 @@ zpool create \
     -O relatime=on \
     -O xattr=sa \
     -O mountpoint=/ \
-    rpool \ 
+    rpool \
     $ZFS
 ```
 
@@ -182,6 +182,13 @@ need to copy my ssh key
 ```bash
 echo "use flake" >> .envrc && direnv allow
 ```
+
+## Docs
+[nix mvp](https://gist.github.com/edolstra/40da6e3a4d4ee8fd019395365e0772e7)
+
+## TODO
+### Polarvortex
+[fail2ban](https://github.com/Icy-Thought/Snowflake/blob/main/modules/services/fail2ban.nixhttps://github.com/Icy-Thought/Snowflake/blob/main/modules/services/fail2ban.nix)
 
 Took inspiration from the following:
 
