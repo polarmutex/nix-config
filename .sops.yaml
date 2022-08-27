@@ -1,0 +1,12 @@
+keys:
+  - &polarmutex 789B8E4F0588615946E4B83A7F1160FAFC739341
+  - &polarbear  031d1b051b562ae0bb9a1c93d99f006b27bb5f51
+  - &polarvortex 67375f04ba7aa1850a1579e3b26712d72d63e4e5
+
+creation_rules:
+  - path_regex: nixos/polarvortex/secrets(/[^/]+)?\.yaml$
+    key_groups:
+      - pgp:
+          - *polarvortex
+          - *polarmutex
+          - *polarbear

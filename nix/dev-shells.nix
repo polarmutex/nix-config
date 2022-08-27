@@ -9,8 +9,8 @@ mkShell
   name = "nix-config";
 
   sopsPGPKeyDirs = [
-    "./secrets/keys/hosts"
-    "./secrets/keys/users"
+    "${toString ./..}/secrets/keys/hosts"
+    "${toString ./..}/secrets/keys/users"
   ];
 
   nativeBuildInputs = [

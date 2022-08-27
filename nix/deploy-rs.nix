@@ -28,17 +28,18 @@
         #      #};
       };
     };
-    #  polarvortex = {
-    #    sshOpts = [ "-p" "22" ];
-    #    hostname = "brianryall.xyz";
-    #    fastConnection = false;
-    #    profiles = {
-    #      system = {
-    #        sshUser = "polar";
-    #        path =
-    #          deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
-    #        user = "root";
-    #      };
-    #    };
+    polarvortex = {
+      sshOpts = [ "-p" "22" ];
+      hostname = "brianryall.xyz";
+      fastConnection = false;
+      profiles = {
+        system = {
+          sshUser = "polar";
+          path =
+            deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
+          user = "root";
+        };
+      };
+    };
   };
 }

@@ -15,4 +15,8 @@
     jq # JSON pretty printer and manipulator
     neovim-polar
   ];
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
 }

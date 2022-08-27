@@ -1,30 +1,25 @@
 # Configuration for polarvortex
 { pkgs, ... }: {
 
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ../modules/core
+    ./services/gitea.nix
+    ./services/miniflux.nix
+    ./services/umami.nix
+  ];
 
-  polar = {
-    base.general.hostname = "polarvortex";
+  system.stateVersion = "22.05";
 
-    base.server = {
-      enable = true;
-    };
+  sops.defaultSopsFile = ./secrets.yaml;
 
-    system = {
-      boot.mode = "linode";
-    };
+  users.users.root.initialHashedPassword = "$6$XvQOK8GW5DiRzqhR$g2LCu4rz2OfHRmYUbzaxTn/hz0h8IEHREG3/oW6U/8N3miFxUoYhIiLNjoS0cZXQHqgcaVAv5y1t4.eKxZi/..";
+  users.users.polar = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" ];
+    initialHashedPassword = "$6$p/7P2dlx4xBEV72W$Ooep2JnmTJhTnexObNtAt3CNqRIhqgA2cD4bZtWMXOYAP.yBig8XToII0Fxy2Kc/Q12gep7Uqfsq6wIxRv7f21";
+    shell = pkgs.fish;
   };
-
-  polar.services = {
-    miniflux.enable = true;
-    gitea.enable = true;
-    #TODO ssmtp.enable = true;
-    blog.enable = true;
-    fathom.enable = true;
-    #rss-bridge.enable = true;
-  };
-
-
 
   nix.settings.auto-optimise-store = true;
 
@@ -34,7 +29,7 @@
   networking.domain = "brianryall.xyz";
 
   security.acme.acceptTerms = true;
-  security.acme.defaults.email = "brian+letsencrypt@brianryall.xyz";
+  security.acme.defaults.email = "letsencrypt@brianryall.xyz";
 
   # Block anything that is not HTTP(s) or SSH.
   # need ssh to be open for git server
@@ -66,6 +61,9 @@
     virtualHosts = { };
   };
 
-  environment.systemPackages = with pkgs; [ tailscale ];
+  environment.systemPackages = with pkgs; [
+    #tailscale
+    unzip
+  ];
 
 }
