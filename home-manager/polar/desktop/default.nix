@@ -6,6 +6,7 @@
     ./wezterm.nix
   ];
   home.packages = with pkgs; [
+    brave
     networkmanager
     pinentry-gnome
     vscodium
