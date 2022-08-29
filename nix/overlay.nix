@@ -5,6 +5,7 @@
   #, nixgl
 , nixpkgs
 , nur
+, polarmutex-blog
 , polar-dmenu
 , polar-dwm
 , polar-nur
@@ -26,6 +27,7 @@ composeManyExtensions (localOverlays ++ [
   neovim.overlay
   neovim-flake.overlays.default
   awesome-flake.overlays.default
+  polarmutex-blog.overlays.default
   #nixgl.overlay
   nur.overlay
   polar-nur.overlays.default

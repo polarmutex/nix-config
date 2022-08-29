@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../modules/core
+    ./services/blog.nix
     ./services/gitea.nix
     ./services/miniflux.nix
     ./services/umami.nix

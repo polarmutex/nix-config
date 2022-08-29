@@ -31,6 +31,9 @@
     neovim-flake = {
       url = "github:polarmutex/neovim-flake";
     };
+    polarmutex-blog = {
+      url = "github:polarmutex/brianryall.xyz";
+    };
 
     nur.url = "github:nix-community/NUR";
     polar-nur.url = "github:polarmutex/nur";
