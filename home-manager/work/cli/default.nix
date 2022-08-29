@@ -9,6 +9,7 @@
   ];
   home.packages = with pkgs; [
     exa # Better ls
+    glab
     neovim-polar
     ripgrep # Better grep
     fd # Better find
