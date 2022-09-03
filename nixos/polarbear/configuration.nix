@@ -30,6 +30,7 @@
     firefox
     wezterm
     protonvpn-cli_2
+    unzip
   ];
 
   users.users.root.initialHashedPassword = "$6$XvQOK8GW5DiRzqhR$g2LCu4rz2OfHRmYUbzaxTn/hz0h8IEHREG3/oW6U/8N3miFxUoYhIiLNjoS0cZXQHqgcaVAv5y1t4.eKxZi/..";
