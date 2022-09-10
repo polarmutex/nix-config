@@ -9,6 +9,7 @@
     brave
     networkmanager
     pinentry-gnome
+    sioyek
     vscodium
   ];
 

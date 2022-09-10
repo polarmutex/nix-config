@@ -17,6 +17,7 @@ in
 
   home.packages = with pkgs; [
     ansible
+    bfg-repo-cleaner
   ];
 
   home = {
