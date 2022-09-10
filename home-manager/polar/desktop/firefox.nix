@@ -239,6 +239,9 @@ in
       i-dont-care-about-cookies
       languagetool
       link-cleaner
+
+      # vertical tabs
+      tree-style-tab
     ];
 
     profiles = {
