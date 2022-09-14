@@ -6,6 +6,7 @@
     ./wezterm.nix
   ];
   home.packages = with pkgs; [
+    anki-bin
     brave
     networkmanager
     pinentry-gnome
