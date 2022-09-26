@@ -93,8 +93,7 @@ in
 
       settings.trusted-users = [ "root" "polar" ];
 
-      # TODO  what is difference between this and nixFlakes
-      package = pkgs.nixFlakes;
+      package = pkgs.nixVersions.stable;
 
       extraOptions = ''
         experimental-features = nix-command flakes
