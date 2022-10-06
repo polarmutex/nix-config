@@ -43,6 +43,10 @@ in
     homeDirectory = "/home/${username}";
   };
 
+  home.sessionPath = [
+    "/usr/local/netbeans-12.4/netbeans/bin"
+  ];
+
   programs.zsh.initExtra = ''
     export PATH=$HOME/netbeans-12.0/netbeans/bin:$HOME/.local/bin:$PATH:$HOME/.cargo/env
     export JDTLS_HOME=$HOME/jdtls
