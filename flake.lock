@@ -1413,11 +1413,11 @@
         "vim-be-good-src": "vim-be-good-src"
       },
       "locked": {
-        "lastModified": 1665170471,
-        "narHash": "sha256-BBYg6KJAsSO/ZROzXHN8JLTg/58uyKBqQwffSu/zxdU=",
+        "lastModified": 1665171351,
+        "narHash": "sha256-of7PzC1+zHdaSfUnmtSn227xR4krKaRvrXaQkktzyBI=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "e70893dccd9d97b393c743ccbc01ba39281d420e",
+        "rev": "116ba862f63e58e5f42f9f08834a74a11d51b638",
         "type": "github"
       },
       "original": {
