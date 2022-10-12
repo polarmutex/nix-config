@@ -8,6 +8,7 @@
     ../../polar/cli/zsh.nix
   ];
   home.packages = with pkgs; [
+    ctop
     exa # Better ls
     glab
     neovim-polar
