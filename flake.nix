@@ -36,7 +36,10 @@
     };
 
     nur.url = "github:nix-community/NUR";
-    polar-nur.url = "github:polarmutex/nur";
+    polar-nur = {
+      url = "github:polarmutex/nur";
+      inputs.neovim-flake.follows = "neovim-flake";
+    };
     hardware.url = "github:nixos/nixos-hardware";
 
     neovim = {
