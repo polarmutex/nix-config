@@ -27,6 +27,8 @@
 
     awesome-flake = {
       url = "github:polarmutex/awesome-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.polar-nur.follows = "polar-nur";
     };
     neovim-flake = {
       url = "github:polarmutex/neovim-flake";
