@@ -211,7 +211,7 @@ let
     "security.webauth.webauthn_enable_usbtoken" = true;
     "browser.urlbar.placeholderName" = "DuckDuckGo";
     #"browser.search.defaultenginename" = "DuckDuckGo";
-    "font.name.serif.x-western" = "MonoLisa Nerd Font";
+    "font.name.serif.x-western" = "MonoLisa Custom";
 
 
     # TODO Enable DNS over HTTPS

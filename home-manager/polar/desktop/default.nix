@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   imports = [
     ./firefox.nix
+    ./fonts.nix
     ./thunar.nix
     ./wallpaper.nix
     ./wezterm.nix
