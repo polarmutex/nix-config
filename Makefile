@@ -34,10 +34,10 @@ polarvortex:
 polarbear-home:
 	home-manager switch  --flake .#"polar@polarbear"
 
-#work:
-#	nix build .#homeManagerConfigurations."work".activationPackage && result/activate && unlink result
-work:
+work_ubuntu:
 	home-manager switch  --flake .#work
+work_redhat:
+	home-manager switch  --flake .#"work@redhat"
 
 update_neovim:
 	nix flake lock --update-input neovim-flake;

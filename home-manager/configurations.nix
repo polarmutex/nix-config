@@ -57,4 +57,12 @@ in
     ];
     config_file = ./work;
   };
+  "work@redhat" = genConfiguration {
+    username = "brian";
+    hostname = "";
+    system = "x86_64-linux";
+    features = [
+    ];
+    config_file = ./work_redhat;
+  };
 }
