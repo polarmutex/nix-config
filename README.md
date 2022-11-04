@@ -199,3 +199,19 @@ Took inspiration from the following:
 - [Misterio77](https://github.com/Misterio77/nix-config)
 - [davidtwco](https://github.com/davidtwco/veritas)
 - [fufexan](https://github.com/fufexan/dotfiles)
+
+## setup work
+
+### redhat
+    - install base os
+    - create my user
+    - turn off selinux "sudo vim /etc/selinux/config"
+    - reboot
+    - install nix "sh <(curl -L https://nixos.org/nix/install) --daemon"
+    - generate ssh key for github
+    - clone nix-config
+    - mkdir ~/.config/nix
+    - vim ~/.config/nix/nix.conf  "experimental-features = nix-command flakes"
+    - nix develop
+    - install wezterm from centor 8
+    - make work_redhat
