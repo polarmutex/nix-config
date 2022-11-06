@@ -86,7 +86,47 @@
         # Used with `nixos-rebuild --flake .#<hostname>`
         nixosConfigurations = import ./nixos/configurations.nix inputs;
 
-        homeConfigurations = import ./home-manager/configurations.nix inputs;
+        homeConfigurations = {
+          "polar@polarbear" = home-manager.lib.homeManagerConfiguration {
+            pkgs = self.pkgs."x86_64-linux";
+            extraSpecialArgs = {
+              inherit inputs;
+              username = "polar";
+              features = [
+                "desktop"
+                "desktop/awesome.nix"
+                "desktop/dendron.nix"
+                "desktop/obsidian.nix"
+                "desktop/stacks-taskmang.nix"
+                "dev"
+                "trusted"
+              ];
+            };
+            modules = [ ./home-manager/polar ];
+          };
+          "work" = home-manager.lib.homeManagerConfiguration {
+            pkgs = self.pkgs."x86_64-linux";
+            extraSpecialArgs = {
+              inherit inputs;
+              username = "blueguardian";
+              features = [
+                "trusted"
+                "desktop"
+              ];
+            };
+            modules = [ ./home-manager/work ];
+          };
+          "work@redhat" = home-manager.lib.homeManagerConfiguration {
+            pkgs = self.pkgs."x86_64-linux";
+            extraSpecialArgs = {
+              inherit inputs;
+              username = "brian";
+              features = [
+              ];
+            };
+            modules = [ ./work_redhat ];
+          };
+        };
 
         # Hydra build jobs
         #hydraJobs."<attr>"."<system>" = derivation;
@@ -158,15 +198,6 @@
               inherit system;
               overlays = [
                 self.overlays.default
-                #(final: prev: {
-                #  unstable = import inputs.nixpkgs-unstable {
-                #    system = final.system;
-                #    overlays = [
-                #      self.overlays.default
-                #    ];
-                #    config.allowUnfree = true;
-                #  };
-                #})
               ];
               config.allowUnfree = true;
               config.allowAliases = true;
