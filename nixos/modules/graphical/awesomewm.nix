@@ -11,9 +11,9 @@
       enable = true;
       package = pkgs.awesome-git;
       luaModules = [
-        pkgs.awesome-battery-widget-git
-        pkgs.bling-git
-        pkgs.rubato-git
+        #pkgs.awesome-battery-widget-git
+        #pkgs.bling-git
+        #pkgs.rubato-git
       ];
     };
   };

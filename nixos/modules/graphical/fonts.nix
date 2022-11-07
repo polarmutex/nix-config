@@ -6,7 +6,7 @@
 
     fonts = with pkgs; [
       corefonts
-      monolisa-font
+      monolisa-custom-font
       twitter-color-emoji
       #(nerdfonts.override { fonts = [ "Hack" ]; })
     ];

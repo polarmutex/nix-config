@@ -36,7 +36,11 @@
     polarmutex-blog = {
       url = "github:polarmutex/brianryall.xyz";
     };
+    monolisa-font-flake = {
+      url = "git+ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git";
+    };
 
+    #nur.url = "github:nix-community/NUR";
     nur.url = "github:nix-community/NUR";
     polar-nur = {
       url = "github:polarmutex/nur";
@@ -48,6 +52,10 @@
       url = "github:neovim/neovim?dir=contrib";
       #inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
+    };
+    awesome-git-src = {
+      url = "github:awesomeWM/awesome";
+      flake = false;
     };
 
     polar-dwm.url = "github:polarmutex/dwm";
@@ -88,7 +96,7 @@
 
         homeConfigurations = {
           "polar@polarbear" = home-manager.lib.homeManagerConfiguration {
-            pkgs = self.pkgs."x86_64-linux";
+            pkgs = self.pkgs.x86_64-linux;
             extraSpecialArgs = {
               inherit inputs;
               username = "polar";
@@ -97,7 +105,7 @@
                 "desktop/awesome.nix"
                 "desktop/dendron.nix"
                 "desktop/obsidian.nix"
-                "desktop/stacks-taskmang.nix"
+                #"desktop/stacks-taskmang.nix"
                 "dev"
                 "trusted"
               ];
@@ -117,7 +125,7 @@
             modules = [ ./home-manager/work ];
           };
           "work@redhat" = home-manager.lib.homeManagerConfiguration {
-            pkgs = self.pkgs."x86_64-linux";
+            pkgs = self.pkgs.x86_64-linux;
             extraSpecialArgs = {
               inherit inputs;
               username = "brian";
@@ -175,7 +183,7 @@
         #  };
         #};
 
-        overlays.default = import ./nix/overlay.nix inputs;
+        overlays = import ./overlays { inherit inputs; };
 
       }
       //
@@ -197,8 +205,21 @@
             {
               inherit system;
               overlays = [
-                self.overlays.default
+                self.overlays.additions
+                self.overlays.modifications
+                inputs.deploy-rs.overlay
+                inputs.neovim-flake.overlays.default
+                inputs.awesome-flake.overlays.default
+                inputs.nur.overlay
+                (final: prev: {
+                  tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
+                })
+                inputs.monolisa-font-flake.overlay
               ];
+              #config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+              #  # browser extensions
+              #  "onepassword-password-manager"
+              #];
               config.allowUnfree = true;
               config.allowAliases = true;
             };

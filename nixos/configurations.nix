@@ -3,7 +3,6 @@
 , home-manager
 , neovim-flake
 , nixpkgs
-, nur
 , polar-nur
 , sops-nix
 , ...
