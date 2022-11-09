@@ -92,11 +92,34 @@
       in
       {
         # Used with `nixos-rebuild --flake .#<hostname>`
-        nixosConfigurations = import ./nixos/configurations.nix inputs;
+        nixosConfigurations = {
+          polarbear = nixpkgs.lib.nixosSystem {
+            pkgs = self.legacyPackages.x86_64-linux;
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./nixos/polarbear/configuration.nix
+              sops-nix.nixosModules.sops
+            ];
+
+          };
+          polarvortex = nixpkgs.lib.nixosSystem {
+            pkgs = self.legacyPackages.x86_64-linux;
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./nixos/polarvortex/configuration.nix
+              sops-nix.nixosModules.sops
+            ];
+          };
+          blackbear = nixpkgs.lib.nixosSystem {
+            pkgs = self.legacyPackages.x86_64-linux;
+            specialArgs = { inherit inputs; };
+            modules = [ ./nixos/blackbear/configuration.nix ];
+          };
+        };
 
         homeConfigurations = {
           "polar@polarbear" = home-manager.lib.homeManagerConfiguration {
-            pkgs = self.pkgs.x86_64-linux;
+            pkgs = self.legacyPackages.x86_64-linux;
             extraSpecialArgs = {
               inherit inputs;
               username = "polar";
@@ -113,7 +136,7 @@
             modules = [ ./home-manager/polar ];
           };
           "work" = home-manager.lib.homeManagerConfiguration {
-            pkgs = self.pkgs."x86_64-linux";
+            pkgs = self.legacyPackages."x86_64-linux";
             extraSpecialArgs = {
               inherit inputs;
               username = "blueguardian";
@@ -125,7 +148,7 @@
             modules = [ ./home-manager/work ];
           };
           "work@redhat" = home-manager.lib.homeManagerConfiguration {
-            pkgs = self.pkgs.x86_64-linux;
+            pkgs = self.legacyPackages.x86_64-linux;
             extraSpecialArgs = {
               inherit inputs;
               username = "brian";
@@ -147,41 +170,7 @@
           # self.hmConfigurations);
         */
 
-        deploy = import ./nix/deploy-rs.nix inputs;
-        #deploy.nodes = {
-        #  blackbear = {
-        #    sshOpts = [ "-p" "22" ];
-        #    hostname = "blackbear";
-        #    fastConnection = true;
-        #    profiles = {
-        #      system = {
-        #        sshUser = "polar";
-        #        path =
-        #          deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.blackbear;
-        #        user = "root";
-        #      };
-        #      #user = {
-        #      #  sshUser = "polar";
-        #      #  path =
-        #      #    deploy-rs.lib.x86_64-linux.activate.home-manager self.homeManagerConfigurations.polar;
-        #      #  user = "polar";
-        #      #};
-        #    };
-        #  };
-        #  polarvortex = {
-        #    sshOpts = [ "-p" "22" ];
-        #    hostname = "brianryall.xyz";
-        #    fastConnection = false;
-        #    profiles = {
-        #      system = {
-        #        sshUser = "polar";
-        #        path =
-        #          deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
-        #        user = "root";
-        #      };
-        #    };
-        #  };
-        #};
+        deploy = import ./deploy-rs.nix inputs;
 
         overlays = import ./overlays { inherit inputs; };
 
@@ -196,13 +185,75 @@
         (system: {
 
           # Executed by `nix flake check`
-          checks = import ./nix/checks.nix inputs system;
+          checks =
+            let
+              pkgs = self.legacyPackages."${system}";
+            in
+            {
+              pre-commit-check = pre-commit-hooks.lib.${system}.run
+                {
+                  src = pkgs.lib.cleanSource ./.;
+                  hooks = {
+                    #nix-linter.enable = true;
+                    #nixpkgs-fmt.enable = true;
+                    #statix.enable = true;
+                    #stylua = {
+                    #  enable = true;
+                    #  types = [ "file" "lua" ];
+                    #  entry = "${stylua}/bin/stylua";
+                    #};
+                    #luacheck = {
+                    #  enable = true;
+                    #  types = [ "file" "lua" ];
+                    #  entry = "${luajitPackages.luacheck}/bin/luacheck --std luajit --globals vim -- ";
+                    #};
+                    actionlint = {
+                      enable = true;
+                      files = "^.github/workflows/";
+                      types = [ "yaml" ];
+                      entry = "${pkgs.actionlint}/bin/actionlint";
+                    };
+                  };
+                  settings.nix-linter.checks = [
+                    "DIYInherit"
+                    "EmptyInherit"
+                    "EmptyLet"
+                    "EtaReduce"
+                    "LetInInheritRecset"
+                    "ListLiteralConcat"
+                    "NegateAtom"
+                    "SequentialLet"
+                    "SetLiteralUpdate"
+                    "UnfortunateArgName"
+                    "UnneededRec"
+                    "UnusedArg"
+                    "UnusedLetBind"
+                    "UpdateEmptySet"
+                    "BetaReduction"
+                    "EmptyVariadicParamSet"
+                    "UnneededAntiquote"
+                    "no-FreeLetInFunc"
+                    "no-AlphabeticalArgs"
+                    "no-AlphabeticalBindings"
+                  ];
+                };
+              #statix = pkgs.runCommand "statix" { } ''
+              #  ${pkgs.statix}/bin/statix check ${./.} --format errfmt | tee output
+              #  [[ "$(cat output)" == "" ]];
+              #  touch $out
+              #'';
+              #nixpkgs-fmt = pkgs.runCommand "nixpkgs-fmt" { } ''
+              #  shopt -s globstar
+              #  ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt --check ${./.}/**/*.nix
+              #  touch $out
+              #'';
+            } // (pkgs.deploy-rs.lib.deployChecks self.deploy);
 
           devShells = {
             default = import ./shell.nix inputs system;
           };
 
-          pkgs = import
+          legacyPackages = import
             nixpkgs
             {
               inherit system;
@@ -218,12 +269,7 @@
                 })
                 inputs.monolisa-font-flake.overlay
               ];
-              #config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-              #  # browser extensions
-              #  "onepassword-password-manager"
-              #];
               config.allowUnfree = true;
-              config.allowAliases = true;
             };
         });
 }

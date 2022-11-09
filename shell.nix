@@ -2,7 +2,7 @@
 
 system:
 
-with self.pkgs.${system};
+with self.legacyPackages.${system};
 
 mkShell
 {
