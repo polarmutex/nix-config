@@ -15,27 +15,27 @@ mkShell
 
   nativeBuildInputs = [
     # Nix
-    cachix
+    #cachix
     deploy-rs.deploy-rs
-    nix-build-uncached
-    nix-linter
-    nixpkgs-fmt
+    #nix-build-uncached
+    #nix-linter
+    #nixpkgs-fmt
     #ragenix
     #rnix-lsp
     sops
     (callPackage sops-nix { }).sops-import-keys-hook
-    statix
+    #statix
     home-manager
 
     # GitHub Actions
-    act
-    actionlint
-    python3Packages.pyflakes
-    shellcheck
+    #act
+    #actionlint
+    #python3Packages.pyflakes
+    #shellcheck
 
     # Misc
     #jq
-    pre-commit
+    #pre-commit
     #rage
   ];
 

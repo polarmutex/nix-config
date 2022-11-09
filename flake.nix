@@ -198,7 +198,9 @@
           # Executed by `nix flake check`
           checks = import ./nix/checks.nix inputs system;
 
-          devShells.default = import ./nix/dev-shells.nix inputs system;
+          devShells = {
+            default = import ./shell.nix inputs system;
+          };
 
           pkgs = import
             nixpkgs
