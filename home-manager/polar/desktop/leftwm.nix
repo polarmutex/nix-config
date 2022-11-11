@@ -113,5 +113,59 @@
         )
       '';
     };
+
+    "leftwm/themes/current/theme.ron" = {
+      text = ''
+        (border_width: 1,
+        margin: 5,
+        default_border_color: "#37474F",
+        floating_border_color: "#225588",
+        focused_border_color: "#885522",
+        )
+      '';
+    };
+
+    "leftwm/themes/current/up" = {
+      source = pkgs.writeTextFile {
+        name = "up.sh";
+        text = ''
+          #!/usr/bin/env bash
+
+          SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
+          ${pkgs.leftwm}/bin/leftwm-command "LoadTheme $SCRIPTPATH/theme.toml"
+
+          #open eww 'bar' windows
+          #this is a bit of an uggly hack, a more elegant way will hopefully be possible with a future `eww` version
+          sleep 1
+          index=0
+          sizes=( $(leftwm-state -q -n -t $SCRIPTPATH/sizes.liquid | sed -r '/^\s*$/d' ) )
+          for size in "''${sizes[@]}"
+          do
+              eww open bar$index
+            let index=index+1
+          done
+        '';
+        executable = true;
+      };
+    };
+
+    "leftwm/themes/current/down" = {
+      source = pkgs.writeTextFile {
+        name = "down.sh";
+        text = ''
+          #!/usr/bin/env bash
+
+          SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
+          ${pkgs.leftwm}/bin/leftwm-command "UnloadTheme"
+
+          if [ -x "$(command -v eww)" ]; then
+            eww kill
+          fi
+        '';
+        executable = true;
+      };
+    };
   };
 }

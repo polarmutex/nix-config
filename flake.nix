@@ -130,6 +130,7 @@
                 "desktop"
                 "desktop/awesome.nix"
                 "desktop/leftwm.nix"
+                "desktop/eww.nix"
                 "desktop/dendron.nix"
                 "desktop/obsidian.nix"
                 #"desktop/stacks-taskmang.nix"
