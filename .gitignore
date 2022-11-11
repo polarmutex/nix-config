@@ -1,5 +1,3 @@
 result
-config/nvim/sessions
-
 .direnv
 .pre-commit-config.yaml

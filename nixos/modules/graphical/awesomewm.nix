@@ -7,6 +7,9 @@
       mouse.naturalScrolling = true;
     };
     displayManager.lightdm.enable = true;
+    windowManager.leftwm = {
+      enable = true;
+    };
     windowManager.awesome = {
       enable = true;
       package = pkgs.awesome-git;
@@ -17,4 +20,9 @@
       ];
     };
   };
+  environment.systemPackages = with pkgs; [
+    alacritty
+    dmenu
+    eww
+  ];
 }

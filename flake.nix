@@ -57,6 +57,9 @@
       url = "github:awesomeWM/awesome";
       flake = false;
     };
+    leftwm-git = {
+      url = "github:leftwm/leftwm";
+    };
 
     polar-dwm.url = "github:polarmutex/dwm";
     polar-st.url = "github:polarmutex/st";
@@ -126,6 +129,7 @@
               features = [
                 "desktop"
                 "desktop/awesome.nix"
+                "desktop/leftwm.nix"
                 "desktop/dendron.nix"
                 "desktop/obsidian.nix"
                 #"desktop/stacks-taskmang.nix"
@@ -264,6 +268,7 @@
                 inputs.neovim-flake.overlays.default
                 inputs.awesome-flake.overlays.default
                 inputs.nur.overlay
+                inputs.leftwm-git.overlay
                 (final: prev: {
                   tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
                 })
