@@ -26,14 +26,14 @@
             mousekey: "Mod4",
             workspaces: [],
             tags: [
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
+                "a",
+                "r",
+                "s",
+                "t",
+                "n",
+                "e",
+                "i",
+                "o",
             ],
             max_window_width: None,
             layouts: [
@@ -67,14 +67,31 @@
             focus_new_windows: true,
             sloppy_mouse_follows_focus: true,
             keybind: [
-                (command: Execute, value: "dmenu_run", modifier: ["modkey"], key: "p"),
                 (command: Execute, value: "wezterm start --always-new-process", modifier: ["modkey", "Shift"], key: "Return"),
-                (command: CloseWindow, value: "", modifier: ["modkey", "Shift"], key: "q"),
-                (command: SoftReload, value: "", modifier: ["modkey", "Shift"], key: "r"),
-                (command: Execute, value: "loginctl kill-session $XDG_SESSION_ID", modifier: ["modkey", "Shift"], key: "x"),
-                (command: Execute, value: "slock", modifier: ["modkey", "Control"], key: "l"),
-                (command: MoveToLastWorkspace, value: "", modifier: ["modkey", "Shift"], key: "w"),
-                (command: SwapTags, value: "", modifier: ["modkey"], key: "w"),
+                (command: GotoTag, value: "1", modifier: ["modkey"], key: "a"),
+                (command: GotoTag, value: "2", modifier: ["modkey"], key: "r"),
+                (command: GotoTag, value: "3", modifier: ["modkey"], key: "s"),
+                (command: GotoTag, value: "4", modifier: ["modkey"], key: "t"),
+                (command: GotoTag, value: "5", modifier: ["modkey"], key: "n"),
+                (command: GotoTag, value: "6", modifier: ["modkey"], key: "e"),
+                (command: GotoTag, value: "7", modifier: ["modkey"], key: "i"),
+                (command: GotoTag, value: "8", modifier: ["modkey"], key: "o"),
+                (command: MoveToTag, value: "1", modifier: ["modkey", "Shift"], key: "a"),
+                (command: MoveToTag, value: "2", modifier: ["modkey", "Shift"], key: "r"),
+                (command: MoveToTag, value: "3", modifier: ["modkey", "Shift"], key: "s"),
+                (command: MoveToTag, value: "4", modifier: ["modkey", "Shift"], key: "t"),
+                (command: MoveToTag, value: "5", modifier: ["modkey", "Shift"], key: "n"),
+                (command: MoveToTag, value: "6", modifier: ["modkey", "Shift"], key: "e"),
+                (command: MoveToTag, value: "7", modifier: ["modkey", "Shift"], key: "i"),
+                (command: MoveToTag, value: "8", modifier: ["modkey", "Shift"], key: "o"),
+                (command: CloseWindow, value: "", modifier: ["modkey", "Shift"], key: "c"),
+                (command: SoftReload, value: "", modifier: ["modkey", "Shift"], key: "z"),
+
+                (command: Execute, value: "dmenu_run", modifier: ["modkey"], key: "p"),
+                //(command: Execute, value: "loginctl kill-session $XDG_SESSION_ID", modifier: ["modkey", "Shift"], key: "x"),
+                //(command: Execute, value: "slock", modifier: ["modkey", "Control"], key: "l"),
+                //(command: MoveToLastWorkspace, value: "", modifier: ["modkey", "Shift"], key: "w"),
+                //(command: SwapTags, value: "", modifier: ["modkey"], key: "w"),
                 (command: MoveWindowUp, value: "", modifier: ["modkey", "Shift"], key: "k"),
                 (command: MoveWindowDown, value: "", modifier: ["modkey", "Shift"], key: "j"),
                 (command: MoveWindowTop, value: "", modifier: ["modkey"], key: "Return"),
@@ -92,22 +109,6 @@
                 (command: PreviousLayout, value: "", modifier: ["modkey", "Control"], key: "Down"),
                 (command: FocusWorkspaceNext, value: "", modifier: ["modkey"], key: "Right"),
                 (command: FocusWorkspacePrevious, value: "", modifier: ["modkey"], key: "Left"),
-                (command: GotoTag, value: "1", modifier: ["modkey"], key: "a"),
-                (command: GotoTag, value: "2", modifier: ["modkey"], key: "r"),
-                (command: GotoTag, value: "3", modifier: ["modkey"], key: "s"),
-                (command: GotoTag, value: "4", modifier: ["modkey"], key: "t"),
-                (command: GotoTag, value: "5", modifier: ["modkey"], key: "n"),
-                (command: GotoTag, value: "6", modifier: ["modkey"], key: "e"),
-                (command: GotoTag, value: "7", modifier: ["modkey"], key: "i"),
-                (command: GotoTag, value: "8", modifier: ["modkey"], key: "o"),
-                (command: MoveToTag, value: "1", modifier: ["modkey", "Shift"], key: "a"),
-                (command: MoveToTag, value: "2", modifier: ["modkey", "Shift"], key: "r"),
-                (command: MoveToTag, value: "3", modifier: ["modkey", "Shift"], key: "s"),
-                (command: MoveToTag, value: "4", modifier: ["modkey", "Shift"], key: "t"),
-                (command: MoveToTag, value: "5", modifier: ["modkey", "Shift"], key: "n"),
-                (command: MoveToTag, value: "6", modifier: ["modkey", "Shift"], key: "e"),
-                (command: MoveToTag, value: "7", modifier: ["modkey", "Shift"], key: "i"),
-                (command: MoveToTag, value: "8", modifier: ["modkey", "Shift"], key: "o"),
             ],
             state_path: None,
         )
@@ -130,24 +131,50 @@
         name = "up.sh";
         text = ''
           #!/usr/bin/env bash
-
           SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
+          # Down the last running theme
+          if [ -f "/tmp/leftwm-theme-down" ]; then
+            echo "running down"
+            /tmp/leftwm-theme-down
+            rm -f /tmp/leftwm-theme-down
+          fi
+          ln -s $SCRIPTPATH/down /tmp/leftwm-theme-down
+
+          # start eww daemon
+          echo "starting daemon"
+          eww daemon &
+
+          echo "leftwm-command"
           ${pkgs.leftwm}/bin/leftwm-command "LoadTheme $SCRIPTPATH/theme.toml"
 
           #open eww 'bar' windows
+          echo "start eww"
           #this is a bit of an uggly hack, a more elegant way will hopefully be possible with a future `eww` version
           sleep 1
           index=0
-          sizes=( $(leftwm-state -q -n -t $SCRIPTPATH/sizes.liquid | sed -r '/^\s*$/d' ) )
+          echo "sizes"
+          sizes=( ''$(leftwm-state -q -n -t ''$SCRIPTPATH/sizes.liquid | sed -r '/^\s*$/d' ) )
+          echo "sizes done"
           for size in "''${sizes[@]}"
           do
-              eww open bar$index
+            echo "opening bar0"
+            eww open bar''$index
             let index=index+1
+            echo "done"
           done
+          echo "start eww done"
         '';
         executable = true;
       };
+    };
+
+    "leftwm/themes/current/sizes.liquid" = {
+      text = ''
+        {% for workspace in workspaces %}
+        {{workspace.w}}x{{workspace.h}}+{{workspace.x}}+{{workspace.y}}
+        {% endfor %}
+      '';
     };
 
     "leftwm/themes/current/down" = {
@@ -158,8 +185,10 @@
 
           SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
+          echo "unload theme"
           ${pkgs.leftwm}/bin/leftwm-command "UnloadTheme"
 
+          echo "kill eww"
           if [ -x "$(command -v eww)" ]; then
             eww kill
           fi
