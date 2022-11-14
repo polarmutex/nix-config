@@ -71,7 +71,8 @@
                       :width "47px"
                       :height "100%")
   :monitor 0
-  :reserve (struts :side "left" :distance "35px")
+  ;; reserve width + border_width
+  :reserve (struts :side "left" :distance "52px")
   :wm-ignore false
   :hexpand "false"
   :vexpand "false"
