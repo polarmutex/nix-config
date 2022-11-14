@@ -6,7 +6,15 @@
 {
   home.packages = with pkgs;[
     leftwm
+    feh
   ];
+
+  services.random-background = {
+    enable = true;
+    display = "scale";
+    interval = "30m";
+    imageDirectory = "%h/.config/wallpapers";
+  };
 
   xdg.configFile = {
     "leftwm/config.ron" = {
@@ -58,7 +66,7 @@
                 (name: "Alacritty", value: "alacritty", x: 860, y: 390, height: 300, width: 200),
             ],
             window_rules: [
-                (window_class: "pinentry-gtk-2", spawn_floating: true, height: 300, width: 200),
+                (window_class: "Gcr-prompter", spawn_floating: true, height: 300, width: 200),
             ],
             disable_current_tag_swap: false,
             disable_tile_drag: false,
@@ -115,15 +123,24 @@
       '';
     };
 
-    "leftwm/themes/current/theme.ron" = {
+    "leftwm/themes/current/theme.toml" = {
       text = ''
-        (border_width: 1,
-        margin: 5,
-        default_border_color: "#37474F",
-        floating_border_color: "#225588",
-        focused_border_color: "#885522",
-        )
+        border_width = 4
+        margin = 5
+        workspace_margin = 5
+        default_border_color = '#676e8a'
+        floating_border_color = '#3cc5f8;'
+        focused_border_color = '#ffd543'
       '';
+      # bug with ron
+      #text = ''
+      #  (border_width: 5,
+      #  margin: 5,
+      #  default_border_color: "#37474F",
+      #  floating_border_color: "#225588",
+      #  focused_border_color: "#732735",
+      #  )
+      #'';
     };
 
     "leftwm/themes/current/up" = {
