@@ -75,7 +75,6 @@
             focus_new_windows: true,
             sloppy_mouse_follows_focus: true,
             keybind: [
-                (command: Execute, value: "wezterm start --always-new-process", modifier: ["modkey", "Shift"], key: "Return"),
                 (command: GotoTag, value: "1", modifier: ["modkey"], key: "a"),
                 (command: GotoTag, value: "2", modifier: ["modkey"], key: "r"),
                 (command: GotoTag, value: "3", modifier: ["modkey"], key: "s"),
@@ -95,14 +94,15 @@
                 (command: CloseWindow, value: "", modifier: ["modkey", "Shift"], key: "c"),
                 (command: SoftReload, value: "", modifier: ["modkey", "Shift"], key: "z"),
 
-                (command: Execute, value: "dmenu_run", modifier: ["modkey"], key: "p"),
+                (command: Execute, value: "wezterm start --always-new-process", modifier: ["modkey"], key: "Return"),
+                (command: Execute, value: "rofi -show", modifier: ["modkey"], key: "d"),
                 //(command: Execute, value: "loginctl kill-session $XDG_SESSION_ID", modifier: ["modkey", "Shift"], key: "x"),
                 //(command: Execute, value: "slock", modifier: ["modkey", "Control"], key: "l"),
                 //(command: MoveToLastWorkspace, value: "", modifier: ["modkey", "Shift"], key: "w"),
                 //(command: SwapTags, value: "", modifier: ["modkey"], key: "w"),
                 (command: MoveWindowUp, value: "", modifier: ["modkey", "Shift"], key: "k"),
                 (command: MoveWindowDown, value: "", modifier: ["modkey", "Shift"], key: "j"),
-                (command: MoveWindowTop, value: "", modifier: ["modkey"], key: "Return"),
+                (command: MoveWindowTop, value: "", modifier: ["modkey", "Shift"], key: "Return"),
                 (command: FocusWindowUp, value: "", modifier: ["modkey"], key: "k"),
                 (command: FocusWindowDown, value: "", modifier: ["modkey"], key: "j"),
                 (command: NextLayout, value: "", modifier: ["modkey", "Control"], key: "k"),
@@ -212,6 +212,17 @@
         '';
         executable = true;
       };
+    };
+  };
+  programs.rofi = {
+    enable = true;
+    theme = ./dots.rasi;
+    extraConfig = {
+      font = "MonoLisa Custom 11";
+      modi = "drun";
+      show-icons = true;
+      drun-display-format = "{name}";
+      case-sensitive = false;
     };
   };
 }

@@ -270,6 +270,7 @@
                 inputs.awesome-flake.overlays.default
                 inputs.nur.overlay
                 inputs.leftwm-git.overlay
+                inputs.polar-dmenu.overlay
                 (final: prev: {
                   tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
                 })
