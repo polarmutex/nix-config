@@ -89,9 +89,6 @@
     { self, flake-utils, ... }@inputs:
       with inputs;
       let
-
-        work_username = (builtins.fromJSON (builtins.readFile ./.secrets/work/info.json)).username;
-
       in
       {
         # Used with `nixos-rebuild --flake .#<hostname>`
