@@ -66,7 +66,7 @@
                 (name: "Alacritty", value: "alacritty", x: 860, y: 390, height: 300, width: 200),
             ],
             window_rules: [
-                (window_class: "Gcr-prompter", spawn_floating: false, spawn_as_type: Normal),
+                (window_class: "Gcr-prompter", spawn_floating: true),
             ],
             disable_current_tag_swap: false,
             disable_tile_drag: false,

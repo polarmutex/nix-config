@@ -10,12 +10,9 @@
     anki-bin
     brave
     networkmanager
-    pinentry-gnome
     sioyek
     vscodium
   ];
-
-  services.gpg-agent.pinentryFlavor = "gnome3";
 
   services = {
 
