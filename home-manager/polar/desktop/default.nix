@@ -9,6 +9,7 @@
   home.packages = with pkgs; [
     anki-bin
     brave
+    libreoffice-fresh
     networkmanager
     sioyek
     vscodium
