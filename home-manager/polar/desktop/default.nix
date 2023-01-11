@@ -9,6 +9,7 @@
   home.packages = with pkgs; [
     anki-bin
     brave
+    flameshot
     libreoffice-fresh
     networkmanager
     sioyek
