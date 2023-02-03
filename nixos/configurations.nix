@@ -23,6 +23,7 @@
           [
             #(import configuration)
             home-manager.nixosModules.home-manager
+            inputs.lollypops.nixosModules.lollypops
             {
               #networking.hostName = hostname;
               users.mutableUsers = false;
@@ -50,12 +51,16 @@ in {
       blackbear = mkNixOS "blackbear" {
         modules = [
           ./hosts/blackbear
-          inputs.lollypops.nixosModules.lollypops
         ];
       };
       polarbear = mkNixOS "polarbear" {
         modules = [
           ./hosts/polarbear
+        ];
+      };
+      polarvortex = mkNixOS "polarvortex" {
+        modules = [
+          ./hosts/polarvortex
         ];
       };
     };

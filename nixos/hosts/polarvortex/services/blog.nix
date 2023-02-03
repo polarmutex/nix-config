@@ -1,10 +1,11 @@
-{ config, lib, pkgs, ... }:
-let
-  inherit (config.networking) domain;
-
-in
 {
-
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (config.networking) domain;
+in {
   services.nginx = {
     enable = true;
 
@@ -12,7 +13,7 @@ in
       "${domain}" = {
         forceSSL = true;
         enableACME = true;
-        root = "/var/www/blog";
+        root = "${pkgs.website-blog}";
         # https://securityheaders.com/
         extraConfig = ''
           add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
@@ -25,5 +26,4 @@ in
       };
     };
   };
-
 }

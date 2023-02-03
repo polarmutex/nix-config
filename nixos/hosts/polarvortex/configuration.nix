@@ -1,26 +1,32 @@
 # Configuration for polarvortex
-{ pkgs, ... }: {
-
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
-    ../modules/core
     ./services/blog.nix
     ./services/gitea.nix
-    ./services/miniflux.nix
-    ./services/umami.nix
+    #./services/miniflux.nix
+    #./services/umami.nix
   ];
+
+  lollypops.deployment = {
+    # Where on the remote the configuration (system flake) is placed
+    config-dir = "/var/src/lollypops";
+
+    # SSH connection parameters
+    ssh.host = "brianryall.xyz";
+    ssh.user = "polar";
+    ssh.command = "ssh";
+
+    # sudo options
+    sudo.enable = true;
+    sudo.command = "sudo";
+  };
 
   system.stateVersion = "22.05";
 
-  sops.defaultSopsFile = ./secrets.yaml;
+  #sops.defaultSopsFile = ./secrets.yaml;
 
   users.users.root.initialHashedPassword = "$6$XvQOK8GW5DiRzqhR$g2LCu4rz2OfHRmYUbzaxTn/hz0h8IEHREG3/oW6U/8N3miFxUoYhIiLNjoS0cZXQHqgcaVAv5y1t4.eKxZi/..";
-  users.users.polar = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
-    initialHashedPassword = "$6$p/7P2dlx4xBEV72W$Ooep2JnmTJhTnexObNtAt3CNqRIhqgA2cD4bZtWMXOYAP.yBig8XToII0Fxy2Kc/Q12gep7Uqfsq6wIxRv7f21";
-    shell = pkgs.fish;
-  };
 
   nix.settings.auto-optimise-store = true;
 
@@ -39,7 +45,7 @@
   networking.firewall = {
     enable = true;
     allowPing = true;
-    allowedTCPPorts = [ 80 443 22 ];
+    allowedTCPPorts = [80 443 22];
   };
 
   #services.tailscale.enable = true;
@@ -59,12 +65,11 @@
     recommendedProxySettings = true;
     clientMaxBodySize = "128m";
 
-    virtualHosts = { };
+    virtualHosts = {};
   };
 
   environment.systemPackages = with pkgs; [
     #tailscale
     unzip
   ];
-
 }

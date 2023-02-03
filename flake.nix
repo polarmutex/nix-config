@@ -20,6 +20,7 @@
     monolisa-font-flake.url = "git+ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git";
     #monolisa-font-flake.url = "path:///home/user/repos/personal/monolisa-font-flake";
     wallpapers.url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
+    website.url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git";
 
     #awesome-flake = {
     #  url = "github:polarmutex/awesome-flake";
@@ -101,6 +102,9 @@
           })
           (final: prev: {
             polar-wallpapers = wallpapers.packages.${prev.system}.polar-wallpapers;
+          })
+          (final: prev: {
+            website-blog = website.packages.${prev.system}.blog;
           })
           (_final: _prev: {
             stable = import nixpkgs-stable {

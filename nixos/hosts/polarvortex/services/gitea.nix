@@ -1,10 +1,13 @@
-{ config, pkgs, lib, ... }:
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   cfg_gitea = config.services.gitea;
   inherit (config.networking) domain;
   port = 8082;
-in
-{
+in {
   users.users.git = {
     description = "Gitea Service";
     home = cfg_gitea.stateDir;
@@ -12,7 +15,7 @@ in
     group = "git";
     isSystemUser = true;
   };
-  users.groups.git = { };
+  users.groups.git = {};
 
   services.gitea = {
     enable = true;
@@ -23,8 +26,6 @@ in
     httpAddress = "127.0.0.1";
     httpPort = port;
     lfs.enable = true;
-
-
 
     settings = {
       log.LEVEL = "Warn";
