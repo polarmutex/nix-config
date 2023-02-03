@@ -26,7 +26,8 @@ polarbear:
 	sudo nixos-rebuild switch --flake .#polarbear
 
 blackbear:
-	deploy ".#blackbear" -d --hostname 10.11.11.172
+	#sudo nixos-rebuild switch --flake .#blackbear
+	deploy ".#blackbear" -d --hostname 192.168.122.44
 
 polarvortex:
 	deploy ".#polarvortex" --ssh-user "polar"  --hostname brianryall.xyz
@@ -34,10 +35,8 @@ polarvortex:
 polarbear-home:
 	home-manager switch  --flake .#"polar@polarbear"
 
-work_ubuntu:
+work:
 	home-manager switch  --flake .#work
-work_redhat:
-	home-manager switch  --flake .#"work@redhat"
 
 update_neovim:
 	nix flake lock --update-input neovim-flake;

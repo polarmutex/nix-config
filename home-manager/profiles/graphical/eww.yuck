@@ -1,0 +1,80 @@
+
+(deflisten wmstate
+           :initial '{"workspaces":[{"layout":"","tags":[{"name":"","index":0,"mine":false,"busy":false,"visible":false,"urgent":false}]}]}'
+           "leftwm state")
+
+; eww is natively able to parse the JSON output of `leftwm-state`
+; since eww also has the ability of `for` loops there is no need for a `liquid` template anymore
+(defwidget workspaces []
+    (box :class "works"
+         :orientation "v"
+         :halign "center"
+         :valign "start"
+         :space-evenly false
+         :spacing -5
+
+        (for tag in '${wmstate.workspaces[0].tags}'
+          (button
+            :class {tag.mine ? "ws-button-mine" :
+                    tag.visible ? "ws-button-visible" :
+                    tag.urgent ? "ws-button-urgent" :
+                    tag.busy ? "ws-button-busy" : "ws-button"}
+            :onclick "leftwm-command \"SendWorkspaceToTag 0 ${tag.index}\""
+            {!tag.mine && !tag.busy && !tag.visible && !tag.urgent ?  "·" : "${tag.name}"}))))
+
+;; Clock Widgets ;;
+(defwidget time []
+	(box	:orientation "v"
+			:class "time"
+			:valign "end"
+	(button	:onclick "scripts/popup calendar"
+			:class "time-hour" hour)
+	(button	:onclick "scripts/popup calendar"
+			:class "time-min"  min)))
+(defpoll hour	:interval "1s"	"date '+%H'")
+(defpoll min	:interval "1s"	"date '+%M'")
+
+;; Top Widgets ;;
+(defwidget top []
+	(box	:orientation "v"
+			:space-evenly "false"
+			:valign "start"
+(workspaces)))
+
+;; Bottom Widgets ;;
+(defwidget bottom []
+	(box	:orientation "v"
+			:space-evenly false
+(time)))
+
+;; End Widgets ;;
+(defwidget end []
+	(box :orientation "v"
+		 :space-evenly "false"
+		 :valign "end"
+		 :spacing 5
+(bottom)))
+
+; Bar Widgets ;;
+(defwidget bar []
+  (box :class "eww_bar"
+            :orientation "v"
+            :vexpand "false"
+            :hexpand "false"
+  (top)
+  (end)))
+
+
+(defwindow bar0
+  :geometry (geometry :x "0"
+                      :y "0"
+                      :width "47px"
+                      :height "100%")
+  :monitor 0
+  ;; reserve width + border_width
+  :reserve (struts :side "left" :distance "52px")
+  :wm-ignore false
+  :hexpand "false"
+  :vexpand "false"
+  :windowtype "dock"
+  (bar))

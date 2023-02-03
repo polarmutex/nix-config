@@ -4,12 +4,12 @@ let
   inherit (lib) optional mkIf;
   inherit (builtins) map pathExists filter;
 
-  workInclude = {
-    user = {
-      name = "Brian Ryall";
-      email = (builtins.fromJSON (builtins.readFile ../../.secrets/work/info.json)).work_email;
-    };
-  };
+  #workInclude = {
+  #  user = {
+  #    name = "Brian Ryall";
+  #    email = (builtins.fromJSON (builtins.readFile ../../.secrets/work/info.json)).work_email;
+  #  };
+  #};
 
 in
 {
