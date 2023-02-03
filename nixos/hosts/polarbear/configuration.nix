@@ -21,6 +21,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    ansible
     nixpkgs-review
     nix-update
   ];
