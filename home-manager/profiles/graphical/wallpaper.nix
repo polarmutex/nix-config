@@ -7,6 +7,6 @@
     enable = true;
     display = "scale";
     interval = "30m";
-    imageDirectory = "%h/.config/wallpapers";
+    imageDirectory = "${pkgs.polar-wallpapers}/share/wallpapers";
   };
 }
