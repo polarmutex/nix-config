@@ -1,5 +1,11 @@
 # Configuration for polarvortex
-{pkgs, ...}: {
+{
+  pkgs,
+  options,
+  ...
+}: let
+  moduli_file = "ssh_moduli";
+in {
   imports = [
     ./hardware-configuration.nix
     ./services/blog.nix
@@ -57,6 +63,18 @@
   #security.auditd.enable = true;
   #security.audit.enable = true;
   #security.audit.rules = [ "-a exit,always -F arch=b64 -S execve" ];
+
+  # remove onec fips req goes away
+  services.openssh.kexAlgorithms =
+    options.services.openssh.kexAlgorithms.default
+    ++ [
+    ];
+  services.openssh.macs =
+    options.services.openssh.macs.default
+    ++ [
+    ];
+  services.openssh.moduliFile = "/etc/${moduli_file}";
+  environment.etc."${moduli_file}".text = "";
 
   services.nginx = {
     enable = true;
