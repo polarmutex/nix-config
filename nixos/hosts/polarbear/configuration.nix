@@ -24,6 +24,7 @@
     ansible
     nixpkgs-review
     nix-update
+    unzip
   ];
 
   #services.zfs = {
