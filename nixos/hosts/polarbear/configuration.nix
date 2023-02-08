@@ -22,6 +22,7 @@
 
   environment.systemPackages = with pkgs; [
     ansible
+    brave
     nixpkgs-review
     nix-update
     unzip
