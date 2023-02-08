@@ -107,24 +107,24 @@ in {
         smartcardSupport = true;
       };
     };
-    extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-      #darkreader
-      duckduckgo-privacy-essentials
-      i-dont-care-about-cookies # auto-accepts cookies=use only with privacy-badger & ublock-origin
-      #languagetool
-      multi-account-containers
-      onepassword-password-manager
-      tree-style-tab # vertical tabs
-      ublock-origin
-      vimium
-      privacy-badger
-    ];
 
     profiles = {
       default = {
         id = 0;
         settings = sharedSettings;
         #userChrome = disableWebRtcIndicator;
+        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+          #darkreader
+          duckduckgo-privacy-essentials
+          i-dont-care-about-cookies # auto-accepts cookies=use only with privacy-badger & ublock-origin
+          #languagetool
+          multi-account-containers
+          onepassword-password-manager
+          tree-style-tab # vertical tabs
+          ublock-origin
+          vimium
+          privacy-badger
+        ];
       };
     };
   };
