@@ -15,6 +15,7 @@
     openssh.enable = true;
     trusted.enable = true;
     wm-helper.enable = true;
+    virt-manager.enable = true;
     yubikey.enable = true;
   };
 
