@@ -11,7 +11,7 @@ in {
     ./services/blog.nix
     ./services/gitea.nix
     #./services/miniflux.nix
-    #./services/umami.nix
+    ./services/umami.nix
   ];
 
   lollypops.deployment = {
@@ -65,14 +65,14 @@ in {
   #security.audit.rules = [ "-a exit,always -F arch=b64 -S execve" ];
 
   # remove onec fips req goes away
-  services.openssh.kexAlgorithms =
-    options.services.openssh.kexAlgorithms.default
-    ++ [
-    ];
-  services.openssh.macs =
-    options.services.openssh.macs.default
-    ++ [
-    ];
+  #services.openssh.kexAlgorithms =
+  #  options.services.openssh.kexAlgorithms.default
+  #  ++ [
+  #  ];
+  #services.openssh.macs =
+  #  options.services.openssh.macs.default
+  #  ++ [
+  # ];
   services.openssh.moduliFile = "/etc/${moduli_file}";
   environment.etc."${moduli_file}".text = "";
 

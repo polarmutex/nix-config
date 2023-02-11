@@ -44,6 +44,8 @@ update_awesome:
 	nix flake lock --update-input awesome-flake;
 update_wallpapers:
 	nix flake lock --update-input wallpapers;
+update_website:
+	nix flake lock --update-input website;
 
 # bootstrap a brand new VM. The VM should have NixOS ISO on the CD drive
 # and just set the password of the root user to "root". This will install

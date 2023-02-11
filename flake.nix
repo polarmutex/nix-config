@@ -104,7 +104,7 @@
             polar-wallpapers = wallpapers.packages.${prev.system}.polar-wallpapers;
           })
           (final: prev: {
-            website-blog = website.packages.${prev.system}.blog;
+            website = website.packages.${prev.system}.site;
           })
           (_final: _prev: {
             stable = import nixpkgs-stable {

@@ -13,7 +13,7 @@ in {
       "${domain}" = {
         forceSSL = true;
         enableACME = true;
-        root = "${pkgs.website-blog}";
+        root = "${pkgs.website}";
         # https://securityheaders.com/
         extraConfig = ''
           add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
