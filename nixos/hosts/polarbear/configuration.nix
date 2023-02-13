@@ -21,8 +21,10 @@
   };
 
   environment.systemPackages = with pkgs; [
+    anki-bin
     ansible
     brave
+    jq
     nixpkgs-review
     nix-update
     unzip
