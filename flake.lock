@@ -1426,11 +1426,11 @@
         "pre-commit": "pre-commit"
       },
       "locked": {
-        "lastModified": 1676152285,
-        "narHash": "sha256-NSrHGa1EKHBa6gDA2QI0aPgIk04yOKIbAa/cl1Y1JMM=",
+        "lastModified": 1676160159,
+        "narHash": "sha256-R0ObA0C1ifzieCeKso4jfHHyJtTgNRE73Y4pljaQMmE=",
         "ref": "refs/heads/main",
-        "rev": "0911d1d5a17f29022703e5715a16b61695c11fc5",
-        "revCount": 15,
+        "rev": "b96714f6f7daeb7f85189fc3169a3bda563ebe4b",
+        "revCount": 16,
         "type": "git",
         "url": "ssh://git@git.brianryall.xyz/polarmutex/website.git"
       },
