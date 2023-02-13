@@ -1,10 +1,10 @@
-{ inputs
-, withSystem
-, self
-, lib
-, ...
-}:
-let
+{
+  inputs,
+  withSystem,
+  self,
+  lib,
+  ...
+}: let
   inherit (self.lib) importModules collectLeaves genModules genHosts;
   sharedModules = lib.flatten [
     {
@@ -22,10 +22,9 @@ let
     (inputs.home-manager.lib)
     homeManagerConfiguration
     ;
-in
-{
+in {
   flake = {
-    homeConfigurations = withSystem "x86_64-linux" ({ pkgs, ... }: {
+    homeConfigurations = withSystem "x86_64-linux" ({pkgs, ...}: {
       work = homeManagerConfiguration {
         modules =
           [
@@ -33,6 +32,7 @@ in
               home.username = "user";
               home.homeDirectory = "/home/user";
               home.packages = with pkgs; [
+                ctop
                 fd
                 glab
                 lazygit
@@ -47,6 +47,7 @@ in
                 apps.tmux.enable = true;
                 graphical.fonts.enable = true;
                 graphical.wezterm.enable = true;
+                graphical.obsidian.enable = true;
               };
               home.sessionPath = [
                 "$HOME/.local/bin"
