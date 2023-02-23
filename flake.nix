@@ -43,90 +43,87 @@
     #};
   };
 
-  outputs =
-    inputs @ { self
-    , flake-parts
-    , nixpkgs
-    , ...
-    }:
-    let
-      lib = import ./lib inputs;
-    in
-    flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs @ {
+    self,
+    flake-parts,
+    nixpkgs,
+    ...
+  }: let
+    lib = import ./lib inputs;
+  in
+    flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         ./nixos/configurations.nix
         ./home-manager/configurations.nix
         ./pkgs
       ];
-      systems = [ "x86_64-linux" ];
-      perSystem =
-        { config
-        , self'
-        , inputs'
-        , pkgs
-        , system
-        , ...
-        }:
-        let
-          overlays = with inputs; [
-            self.overlays.default
-            leftwm-git.overlay
-            (final: prev: {
-              neovim-polar = neovim-flake.packages.${prev.system}.default;
-            })
-            nur.overlay
-            monolisa-font-flake.overlays.default
-            (final: prev: {
-              tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
-            })
-            (final: prev: {
-              polar-wallpapers = wallpapers.packages.${prev.system}.polar-wallpapers;
-            })
-            (final: prev: {
-              website = website.packages.${prev.system}.site;
-            })
-            (_final: _prev: {
-              stable = import nixpkgs-stable {
-                inherit system;
-                config.allowUnfree = true;
-              };
-            })
-          ];
-        in
-        {
-          # Per-system attributes can be defined here. The self' and inputs'
-          # module parameters provide easy access to attributes of the same
-          # system.
-          _module.args = {
-            inherit self inputs lib;
-            pkgs = import nixpkgs {
-              inherit system overlays;
+      systems = ["x86_64-linux"];
+      perSystem = {
+        config,
+        self',
+        inputs',
+        pkgs,
+        system,
+        ...
+      }: let
+        overlays = with inputs; [
+          self.overlays.default
+          leftwm-git.overlay
+          (final: prev: {
+            neovim-polar = neovim-flake.packages.${prev.system}.default;
+          })
+          nur.overlay
+          monolisa-font-flake.overlays.default
+          (final: prev: {
+            tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
+          })
+          (final: prev: {
+            polar-wallpapers = wallpapers.packages.${prev.system}.polar-wallpapers;
+          })
+          (final: prev: {
+            website = website.packages.${prev.system}.site;
+          })
+          (_final: _prev: {
+            stable = import nixpkgs-stable {
+              inherit system;
               config.allowUnfree = true;
             };
-          };
-          devShells = {
-            #default = shell {inherit self pkgs;};
-            default = pkgs.mkShell {
-              name = "nixed-shell";
-              packages = with pkgs; [
-                #inputs'.deploy-rs.packages.deploy-rs
-                #colmena
-                home-manager
-              ];
-              #shellHook = lib.optionalString (!ci) ''
-              #  ${self.checks.${pkgs.system}.pre-commit-check.shellHook}
-              #'';
-            };
-            #ci = shell {
-            #  inherit self pkgs;
-            #  ci = true;
-            #};
-          };
-          apps = {
-            #default = shell {inherit self pkgs;};
-            default = inputs'.lollypops.apps.default { configFlake = self; };
+          })
+        ];
+      in {
+        # Per-system attributes can be defined here. The self' and inputs'
+        # module parameters provide easy access to attributes of the same
+        # system.
+        _module.args = {
+          inherit self inputs lib;
+          pkgs = import nixpkgs {
+            inherit system overlays;
+            config.allowUnfree = true;
           };
         };
+        devShells = {
+          #default = shell {inherit self pkgs;};
+          default = pkgs.mkShell {
+            name = "nixed-shell";
+            packages = with pkgs; [
+              #inputs'.deploy-rs.packages.deploy-rs
+              #colmena
+              home-manager
+            ];
+            #shellHook = lib.optionalString (!ci) ''
+            #  ${self.checks.${pkgs.system}.pre-commit-check.shellHook}
+            #'';
+          };
+          #ci = shell {
+          #  inherit self pkgs;
+          #  ci = true;
+          #};
+        };
+        apps = {
+          #default = shell {inherit self pkgs;};
+          default = inputs'.lollypops.apps.default {configFlake = self;};
+        };
+      };
       flake = {
         # The usual flake attributes can be defined here, including system-
         # agnostic ones like nixosModule and system-enumerating ones, although

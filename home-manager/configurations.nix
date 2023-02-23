@@ -43,6 +43,7 @@ in {
               ];
               profiles = {
                 apps.direnv.enable = true;
+                apps.helix.enable = true;
                 apps.fish.enable = true;
                 apps.tmux.enable = true;
                 graphical.fonts.enable = true;
