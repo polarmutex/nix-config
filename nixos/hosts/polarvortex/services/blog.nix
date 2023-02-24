@@ -5,7 +5,62 @@
   ...
 }: let
   inherit (config.networking) domain;
+  port = 4000;
 in {
+  environment.systemPackages = [pkgs.website];
+
+  systemd.services.website = {
+    description = "my website";
+    after = ["network.target"];
+    wantedBy = ["multi-user.target"];
+
+    serviceConfig = {
+      Type = "simple";
+      User = "website";
+      Group = "website";
+      WorkingDirectory = "${pkgs.website}";
+      ExecStart = "${pkgs.website}/target/server/release/brianryall-xyz";
+      Restart = "always";
+      # Security
+      NoNewPrivileges = true;
+      # Sandboxing
+      ProtectSystem = "strict";
+      ProtectHome = true;
+      PrivateTmp = true;
+      PrivateDevices = true;
+      PrivateUsers = true;
+      ProtectHostname = true;
+      ProtectClock = true;
+      ProtectKernelTunables = true;
+      ProtectKernelModules = true;
+      ProtectKernelLogs = true;
+      ProtectControlGroups = true;
+      RestrictAddressFamilies = ["AF_UNIX AF_INET AF_INET6"];
+      LockPersonality = true;
+      MemoryDenyWriteExecute = true;
+      RestrictRealtime = true;
+      RestrictSUIDSGID = true;
+      PrivateMounts = true;
+      # System Call Filtering
+      SystemCallArchitectures = "native";
+      SystemCallFilter = "~@clock @cpu-emulation @debug @keyring @memlock @module @mount @obsolete @raw-io @reboot @setuid @swap";
+    };
+
+    environment = {
+      LEPTOS_OUTPUT_NAME = "true";
+    };
+  };
+
+  users.users.website = {
+    description = "Website Service";
+    #home = cfg.stateDir;
+    useDefaultShell = true;
+    group = "website";
+    isSystemUser = true;
+  };
+
+  users.groups.website = {};
+
   services.nginx = {
     enable = true;
 
@@ -13,7 +68,10 @@ in {
       "${domain}" = {
         forceSSL = true;
         enableACME = true;
-        root = "${pkgs.website}";
+        #root = "${pkgs.website}";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString port}";
+        };
         # https://securityheaders.com/
         extraConfig = ''
           add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
