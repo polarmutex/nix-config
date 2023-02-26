@@ -24,10 +24,10 @@ in {
       # Security
       NoNewPrivileges = true;
       # Sandboxing
-      ProtectSystem = "strict";
-      ProtectHome = true;
-      PrivateTmp = true;
       PrivateDevices = true;
+      ProtectHome = true;
+      ProtectSystem = true;
+      PrivateTmp = true;
       PrivateUsers = true;
       ProtectHostname = true;
       ProtectClock = true;
@@ -35,15 +35,25 @@ in {
       ProtectKernelModules = true;
       ProtectKernelLogs = true;
       ProtectControlGroups = true;
-      RestrictAddressFamilies = ["AF_UNIX AF_INET AF_INET6"];
-      LockPersonality = true;
-      MemoryDenyWriteExecute = true;
+      #RestrictAddressFamilies = ["AF_UNIX AF_INET AF_INET6"];
+      #LockPersonality = true;
+      #MemoryDenyWriteExecute = true;
       RestrictRealtime = true;
       RestrictSUIDSGID = true;
       PrivateMounts = true;
       # System Call Filtering
       SystemCallArchitectures = "native";
-      SystemCallFilter = "~@clock @cpu-emulation @debug @keyring @memlock @module @mount @obsolete @raw-io @reboot @setuid @swap";
+      SystemCallFilter = [
+        "~@reboot"
+        "@module"
+        "@mount"
+        "@swap"
+        "@resources"
+        "@cpu-emulation"
+        "@obsolete"
+        "@debug"
+        "~@privileged"
+      ];
     };
 
     environment = {
@@ -71,16 +81,17 @@ in {
         #root = "${pkgs.website}";
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString port}";
+          proxyWebsockets = true;
         };
         # https://securityheaders.com/
-        extraConfig = ''
-          add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
-          add_header X-Content-Security-Policy "default-src 'self' *.brianryall.xyz";
-          add_header X-Frame-Options "SAMEORIGIN";
-          add_header X-Content-Type-Options "nosniff";
-          add_header Permissions-Policy "interest-cohort=()";
-          add_header Referrer-Policy "strict-origin-when-cross-origin";
-        '';
+        #extraConfig = ''
+        #  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+        #  add_header X-Content-Security-Policy "default-src 'self' *.brianryall.xyz";
+        #  add_header X-Frame-Options "SAMEORIGIN";
+        #  add_header X-Content-Type-Options "nosniff";
+        #  add_header Permissions-Policy "interest-cohort=()";
+        #  add_header Referrer-Policy "strict-origin-when-cross-origin";
+        #'';
       };
     };
   };
