@@ -36,6 +36,9 @@ in {
                 fd
                 glab
                 lazygit
+                kube3d
+                kubectl
+                kubernetes-helm
                 neovim-polar
                 ripgrep
                 tmux
