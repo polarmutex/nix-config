@@ -86,6 +86,22 @@ in {
     virtualHosts = {};
   };
 
+  services.logrotate = {
+    enable = true;
+    settings = {
+      journal = {
+        files = ["/var/log/journal"];
+        frequency = "daily";
+        rotate = 10;
+      };
+      nginx = {
+        files = ["/var/log/nginx/*.log"];
+        frequency = "daily";
+        rotate = 10;
+      };
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     #tailscale
     unzip

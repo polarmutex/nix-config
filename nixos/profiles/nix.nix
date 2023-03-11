@@ -6,7 +6,10 @@
   inherit (pkgs.stdenv) isDarwin;
 in {
   nix = {
-    gc.automatic = true;
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 7d";
+    };
     settings = {
       #sandbox = true;
       trusted-users = [
