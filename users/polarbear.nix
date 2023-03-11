@@ -25,6 +25,7 @@
       services.enable = true;
     };
     home.packages = with pkgs; [
+      flameshot
       lazygit
       neovim-polar
       tmux-sessionizer
