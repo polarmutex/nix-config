@@ -29,6 +29,7 @@
     #  flake = false;
     #};
     neovim-flake.url = "github:polarmutex/neovim-flake";
+    #neovim-flake.url = "path:/home/polar/repos/personal/neovim-flake/main";
     nur.url = "github:nix-community/NUR";
     #hardware.url = "github:nixos/nixos-hardware";
     neovim.url = "github:neovim/neovim?dir=contrib";
