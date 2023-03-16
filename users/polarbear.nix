@@ -27,6 +27,7 @@
     home.packages = with pkgs; [
       flameshot
       lazygit
+      gnome.nautilus
       neovim-polar
       tmux-sessionizer
       tmux
