@@ -38,10 +38,12 @@
     #polar-st.url = "github:polarmutex/st";
     #polar-dmenu.url = "github:polarmutex/dmenu";
     tmux-sessionizer.url = "github:polarmutex/tmux-sessionizer";
-    #sops-nix = {
-    #  url = "github:Mic92/sops-nix";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    programsdb.url = "github:wamserma/flake-programs-sqlite";
+    programsdb.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
@@ -50,15 +52,18 @@
     nixpkgs,
     ...
   }: let
-    lib = import ./lib inputs;
+    #lib = import ./lib inputs;
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
+
       imports = [
-        ./nixos/configurations.nix
-        ./home-manager/configurations.nix
+        ./nixos/configurations
+        ./nixos/flake-module.nix
+        #./home-manager/configurations.nix
         ./pkgs
       ];
-      systems = ["x86_64-linux"];
+
       perSystem = {
         config,
         self',
@@ -96,7 +101,7 @@
         # module parameters provide easy access to attributes of the same
         # system.
         _module.args = {
-          inherit self inputs lib;
+          inherit self inputs;
           pkgs = import nixpkgs {
             inherit system overlays;
             config.allowUnfree = true;
@@ -126,10 +131,11 @@
         };
       };
       flake = {
+        nixosModules = import ./nixos/modules inputs;
         # The usual flake attributes can be defined here, including system-
         # agnostic ones like nixosModule and system-enumerating ones, although
         # those are more easily expressed in perSystem.
-        inherit lib;
+        #inherit lib;
         #apps = {
         #  #default = shell {inherit self pkgs;};
         #  default = inputs.lollypops.apps."x86_64-linux".default {configFlake = self;};
