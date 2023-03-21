@@ -51,16 +51,15 @@
     flake-parts,
     nixpkgs,
     ...
-  }: let
-    #lib = import ./lib inputs;
-  in
+  }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
 
       imports = [
-        ./nixos/configurations
         ./nixos/flake-module.nix
-        #./home-manager/configurations.nix
+        ./nixos/configurations
+        ./home-manager/flake-module.nix
+        ./home-manager/configurations
         ./pkgs
       ];
 
@@ -131,11 +130,13 @@
         };
       };
       flake = {
-        nixosModules = import ./nixos/modules inputs;
         # The usual flake attributes can be defined here, including system-
         # agnostic ones like nixosModule and system-enumerating ones, although
         # those are more easily expressed in perSystem.
-        #inherit lib;
+        nixosModules = import ./nixos/modules inputs;
+
+        homeModules = import ./home-manager/modules inputs;
+
         #apps = {
         #  #default = shell {inherit self pkgs;};
         #  default = inputs.lollypops.apps."x86_64-linux".default {configFlake = self;};

@@ -36,7 +36,7 @@ polarbear-home:
 	home-manager switch  --flake .#"polar@polarbear"
 
 work:
-	home-manager switch  --flake .#work
+	home-manager switch  --flake .#"user@work"
 
 update_neovim:
 	nix flake lock --update-input neovim-flake;

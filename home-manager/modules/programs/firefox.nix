@@ -1,4 +1,4 @@
-{
+_: {
   pkgs,
   config,
   lib,
@@ -99,32 +99,34 @@ with lib; let
     "privacy.resistFingerprinting.letterboxing" = true; # Used to help resist fingerprinting… set to `false` to disable letterboxing
     "webgl.disabled" = true;
   };
+  cfg = config.programs.firefox;
 in {
-  programs.firefox = {
-    enable = true;
-    package = pkgs.firefox.override {
-      cfg = {
-        smartcardSupport = true;
+  config = lib.mkIf cfg.enable {
+    programs.firefox = {
+      package = pkgs.firefox.override {
+        cfg = {
+          smartcardSupport = true;
+        };
       };
-    };
 
-    profiles = {
-      default = {
-        id = 0;
-        settings = sharedSettings;
-        #userChrome = disableWebRtcIndicator;
-        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-          #darkreader
-          duckduckgo-privacy-essentials
-          i-dont-care-about-cookies # auto-accepts cookies=use only with privacy-badger & ublock-origin
-          #languagetool
-          multi-account-containers
-          onepassword-password-manager
-          tree-style-tab # vertical tabs
-          ublock-origin
-          vimium
-          privacy-badger
-        ];
+      profiles = {
+        default = {
+          id = 0;
+          settings = sharedSettings;
+          #userChrome = disableWebRtcIndicator;
+          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+            #darkreader
+            duckduckgo-privacy-essentials
+            i-dont-care-about-cookies # auto-accepts cookies=use only with privacy-badger & ublock-origin
+            #languagetool
+            multi-account-containers
+            onepassword-password-manager
+            tree-style-tab # vertical tabs
+            ublock-origin
+            vimium
+            privacy-badger
+          ];
+        };
       };
     };
   };
