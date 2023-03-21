@@ -37,4 +37,5 @@
   programs.wezterm.enable = true;
   programs.wezterm.textSize = 9;
   programs.obsidian.enable = true;
+  programs.zellij.enable = true;
 }

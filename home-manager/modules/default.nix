@@ -16,6 +16,7 @@ inputs: {
   "programs/sioyek" = import ./programs/sioyek.nix inputs;
   "programs/tmux" = import ./programs/tmux.nix inputs;
   "programs/wezterm" = import ./programs/wezterm.nix inputs;
+  "programs/zellij" = import ./programs/zellij.nix inputs;
 
   "misc/home" = import ./misc/home.nix inputs;
 
