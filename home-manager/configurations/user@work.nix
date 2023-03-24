@@ -18,16 +18,18 @@
     fd
     glab
     lazygit
+    cmake
     #lens # need openlens
     #kube3d
     #kubectl
-    #kubernetes-helm
+    kubernetes-helm
     neovim-flake.packages.${pkgs.system}.default
     ripgrep
   ];
 
   programs.direnv.enable = true;
   programs.helix.enable = true;
+  programs.htop.enable = true;
   programs.fish.enable = true;
   programs.tmux.enable = true;
   programs.wezterm.enable = true;
