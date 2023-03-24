@@ -29,8 +29,10 @@
   polar.eww.enable = true;
   programs.direnv.enable = true;
   programs.helix.enable = true;
+  programs.htop.enable = true;
   programs.firefox.enable = true;
   programs.fish.enable = true;
+  programs.kitty.enable = true;
   programs.tmux.enable = true;
   programs.wezterm.enable = true;
   programs.obsidian.enable = true;

@@ -12,6 +12,7 @@ inputs: {
   "programs/fish" = import ./programs/fish.nix inputs;
   "programs/helix" = import ./programs/helix.nix inputs;
   "programs/htop" = import ./programs/htop.nix inputs;
+  "programs/kitty" = import ./programs/kitty.nix inputs;
   "programs/obsidian" = import ./programs/obsidian.nix inputs;
   "programs/protonvpn" = import ./programs/protonvpn.nix inputs;
   "programs/sioyek" = import ./programs/sioyek.nix inputs;
