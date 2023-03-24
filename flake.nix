@@ -143,6 +143,9 @@
         #};
       };
     };
+  nixConfig = {
+    allow-import-from-derivation = "true";
+  };
 }
 # TODO pre-commit-check
 #            pre-commit-check = pre-commit-hooks.lib.${system}.run

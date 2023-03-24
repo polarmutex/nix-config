@@ -29,16 +29,18 @@ in {
                 "Symbols Nerd Font",
             }),
             font_size = ${toString cfg.textSize},
+            color_scheme = "polar",
             check_for_updates = false,
             window_background_opacity = 0.9,
             enable_tab_bar = false,
+            window_close_confirmation = "NeverPrompt",
 
-            front_end = "OpenGL",
-            enable_wayland = false,
+            ---front_end = "OpenGL",
+            --enable_wayland = false,
         }
       '';
       colorSchemes = {
-        colors = {
+        polar = {
           foreground = "#c0caf5";
           background = "#1a1b26";
           cursor_bg = "#c0caf5";

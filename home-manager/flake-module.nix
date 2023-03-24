@@ -3,6 +3,7 @@
   inputs,
   config,
   lib,
+  withSystem,
   ...
 }: let
   cfg = config.polar.homeConfigurations;
@@ -106,10 +107,11 @@ in {
 
           packageModule = {${config.system}.${config.packageName} = config.finalPackage;};
 
-          finalHome = inputs.home-manager.lib.homeManagerConfiguration {
-            pkgs = config.nixpkgs.legacyPackages.${config.system};
-            modules = config.finalModules;
-          };
+          finalHome = withSystem config.system ({pkgs, ...}:
+            inputs.home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              modules = config.finalModules;
+            });
         };
       }));
     };

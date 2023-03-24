@@ -1,4 +1,4 @@
-_: {
+{leftwm-git, ...}: {
   config,
   lib,
   ...
@@ -26,5 +26,6 @@ in {
       nix.settings.max-free = lib.mkDefault (25 * gibibyte);
       nix.settings.allow-import-from-derivation = lib.mkDefault false;
     }
+    {nixpkgs.overlays = [leftwm-git.overlay];}
   ];
 }

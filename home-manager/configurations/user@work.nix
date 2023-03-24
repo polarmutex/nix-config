@@ -3,9 +3,9 @@
   pkgs,
   ...
 }: {
-  nixpkgs.allowedUnfree = [
-    "obsidian"
-  ];
+  #nixpkgs.allowedUnfree = [
+  #  "obsidian"
+  #];
   activeProfiles = [
     "base"
     "fonts"

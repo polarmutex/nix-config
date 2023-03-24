@@ -115,7 +115,6 @@ in {
           settings = sharedSettings;
           #userChrome = disableWebRtcIndicator;
           extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-            #darkreader
             duckduckgo-privacy-essentials
             i-dont-care-about-cookies # auto-accepts cookies=use only with privacy-badger & ublock-origin
             #languagetool

@@ -1,12 +1,46 @@
-{self, ...}: {
+{
+  neovim-flake,
+  nixpkgs,
+  ...
+}: {
   lib,
   pkgs,
   ...
 }: {
-  nixpkgs.allowedUnfree = [];
-  activeProfiles = [];
+  #nixpkgs.allowedUnfree = [
+  #  "discord"
+  #  "obsidian"
+  #  "1password"
+  #  "onepassword-password-manager"
+  #];
+  activeProfiles = [
+    "base"
+    "fonts"
+    "messaging"
+    "trusted"
+    "wallpapers"
+  ];
   profiles.base.enable = true;
   #profiles.fonts.enable = true;
   #xsession.enable = lib.mkForce false;
   #xsession.windowManager.awesome.enable = lib.mkForce false;
+
+  misc.leftwm.enable = true;
+  polar.eww.enable = true;
+  programs.direnv.enable = true;
+  programs.helix.enable = true;
+  programs.firefox.enable = true;
+  programs.fish.enable = true;
+  programs.tmux.enable = true;
+  programs.wezterm.enable = true;
+  programs.obsidian.enable = true;
+  programs.zellij.enable = true;
+  services.picom.enable = true;
+
+  home.packages = with pkgs; [
+    flameshot
+    lazygit
+    gnome.nautilus
+    neovim-flake.packages.${pkgs.system}.default
+  ];
 }
