@@ -1,5 +1,5 @@
 {config, ...}: let
-  backend = config.virtualisation.oci-containers.backend;
+  inherit (config.virtualisation.oci-containers) backend;
   inherit (config.networking) domain;
 
   port = 3000;

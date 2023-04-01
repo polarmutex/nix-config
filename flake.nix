@@ -82,7 +82,7 @@
             tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
           })
           (_final: prev: {
-            polar-wallpapers = wallpapers.packages.${prev.system}.polar-wallpapers;
+            inherit (wallpapers.packages.${prev.system}) polar-wallpapers;
           })
           (_final: prev: {
             website = website.packages.${prev.system}.default;
@@ -116,6 +116,9 @@
               deadnix = {
                 enable = true;
               };
+              statix = {
+                enable = true;
+              };
             };
           };
         };
@@ -128,6 +131,7 @@
               #inputs'.deploy-rs.packages.deploy-rs
               #colmena
               home-manager
+              statix
             ];
             inherit (self.checks.${system}.pre-commit-check) shellHook;
           };

@@ -1,5 +1,5 @@
-{...}: {
-  perSystem = {...}: {
+_: {
+  perSystem = _: {
   };
 
   flake.overlays = {

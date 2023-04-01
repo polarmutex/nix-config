@@ -1,4 +1,4 @@
-{...}: {lib, ...}: let
+_: {lib, ...}: let
   caches = [
     "https://cache.nixos.org"
     "https://cachix.cachix.org"
