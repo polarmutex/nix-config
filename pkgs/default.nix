@@ -1,9 +1,5 @@
 {...}: {
-  perSystem = {
-    pkgs,
-    system,
-    ...
-  }: {
+  perSystem = {...}: {
   };
 
   flake.overlays = {

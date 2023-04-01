@@ -1,9 +1,5 @@
 # Configuration for polarvortex
-{
-  pkgs,
-  options,
-  ...
-}: let
+{pkgs, ...}: let
   moduli_file = "ssh_moduli";
 in {
   imports = [

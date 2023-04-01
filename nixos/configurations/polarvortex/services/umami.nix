@@ -1,15 +1,8 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-with lib; let
+{config, ...}: let
   backend = config.virtualisation.oci-containers.backend;
   inherit (config.networking) domain;
 
   port = 3000;
-  postgresTag = "13";
   umamiTag = "postgresql-latest";
 in {
   virtualisation.oci-containers = {

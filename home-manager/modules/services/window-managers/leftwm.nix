@@ -60,7 +60,7 @@ in {
 
       # Check if all theme packages contain a theme.ron
       # or theme.toml file, up script, and down script
-      packageContainsValidTheme = themeName: theme:
+      packageContainsValidTheme = _themeName: theme:
         all (x: x) [
           ((builtins.pathExists "${theme}/theme.ron") || (builtins.pathExists "${theme}/theme.toml"))
           (builtins.pathExists "${theme}/up")

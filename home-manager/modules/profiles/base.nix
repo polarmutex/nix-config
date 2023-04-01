@@ -1,7 +1,6 @@
-{self, ...}: {
+{...}: {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.profiles.base;

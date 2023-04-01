@@ -43,25 +43,25 @@ _: {
 
   leftwm-command = "${pkgs.leftwm}/bin/leftwm-command";
   eww-command = "${pkgs.eww}/bin/eww";
-  feh = "${pkgs.feh}/bin/feh";
+  #feh = "${pkgs.feh}/bin/feh";
   wezterm = "${pkgs.wezterm}/bin/wezterm";
   rofi = "${pkgs.rofi}/bin/rofi";
-  xset = "${pkgs.xorg.xset}/bin/xset";
-  maim = "${pkgs.maim}/bin/maim";
-  dunstify = "${pkgs.dunst}/bin/dunstify";
-  amixer = "${pkgs.alsa-utils}/bin/amixer";
-  light = "${pkgs.light}/bin/light";
+  #xset = "${pkgs.xorg.xset}/bin/xset";
+  #maim = "${pkgs.maim}/bin/maim";
+  #dunstify = "${pkgs.dunst}/bin/dunstify";
+  #amixer = "${pkgs.alsa-utils}/bin/amixer";
+  #light = "${pkgs.light}/bin/light";
 
-  screenshot = pkgs.writeShellScript "take-screenshot.sh" ''
-    if [ "$1" == "-s" ]; then
-      cmd="${maim} -s"
-    else
-      cmd="${maim}"
-    fi
-    if eval "$cmd $HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"; then
-      ${dunstify} -u low "Screenshot taken" "at $(date +%r)"
-    fi
-  '';
+  #screenshot = pkgs.writeShellScript "take-screenshot.sh" ''
+  #  if [ "$1" == "-s" ]; then
+  #    cmd="${maim} -s"
+  #  else
+  #    cmd="${maim}"
+  #  fi
+  #  if eval "$cmd $HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"; then
+  #    ${dunstify} -u low "Screenshot taken" "at $(date +%r)"
+  #  fi
+  #'';
   cfg = config.misc.leftwm;
 in {
   options.misc.leftwm = {

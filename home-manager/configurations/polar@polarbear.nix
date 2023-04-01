@@ -1,12 +1,4 @@
-{
-  neovim-flake,
-  nixpkgs,
-  ...
-}: {
-  lib,
-  pkgs,
-  ...
-}: {
+{neovim-flake, ...}: {pkgs, ...}: {
   #nixpkgs.allowedUnfree = [
   #  "discord"
   #  "obsidian"

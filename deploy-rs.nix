@@ -1,16 +1,15 @@
-{ self
-, deploy-rs
-, nixpkgs
-, ...
-}:
 {
+  self,
+  deploy-rs,
+  ...
+}: {
   #autoRollback = true;
   #magicRollback = true;
   #user = "root";
   #nodes = lib.mapAttrs genNode self.nixosConfigurations;
   nodes = {
     blackbear = {
-      sshOpts = [ "-p" "22" ];
+      sshOpts = ["-p" "22"];
       hostname = "blackbear";
       fastConnection = true;
       profiles = {
@@ -29,7 +28,7 @@
       };
     };
     polarvortex = {
-      sshOpts = [ "-p" "22" ];
+      sshOpts = ["-p" "22"];
       hostname = "brianryall.xyz";
       fastConnection = false;
       profiles = {

@@ -65,7 +65,6 @@
 
       perSystem = {
         config,
-        self',
         inputs',
         pkgs,
         system,
@@ -74,18 +73,18 @@
         overlays = with inputs; [
           self.overlays.default
           leftwm-git.overlay
-          (final: prev: {
+          (_final: prev: {
             neovim-polar = neovim-flake.packages.${prev.system}.default;
           })
           nur.overlay
           monolisa-font-flake.overlays.default
-          (final: prev: {
+          (_final: prev: {
             tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
           })
-          (final: prev: {
+          (_final: prev: {
             polar-wallpapers = wallpapers.packages.${prev.system}.polar-wallpapers;
           })
-          (final: prev: {
+          (_final: prev: {
             website = website.packages.${prev.system}.default;
           })
           (_final: _prev: {
@@ -106,6 +105,18 @@
             config.allowUnfree = true;
           };
         };
+
+        checks = {
+          pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              deadnix = {
+                enable = true;
+              };
+            };
+          };
+        };
+
         devShells = {
           #default = shell {inherit self pkgs;};
           default = pkgs.mkShell {
@@ -115,9 +126,7 @@
               #colmena
               home-manager
             ];
-            #shellHook = lib.optionalString (!ci) ''
-            #  ${self.checks.${pkgs.system}.pre-commit-check.shellHook}
-            #'';
+            inherit (self.checks.${system}.pre-commit-check) shellHook;
           };
           #ci = shell {
           #  inherit self pkgs;
