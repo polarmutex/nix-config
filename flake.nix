@@ -110,6 +110,9 @@
           pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
             src = ./.;
             hooks = {
+              alejandra = {
+                enable = true;
+              };
               deadnix = {
                 enable = true;
               };
@@ -156,84 +159,3 @@
     allow-import-from-derivation = "true";
   };
 }
-# TODO pre-commit-check
-#            pre-commit-check = pre-commit-hooks.lib.${system}.run
-#              {
-#                src = pkgs.lib.cleanSource ./.;
-#                hooks = {
-#nix-linter.enable = true;
-#nixpkgs-fmt.enable = true;
-#statix.enable = true;
-#stylua = {
-#  enable = true;
-#  types = [ "file" "lua" ];
-#  entry = "${stylua}/bin/stylua";
-#};
-#luacheck = {
-#  enable = true;
-#  types = [ "file" "lua" ];
-#  entry = "${luajitPackages.luacheck}/bin/luacheck --std luajit --globals vim -- ";
-#};
-#                  actionlint = {
-#                    enable = true;
-#                    files = "^.github/workflows/";
-#                    types = [ "yaml" ];
-#                    entry = "${pkgs.actionlint}/bin/actionlint";
-#                  };
-#                };
-#                settings.nix-linter.checks = [
-#                  "DIYInherit"
-#                  "EmptyInherit"
-#                  "EmptyLet"
-#                  "EtaReduce"
-#                  "LetInInheritRecset"
-#                  "ListLiteralConcat"
-#                  "NegateAtom"
-#                  "SequentialLet"
-#                  "SetLiteralUpdate"
-#                  "UnfortunateArgName"
-#                  "UnneededRec"
-#                  "UnusedArg"
-#                  "UnusedLetBind"
-#                  "UpdateEmptySet"
-#                  "BetaReduction"
-#                  "EmptyVariadicParamSet"
-#                  "UnneededAntiquote"
-#                  "no-FreeLetInFunc"
-#                  "no-AlphabeticalArgs"
-#                  "no-AlphabeticalBindings"
-#                ];
-#              };
-#statix = pkgs.runCommand "statix" { } ''
-#  ${pkgs.statix}/bin/statix check ${./.} --format errfmt | tee output
-#  [[ "$(cat output)" == "" ]];
-#  touch $out
-#'';
-#nixpkgs-fmt = pkgs.runCommand "nixpkgs-fmt" { } ''
-#  shopt -s globstar
-#  ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt --check ${./.}/**/*.nix
-#  touch $out
-#'';
-#          } // (pkgs.deploy-rs.lib.deployChecks self.deploy);
-#        devShells = {
-#          default = import ./shell.nix inputs system;
-#        };
-#        legacyPackages = import
-#          nixpkgs
-#          {
-#            inherit system;
-#            overlays = [
-#              self.overlays.additions
-#              self.overlays.modifications
-#              inputs.deploy-rs.overlay
-#              inputs.neovim-flake.overlays.default
-#              inputs.awesome-flake.overlays.default
-#              inputs.nur.overlay
-#              inputs.leftwm-git.overlay
-#              inputs.polar-dmenu.overlay
-#              inputs.monolisa-font-flake.overlay
-#            ];
-#            config.allowUnfree = true;
-#          };
-#      });
-#}
