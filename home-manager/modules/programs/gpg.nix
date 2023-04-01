@@ -1,26 +1,29 @@
-{ config, pkgs, lib, ... }:
-{
-
-  services.gpg-agent = {
-    enable = true;
-    enableExtraSocket = true;
-    enableScDaemon = true;
-    enableSshSupport = true;
-    defaultCacheTtl = 34560000;
-    maxCacheTtl = 34560000;
-    grabKeyboardAndMouse = false;
-    pinentryFlavor = "curses";
-    #extraConfig = ''
-    #  extra-socket /run/user/${toString config.home.uid}/gnupg/S.gpg-agent.extra
-    #'';
-  };
-
-  programs.gpg =
-    let
-      keyid = "0x7F1160FAFC739341";
-    in
-    {
+_: {
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  cfg = config.programs.gpg;
+in {
+  config = lib.mkIf cfg.enable {
+    services.gpg-agent = {
       enable = true;
+      enableExtraSocket = true;
+      enableScDaemon = true;
+      enableSshSupport = true;
+      defaultCacheTtl = 34560000;
+      maxCacheTtl = 34560000;
+      grabKeyboardAndMouse = false;
+      pinentryFlavor = "curses";
+      #extraConfig = ''
+      #  extra-socket /run/user/${toString config.home.uid}/gnupg/S.gpg-agent.extra
+      #'';
+    };
+
+    programs.gpg = let
+      keyid = "0x7F1160FAFC739341";
+    in {
       publicKeys = [
         {
           source = ./. + "/gpg-${keyid}-2022-01-20.asc";
@@ -77,4 +80,5 @@
         reader-port = "Yubico Yubi";
       };
     };
+  };
 }
