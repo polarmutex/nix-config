@@ -28,6 +28,7 @@
   programs.tmux.enable = true;
   programs.wezterm.enable = true;
   programs.obsidian.enable = true;
+  programs.logseq.enable = true;
   programs.zellij.enable = true;
   services.picom.enable = true;
 
