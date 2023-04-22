@@ -820,11 +820,11 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1682064101,
-        "narHash": "sha256-Oly+CFve6clwCmo9gI4jT5MckSBta/JdihA2Rr+/3ko=",
+        "lastModified": 1682127558,
+        "narHash": "sha256-JBlbm/nbnviQE6Zk2VwXBy0js7jTh39tRH8kOsMN6vI=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "32c093b874f6afe9778aed7c4bd1c79d221ffe8d",
+        "rev": "7566931dd2a608462819370e32d324af6e2ed87a",
         "type": "github"
       },
       "original": {
