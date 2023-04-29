@@ -20,6 +20,7 @@
   misc.leftwm.enable = true;
   polar.eww.enable = true;
   programs.direnv.enable = true;
+  programs.emacs.enable = true;
   programs.helix.enable = true;
   programs.htop.enable = true;
   programs.firefox.enable = true;

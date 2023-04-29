@@ -1,5 +1,12 @@
-_: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   polar.homeConfigurations."polar@polarbear".system = "x86_64-linux";
+  polar.homeConfigurations."polar@polarbear".modules = [
+    (import inputs.rycee {inherit pkgs;}).hmModules.emacs-init
+  ];
   polar.homeConfigurations."user@work".system = "x86_64-linux";
 
   #homeConfigurations = withSystem "x86_64-linux" ({pkgs, ...}: {

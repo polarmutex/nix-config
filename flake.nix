@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/release-22.11";
+    nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -31,6 +32,10 @@
     neovim-flake.url = "github:polarmutex/neovim-flake";
     #neovim-flake.url = "path:/home/polar/repos/personal/neovim-flake/main";
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+    rycee = {
+      url = "gitlab:rycee/nur-expressions";
+      flake = false;
+    };
     #hardware.url = "github:nixos/nixos-hardware";
     neovim.url = "github:neovim/neovim?dir=contrib";
     helix.url = "github:helix-editor/helix";
@@ -90,6 +95,11 @@
             stable = import nixpkgs-stable {
               inherit system;
               config.allowUnfree = true;
+            };
+          })
+          (_final: _prev: {
+            mine = import nixpkgs-mine {
+              inherit system;
             };
           })
         ];

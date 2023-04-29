@@ -996,6 +996,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-mine": {
+      "locked": {
+        "lastModified": 1682781217,
+        "narHash": "sha256-Gq1bvJVpUbi/imhjAHS5A+RiCi27kMMCARVwBqSc1xc=",
+        "owner": "polarmutex",
+        "repo": "nixpkgs",
+        "rev": "1b10334b3d788854770658fb3b561dd042760470",
+        "type": "github"
+      },
+      "original": {
+        "owner": "polarmutex",
+        "ref": "emacs-beancount-mode",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1682682915,
@@ -1418,9 +1434,11 @@
         "neovim": "neovim",
         "neovim-flake": "neovim-flake",
         "nixpkgs": "nixpkgs_8",
+        "nixpkgs-mine": "nixpkgs-mine",
         "nixpkgs-stable": "nixpkgs-stable",
         "pre-commit-hooks": "pre-commit-hooks",
         "programsdb": "programsdb",
+        "rycee": "rycee",
         "sops-nix": "sops-nix",
         "tmux-sessionizer": "tmux-sessionizer",
         "wallpapers": "wallpapers",
@@ -1510,6 +1528,22 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
+      }
+    },
+    "rycee": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1682630350,
+        "narHash": "sha256-HbOShSAhgbISvWXUgCZaG1eTBf4G/+1VZkJN7dXVNkY=",
+        "owner": "rycee",
+        "repo": "nur-expressions",
+        "rev": "3cfcd79f13d1a3aad776f8235f582ed3ce2dd895",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "rycee",
+        "repo": "nur-expressions",
+        "type": "gitlab"
       }
     },
     "sops-nix": {
