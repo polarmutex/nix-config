@@ -1,10 +1,12 @@
 _: {
-  pkgs,
   config,
+  firefox-addons,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
+  addons = firefox-addons.packages.${pkgs.system};
   # ~/.mozilla/firefox/PROFILE_NAME/prefs.js | user.js
   # https://www.youtube.com/watch?v=F7-bW2y6lcI
   sharedSettings = {
@@ -114,12 +116,12 @@ in {
           id = 0;
           settings = sharedSettings;
           #userChrome = disableWebRtcIndicator;
-          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+          extensions = with addons; [
             duckduckgo-privacy-essentials
             i-dont-care-about-cookies # auto-accepts cookies=use only with privacy-badger & ublock-origin
             #languagetool
             multi-account-containers
-            onepassword-password-manager
+            #onepassword-password-manager
             tree-style-tab # vertical tabs
             ublock-origin
             vimium

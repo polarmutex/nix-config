@@ -7,6 +7,7 @@ inputs: {
   "profiles/wallpapers" = import ./profiles/wallpaper.nix inputs;
 
   "programs/direnv" = import ./programs/direnv.nix inputs;
+  "programs/emacs" = import ./programs/emacs.nix inputs;
   "programs/eww" = import ./misc/leftwm/eww.nix inputs;
   "programs/firefox" = import ./programs/firefox.nix inputs;
   "programs/fish" = import ./programs/fish.nix inputs;

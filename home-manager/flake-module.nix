@@ -111,6 +111,9 @@ in {
             inputs.home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
               modules = config.finalModules;
+              extraSpecialArgs = {
+                inherit (inputs) firefox-addons;
+              };
             });
         };
       }));

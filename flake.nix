@@ -30,7 +30,7 @@
     #};
     neovim-flake.url = "github:polarmutex/neovim-flake";
     #neovim-flake.url = "path:/home/polar/repos/personal/neovim-flake/main";
-    nur.url = "github:nix-community/NUR";
+    firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     #hardware.url = "github:nixos/nixos-hardware";
     neovim.url = "github:neovim/neovim?dir=contrib";
     helix.url = "github:helix-editor/helix";
@@ -76,7 +76,6 @@
           (_final: prev: {
             neovim-polar = neovim-flake.packages.${prev.system}.default;
           })
-          nur.overlay
           monolisa-font-flake.overlays.default
           (_final: prev: {
             tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
