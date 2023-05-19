@@ -1,4 +1,4 @@
-_: {
+{awesome-flake, ...}: {
   config,
   lib,
   pkgs,
@@ -34,6 +34,10 @@ in {
       desktopManager.xterm.enable = false;
 
       windowManager.leftwm.enable = true;
+      windowManager.awesome = {
+        enable = true;
+        package = awesome-flake.packages.${pkgs.system}.awesome-git;
+      };
     };
 
     environment.systemPackages = with pkgs; [

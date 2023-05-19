@@ -27,4 +27,5 @@ inputs: {
 
   "services/picom" = import ./services/picom.nix inputs;
   "services/window-managers/leftwm" = import ./services/window-managers/leftwm.nix inputs;
+  "services/window-managers/awesome" = import ./services/window-managers/awesome.nix inputs;
 }

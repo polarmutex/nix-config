@@ -20,17 +20,15 @@
     #monolisa-font-flake.url = "path:///home/user/repos/personal/monolisa-font-flake";
     wallpapers.url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
     website.url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git?ref=feat/rust";
-    #awesome-flake = {
-    #  url = "github:polarmutex/awesome-flake";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #  inputs.polar-nur.follows = "polar-nur";
-    #};
     #awesome-git-src = {
     #  url = "github:awesomeWM/awesome";
     #  flake = false;
     #};
+
     neovim-flake.url = "github:polarmutex/neovim-flake";
     #neovim-flake.url = "path:/home/polar/repos/personal/neovim-flake/main";
+    awesome-flake.url = "github:polarmutex/awesome-flake";
+
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     rycee = {
       url = "gitlab:rycee/nur-expressions";
@@ -78,6 +76,7 @@
         overlays = with inputs; [
           self.overlays.default
           leftwm-git.overlay
+          awesome-flake.overlays.default
           (_final: prev: {
             neovim-polar = neovim-flake.packages.${prev.system}.default;
           })

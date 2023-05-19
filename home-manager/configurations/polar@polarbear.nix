@@ -32,6 +32,7 @@
   programs.logseq.enable = true;
   programs.zellij.enable = true;
   services.picom.enable = true;
+  xsession.windowManager.awesome.enable = true;
 
   home.packages = with pkgs; [
     flameshot
