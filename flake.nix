@@ -78,7 +78,7 @@
           leftwm-git.overlay
           awesome-flake.overlays.default
           (_final: prev: {
-            neovim-polar = neovim-flake.packages.${prev.system}.default;
+            inherit (neovim-flake.packages.${prev.system}) neovim-polar;
           })
           monolisa-font-flake.overlays.default
           (_final: prev: {

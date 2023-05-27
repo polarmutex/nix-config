@@ -38,6 +38,9 @@
     flameshot
     lazygit
     gnome.nautilus
-    neovim-flake.packages.${pkgs.system}.default
+    neovim-flake.packages.${pkgs.system}.neovim-polar
+    conan
+    gcc
+    cmake
   ];
 }
