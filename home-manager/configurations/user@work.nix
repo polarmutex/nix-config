@@ -1,4 +1,8 @@
-{neovim-flake, ...}: {pkgs, ...}: {
+{neovim-flake, ...}: {
+  pkgs,
+  lib,
+  ...
+}: {
   #nixpkgs.allowedUnfree = [
   #  "obsidian"
   #];
@@ -6,7 +10,7 @@
     "base"
     "fonts"
   ];
-  #xsession.enable = lib.mkForce false;
+  xsession.enable = lib.mkForce true;
   #xsession.windowManager.awesome.enable = lib.mkForce false;
 
   home.sessionPath = [
@@ -36,4 +40,5 @@
   programs.wezterm.textSize = 9;
   programs.obsidian.enable = true;
   programs.zellij.enable = true;
+  xsession.windowManager.awesome.enable = true;
 }
