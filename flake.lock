@@ -1381,11 +1381,11 @@
         "vim-be-good": "vim-be-good"
       },
       "locked": {
-        "lastModified": 1685210128,
-        "narHash": "sha256-uiN69iN9xYIbDvMdIr9ZwGYL5Sf8q90pD5QQXBCVCls=",
+        "lastModified": 1685249743,
+        "narHash": "sha256-sZIED0fTtqV7anr0Sb0hgJb0Kepg/GQIh84RFsOHhnU=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "48d56f9d36259fb5a3b020adbcd9ddec48d522d0",
+        "rev": "1a205aa6ae411cb8f5692c70b467c9ce4a0fb5cc",
         "type": "github"
       },
       "original": {
