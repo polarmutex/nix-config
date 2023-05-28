@@ -7,8 +7,8 @@ _: {
   cfg = config.programs.helix;
 in {
   config = lib.mkIf cfg.enable {
-    programs.helix = {
-      languages = [
+    programs.helix.languages = {
+      language = [
         {
           name = "cpp";
           auto-format = true;
