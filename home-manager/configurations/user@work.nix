@@ -27,7 +27,7 @@
     #kube3d
     #kubectl
     kubernetes-helm
-    neovim-flake.packages.${pkgs.system}.default
+    neovim-flake.packages.${pkgs.system}.neovim-polar
     ripgrep
   ];
 
