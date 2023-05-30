@@ -42,5 +42,6 @@
     conan
     gcc
     cmake
+    nixpkgs-fmt
   ];
 }
