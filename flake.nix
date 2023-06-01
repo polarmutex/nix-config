@@ -1,6 +1,12 @@
 {
   description = "PolarMutex Nix Configuration";
 
+  nixConfig = {
+    extra-substituters = "https://polarmutex.cachix.org";
+    extra-trusted-public-keys = "polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08=";
+    allow-import-from-derivation = "true";
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/release-22.11";
@@ -167,7 +173,4 @@
         #};
       };
     };
-  nixConfig = {
-    allow-import-from-derivation = "true";
-  };
 }
