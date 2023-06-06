@@ -35,6 +35,8 @@
   programs.helix.enable = true;
   programs.htop.enable = true;
   programs.fish.enable = true;
+  programs.kitty.enable = true;
+  programs.kitty.configOnly = true;
   programs.tmux.enable = true;
   programs.wezterm.enable = true;
   programs.wezterm.textSize = 9;
