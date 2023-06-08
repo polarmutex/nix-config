@@ -8,7 +8,7 @@ _: {
 
   font = {
     name = "MonoLisa Custom";
-    size = 11;
+    size = 9;
   };
 
   settings = {
@@ -110,12 +110,12 @@ in {
     {
       #home.sessionVariables.TERMINAL = "kitty";
     }
-    (lib.mkIf (cfg.enable && !cfg.configOnly) {
+    (lib.mkIf cfg.enable {
       programs.kitty = {
         inherit font settings;
       };
     })
-    (lib.mkIf (cfg.enable && cfg.configOnly) {
+    (lib.mkIf cfg.configOnly {
       xdg.configFile."kitty/kitty.conf" =
         {
           text =
