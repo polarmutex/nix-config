@@ -43,5 +43,6 @@
     gcc
     cmake
     nixpkgs-fmt
+    zotero
   ];
 }
