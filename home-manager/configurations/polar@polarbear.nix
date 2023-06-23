@@ -26,6 +26,7 @@
   programs.firefox.enable = true;
   programs.fish.enable = true;
   programs.kitty.enable = true;
+  programs.kitty.textSize = 11;
   programs.tmux.enable = true;
   programs.wezterm.enable = true;
   programs.obsidian.enable = true;
