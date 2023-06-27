@@ -17,8 +17,8 @@
   #xsession.enable = lib.mkForce false;
   #xsession.windowManager.awesome.enable = lib.mkForce false;
 
-  misc.leftwm.enable = true;
-  polar.eww.enable = true;
+  #misc.leftwm.enable = true;
+  #polar.eww.enable = true;
   programs.direnv.enable = true;
   programs.emacs.enable = true;
   programs.helix.enable = true;
