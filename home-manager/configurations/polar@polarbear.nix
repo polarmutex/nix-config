@@ -36,6 +36,7 @@
   xsession.windowManager.awesome.enable = true;
 
   home.packages = with pkgs; [
+    erdtree
     flameshot
     lazygit
     gnome.nautilus
