@@ -42,6 +42,7 @@
     flameshot
     gcc
     gnome.nautilus
+    gramps
     lazygit
     neovim-flake.packages.${pkgs.system}.neovim-polar
     nix-melt
