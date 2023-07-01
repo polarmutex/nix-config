@@ -36,14 +36,15 @@
   xsession.windowManager.awesome.enable = true;
 
   home.packages = with pkgs; [
+    cmake
+    conan
     erdtree
     flameshot
-    lazygit
-    gnome.nautilus
-    neovim-flake.packages.${pkgs.system}.neovim-polar
-    conan
     gcc
-    cmake
+    gnome.nautilus
+    lazygit
+    neovim-flake.packages.${pkgs.system}.neovim-polar
+    nix-melt
     nixpkgs-fmt
     zotero
   ];
