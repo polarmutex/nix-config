@@ -19,15 +19,18 @@ in {
   services.gitea = {
     enable = true;
     user = "git";
-    domain = "git.${domain}";
-    appName = "${cfg_gitea.domain}: git in plurality";
-    rootUrl = "https://${cfg_gitea.domain}/";
-    httpAddress = "127.0.0.1";
-    httpPort = port;
+    appName = "${domain}: git in plurality";
     lfs.enable = true;
 
     settings = {
-      log.LEVEL = "Warn";
+      #log.LEVEL = "Warn";
+      server = {
+        DOMAIN = "git.${domain}";
+        ROOT_URL = "https://${domain}";
+        HTTP_PORT = port;
+        HTTP_ADDR = "127.0.0.1";
+      };
+
       service = {
         # NOTE: temporarily remove this for initial setup
         DISABLE_REGISTRATION = true;
@@ -57,10 +60,10 @@ in {
     # NixOS module uses `gitea dump` to backup repositories and the database,
     # but it produces a single .zip file that's not very restic friendly.
     # I configure my backup system manually below.
-    dump = {
-      enable = true;
-      backupDir = "/backup/gitea";
-    };
+    #dump = {
+    #  enable = true;
+    #  backupDir = "/backup/gitea";
+    #};
     database = {
       type = "postgres";
       # user needs to be the same as gitea user
@@ -68,10 +71,10 @@ in {
     };
   };
 
-  systemd.tmpfiles.rules = [
-    "z ${config.services.gitea.dump.backupDir} 750 git gitea - -"
-    "d ${config.services.gitea.dump.backupDir} 750 git gitea - -"
-  ];
+  #systemd.tmpfiles.rules = [
+  #  "z ${config.services.gitea.dump.backupDir} 750 git gitea - -"
+  #  "d ${config.services.gitea.dump.backupDir} 750 git gitea - -"
+  #];
 
   services.nginx = {
     virtualHosts = {

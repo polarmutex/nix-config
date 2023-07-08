@@ -1,12 +1,14 @@
 {
   config,
+  inputs,
   pkgs,
   ...
 }: let
   inherit (config.networking) domain;
+  website = inputs.website.packages.${pkgs.system}.default;
   port = 4000;
 in {
-  environment.systemPackages = [pkgs.website];
+  environment.systemPackages = [website];
 
   systemd.services.website = {
     description = "my website";
@@ -17,8 +19,8 @@ in {
       Type = "simple";
       User = "website";
       Group = "website";
-      WorkingDirectory = "${pkgs.website}";
-      ExecStart = "${pkgs.website}/target/server/release/brianryall-xyz";
+      WorkingDirectory = "${website}";
+      ExecStart = "${website}/target/server/release/brianryall-xyz";
       Restart = "always";
       # Security
       NoNewPrivileges = true;

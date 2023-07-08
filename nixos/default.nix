@@ -30,6 +30,10 @@
     # load common modules
     ({...}: {
       imports = [
+        modules.core
+        modules.doas
+        modules.nix
+        modules.openssh
       ];
     })
   ];
@@ -48,19 +52,25 @@ in {
         ++ [
           modules.desktop
           modules.bluetooth
-          modules.core
+          modules.nvidia
           modules.display-manager
-          modules.doas
           modules.fonts
           modules.graphical
-          modules.nix
-          modules.openssh
           modules.trusted
           modules.wm-helper
           modules.virt-manager
           modules.yubikey
         ]
         ++ [hosts.polarbear];
+    };
+    polarvortex = nixosSystem {
+      pkgs = pkgs.x86_64-linux;
+      modules =
+        defaultModules
+        ++ [
+          modules.server
+        ]
+        ++ [hosts.polarvortex];
     };
   };
 }

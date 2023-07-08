@@ -20,8 +20,7 @@
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
-    #deploy-rs.url = "github:serokell/deploy-rs";
-    lollypops.url = "github:pinpox/lollypops";
+    deploy-rs.url = "github:serokell/deploy-rs";
     monolisa-font-flake.url = "git+ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git";
     #monolisa-font-flake.url = "path:///home/user/repos/personal/monolisa-font-flake";
     wallpapers.url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
@@ -87,22 +86,24 @@
               #};
               # make custom lib available to all `perSystem` functions
               _module.args.lib = lib;
-              checks = {
-                pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-                  src = ./.;
-                  hooks = {
-                    alejandra = {
-                      enable = true;
-                    };
-                    deadnix = {
-                      enable = true;
-                    };
-                    statix = {
-                      enable = true;
+              checks =
+                {
+                  pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+                    src = ./.;
+                    hooks = {
+                      alejandra = {
+                        enable = true;
+                      };
+                      deadnix = {
+                        enable = true;
+                      };
+                      statix = {
+                        enable = true;
+                      };
                     };
                   };
-                };
-              };
+                }
+                // (inputs.deploy-rs.lib.${system}.deployChecks inputs.self.deploy);
 
               devShells = {
                 #default = shell {inherit self pkgs;};
@@ -113,6 +114,7 @@
                     #colmena
                     home-manager
                     statix
+                    inputs.deploy-rs.packages.${system}.deploy-rs
                   ];
                   inherit (self.checks.${system}.pre-commit-check) shellHook;
                 };
@@ -127,6 +129,21 @@
           ./pkgs
         ];
         systems = ["x86_64-linux"];
+        flake = {
+          deploy = {
+            nodes = {
+              polarvortex = {
+                hostname = "brianryall.xyz";
+                profiles.system = {
+                  sshUser = "polar";
+                  sudo = "doas -u";
+                  user = "root";
+                  path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
+                };
+              };
+            };
+          };
+        };
       })
     .config
     .flake;

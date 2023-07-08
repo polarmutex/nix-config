@@ -1,0 +1,3 @@
+_: {
+  networking.hostName = "polarvortex";
+}
