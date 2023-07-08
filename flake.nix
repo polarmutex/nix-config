@@ -16,7 +16,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
-    leftwm-git.url = "github:leftwm/leftwm";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -25,10 +24,6 @@
     #monolisa-font-flake.url = "path:///home/user/repos/personal/monolisa-font-flake";
     wallpapers.url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
     website.url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git?ref=feat/rust";
-    #awesome-git-src = {
-    #  url = "github:awesomeWM/awesome";
-    #  flake = false;
-    #};
 
     neovim-flake.url = "github:polarmutex/neovim-flake";
     #neovim-flake.url = "path:/home/polar/repos/personal/neovim-flake/main";
