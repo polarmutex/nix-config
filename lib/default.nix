@@ -3,6 +3,7 @@
     importLib = file: import file ({inherit self;} // args);
   in {
     attrs = importLib ./attrs.nix;
+    formats = importLib ./formats.nix;
     importers = importLib ./importers.nix;
     options = importLib ./options.nix;
 

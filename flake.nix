@@ -125,6 +125,7 @@
           #flake-root.flakeModule
           #mission-control.flakeModule
           #./nix
+          ./home-manager
           ./nixos
           ./pkgs
         ];
