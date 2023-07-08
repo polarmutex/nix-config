@@ -53,6 +53,7 @@ in {
           modules.doas
           modules.fonts
           modules.graphical
+          modules.nix
           modules.openssh
           modules.trusted
           modules.wm-helper
