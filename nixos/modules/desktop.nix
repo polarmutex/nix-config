@@ -1,0 +1,40 @@
+{
+  pkgs,
+  lib,
+  ...
+}: {
+  # Common server packages
+  environment.systemPackages = with pkgs; [
+    bat
+    bottom
+    curl
+    dnsutils
+    git
+    htop
+    jq
+    ripgrep
+    unzip
+  ];
+
+  # List of available shells
+  environment.shells = with pkgs; [
+    bash
+    zsh
+    fish
+  ];
+
+  # Use helix as the default editor
+  environment.variables.EDITOR = "nvim";
+
+  # UTC everywhere!
+  time.timeZone = lib.mkDefault "UTC";
+
+  # No mutable users by default
+  users.mutableUsers = false;
+
+  # Use fish as default shell
+  users.defaultUserShell = pkgs.fish;
+
+  # Define default system version
+  system.stateVersion = "23.05";
+}

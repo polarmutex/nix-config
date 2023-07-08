@@ -1,48 +1,40 @@
-{awesome-flake, ...}: {
-  config,
-  lib,
+{
+  inputs,
   pkgs,
   ...
-}: let
-  cfg = config.profiles.wm-helper;
-in {
-  options.profiles.wm-helper = {
-    enable = lib.mkEnableOption "enable wm-helper";
-  };
-  config = lib.mkIf cfg.enable {
-    # Graphics support
-    #hardware.opengl = {
-    #  enable = true;
-    #  driSupport = true;
-    #  driSupport32Bit = true;
-    #};
+}: {
+  # Graphics support
+  #hardware.opengl = {
+  #  enable = true;
+  #  driSupport = true;
+  #  driSupport32Bit = true;
+  #};
 
-    # Theming helpers
-    programs.dconf.enable = true;
-    services.dbus.packages = with pkgs; [dconf];
+  # Theming helpers
+  programs.dconf.enable = true;
+  services.dbus.packages = with pkgs; [dconf];
 
-    services.xserver = {
+  services.xserver = {
+    enable = true;
+    updateDbusEnvironment = true;
+    #videoDrivers = ["modesetting"]; # Base, all hosts should set accordingly
+    layout = "us";
+    libinput = {
       enable = true;
-      updateDbusEnvironment = true;
-      #videoDrivers = ["modesetting"]; # Base, all hosts should set accordingly
-      layout = "us";
-      libinput = {
-        enable = true;
-        mouse.naturalScrolling = true;
-      };
-
-      desktopManager.xterm.enable = false;
-
-      windowManager.leftwm.enable = true;
-      windowManager.awesome = {
-        enable = true;
-        package = awesome-flake.packages.${pkgs.system}.awesome-git;
-      };
+      mouse.naturalScrolling = true;
     };
 
-    environment.systemPackages = with pkgs; [
-      arandr
-      st
-    ];
+    desktopManager.xterm.enable = false;
+
+    windowManager.leftwm.enable = true;
+    windowManager.awesome = {
+      enable = true;
+      package = inputs.awesome-flake.packages.${pkgs.system}.awesome-git;
+    };
   };
+
+  environment.systemPackages = with pkgs; [
+    arandr
+    st
+  ];
 }

@@ -60,117 +60,74 @@
     flake-parts,
     nixpkgs,
     ...
-  }:
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = ["x86_64-linux"];
+  }: let
+    lib = import ./lib {inherit (nixpkgs) lib;} // nixpkgs.lib;
+  in
+    (flake-parts.lib.evalFlakeModule
+      {
+        inherit inputs;
+        specialArgs = {inherit lib;};
+      }
+      {
+        debug = true;
+        imports = [
+          (_: {
+            perSystem = {
+              #config,
+              inputs',
+              pkgs,
+              system,
+              ...
+            }: {
+              # make pkgs available to all `perSystem` functions
+              _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
+              #_module.args.pkgs = nixpkgs {
+              #  inherit system overlays;
+              #  config.allowUnfree = true;
+              #};
+              # make custom lib available to all `perSystem` functions
+              _module.args.lib = lib;
+              checks = {
+                pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+                  src = ./.;
+                  hooks = {
+                    alejandra = {
+                      enable = true;
+                    };
+                    deadnix = {
+                      enable = true;
+                    };
+                    statix = {
+                      enable = true;
+                    };
+                  };
+                };
+              };
 
-      imports = [
-        ./nixos/flake-module.nix
-        ./nixos/configurations
-        ./home-manager/flake-module.nix
-        ./home-manager/configurations
-        ./pkgs
-      ];
-
-      perSystem = {
-        config,
-        inputs',
-        pkgs,
-        system,
-        ...
-      }: let
-        overlays = with inputs; [
-          self.overlays.default
-          leftwm-git.overlay
-          awesome-flake.overlays.default
-          (_final: prev: {
-            inherit (neovim-flake.packages.${prev.system}) neovim-polar;
-          })
-          monolisa-font-flake.overlays.default
-          (_final: prev: {
-            tmux-sessionizer = tmux-sessionizer.packages.${prev.system}.default;
-          })
-          (_final: prev: {
-            inherit (wallpapers.packages.${prev.system}) polar-wallpapers;
-          })
-          (_final: prev: {
-            website = website.packages.${prev.system}.default;
-          })
-          (_final: _prev: {
-            stable = import nixpkgs-stable {
-              inherit system;
-              config.allowUnfree = true;
+              devShells = {
+                #default = shell {inherit self pkgs;};
+                default = pkgs.mkShell {
+                  name = "nixed-shell";
+                  packages = with pkgs; [
+                    #inputs'.deploy-rs.packages.deploy-rs
+                    #colmena
+                    home-manager
+                    statix
+                  ];
+                  inherit (self.checks.${system}.pre-commit-check) shellHook;
+                };
+              };
             };
           })
-          (_final: _prev: {
-            mine = import nixpkgs-mine {
-              inherit system;
-            };
-          })
+          #treefmt-nix.flakeModule
+          #flake-root.flakeModule
+          #mission-control.flakeModule
+          #./nix
+          ./nixos
+          ./pkgs
         ];
-      in {
-        # Per-system attributes can be defined here. The self' and inputs'
-        # module parameters provide easy access to attributes of the same
-        # system.
-        _module.args = {
-          inherit self inputs;
-          pkgs = import nixpkgs {
-            inherit system overlays;
-            config.allowUnfree = true;
-          };
-        };
-
-        checks = {
-          pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-            src = ./.;
-            hooks = {
-              alejandra = {
-                enable = true;
-              };
-              deadnix = {
-                enable = true;
-              };
-              statix = {
-                enable = true;
-              };
-            };
-          };
-        };
-
-        devShells = {
-          #default = shell {inherit self pkgs;};
-          default = pkgs.mkShell {
-            name = "nixed-shell";
-            packages = with pkgs; [
-              #inputs'.deploy-rs.packages.deploy-rs
-              #colmena
-              home-manager
-              statix
-            ];
-            inherit (self.checks.${system}.pre-commit-check) shellHook;
-          };
-          #ci = shell {
-          #  inherit self pkgs;
-          #  ci = true;
-          #};
-        };
-        apps = {
-          #default = shell {inherit self pkgs;};
-          default = inputs'.lollypops.apps.default {configFlake = self;};
-        };
-      };
-      flake = {
-        # The usual flake attributes can be defined here, including system-
-        # agnostic ones like nixosModule and system-enumerating ones, although
-        # those are more easily expressed in perSystem.
-        nixosModules = import ./nixos/modules inputs;
-
-        homeModules = import ./home-manager/modules inputs;
-
-        #apps = {
-        #  #default = shell {inherit self pkgs;};
-        #  default = inputs.lollypops.apps."x86_64-linux".default {configFlake = self;};
-        #};
-      };
-    };
+        systems = ["x86_64-linux"];
+      })
+    .config
+    .flake;
 }

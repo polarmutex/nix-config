@@ -1,42 +1,30 @@
-_: {
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
-  cfg = config.profiles.yubikey;
-in {
-  options.profiles.yubikey = {
-    enable = lib.mkEnableOption "enable yubikey";
+{pkgs, ...}: {
+  services.udev.packages = with pkgs; [yubikey-personalization libu2f-host];
+  services.pcscd.enable = true;
+
+  # Needed for yubikey to work
+  # from nixos wiki
+  environment.shellInit = ''
+    export GPG_TTY="$(tty)"
+    gpg-connect-agent /bye
+    export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+  '';
+
+  # for yubikey logins
+  security.pam.yubico = {
+    enable = true;
+    debug = true;
+    mode = "challenge-response";
   };
-  config = lib.mkIf cfg.enable {
-    services.udev.packages = with pkgs; [yubikey-personalization libu2f-host];
-    services.pcscd.enable = true;
 
-    # Needed for yubikey to work
-    # from nixos wiki
-    environment.shellInit = ''
-      export GPG_TTY="$(tty)"
-      gpg-connect-agent /bye
-      export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
-    '';
+  security.pam.services.sudo.yubicoAuth = true;
 
-    # for yubikey logins
-    security.pam.yubico = {
-      enable = true;
-      debug = true;
-      mode = "challenge-response";
-    };
+  environment.systemPackages = with pkgs; [
+    yubikey-manager
+    pcsctools
+  ];
 
-    security.pam.services.sudo.yubicoAuth = true;
-
-    environment.systemPackages = with pkgs; [
-      yubikey-manager
-      pcsctools
-    ];
-
-    # try to enable gnupg's udev rules
-    # to allow it to do ccid stuffs
-    hardware.gpgSmartcards.enable = true;
-  };
+  # try to enable gnupg's udev rules
+  # to allow it to do ccid stuffs
+  hardware.gpgSmartcards.enable = true;
 }
