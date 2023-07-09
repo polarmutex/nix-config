@@ -104,16 +104,16 @@
     "cargo-leptos": {
       "flake": false,
       "locked": {
-        "lastModified": 1677246332,
-        "narHash": "sha256-z4AqxvKu9E8GGMj6jNUAAWeqoE/j+6NoAEZWeNZ+1BA=",
+        "lastModified": 1686759547,
+        "narHash": "sha256-hZevu2lwyYFenABu1uV7/mZc7SXfLzR6Pdmc3zHJ2vw=",
         "owner": "leptos-rs",
         "repo": "cargo-leptos",
-        "rev": "d68c5770968232cae4aa007a36859896267a4697",
+        "rev": "75d3905cad6feb68be14659a802f75f48034a4ac",
         "type": "github"
       },
       "original": {
         "owner": "leptos-rs",
-        "ref": "0.1.8",
+        "ref": "v0.1.11",
         "repo": "cargo-leptos",
         "type": "github"
       }
@@ -818,21 +818,6 @@
     },
     "flake-utils_15": {
       "locked": {
-        "lastModified": 1678901627,
-        "narHash": "sha256-U02riOqrKKzwjsxc/400XnElV+UtPUQWpANPlyazjH0=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "93a2b84fc4b70d9e089d029deacc3583435c2ed6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_16": {
-      "locked": {
         "lastModified": 1667395993,
         "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
         "owner": "numtide",
@@ -846,7 +831,7 @@
         "type": "github"
       }
     },
-    "flake-utils_17": {
+    "flake-utils_16": {
       "locked": {
         "lastModified": 1659877975,
         "narHash": "sha256-zllb8aq3YO3h8B/U0/J1WBgAL8EX5yWf5pMj3G0NAmc=",
@@ -2342,7 +2327,7 @@
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat_8",
-        "flake-utils": "flake-utils_16",
+        "flake-utils": "flake-utils_15",
         "gitignore": "gitignore_4",
         "nixpkgs": "nixpkgs_14",
         "nixpkgs-stable": "nixpkgs-stable_6"
@@ -2558,7 +2543,7 @@
     },
     "rust-overlay_4": {
       "inputs": {
-        "flake-utils": "flake-utils_17",
+        "flake-utils": "flake-utils_16",
         "nixpkgs": "nixpkgs_15"
       },
       "locked": {
@@ -2881,7 +2866,6 @@
         "cargo-leptos": "cargo-leptos",
         "crane": "crane_3",
         "flake-parts": "flake-parts_5",
-        "flake-utils": "flake-utils_15",
         "nix-filter": "nix-filter",
         "nixpkgs": "nixpkgs_13",
         "obsidian-export": "obsidian-export",
@@ -2890,16 +2874,15 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1679681465,
-        "narHash": "sha256-L28i9/2ZdFjOEeuGWzQNIz2W39xkKJQh5gxB5I1mtP4=",
-        "ref": "feat/rust",
-        "rev": "4e020b537c5c76518c5e64c9fe394db279cd36cd",
-        "revCount": 53,
+        "lastModified": 1688931468,
+        "narHash": "sha256-5+mrhm6lj5C+nrXq3z6F7Sg8b+xcG9cgGO/GljXleT4=",
+        "ref": "refs/heads/main",
+        "rev": "8d6fca207604f00797f090f0ed9d57af4763dab7",
+        "revCount": 57,
         "type": "git",
         "url": "ssh://git@git.brianryall.xyz/polarmutex/website.git"
       },
       "original": {
-        "ref": "feat/rust",
         "type": "git",
         "url": "ssh://git@git.brianryall.xyz/polarmutex/website.git"
       }

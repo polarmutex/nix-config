@@ -23,7 +23,7 @@
     monolisa-font-flake.url = "git+ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git";
     #monolisa-font-flake.url = "path:///home/user/repos/personal/monolisa-font-flake";
     wallpapers.url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
-    website.url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git?ref=feat/rust";
+    website.url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git";
 
     neovim-flake.url = "github:polarmutex/neovim-flake";
     #neovim-flake.url = "path:/home/polar/repos/personal/neovim-flake/main";
