@@ -35,6 +35,15 @@
     gramps
     lazygit
     inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
+    (netbeans.overrideAttrs (_: let
+      nb_version = "18";
+    in {
+      version = nb_version;
+      src = fetchurl {
+        url = "mirror://apache/netbeans/netbeans/${nb_version}/netbeans-${nb_version}-bin.zip";
+        hash = "sha256-CTWOW1vd200oZZYqDRT4wqr4v5I3AAgEcqA/qi9Ief8=";
+      };
+    }))
     nix-melt
     nixpkgs-fmt
     zotero
