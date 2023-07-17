@@ -69,5 +69,26 @@ in {
         ]
         ++ [configs."polar@polarbear"];
     };
+    "user@work" = homeManagerConfiguration {
+      pkgs = pkgs.x86_64-linux;
+      modules =
+        defaultModules
+        ++ [
+          {
+            home = {
+              username = "user";
+              homeDirectory = "/home/user";
+            };
+          }
+          modules.direnv
+          modules.fish
+          modules.htop
+          modules.fonts
+          modules.kitty
+          modules.tmux
+          modules.wezterm
+        ]
+        ++ [configs."user@work"];
+    };
   };
 }

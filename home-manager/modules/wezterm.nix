@@ -1,4 +1,4 @@
-_: {
+{
   config,
   lib,
   ...
@@ -11,11 +11,12 @@ in {
       default = 11;
     };
   };
-  config = lib.mkIf cfg.enable {
+  config = {
     home.sessionVariables.TERMINAL = "wezterm start --always-new-process";
     #xdg.configFile."wezterm/wezterm.lua".source = link "wezterm.lua";
 
     programs.wezterm = {
+      enable = true;
       extraConfig = ''
          return {
             font = wezterm.font_with_fallback({
