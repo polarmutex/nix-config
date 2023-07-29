@@ -47,6 +47,7 @@
     };
     programsdb.url = "github:wamserma/flake-programs-sqlite";
     programsdb.inputs.nixpkgs.follows = "nixpkgs";
+    zellij.url = "github:a-kenji/zellij-nix";
   };
 
   outputs = inputs @ {
