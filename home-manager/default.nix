@@ -65,6 +65,7 @@ in {
           modules.tmux
           modules.trusted
           modules.wallpaper
+          modules.wezterm
           modules.zellij
         ]
         ++ [configs."polar@polarbear"];
