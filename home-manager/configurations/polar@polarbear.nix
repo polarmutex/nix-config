@@ -46,6 +46,7 @@
     }))
     nix-melt
     nixpkgs-fmt
+    zoom-us
     zotero
   ];
 }
