@@ -9,8 +9,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/release-22.11";
-    nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/release-23.05";
+    #nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
