@@ -16,7 +16,7 @@ with lib; {
       ExecStart = toString (
         pkgs.writeShellScript "obsidian-second-brain-sync" ''
           #!/usr/bin/env sh
-          OBSIDIAN_PATH="$HOME/repos/personal/obsidian-second-brain"
+          OBSIDIAN_PATH="$HOME/repos/personal/obsidian-second-brain/main"
           cd $OBSIDIAN_PATH
           CHANGES_EXIST="$(${pkgs.git}/bin/git status - porcelain | ${pkgs.coreutils}/bin/wc -l)"
           if [ "$CHANGES_EXIST" -eq 0 ]; then
