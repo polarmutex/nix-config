@@ -18,16 +18,14 @@
   ];
 
   home.packages = with pkgs; [
+    cmake
     ctop
     fd
     glab
-    lazygit
-    cmake
-    #lens # need openlens
-    #kube3d
-    #kubectl
     kubernetes-helm
+    lazygit
     inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
+    (netbeans.override {jdk = pkgs.jdk11;})
     ripgrep
   ];
 
