@@ -25,7 +25,6 @@
     kubernetes-helm
     lazygit
     inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
-    (netbeans.override {jdk = pkgs.jdk11;})
     ripgrep
   ];
 
