@@ -86,6 +86,7 @@ in {
           modules.htop
           modules.fonts
           modules.kitty
+          modules.obsidian
           modules.tmux
           modules.wezterm
         ]
