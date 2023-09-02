@@ -1256,11 +1256,11 @@
         "yanky-nvim": "yanky-nvim"
       },
       "locked": {
-        "lastModified": 1693555294,
-        "narHash": "sha256-z08h5lNDVbw1bhBHkf+xf50wqbWFnTCW62kySxEvJfs=",
+        "lastModified": 1693615782,
+        "narHash": "sha256-+VUbMdaEd8HTACe6SVi34jPqU76eqCieMa/5Eyiiua8=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "6f7cd5c5099fc727b0f621c321b505705dbe4942",
+        "rev": "5fa697d5d52b8fed7a0ad4c9524275215b7a88d3",
         "type": "github"
       },
       "original": {
