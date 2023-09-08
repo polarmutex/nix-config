@@ -63,7 +63,6 @@ in {
           modules.obsidian
           modules.picom
           modules.tmux
-          modules.trusted
           modules.wallpaper
           modules.wezterm
           modules.zellij
