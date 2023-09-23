@@ -58,13 +58,16 @@ in {
     };
   };
 
-  programs.password-store = {
-    enable = true;
-    package = pkgs.pass.withExtensions (exts: [exts.pass-otp]);
-  };
-
-  programs.mbsync = {
-    enable = true;
+  program = {
+    password-store = {
+      enable = true;
+      package = pkgs.pass.withExtensions (exts: [exts.pass-otp]);
+    };
+    mbsync = {
+      enable = true;
+    };
+    neomutt = {
+    };
   };
 
   #services.mbsync = {
@@ -82,8 +85,6 @@ in {
   #};
 
   #programs.msmtp.enable = true;
-  programs.neomutt = {
-  };
   #programs.notmuch = {
   #  enable = true;
   #  hooks.preNew = "${pkgs.isync}/bin/mbsync -a";

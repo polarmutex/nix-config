@@ -7,27 +7,29 @@
   sound.enable = false;
 
   # Common server packages
-  environment.systemPackages = with pkgs; [
-    bat
-    bottom
-    curl
-    dnsutils
-    git
-    htop
-    jq
-    ripgrep
-    unzip
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      bat
+      bottom
+      curl
+      dnsutils
+      git
+      htop
+      jq
+      ripgrep
+      unzip
+    ];
 
-  # List of available shells
-  environment.shells = with pkgs; [
-    bash
-    zsh
-    fish
-  ];
+    # List of available shells
+    shells = with pkgs; [
+      bash
+      zsh
+      fish
+    ];
 
-  # Use helix as the default editor
-  environment.variables.EDITOR = "nvim";
+    # Use helix as the default editor
+    variables.EDITOR = "nvim";
+  };
 
   time.timeZone = lib.mkDefault "US/Eastern";
 

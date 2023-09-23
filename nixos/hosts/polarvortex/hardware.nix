@@ -17,21 +17,27 @@ in {
     kernelParams = ["console=ttyS0,19200n8"];
   };
 
-  networking.usePredictableInterfaceNames = false;
-  networking.useDHCP = false;
-  networking.interfaces.eth0.useDHCP = true;
+  networking = {
+    usePredictableInterfaceNames = false;
+    useDHCP = false;
+    interfaces.eth0.useDHCP = true;
 
-  networking.domain = "brianryall.xyz";
+    domain = "brianryall.xyz";
+  };
+
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "letsencrypt@brianryall.xyz";
-  services.nginx = {
-    enable = true;
-    recommendedOptimisation = true;
-    recommendedTlsSettings = true;
-    recommendedProxySettings = true;
-    clientMaxBodySize = "128m";
 
-    virtualHosts = {};
+  services = {
+    nginx = {
+      enable = true;
+      recommendedOptimisation = true;
+      recommendedTlsSettings = true;
+      recommendedProxySettings = true;
+      clientMaxBodySize = "128m";
+
+      virtualHosts = {};
+    };
   };
 
   # Block anything that is not HTTP(s) or SSH.

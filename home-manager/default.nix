@@ -20,9 +20,11 @@
   defaultModules = [
     # make flake inputs accessible in NixOS
     {
-      _module.args.self = self;
-      _module.args.inputs = inputs;
-      _module.args.lib = lib;
+      _module.args = {
+        inherit self;
+        inherit inputs;
+        inherit lib;
+      };
     }
     {
     }

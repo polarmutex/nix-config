@@ -19,9 +19,11 @@
   #];
   #profiles.base.enable = true;
 
-  programs.kitty.enable = true;
-  programs.kitty.textSize = 11;
-  programs.wezterm.enable = true;
+  programs = {
+    kitty.enable = true;
+    kitty.textSize = 11;
+    wezterm.enable = true;
+  };
 
   #xsession.windowManager.awesome.enable = true;
 
