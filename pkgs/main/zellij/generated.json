@@ -1,0 +1,21 @@
+{
+    "zellij": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "zellij",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "rev": "v0.38.2",
+            "sha256": "sha256-rq7M4g+s44j9jh5GzOjOCBr7VK3m/EQej/Qcnp67NhY=",
+            "type": "git",
+            "url": "https://github.com/zellij-org/zellij.git"
+        },
+        "version": "v0.38.2"
+    }
+}

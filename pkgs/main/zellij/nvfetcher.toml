@@ -1,0 +1,3 @@
+[zellij]
+src.github = "zellij-org/zellij"
+fetch.git = "https://github.com/zellij-org/zellij.git"

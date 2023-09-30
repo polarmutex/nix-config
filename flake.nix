@@ -12,35 +12,78 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/release-23.05";
     #nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
 
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
     flake-parts.url = "github:hercules-ci/flake-parts";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
-    deploy-rs.url = "github:serokell/deploy-rs";
-    monolisa-font-flake.url = "git+ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git";
-    #monolisa-font-flake.url = "path:///home/user/repos/personal/monolisa-font-flake";
-    wallpapers.url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
-    website.url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git";
+    awesome-flake = {
+      url = "github:polarmutex/awesome-flake";
+    };
+    crane = {
+      url = "github:ipetkov/crane";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    helix = {
+      url = "github:helix-editor/helix";
+    };
+    monolisa-font-flake = {
+      url = "git+ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git";
+      #url = "path:///home/user/repos/personal/monolisa-font-flake";
+    };
+    neovim = {
+      url = "github:neovim/neovim?dir=contrib";
+    };
+    neovim-flake = {
+      url = "github:polarmutex/neovim-flake";
+      #url = "path:/home/polar/repos/personal/neovim-flake/main";
+    };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+    tmux-sessionizer = {
+      url = "github:polarmutex/tmux-sessionizer";
+    };
+    wallpapers = {
+      url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
+    };
+    website = {
+      url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git";
+    };
+    wrapper-manager = {
+      url = "github:viperML/wrapper-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    neovim-flake.url = "github:polarmutex/neovim-flake";
-    #neovim-flake.url = "path:/home/polar/repos/personal/neovim-flake/main";
-    awesome-flake.url = "github:polarmutex/awesome-flake";
-
+    # DO I still need?
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     rycee = {
       url = "gitlab:rycee/nur-expressions";
       flake = false;
     };
     #hardware.url = "github:nixos/nixos-hardware";
-    neovim.url = "github:neovim/neovim?dir=contrib";
-    helix.url = "github:helix-editor/helix";
     #polar-dwm.url = "github:polarmutex/dwm";
     #polar-st.url = "github:polarmutex/st";
     #polar-dmenu.url = "github:polarmutex/dmenu";
-    tmux-sessionizer.url = "github:polarmutex/tmux-sessionizer";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -69,13 +112,13 @@
           (_: {
             perSystem = {
               #config,
-              inputs',
+              #inputs',
               pkgs,
               system,
               ...
             }: {
               # make pkgs available to all `perSystem` functions
-              _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
+              #_module.args.pkgs = inputs'.nixpkgs.legacyPackages;
               #_module.args.pkgs = nixpkgs {
               #  inherit system overlays;
               #  config.allowUnfree = true;
@@ -109,6 +152,7 @@
                     #inputs'.deploy-rs.packages.deploy-rs
                     #colmena
                     home-manager
+                    npins
                     statix
                     inputs.deploy-rs.packages.${system}.deploy-rs
                   ];
@@ -124,6 +168,7 @@
           ./home-manager
           ./nixos
           ./pkgs
+          ./wrappers
         ];
         systems = ["x86_64-linux"];
         flake = {
