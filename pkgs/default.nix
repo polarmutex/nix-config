@@ -38,6 +38,8 @@ in {
       ];
     };
 
+    legacyPackages = pkgs;
+
     packages = {
       my-zellij = w pkgs.callPackage ./main/zellij {};
     };
