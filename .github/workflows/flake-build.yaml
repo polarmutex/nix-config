@@ -40,4 +40,4 @@ jobs:
         name: polarmutex
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
     - name: Eval output
-      run: nix build .#${{ matrix.flake_output }} -L --dry-run --print-out-paths -j0
+      run: nix build .#${{ matrix.flake_output }} -L  --accept-flake-config
