@@ -71,39 +71,3 @@ jobs:
         author: GitHub <noreply@github.com>
         branch: update/${{ matrix.path }}
         delete-branch: true
-
-  main:
-    name: Update flake inputs
-    runs-on: ubuntu-latest
-    outputs:
-      paths: ${{ steps.matrix.outputs.paths }}
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Install nix
-      uses: cachix/install-nix-action@v23
-      with:
-        extra_nix_config: |
-          auto-optimise-store = true
-          access-tokens = github.com=${{ secrets.PAT }}
-          experimental-features = nix-command flakes
-          substituters = https://cache.nixos.org/ https://nix-community.cachix.org https://polarmutex.cachix.org
-          trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08=
-
-    - name: Update flake.lock
-      run: nix flake update
-
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v5
-      with:
-        token: '${{ secrets.PAT }}'
-        title: 'ci: bump flake'
-        commit-message: |
-          Bump flake
-
-
-          Co-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-        author: GitHub <noreply@github.com>
-        branch: update/flake
-        delete-branch: true
