@@ -1,11 +1,7 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{self, ...}: {
   programs.zellij = {
     enable = true;
-    package = inputs.zellij.packages.${pkgs.system}.default;
+    package = self.packages.x86_64-linux.my-zellij;
     settings = {
       theme = "kanagawa";
       themes = {
