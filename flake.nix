@@ -25,6 +25,7 @@
     #};
     deploy-rs = {
       url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     home-manager = {
       url = "github:nix-community/home-manager/master";
