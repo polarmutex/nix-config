@@ -40,7 +40,7 @@
     })
   ];
 
-  pkgs.x86_64-linux = import inputs.nixpkgs {
+  pkgs.x86_64-linux = import inputs.nixpkgs-stable {
     inherit lib;
     system = "x86_64-linux";
     config.allowUnfree = true;
@@ -58,6 +58,7 @@ in {
           modules.display-manager
           modules.fonts
           modules.graphical
+          modules.nix
           modules.trusted
           modules.wm-helper
           modules.virt-manager
