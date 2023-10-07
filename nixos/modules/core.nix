@@ -5,7 +5,6 @@
       binutils
       coreutils
       curl
-      eza
       fd
       gitAndTools.gitFull
       gnumake

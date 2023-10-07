@@ -4,19 +4,6 @@
   lib,
   ...
 }: let
-  nixosSystem = args:
-    (lib.makeOverridable lib.nixosSystem)
-    (lib.recursiveUpdate args {
-      modules =
-        args.modules
-        ++ [
-          {
-            config.nixpkgs.pkgs = lib.mkDefault args.pkgs;
-            config.nixpkgs.localSystem = lib.mkDefault args.pkgs.stdenv.hostPlatform;
-          }
-        ];
-    });
-
   hosts = lib.rakeLeaves ./hosts;
   modules = lib.rakeLeaves ./modules;
 
@@ -44,11 +31,20 @@
     inherit lib;
     system = "x86_64-linux";
     config.allowUnfree = true;
+    overlays = [
+      (_final: prev: {
+        unstable = import inputs.nixpkgs {
+          inherit (prev) system;
+          config.allowUnfree = true;
+        };
+      })
+    ];
   };
 in {
   flake.nixosConfigurations = {
-    polarbear = nixosSystem {
+    polarbear = inputs.nixpkgs-stable.lib.nixosSystem {
       pkgs = pkgs.x86_64-linux;
+      system = "x86_64-linux";
       modules =
         defaultModules
         ++ [
@@ -66,7 +62,8 @@ in {
         ]
         ++ [hosts.polarbear];
     };
-    polarvortex = nixosSystem {
+    polarvortex = inputs.nixpkgs-stable.lib.nixosSystem {
+      system = "x86_64-linux";
       pkgs = pkgs.x86_64-linux;
       modules =
         defaultModules
