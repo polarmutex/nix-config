@@ -28,6 +28,7 @@
   #xsession.windowManager.awesome.enable = true;
 
   home.packages = with pkgs; [
+    asciidoctor
     cmake
     conan
     erdtree
