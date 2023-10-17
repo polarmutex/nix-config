@@ -867,11 +867,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1697227095,
-        "narHash": "sha256-dHaY8EXRxBW+pvb2itivcE34QvjNwWdqaRtvKlBMpoI=",
+        "lastModified": 1697511867,
+        "narHash": "sha256-Ig0RfxlhlCAkDeyqSJ8TxJ0RWPmRK3ZfSfF4JcOoblM=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "1adc929eeef65d6a3e03f4872512852bc1bed95c",
+        "rev": "952965443418f23890815167efc8919445a3b903",
         "type": "github"
       },
       "original": {
@@ -1045,11 +1045,11 @@
     },
     "nixpkgs-stable_2": {
       "locked": {
-        "narHash": "sha256-L7GyeErguS7Pg4h8nK0wGlcUTbfUMDu+HMf1UcyP72k=",
-        "rev": "bd1cde45c77891214131cbbea5b1203e485a9d51",
-        "revCount": 491536,
+        "narHash": "sha256-cumLLb1QOUtWieUnLGqo+ylNt3+fU8Lcv5Zl+tYbRUE=",
+        "rev": "898cb2064b6e98b8c5499f37e81adbdf2925f7c5",
+        "revCount": 491699,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.491536%2Brev-bd1cde45c77891214131cbbea5b1203e485a9d51/018b225f-f8ad-7003-820d-de4de97a7a06/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.491699%2Brev-898cb2064b6e98b8c5499f37e81adbdf2925f7c5/018b336b-35f9-7d98-bda1-0293f2b67c76/source.tar.gz"
       },
       "original": {
         "type": "tarball",
