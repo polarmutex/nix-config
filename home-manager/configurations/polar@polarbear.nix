@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   pkgs,
   ...
@@ -53,4 +54,12 @@
     zoom-us
     # insecrue - zotero
   ];
+
+  sops = {
+    age.keyFile = "/home/polar/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/secrets.yaml;
+    secrets.aoc_session_token = {
+      path = "${config.home.homeDirectory}/.config/adventofcode.session";
+    };
+  };
 }

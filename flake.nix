@@ -152,11 +152,12 @@
                 default = pkgs.mkShell {
                   name = "nixed-shell";
                   packages = with pkgs; [
-                    #colmena
+                    age
+                    inputs.deploy-rs.packages.${system}.deploy-rs
                     home-manager
                     npins
+                    sops
                     statix
-                    inputs.deploy-rs.packages.${system}.deploy-rs
                   ];
                   inherit (self.checks.${system}.pre-commit-check) shellHook;
                 };

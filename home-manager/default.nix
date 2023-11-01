@@ -54,6 +54,7 @@ in {
               homeDirectory = "/home/polar";
             };
           }
+          inputs.sops-nix.homeManagerModules.sops
           modules.awesomewm
           modules.direnv
           modules.firefox
