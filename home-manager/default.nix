@@ -56,10 +56,11 @@ in {
           }
           modules.awesomewm
           modules.direnv
-          modules.helix
           modules.firefox
           modules.fish
           modules.fonts
+          modules.gpg
+          modules.helix
           modules.kitty
           modules.messaging
           modules.obsidian

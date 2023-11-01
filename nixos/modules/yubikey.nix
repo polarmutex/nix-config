@@ -20,8 +20,8 @@
   security.pam.services.sudo.yubicoAuth = true;
 
   environment.systemPackages = with pkgs; [
-    yubikey-manager
     pcsctools
+    yubikey-manager
   ];
 
   # try to enable gnupg's udev rules
