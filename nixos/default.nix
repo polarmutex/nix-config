@@ -55,6 +55,7 @@ in {
           modules.fonts
           modules.graphical
           modules.nix
+          modules.podman
           modules.trusted
           modules.wm-helper
           modules.virt-manager
