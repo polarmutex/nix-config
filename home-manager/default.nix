@@ -39,7 +39,15 @@
   pkgs.x86_64-linux = import inputs.nixpkgs {
     inherit lib;
     system = "x86_64-linux";
-    config.allowUnfree = true;
+    config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "discord"
+        "obsidian"
+        "zoom"
+      ];
+    config.permittedInsecurePackages = [
+      "zotero-6.0.27"
+    ];
   };
 in {
   flake.homeConfigurations = {
@@ -55,6 +63,7 @@ in {
             };
           }
           inputs.sops-nix.homeManagerModules.sops
+          modules.accounts
           modules.awesomewm
           modules.direnv
           modules.firefox

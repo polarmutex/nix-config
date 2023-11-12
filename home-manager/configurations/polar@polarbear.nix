@@ -52,7 +52,7 @@
     nix-melt
     nixpkgs-fmt
     zoom-us
-    # insecrue - zotero
+    zotero
   ];
 
   sops = {
