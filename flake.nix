@@ -8,12 +8,12 @@
   };
 
   inputs = {
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.0.tar.gz";
-    nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/release-23.05";
     #nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
 
-    flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
-    flake-utils.url = "https://flakehub.com/f/numtide/flake-utils/0.1.tar.gz";
+    flake-compat.url = "github:edolstra/flake-compat";
+    flake-utils.url = "github:numtide/flake-utils";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     awesome-flake = {
