@@ -5,7 +5,6 @@
   environment.systemPackages = with pkgs; [
     anki-bin
     ansible
-    brave
     nixpkgs-review
     nix-update
   ];

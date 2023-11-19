@@ -63,8 +63,8 @@ in {
             };
           }
           inputs.sops-nix.homeManagerModules.sops
-          modules.accounts
           modules.awesomewm
+          modules.brave
           modules.direnv
           modules.firefox
           modules.fish
