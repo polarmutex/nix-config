@@ -1,36 +1,33 @@
 _: {
   fileSystems = {
     "/" = {
-      device = "rpool/nixos/root";
-      fsType = "zfs";
-      options = ["zfsutil" "X-mount.mkdir"];
+      device = "/dev/disk/by-uuid/75bfaf03-6d13-4728-ac38-4474988e89b3";
+      fsType = "btrfs";
+      options = ["subvol=root" "compress=zstd"];
     };
 
     "/home" = {
-      device = "rpool/nixos/home";
-      fsType = "zfs";
-      options = ["zfsutil" "X-mount.mkdir"];
+      device = "/dev/disk/by-uuid/75bfaf03-6d13-4728-ac38-4474988e89b3";
+      fsType = "btrfs";
+      options = ["subvol=home" "compress=zstd"];
     };
 
-    "/var/lib" = {
-      device = "rpool/nixos/var/lib";
-      fsType = "zfs";
-      options = ["zfsutil" "X-mount.mkdir"];
-    };
-
-    "/var/log" = {
-      device = "rpool/nixos/var/log";
-      fsType = "zfs";
-      options = ["zfsutil" "X-mount.mkdir"];
+    "/nix" = {
+      device = "/dev/disk/by-uuid/75bfaf03-6d13-4728-ac38-4474988e89b3";
+      fsType = "btrfs";
+      options = ["subvol=nix" "compress=zstd" "noatime"];
     };
 
     "/boot" = {
-      device = "/dev/disk/by-uuid/04C5-27ED";
+      device = "/dev/disk/by-uuid/EEFA-2B56";
       fsType = "vfat";
     };
-  };
 
-  swapDevices = [
-    {device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSAF912489P-part2";}
-  ];
+    "/swap" = {
+      device = "/dev/disk/by-uuid/75bfaf03-6d13-4728-ac38-4474988e89b3";
+      fsType = "btrfs";
+      options = ["subvol=swap"];
+    };
+  };
+  swapDevices = [{device = "/swap/swapfile";}];
 }

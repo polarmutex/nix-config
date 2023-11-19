@@ -5,8 +5,9 @@ _: {
       #  enable = true;
       #  user = "polar";
       #};
-      lightdm = {
+      gdm = {
         enable = true;
+        wayland = false;
       };
     };
   };

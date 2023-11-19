@@ -11,9 +11,8 @@
   boot = {
     initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" "sr_mod"];
     initrd.kernelModules = [];
-    kernelModules = ["kvm-intel"];
+    kernelModules = ["kvm-intel" "wl"];
     extraModulePackages = [config.boot.kernelPackages.broadcom_sta];
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   };
 
   networking.useDHCP = lib.mkDefault true;
