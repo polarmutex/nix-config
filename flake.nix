@@ -35,8 +35,8 @@
       url = "github:helix-editor/helix";
     };
     monolisa-font-flake = {
-      url = "git+ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git";
-      #url = "path:///home/user/repos/personal/monolisa-font-flake";
+      #url = "git+ssh://git@git.brrnis.xyz/polarmutex/monolisa-font-flake.git";
+      url = "path:///home/polar/repos/personal/monolisa-font-flake";
     };
     neovim = {
       url = "github:neovim/neovim?dir=contrib";
@@ -68,11 +68,12 @@
       url = "github:polarmutex/tmux-sessionizer";
     };
     wallpapers = {
-      url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
+      #url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
+      url = "path:///home/polar/repos/personal/wallpapers";
     };
-    website = {
-      url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git";
-    };
+    #website = {
+    #  url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git";
+    #};
     wrapper-manager = {
       url = "github:viperML/wrapper-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -129,23 +130,24 @@
               # make custom lib available to all `perSystem` functions
               _module.args.lib = lib;
               checks =
-                {
-                  pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-                    src = ./.;
-                    hooks = {
-                      alejandra = {
-                        enable = true;
-                      };
-                      deadnix = {
-                        enable = true;
-                      };
-                      statix = {
-                        enable = true;
-                      };
-                    };
-                  };
-                }
-                // (inputs.deploy-rs.lib.${system}.deployChecks inputs.self.deploy);
+                # {
+                #   pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+                #     src = ./.;
+                #     hooks = {
+                #       alejandra = {
+                #         enable = true;
+                #       };
+                #       deadnix = {
+                #         enable = true;
+                #       };
+                #       statix = {
+                #         enable = true;
+                #       };
+                #     };
+                #   };
+                # }
+                #//
+                inputs.deploy-rs.lib.${system}.deployChecks inputs.self.deploy;
 
               devShells = {
                 #default = shell {inherit self pkgs;};
@@ -159,7 +161,7 @@
                     sops
                     statix
                   ];
-                  inherit (self.checks.${system}.pre-commit-check) shellHook;
+                  # inherit (self.checks.${system}.pre-commit-check) shellHook;
                 };
               };
             };
