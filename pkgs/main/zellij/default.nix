@@ -10,6 +10,7 @@
   binaryen,
   makeRustPlatform,
   openssl,
+  perl,
   pkg-config,
   protobuf,
   rust-bin,
@@ -88,11 +89,13 @@ in
     nativeBuildInputs = [
       pkg-config
       protobuf
+      perl
     ];
 
     buildInputs = [
       openssl
       protobuf
+      perl
     ];
 
     patchPhase = ''
