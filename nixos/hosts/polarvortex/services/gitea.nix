@@ -20,13 +20,14 @@ in {
     enable = true;
     user = "git";
     appName = "${domain}: git in plurality";
-    lfs.enable = true;
+    # lfs.enable = true;
+    # package = pkgs.unstable.gitea;
 
     settings = {
       #log.LEVEL = "Warn";
       server = {
         DOMAIN = "git.${domain}";
-        ROOT_URL = "https://${domain}";
+        ROOT_URL = "https://git.${domain}/";
         HTTP_PORT = port;
         HTTP_ADDR = "127.0.0.1";
       };
@@ -51,7 +52,7 @@ in {
       };
       mailer = {
         ENABLED = true;
-        MAILER_TYPE = "sendmail";
+        PROTOCOL = "sendmail";
         FROM = "do-not-reply@${domain}";
         SENDMAIL_PATH = "${pkgs.system-sendmail}/bin/sendmail";
       };
@@ -60,10 +61,10 @@ in {
     # NixOS module uses `gitea dump` to backup repositories and the database,
     # but it produces a single .zip file that's not very restic friendly.
     # I configure my backup system manually below.
-    #dump = {
-    #  enable = true;
-    #  backupDir = "/backup/gitea";
-    #};
+    # dump = {
+    #   enable = true;
+    #   backupDir = "/backup/gitea";
+    # };
     database = {
       type = "postgres";
       # user needs to be the same as gitea user
