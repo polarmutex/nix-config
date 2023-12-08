@@ -1,17 +1,18 @@
 _: {
-  services.gpg-agent = {
-    enable = true;
-    enableExtraSocket = true;
-    enableScDaemon = true;
-    enableSshSupport = true;
-    defaultCacheTtl = 34560000;
-    maxCacheTtl = 34560000;
-    grabKeyboardAndMouse = false;
-    pinentryFlavor = "curses";
-    #extraConfig = ''
-    #  extra-socket /run/user/${toString config.home.uid}/gnupg/S.gpg-agent.extra
-    #'';
-  };
+  # gpg ssh agent
+  # services.gpg-agent = {
+  #   enable = true;
+  #   enableExtraSocket = true;
+  #   enableScDaemon = true;
+  #   enableSshSupport = true;
+  #   defaultCacheTtl = 34560000;
+  #   maxCacheTtl = 34560000;
+  #   grabKeyboardAndMouse = false;
+  #   pinentryFlavor = "curses";
+  #   #extraConfig = ''
+  #   #  extra-socket /run/user/${toString config.home.uid}/gnupg/S.gpg-agent.extra
+  #   #'';
+  # };
 
   programs.gpg = let
     keyid = "0x7F1160FAFC739341";
