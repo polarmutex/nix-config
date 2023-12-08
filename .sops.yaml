@@ -1,5 +1,5 @@
 keys:
-  - &polarmutex age193p7r98qvv7ww4zu20jt79ck70jqnhg353jlz4khauwm39n3g96sd90hmr
+  - &polarmutex age1vjf2wtuvw6pmjukzkxenw5am3lyuzh74077pzmf4ycsy46vkd4wscr9jth
 
 creation_rules:
   - path_regex: secrets/[^/]+\.yaml$
