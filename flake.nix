@@ -35,8 +35,8 @@
       url = "github:helix-editor/helix";
     };
     monolisa-font-flake = {
-      #url = "git+ssh://git@git.brrnis.xyz/polarmutex/monolisa-font-flake.git";
-      url = "path:///home/polar/repos/personal/monolisa-font-flake";
+      url = "git+ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git";
+      #url = "path:///home/polar/repos/personal/monolisa-font-flake";
     };
     neovim = {
       url = "github:neovim/neovim?dir=contrib";
@@ -68,8 +68,8 @@
       url = "github:polarmutex/tmux-sessionizer";
     };
     wallpapers = {
-      #url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
-      url = "path:///home/polar/repos/personal/wallpapers";
+      url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
+      #url = "path:///home/polar/repos/personal/wallpapers";
     };
     #website = {
     #  url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git";
