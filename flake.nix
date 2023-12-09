@@ -9,7 +9,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/release-23.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/release-23.11";
     #nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
 
     flake-compat.url = "github:edolstra/flake-compat";
@@ -158,6 +158,7 @@
                     inputs.deploy-rs.packages.${system}.deploy-rs
                     home-manager
                     npins
+                    nix-diff
                     sops
                     statix
                   ];

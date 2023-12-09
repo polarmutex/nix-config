@@ -31,6 +31,17 @@
     inherit lib;
     system = "x86_64-linux";
     config.allowUnfree = true;
+    # Enable the unfree packages
+    config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "broadcom-sta"
+        "corefonts"
+        "1password-gui"
+        "1password-cli"
+        "1password"
+        "nvidia-settings"
+        "nvidia-x11"
+      ];
     overlays = [
       (_final: prev: {
         unstable = import inputs.nixpkgs {

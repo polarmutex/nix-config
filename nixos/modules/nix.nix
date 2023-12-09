@@ -3,18 +3,6 @@
   pkgs,
   ...
 }: {
-  # Enable the unfree packages
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "broadcom-sta"
-      "corefonts"
-      "1password-gui"
-      "1password-cli"
-      "1password"
-      "nvidia-settings"
-      "nvidia-x11"
-    ];
-
   nix = {
     gc.automatic = true;
 
