@@ -69,6 +69,7 @@ in {
       type = "postgres";
       # user needs to be the same as gitea user
       user = "git";
+      name = "git";
     };
   };
 

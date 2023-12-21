@@ -2,14 +2,20 @@
   description = "PolarMutex Nix Configuration";
 
   nixConfig = {
-    extra-substituters = "https://polarmutex.cachix.org";
-    extra-trusted-public-keys = "polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08=";
+    extra-substituters = [
+      "https://polarmutex.cachix.org"
+      "https://nix-community.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
     allow-import-from-derivation = "true";
   };
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/release-23.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     #nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
 
     flake-compat.url = "github:edolstra/flake-compat";

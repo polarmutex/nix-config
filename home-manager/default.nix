@@ -46,6 +46,7 @@
         "zoom"
       ];
     config.permittedInsecurePackages = [
+      "electron-25.9.0"
       "zotero-6.0.27"
     ];
   };
