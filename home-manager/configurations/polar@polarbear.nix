@@ -38,6 +38,7 @@
     gnome.nautilus
     gramps
     lazygit
+    libreoffice-fresh
     inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
     #(netbeans.overrideAttrs (_: let
     #  nb_version = "18";
