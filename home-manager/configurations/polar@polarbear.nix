@@ -52,6 +52,7 @@
     (netbeans.override {jdk = pkgs.jdk11;})
     nix-melt
     nixpkgs-fmt
+    peek
     zoom-us
     zotero
   ];
