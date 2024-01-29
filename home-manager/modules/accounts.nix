@@ -92,7 +92,7 @@ in {
       };
 
       lieer = {
-        enable = true;
+        enable = false;
         sync.enable = true;
         sync.frequency = "*:0/5"; # Every 5 minutes
         settings = {
