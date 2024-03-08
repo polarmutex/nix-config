@@ -163,6 +163,7 @@
                     age
                     inputs.deploy-rs.packages.${system}.deploy-rs
                     home-manager
+                    nh
                     npins
                     nix-diff
                     sops
