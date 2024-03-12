@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   pkgs,
   ...
@@ -27,6 +28,17 @@
     inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
     ripgrep
   ];
+
+  sops = {
+    age.keyFile = "/home/user/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/secrets.yaml;
+    secrets.git_config_work = {
+      path = "${config.home.homeDirectory}/.config/work_email.session";
+    };
+  };
+  # secrets.aoc_session_token = {
+  #   path = "${config.home.homeDirectory}/.config/adventofcode.session";
+  # };
 
   #programs.htop.enable = true;
   #programs.fish.enable = true;

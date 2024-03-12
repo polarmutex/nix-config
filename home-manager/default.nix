@@ -95,7 +95,9 @@ in {
               homeDirectory = "/home/user";
             };
           }
+          inputs.sops-nix.homeManagerModules.sops
           modules.direnv
+          modules.git
           modules.fish
           modules.htop
           modules.fonts
