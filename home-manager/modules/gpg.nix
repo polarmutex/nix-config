@@ -1,4 +1,4 @@
-_: {
+{pkgs, ...}: {
   services.gpg-agent = {
     enable = true;
     enableExtraSocket = true;
@@ -7,7 +7,7 @@ _: {
     defaultCacheTtl = 34560000;
     maxCacheTtl = 34560000;
     grabKeyboardAndMouse = false;
-    pinentryFlavor = "curses";
+    pinentryPackages = pkgs.pinentry-curses;
     #extraConfig = ''
     #  extra-socket /run/user/${toString config.home.uid}/gnupg/S.gpg-agent.extra
     #'';
