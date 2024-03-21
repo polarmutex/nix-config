@@ -43,6 +43,8 @@
       builtins.elem (lib.getName pkg) [
         "discord"
         "obsidian"
+        "steam"
+        "steam-original"
         "zoom"
       ];
     config.permittedInsecurePackages = [
@@ -71,6 +73,7 @@ in {
           modules.firefox
           modules.fish
           modules.fonts
+          modules.gaming
           modules.gpg
           modules.helix
           modules.kitty

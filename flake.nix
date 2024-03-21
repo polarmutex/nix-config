@@ -5,10 +5,12 @@
     extra-substituters = [
       "https://polarmutex.cachix.org"
       "https://nix-community.cachix.org"
+      "https://nix-gaming.cachix.org"
     ];
     extra-trusted-public-keys = [
       "polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
     ];
     allow-import-from-derivation = "true";
   };
@@ -101,6 +103,11 @@
     };
     programsdb.url = "github:wamserma/flake-programs-sqlite";
     programsdb.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs.flake-parts.follows = "flake-parts";
+    };
   };
 
   outputs = inputs @ {
