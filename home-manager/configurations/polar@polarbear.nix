@@ -40,6 +40,9 @@
     lazygit
     libreoffice-fresh
     inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
+    inputs.deploy-rs.packages.${system}.deploy-rs
+    nix-diff
+    npins
     #(netbeans.overrideAttrs (_: let
     #  nb_version = "18";
     #in {

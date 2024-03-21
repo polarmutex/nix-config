@@ -167,12 +167,9 @@
                 default = pkgs.mkShell {
                   name = "nixed-shell";
                   packages = with pkgs; [
-                    age
-                    inputs.deploy-rs.packages.${system}.deploy-rs
+                    # age
                     home-manager
                     nh
-                    npins
-                    nix-diff
                     sops
                     statix
                   ];
