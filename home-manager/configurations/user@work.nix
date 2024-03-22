@@ -40,12 +40,16 @@
   #   path = "${config.home.homeDirectory}/.config/adventofcode.session";
   # };
 
+  programs.fish.shellInit = ''
+    source ~/.nix-profile/etc/profile.d/nix.fish
+  '';
+
   #programs.htop.enable = true;
   #programs.fish.enable = true;
   #programs.kitty.configOnly = true;
-  programs.kitty.textSize = 9;
+  #programs.kitty.textSize = 9;
   #programs.tmux.enable = true;
-  programs.wezterm.textSize = 9;
+  #programs.wezterm.textSize = 9;
   #programs.obsidian.enable = true;
   #programs.zellij.enable = true;
   #xsession.windowManager.awesome.enable = true;
