@@ -23,7 +23,6 @@
   programs = {
     kitty.enable = true;
     kitty.textSize = 11;
-    wezterm.enable = true;
   };
 
   #xsession.windowManager.awesome.enable = true;
