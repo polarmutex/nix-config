@@ -1,6 +1,7 @@
 keys:
   - &polarmutex age1vjf2wtuvw6pmjukzkxenw5am3lyuzh74077pzmf4ycsy46vkd4wscr9jth
   - &work age1vfx7yqajaxe2suram0tk7rudv06ra0mrahkvmwpt9t7vcutlf3yqedynz4
+  - &work2 age1z9403klvd7l26se2p6ml859el5lgs3g43yyh2re42g4raea8jycsvkm0g6
 
 creation_rules:
   - path_regex: secrets/[^/]+\.yaml$
@@ -8,3 +9,4 @@ creation_rules:
       - age:
           - *polarmutex
           - *work
+          - *work2

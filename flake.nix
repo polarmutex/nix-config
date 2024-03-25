@@ -167,7 +167,7 @@
                 default = pkgs.mkShell {
                   name = "nixed-shell";
                   packages = with pkgs; [
-                    # age
+                    age
                     home-manager
                     nh
                     sops
