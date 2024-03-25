@@ -104,8 +104,8 @@ in {
           modules.fish
           modules.htop
           modules.fonts
-          modules.kitty
-          modules.tmux
+          #modules.kitty
+          #modules.tmux
           modules.wezterm
           modules.zellij
         ]

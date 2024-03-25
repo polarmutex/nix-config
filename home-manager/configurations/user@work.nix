@@ -43,13 +43,15 @@
   programs.fish.shellInit = ''
     source ~/.nix-profile/etc/profile.d/nix.fish
   '';
+  programs.fish.shellAliases.brave = "flatpak run --user com.brave.Browser";
 
   #programs.htop.enable = true;
   #programs.fish.enable = true;
   #programs.kitty.configOnly = true;
   #programs.kitty.textSize = 9;
   #programs.tmux.enable = true;
-  #programs.wezterm.textSize = 9;
+  programs.wezterm.textSize = 9;
+  programs.wezterm.configOnly = true;
   #programs.obsidian.enable = true;
   #programs.zellij.enable = true;
   #xsession.windowManager.awesome.enable = true;
