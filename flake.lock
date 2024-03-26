@@ -664,11 +664,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1711147791,
-        "narHash": "sha256-SrbnRIGIGIWDuYiRggNx31pG7PHXKPASQ0nNR39+c3k=",
+        "lastModified": 1711475179,
+        "narHash": "sha256-0/Lx2/BaYEecyeMxuNGzk35LLm3jvF2WUrktLuQ+RHA=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "c5940d0c8cc7e052f56ad4a3c4d9f2b901ad100d",
+        "rev": "66cac2bd1fe90785c1fbda4b4d420315a46db66e",
         "type": "github"
       },
       "original": {
