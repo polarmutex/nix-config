@@ -1,19 +1,30 @@
 {inputs, ...}: {
   perSystem = {
     pkgs,
-    config,
+    inputs',
     ...
   }: let
-    eval = inputs.wrapper-manager.lib {
+    wrapped = inputs.wrapper-manager.lib {
       inherit pkgs;
       modules = [
-        #(import ./nvfetcher {inherit (inputs) nixpkgs;})
+        ./wezterm
       ];
+      specialArgs = {
+        inherit inputs inputs';
+      };
     };
+    all-packages = wrapped.config.build.packages;
+    # eval = inputs.wrapper-manager.lib {
+    #   inherit pkgs;
+    #   modules = [
+    #     #(import ./nvfetcher {inherit (inputs) nixpkgs;})
+    #   ];
+    # };
   in {
-    inherit (eval.config.build) packages;
-    checks = {
-      #inherit (config.package) nvfetcher;
-    };
+    packages = all-packages;
+    # inherit (eval.config.build) packages;
+    # checks = {
+    #inherit (config.package) nvfetcher;
+    # };
   };
 }

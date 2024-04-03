@@ -2,6 +2,7 @@
   config,
   inputs,
   pkgs,
+  self,
   ...
 }: {
   #nixpkgs.allowedUnfree = [
@@ -55,6 +56,7 @@
     nix-melt
     nixpkgs-fmt
     peek
+    self.packages.${pkgs.system}.wrapped-wezterm
     zoom-us
     zotero
   ];

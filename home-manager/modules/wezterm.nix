@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.programs.wezterm;
@@ -11,19 +10,12 @@ in {
       type = lib.types.number;
       default = 11;
     };
-    configOnly = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-    };
+    # configOnly = lib.mkOption {
+    # type = lib.types.bool;
+    # default = false;
+    # };
   };
   config = {
-    # home.sessionVariables.TERMINAL = "wezterm start --always-new-process";
-    #xdg.configFile."wezterm/wezterm.lua".source = link "wezterm.lua";
-
-    home.packages = lib.mkIf (cfg.configOnly == false) [
-      pkgs.wezterm
-    ];
-
     xdg.configFile."wezterm/wezterm.lua".text = ''
       local wezterm = require("wezterm")
       local config = wezterm.config_builder()

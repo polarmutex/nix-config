@@ -82,7 +82,6 @@ in {
           modules.picom
           modules.tmux
           modules.wallpaper
-          modules.wezterm
           modules.zellij
         ]
         ++ [configs."polar@polarbear"];
