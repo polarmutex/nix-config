@@ -27,10 +27,13 @@
     lazygit
     inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
     ripgrep
+    maven
   ];
 
-  sops = {
-    age.keyFile = "/home/user/.config/sops/age/keys.txt";
+  sops = let
+    user = builtins.getEnv "USER";
+  in {
+    age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
     defaultSopsFile = ../../secrets/secrets.yaml;
     secrets.git_config_work = {
       path = "${config.home.homeDirectory}/.config/work_email.session";

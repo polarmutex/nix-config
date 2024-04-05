@@ -93,9 +93,12 @@ in {
         defaultModules
         ++ [
           {
-            home = {
-              username = "user";
-              homeDirectory = "/home/user";
+            home = let
+              user = builtins.getEnv "USER";
+              homedir = builtins.getEnv "HOME";
+            in {
+              username = user;
+              homeDirectory = homedir;
             };
           }
           inputs.sops-nix.homeManagerModules.sops
@@ -106,6 +109,7 @@ in {
           modules.fonts
           #modules.kitty
           #modules.tmux
+          modules.obsidian
           modules.wezterm
           modules.zellij
         ]
