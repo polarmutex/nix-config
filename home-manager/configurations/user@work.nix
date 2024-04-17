@@ -48,6 +48,9 @@
   '';
   programs.fish.shellAliases.brave = "flatpak run --user com.brave.Browser";
 
+  # https://git-scm.com/book/en/v2/Git-Tools-Credential-StoragE
+  programs.git.extraConfig.credential.helper = "store";
+
   #programs.htop.enable = true;
   #programs.fish.enable = true;
   #programs.kitty.configOnly = true;
