@@ -1036,33 +1036,6 @@
         "type": "github"
       }
     },
-    "nvfetcher": {
-      "inputs": {
-        "flake-compat": [
-          "flake-compat"
-        ],
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1692371809,
-        "narHash": "sha256-McJd+9TM//Hp2EWx4AZtVBsELdi6hvsC19uabRRrqv8=",
-        "owner": "berberman",
-        "repo": "nvfetcher",
-        "rev": "8ca17d561bd47d46f866daa04194dbe34692a966",
-        "type": "github"
-      },
-      "original": {
-        "owner": "berberman",
-        "ref": "0.6.2",
-        "repo": "nvfetcher",
-        "type": "github"
-      }
-    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_4",
@@ -1149,7 +1122,6 @@
         "nix-gaming": "nix-gaming",
         "nixpkgs": "nixpkgs_9",
         "nixpkgs-stable": "nixpkgs-stable_2",
-        "nvfetcher": "nvfetcher",
         "pre-commit-hooks": "pre-commit-hooks_2",
         "programsdb": "programsdb",
         "rust-overlay": "rust-overlay_3",

@@ -35,7 +35,6 @@ in {
       config.allowUnfree = true;
       overlays = [
         (import inputs.rust-overlay)
-        inputs.nvfetcher.overlays.default
       ];
     };
 

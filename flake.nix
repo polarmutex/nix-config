@@ -53,14 +53,6 @@
       url = "github:polarmutex/neovim-flake";
       #url = "path:/home/polar/repos/personal/neovim-flake/main";
     };
-    nvfetcher = {
-      url = "github:berberman/nvfetcher/0.6.2";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-        flake-compat.follows = "flake-compat";
-      };
-    };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
