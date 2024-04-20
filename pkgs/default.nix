@@ -38,9 +38,10 @@ in {
       ];
     };
 
-    legacyPackages = pkgs;
-
     packages = {
+      inherit (pkgs) fd;
+      inherit (pkgs) jq;
+      inherit (pkgs) nvfetcher;
       my-zellij = w pkgs.callPackage ./main/zellij {};
     };
   };
