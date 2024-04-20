@@ -11,11 +11,11 @@
             "fetchSubmodules": false,
             "leaveDotGit": false,
             "name": null,
-            "rev": "v0.39.2",
-            "sha256": "sha256-FSLbRfxSWY0a9H9iHT3oQ2SXwB70AwyH0Cm8sDZGaUk=",
+            "rev": "v0.40.0",
+            "sha256": "sha256-1z7qIgjElE9gw0lY+A17gsYIcnKRceZTFnRd8fMeBg8=",
             "type": "git",
             "url": "https://github.com/zellij-org/zellij.git"
         },
-        "version": "v0.39.2"
+        "version": "v0.40.0"
     }
 }
