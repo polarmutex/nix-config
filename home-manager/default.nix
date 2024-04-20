@@ -74,6 +74,7 @@ in {
           modules.fish
           modules.fonts
           modules.gaming
+          modules.git
           modules.gpg
           modules.helix
           modules.kitty

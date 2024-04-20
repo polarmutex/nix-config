@@ -59,13 +59,20 @@
     self.packages.${pkgs.system}.wrapped-wezterm
     zoom-us
     zotero
+    anki-bin
+    ansible
   ];
 
-  sops = {
-    age.keyFile = "/home/polar/.config/sops/age/keys.txt";
+  sops = let
+    user = builtins.getEnv "USER";
+  in {
+    age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
     defaultSopsFile = ../../secrets/secrets.yaml;
     secrets.aoc_session_token = {
-      path = "${config.home.homeDirectory}/.config/adventofcode.session";
+      path = "${config.home.homeDirectory}.config/adventofcode.session";
+    };
+    secrets.git_config_work = {
+      path = "${config.home.homeDirectory}.config/work_email.session";
     };
   };
 }

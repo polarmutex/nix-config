@@ -6,6 +6,11 @@
   programs.git = {
     enable = true;
     package = pkgs.git;
+    extraConfig = {
+      # color.ui = true;
+      credential.helper = "store";
+      # push.autoSetupRemote = true;
+    };
     includes = [
       {
         condition = "gitdir:~/repos/personal/";
