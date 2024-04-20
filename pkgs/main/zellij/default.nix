@@ -6,6 +6,7 @@
   #
   stdenv,
   pkgs,
+  lib,
   #
   binaryen,
   makeRustPlatform,
@@ -15,13 +16,23 @@
   protobuf,
   rust-bin,
 }: let
+  cargoTOML = builtins.fromTOML (builtins.readFile (src + "/Cargo.toml"));
+  inherit (cargoTOML.package) name;
+  cargoLock = {
+    lockFile = builtins.path {
+      path = src + "/Cargo.lock";
+      name = "Cargo.lock";
+    };
+    allowBuiltinFetchGit = true;
+  };
+
   rustToolchainTOML = rust-bin.fromRustupToolchainFile (src + /rust-toolchain.toml);
   rustWasmToolchainTOML = rustToolchainTOML.override {
     extensions = [];
     targets = ["wasm32-wasi"];
   };
 
-  makeZellijPlugin = pname:
+  make-default-zellij-plugin = pname:
     (pkgs.makeRustPlatform {
       cargo = rustWasmToolchainTOML;
       rustc = rustWasmToolchainTOML;
@@ -58,19 +69,11 @@
       doCheck = false;
     };
 
-  compact-bar = makeZellijPlugin "compact-bar";
-  session-manager = makeZellijPlugin "session-manager";
-  status-bar = makeZellijPlugin "status-bar";
-  strider = makeZellijPlugin "strider";
-  tab-bar = makeZellijPlugin "tab-bar";
-
-  cargoLock = {
-    lockFile = builtins.path {
-      path = src + "/Cargo.lock";
-      name = "Cargo.lock";
-    };
-    allowBuiltinFetchGit = true;
-  };
+  compact-bar = make-default-zellij-plugin "compact-bar";
+  session-manager = make-default-zellij-plugin "session-manager";
+  status-bar = make-default-zellij-plugin "status-bar";
+  strider = make-default-zellij-plugin "strider";
+  tab-bar = make-default-zellij-plugin "tab-bar";
 in
   (makeRustPlatform {
     cargo = rustToolchainTOML;
@@ -80,7 +83,7 @@ in
   {
     inherit
       cargoLock
-      pname
+      name
       src
       stdenv
       version
@@ -95,7 +98,6 @@ in
     buildInputs = [
       openssl
       protobuf
-      perl
     ];
 
     patchPhase = ''
@@ -105,4 +107,11 @@ in
       cp ${compact-bar}/bin/compact-bar.wasm zellij-utils/assets/plugins/compact-bar.wasm
       cp ${session-manager}/bin/session-manager.wasm zellij-utils/assets/plugins/session-manager.wasm
     '';
+
+    meta = {
+      description = "A terminal workspace with batteries included";
+      homepage = "https://zellij.dev/";
+      license = [lib.licenses.mit];
+      mainProgram = "zellij";
+    };
   }
