@@ -57,7 +57,7 @@
   #programs.kitty.textSize = 9;
   #programs.tmux.enable = true;
   programs.wezterm.textSize = 9;
-  programs.wezterm.configOnly = true;
+  # programs.wezterm.configOnly = true;
   #programs.obsidian.enable = true;
   #programs.zellij.enable = true;
   #xsession.windowManager.awesome.enable = true;
