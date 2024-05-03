@@ -3,14 +3,14 @@
 {
   zellij = {
     pname = "zellij";
-    version = "v0.40.0";
+    version = "v0.40.1";
     src = fetchgit {
       url = "https://github.com/zellij-org/zellij.git";
-      rev = "v0.40.0";
+      rev = "v0.40.1";
       fetchSubmodules = false;
       deepClone = false;
       leaveDotGit = false;
-      sha256 = "sha256-1z7qIgjElE9gw0lY+A17gsYIcnKRceZTFnRd8fMeBg8=";
+      sha256 = "sha256-n8cwsCeKWzTw/psvLL3chBr8EcwGoeKB8JeiLSLna1k=";
     };
   };
 }
