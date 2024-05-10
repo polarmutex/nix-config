@@ -53,6 +53,7 @@
     #  };
     #}))
     (netbeans.override {jdk = pkgs.jdk11;})
+    netscanner
     nix-melt
     nixpkgs-fmt
     peek
