@@ -1,6 +1,6 @@
 _: {
   imports = [
-    # ./blog.nix
+    ./blog.nix
     ./gitea.nix
     #./miniflux.nix
     ./umami.nix

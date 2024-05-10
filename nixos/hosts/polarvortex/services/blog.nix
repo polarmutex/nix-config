@@ -5,60 +5,20 @@
   ...
 }: let
   inherit (config.networking) domain;
-  website = inputs.website.packages.${pkgs.system}.default;
   port = 4000;
+  websiteTag = "0.1.2";
 in {
-  environment.systemPackages = [website];
-
-  systemd.services.website = {
-    description = "my website";
-    after = ["network.target"];
-    wantedBy = ["multi-user.target"];
-
-    serviceConfig = {
-      Type = "simple";
-      User = "website";
-      Group = "website";
-      WorkingDirectory = "${website}";
-      ExecStart = "${website}/target/server/release/brianryall-xyz";
-      Restart = "always";
-      # Security
-      NoNewPrivileges = true;
-      # Sandboxing
-      PrivateDevices = true;
-      ProtectHome = true;
-      ProtectSystem = true;
-      PrivateTmp = true;
-      PrivateUsers = true;
-      ProtectHostname = true;
-      ProtectClock = true;
-      ProtectKernelTunables = true;
-      ProtectKernelModules = true;
-      ProtectKernelLogs = true;
-      ProtectControlGroups = true;
-      #RestrictAddressFamilies = ["AF_UNIX AF_INET AF_INET6"];
-      #LockPersonality = true;
-      #MemoryDenyWriteExecute = true;
-      RestrictRealtime = true;
-      RestrictSUIDSGID = true;
-      PrivateMounts = true;
-      # System Call Filtering
-      SystemCallArchitectures = "native";
-      SystemCallFilter = [
-        "~@reboot"
-        "@module"
-        "@mount"
-        "@swap"
-        "@resources"
-        "@cpu-emulation"
-        "@obsolete"
-        "@debug"
-        "~@privileged"
-      ];
-    };
-
-    environment = {
-      LEPTOS_OUTPUT_NAME = "true";
+  virtualisation.oci-containers = {
+    containers = {
+      website = {
+        autoStart = true;
+        image = "ghcr.io/polarmutex/website/site-server:${websiteTag}";
+        environment = {
+        };
+        environmentFiles = [];
+        # extraOptions = ["--network=host"];
+        ports = ["127.0.0.1:${toString port}:3000"];
+      };
     };
   };
 
@@ -79,7 +39,6 @@ in {
       "${domain}" = {
         forceSSL = true;
         enableACME = true;
-        #root = "${pkgs.website}";
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString port}";
           proxyWebsockets = true;

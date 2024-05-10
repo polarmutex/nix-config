@@ -3,26 +3,26 @@
   inherit (config.networking) domain;
 
   port = 3000;
-  umamiTag = "postgresql-latest";
+  umamiTag = "postgresql-v2.9.0";
 in {
   virtualisation.oci-containers = {
     backend = "podman";
     containers = {
       umami = {
         autoStart = true;
-        #image = "ghcr.io/mikecao/umami:${umamiTag}";
         image = "ghcr.io/umami-software/umami:${umamiTag}";
         environment = {
           "DATABASE_URL" = "postgres://umami:umami@localhost:${toString config.services.postgresql.port}/umami";
-          #"DATABASE_URL" = "/run/postgresql";
         };
         environmentFiles = [];
-        #environmentFiles = [config.sops.secrets."services/umami/db_url".path];
-        #dependsOn = ["umami-db"];
-        #extraOptions = ["--network=umami_network"];
+        # ports = [
+        #   {
+        #     host = port;
+        #     inner = 3000;
+        #   }
+        # ];
         extraOptions = ["--network=host"];
-        #ports = ["127.0.0.1:${toString port}:3000"];
-        #extraOptions = [ "--pod=umami-pod" ];
+        #dependsOn = ["umami-db"];
       };
       #umami-db = {
       #  autoStart = true;
@@ -38,29 +38,21 @@ in {
       #};
     };
   };
-  #services.postgresql = {
-  #  enable = true;
 
-  #  ensureDatabases = ["umami"];
-  #  ensureUsers = [
-  #    {
-  #      name = "umami";
-  #      ensurePermissions = {"DATABASE umami" = "ALL PRIVILEGES";};
-  #    }
-  #  ];
-  #};
-  #systemd.services.create-umami-pod = {
-  #  serviceConfig.Type = "oneshot";
-  #  wantedBy = [
-  #    "podman-umami.service"
-  #    "podman-umami-db.service"
-  #  ];
-  #  script = with pkgs; ''
-  #    ${podman}/bin/podman pod exists umami-pod || \
-  #      ${podman}/bin/podman pod create --name umami-pod -p '0.0.0.0:3000:3000 --network bridge'
-  #  '';
-  #};
-  systemd.services."${backend}-umami-db".preStart = "${backend} network create -d bridge umami_network || true";
+  services.postgresql = {
+    ensureDatabases = ["umami"];
+    ensureUsers =
+      builtins.map
+      (
+        database: {
+          name = database;
+          ensureDBOwnership = true;
+        }
+      )
+      ["umami"];
+  };
+
+  # systemd.services."${backend}-umami-db".preStart = "${backend} network create -d bridge umami_network || true";
 
   services.nginx = {
     virtualHosts = {
