@@ -670,11 +670,11 @@
         "spell-en-suggestions": "spell-en-suggestions"
       },
       "locked": {
-        "lastModified": 1716172470,
-        "narHash": "sha256-8cBB/IPl0Faej8ePD2OvMbCliA4IWWb41xJ4xK8R9H8=",
+        "lastModified": 1716173232,
+        "narHash": "sha256-RfFtLBNdFg0Bv+j690BKTc/+bkgqokPf3uPJFbAh5T0=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "745baa755938eee7cf5020f1e75059bd5d0552f3",
+        "rev": "d9733ed9a149f57c2863cf1e789c6704f7017520",
         "type": "github"
       },
       "original": {
