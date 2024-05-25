@@ -46,9 +46,6 @@
       url = "git+ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git";
       #url = "path:///home/polar/repos/personal/monolisa-font-flake";
     };
-    neovim = {
-      url = "github:neovim/neovim?dir=contrib";
-    };
     neovim-flake = {
       url = "github:polarmutex/neovim-flake";
       #url = "path:/home/polar/repos/personal/neovim-flake/main";
