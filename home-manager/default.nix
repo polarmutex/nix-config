@@ -42,6 +42,7 @@
     config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
         "discord"
+        "libXNVCtrl"
         "obsidian"
         "steam"
         "steam-original"
