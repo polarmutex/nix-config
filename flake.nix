@@ -24,6 +24,8 @@
     flake-utils.url = "github:numtide/flake-utils";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    polar-nur.url = "github:polarmutex/nur";
+
     awesome-flake = {
       url = "github:polarmutex/awesome-flake";
     };
@@ -53,13 +55,6 @@
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-      };
     };
     tmux-sessionizer = {
       url = "github:polarmutex/tmux-sessionizer";

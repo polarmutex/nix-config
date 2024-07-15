@@ -1,7 +1,7 @@
-{self, ...}: {
+{inputs, ...}: {
   programs.zellij = {
     enable = true;
-    package = self.packages.x86_64-linux.my-zellij;
+    package = inputs.polar-nur.packages.x86_64-linux.zellij;
     settings = {
       theme = "kanagawa";
       themes = {

@@ -16,6 +16,22 @@
         "type": "github"
       }
     },
+    "awesome-battery-widget-git": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1629647896,
+        "narHash": "sha256-ELNWKnwHDOxgC30xP3gTT1pYLZgGvGd9eVJKd5Ok98A=",
+        "owner": "Aire-One",
+        "repo": "awesome-battery_widget",
+        "rev": "48b83f444d175496104f3b9ff36f1dff0473e01e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Aire-One",
+        "repo": "awesome-battery_widget",
+        "type": "github"
+      }
+    },
     "awesome-flake": {
       "inputs": {
         "awesome-git-src": "awesome-git-src",
@@ -53,6 +69,22 @@
         "type": "github"
       }
     },
+    "awesome-git-src_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1717662234,
+        "narHash": "sha256-uaskBbnX8NgxrprI4UbPfb5cRqdRsJZv0YXXshfsxFU=",
+        "owner": "awesomeWM",
+        "repo": "awesome",
+        "rev": "ad0290bc1aac3ec2391aa14784146a53ebf9d1f0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "awesomeWM",
+        "repo": "awesome",
+        "type": "github"
+      }
+    },
     "bling": {
       "flake": false,
       "locked": {
@@ -61,6 +93,22 @@
         "owner": "BlingCorp",
         "repo": "bling",
         "rev": "01944af235e3f9ac72990cf9f4e545f344c28c4e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "type": "github"
+      }
+    },
+    "bling-git": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1717332532,
+        "narHash": "sha256-6NZSUb7sSBUegSIPIubQUOZG3knzXfnyfEbCoEyggtc=",
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "rev": "19ccfc0daf5edda8bbc508487616d00277a9d954",
         "type": "github"
       },
       "original": {
@@ -784,6 +832,22 @@
     },
     "nixpkgs_10": {
       "locked": {
+        "lastModified": 1720955038,
+        "narHash": "sha256-GaliJqfFwyYxReFywxAa8orCO+EnDq2NK2F+5aSc8vo=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "aa247c0c90ecf4ae7a032c54fdc21b91ca274062",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_11": {
+      "locked": {
         "lastModified": 1690441914,
         "narHash": "sha256-Ac+kJQ5z9MDAMyzSc0i0zJDx2i3qi9NjlW5Lz285G/I=",
         "owner": "NixOS",
@@ -798,7 +862,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_11": {
+    "nixpkgs_12": {
       "locked": {
         "lastModified": 1675279076,
         "narHash": "sha256-I8sMB4TBkhNY4lcKtb+pwEDB50My3+JG5Ti8J3sEmCc=",
@@ -941,6 +1005,29 @@
         "type": "github"
       }
     },
+    "polar-nur": {
+      "inputs": {
+        "awesome-battery-widget-git": "awesome-battery-widget-git",
+        "awesome-git-src": "awesome-git-src_2",
+        "bling-git": "bling-git",
+        "nixpkgs": "nixpkgs_10",
+        "rubato-git": "rubato-git",
+        "rust-overlay": "rust-overlay_3"
+      },
+      "locked": {
+        "lastModified": 1721081146,
+        "narHash": "sha256-CsZNp36I8+ixC8WSZWiqxV5TAX3uHdKu//SDPllnK5M=",
+        "owner": "polarmutex",
+        "repo": "nur",
+        "rev": "ba81d7c31eca148d3c3c7c66c99e9cd3c8274bfc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "polarmutex",
+        "repo": "nur",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_3",
@@ -1024,14 +1111,30 @@
         "nix-gaming": "nix-gaming",
         "nixpkgs": "nixpkgs_9",
         "nixpkgs-stable": "nixpkgs-stable_2",
+        "polar-nur": "polar-nur",
         "pre-commit-hooks": "pre-commit-hooks_2",
         "programsdb": "programsdb",
-        "rust-overlay": "rust-overlay_3",
         "rycee": "rycee",
         "sops-nix": "sops-nix",
         "tmux-sessionizer": "tmux-sessionizer",
         "wallpapers": "wallpapers",
         "wrapper-manager": "wrapper-manager"
+      }
+    },
+    "rubato-git": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1695847712,
+        "narHash": "sha256-AvHOUXWZFJNmstjQsmIcW24pgHE0r0mCyL7Jz2q3jU8=",
+        "owner": "andOrlando",
+        "repo": "rubato",
+        "rev": "8a3737b7af4c9dc40c53d700118333d36541d4d3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "andOrlando",
+        "repo": "rubato",
+        "type": "github"
       }
     },
     "rust-overlay": {
@@ -1089,15 +1192,16 @@
     "rust-overlay_3": {
       "inputs": {
         "nixpkgs": [
+          "polar-nur",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1720750737,
-        "narHash": "sha256-hPXe9Pr3s2EKRdDki3UkCKoPGlNkOhplCooNoC/L7Qc=",
+        "lastModified": 1721010111,
+        "narHash": "sha256-GuPw2xhJZ+eszIJFu7z7AtqUmirSWPHpxuCpG6dSOic=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "a17c5d38c6fe47880eb8c6bede15d943ac2c4d17",
+        "rev": "3ef018b6d0f62eb59580a8e9fe141e37bf1d972d",
         "type": "github"
       },
       "original": {
@@ -1289,7 +1393,7 @@
         "advisory-db": "advisory-db",
         "crane": "crane_2",
         "flake-utils": "flake-utils_7",
-        "nixpkgs": "nixpkgs_10"
+        "nixpkgs": "nixpkgs_11"
       },
       "locked": {
         "lastModified": 1690505133,
@@ -1341,7 +1445,7 @@
     "wallpapers": {
       "inputs": {
         "flake-utils": "flake-utils_8",
-        "nixpkgs": "nixpkgs_11"
+        "nixpkgs": "nixpkgs_12"
       },
       "locked": {
         "lastModified": 1675389491,
