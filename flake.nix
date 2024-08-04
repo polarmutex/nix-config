@@ -156,6 +156,7 @@
                     nh
                     sops
                     statix
+                    lm_sensors
                   ];
                   # inherit (self.checks.${system}.pre-commit-check) shellHook;
                 };
