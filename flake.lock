@@ -636,17 +636,16 @@
         "mnw": "mnw",
         "nil": "nil",
         "nixpkgs": "nixpkgs_7",
-        "nixpkgs-basedpyright": "nixpkgs-basedpyright",
         "pre-commit-hooks": "pre-commit-hooks",
         "spell-en-dictionary": "spell-en-dictionary",
         "spell-en-suggestions": "spell-en-suggestions"
       },
       "locked": {
-        "lastModified": 1722801505,
-        "narHash": "sha256-DP9E+LkRSn27GGRa0GkA6P+eUPqg35XNsfLwffSUFQE=",
+        "lastModified": 1722826435,
+        "narHash": "sha256-iUre2ETYyyjVWiMdVwTHkPQZB/3iH85wGM0pZLuwNpM=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "59947d53c8025a9d656169a30ef14f9a117ec4ea",
+        "rev": "5908a4d19c5b0275a0def1156f410555a4d57fd3",
         "type": "github"
       },
       "original": {
@@ -709,22 +708,6 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-basedpyright": {
-      "locked": {
-        "lastModified": 1721233549,
-        "narHash": "sha256-SgwJjxnO0re055UtTrRYToSiwmwuN6/1gx8EokaqTGQ=",
-        "owner": "kiike",
-        "repo": "nixpkgs",
-        "rev": "b9430e8d41ddd52ca7261889180de747090f7d1e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "kiike",
-        "ref": "fix/basedpyright",
         "repo": "nixpkgs",
         "type": "github"
       }
