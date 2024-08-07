@@ -20,6 +20,7 @@ config.font_size = 11
 config.font = wezterm.font_with_fallback({
 	"MonoLisa Custom",
 	"Symbols Nerd Font",
+	"Symbola",
 })
 --config.bold_brightens_ansi_colors = true
 config.check_for_updates = false

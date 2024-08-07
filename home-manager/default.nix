@@ -46,6 +46,7 @@
         "obsidian"
         "steam"
         "steam-original"
+        "symbola"
         "zoom"
       ];
     config.permittedInsecurePackages = [
