@@ -616,11 +616,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1682550438,
-        "narHash": "sha256-w8BInfSHvWIxkusbfuRj++crUIThPoa25Qfh/QUw2Qk=",
+        "lastModified": 1723079225,
+        "narHash": "sha256-GqVplZ5mCN68bBFwvPkpszjauXc1TK/6nNBfU2RIOzE=",
         "ref": "refs/heads/main",
-        "rev": "8ccfd01995e75dcde9765ca3f79fdbeb410318a8",
-        "revCount": 6,
+        "rev": "095842f0ada6cc5b8fc0f45f203de8450cddd9ed",
+        "revCount": 7,
         "type": "git",
         "url": "ssh://git@git.brianryall.xyz/polarmutex/monolisa-font-flake.git"
       },
