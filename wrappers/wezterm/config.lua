@@ -18,7 +18,7 @@ config.window_decorations = "RESIZE"
 
 config.font_size = 11
 config.font = wezterm.font_with_fallback({
-	"MonoLisa Custom",
+	"MonoLisa",
 	"Symbols Nerd Font",
 	"Symbola",
 })
