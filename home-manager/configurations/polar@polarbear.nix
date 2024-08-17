@@ -59,7 +59,7 @@
     peek
     self.packages.${pkgs.system}.wrapped-wezterm
     zoom-us
-    zotero
+    zotero_7
     anki-bin
     ansible
   ];
