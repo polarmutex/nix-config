@@ -54,7 +54,7 @@
     #}))
     (netbeans.override {jdk = pkgs.jdk11;})
     netscanner
-    nix-melt
+    # nix-melt
     nixpkgs-fmt
     peek
     self.packages.${pkgs.system}.wrapped-wezterm
