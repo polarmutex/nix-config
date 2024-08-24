@@ -24,6 +24,11 @@
     flake-utils.url = "github:numtide/flake-utils";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     polar-nur.url = "github:polarmutex/nur";
 
     awesome-flake = {
@@ -151,12 +156,14 @@
                 default = pkgs.mkShell {
                   name = "nixed-shell";
                   packages = with pkgs; [
-                    age
-                    home-manager
+                    #age
+                    #home-manager
                     nh
-                    sops
-                    statix
-                    lm_sensors
+                    #sops
+                    #statix
+                    #lm_sensors
+                    inputs.neovim-flake.packages.${system}.neovim-polar
+                    lazygit
                   ];
                   # inherit (self.checks.${system}.pre-commit-check) shellHook;
                 };
@@ -171,8 +178,9 @@
           ./nixos
           ./pkgs
           ./wrappers
+          ./hosts
         ];
-        systems = ["x86_64-linux"];
+        systems = ["x86_64-linux" "aarch64-darwin"];
         flake = {
           deploy = {
             nodes = {
