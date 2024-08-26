@@ -35,7 +35,7 @@ in {
 
       config.font_size = ${toString cfg.textSize}
       config.font = wezterm.font_with_fallback({
-            "MonoLisa Custom",
+            "MonoLisa",
             "Symbols Nerd Font",
       })
       --config.bold_brightens_ansi_colors = true
