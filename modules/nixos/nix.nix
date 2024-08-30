@@ -1,11 +1,5 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   nix = {
-    gc.automatic = true;
-
     settings = {
       allowed-users = ["*"];
       auto-optimise-store = true;
@@ -25,14 +19,8 @@
         "polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08="
       ];
     };
-
-    #extraOptions = ''
-    #  experimental-features = nix-command flakes
-    #'';
-    #flake-registry = ${inputs.flake-registry}/flake-registry.json
-
-    nixPath = [
-      "nixpkgs=${pkgs.path}"
-    ];
+    # nixPath = [
+    #   "nixpkgs=${pkgs.path}"
+    # ];
   };
 }

@@ -152,12 +152,10 @@
                   name = "nixed-shell";
                   packages = with pkgs; [
                     #age
-                    #home-manager
-                    nh
+                    home-manager
                     #sops
                     #statix
                     #lm_sensors
-                    lazygit
                   ];
                   # inherit (self.checks.${system}.pre-commit-check) shellHook;
                 };
