@@ -21,6 +21,7 @@ in {
           homebrew.onActivation.upgrade = true;
           homebrew.casks = [
             "backblaze"
+            "brave-browser"
             "firefox"
             "istat-menus"
             "google-chrome"
