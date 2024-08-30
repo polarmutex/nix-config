@@ -157,7 +157,6 @@
                     #sops
                     #statix
                     #lm_sensors
-                    inputs.neovim-flake.packages.${system}.neovim-polar
                     lazygit
                   ];
                   # inherit (self.checks.${system}.pre-commit-check) shellHook;
