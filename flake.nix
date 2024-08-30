@@ -102,18 +102,14 @@
   outputs = inputs @ {
     self,
     flake-parts,
-    nixpkgs,
     ...
-  }: let
-    lib = import ./lib {inherit (nixpkgs) lib;} // nixpkgs.lib;
-  in
+  }:
     (flake-parts.lib.evalFlakeModule
       {
         inherit inputs;
-        specialArgs = {inherit lib;};
+        specialArgs = {};
       }
       {
-        debug = true;
         imports = [
           (_: {
             perSystem = {
@@ -130,26 +126,25 @@
               #  config.allowUnfree = true;
               #};
               # make custom lib available to all `perSystem` functions
-              _module.args.lib = lib;
-              checks =
-                # {
-                #   pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-                #     src = ./.;
-                #     hooks = {
-                #       alejandra = {
-                #         enable = true;
-                #       };
-                #       deadnix = {
-                #         enable = true;
-                #       };
-                #       statix = {
-                #         enable = true;
-                #       };
-                #     };
-                #   };
-                # }
-                #//
-                inputs.deploy-rs.lib.${system}.deployChecks inputs.self.deploy;
+              # checks =
+              # {
+              #   pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+              #     src = ./.;
+              #     hooks = {
+              #       alejandra = {
+              #         enable = true;
+              #       };
+              #       deadnix = {
+              #         enable = true;
+              #       };
+              #       statix = {
+              #         enable = true;
+              #       };
+              #     };
+              #   };
+              # }
+              #//
+              # inputs.deploy-rs.lib.${system}.deployChecks inputs.self.deploy;
 
               devShells = {
                 #default = shell {inherit self pkgs;};
@@ -175,27 +170,28 @@
           #mission-control.flakeModule
           #./nix
           ./home-manager
-          ./nixos
           ./pkgs
           ./wrappers
           ./hosts
+          ./modules
+          ./lib
         ];
         systems = ["x86_64-linux" "aarch64-darwin"];
-        flake = {
-          deploy = {
-            nodes = {
-              polarvortex = {
-                hostname = "brianryall.xyz";
-                profiles.system = {
-                  sshUser = "polar";
-                  sudo = "doas -u";
-                  user = "root";
-                  path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
-                };
-              };
-            };
-          };
-        };
+        # flake = {
+        #   deploy = {
+        #     nodes = {
+        #       polarvortex = {
+        #         hostname = "brianryall.xyz";
+        #         profiles.system = {
+        #           sshUser = "polar";
+        #           sudo = "doas -u";
+        #           user = "root";
+        #           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
+        #         };
+        #       };
+        #     };
+        #   };
+        # };
       })
     .config
     .flake;

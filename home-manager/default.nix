@@ -1,4 +1,5 @@
 {
+  config,
   self,
   inputs,
   lib,
@@ -14,8 +15,8 @@
       };
     });
 
-  configs = lib.rakeLeaves ./configurations;
-  modules = lib.rakeLeaves ./modules;
+  configs = config.flake.lib.rakeLeaves ./configurations;
+  modules = config.flake.lib.rakeLeaves ./modules;
 
   defaultModules = [
     # make flake inputs accessible in NixOS
