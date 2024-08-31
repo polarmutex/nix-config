@@ -5,28 +5,10 @@
   self,
   ...
 }: {
-  #nixpkgs.allowedUnfree = [
-  #  "discord"
-  #  "obsidian"
-  #  "1password"
-  #  "onepassword-password-manager"
-  #];
-
-  #activeProfiles = [
-  #  "base"
-  #  "fonts"
-  #  "messaging"
-  #  "trusted"
-  #  "wallpapers"
-  #];
-  #profiles.base.enable = true;
-
-  programs = {
-    kitty.enable = true;
-    kitty.textSize = 11;
+  home = {
+    username = "polar";
+    homeDirectory = "/home/polar";
   };
-
-  #xsession.windowManager.awesome.enable = true;
 
   home.packages = with pkgs; [
     asciidoctor
@@ -63,6 +45,11 @@
     anki-bin
     ansible
   ];
+
+  programs = {
+    kitty.enable = true;
+    kitty.textSize = 11;
+  };
 
   sops = let
     user = builtins.getEnv "USER";

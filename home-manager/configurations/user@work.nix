@@ -4,32 +4,29 @@
   pkgs,
   ...
 }: {
-  #nixpkgs.allowedUnfree = [
-  #  "obsidian"
-  #];
-  #activeProfiles = [
-  #  "base"
-  #  "fonts"
-  #];
-  #xsession.enable = lib.mkForce true;
-  #xsession.windowManager.awesome.enable = lib.mkForce false;
+  home = let
+    user = builtins.getEnv "USER";
+    homedir = builtins.getEnv "HOME";
+  in {
+    username = user;
+    homeDirectory = homedir;
 
-  home.sessionPath = [
-    "$HOME/.local/bin"
-  ];
+    sessionPath = [
+      "$HOME/.local/bin"
+    ];
 
-  home.packages = with pkgs; [
-    cmake
-    ctop
-    fd
-    glab
-    kubernetes-helm
-    lazygit
-    inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
-    ripgrep
-    maven
-  ];
-
+    packages = with pkgs; [
+      cmake
+      ctop
+      fd
+      glab
+      kubernetes-helm
+      lazygit
+      inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
+      ripgrep
+      maven
+    ];
+  };
   sops = let
     user = builtins.getEnv "USER";
   in {
@@ -43,22 +40,17 @@
   #   path = "${config.home.homeDirectory}/.config/adventofcode.session";
   # };
 
-  programs.fish.shellInit = ''
-    source ~/.nix-profile/etc/profile.d/nix.fish
-  '';
-  programs.fish.shellAliases.brave = "flatpak run --user com.brave.Browser";
+  programs = {
+    fish = {
+      shellInit = ''
+        source ~/.nix-profile/etc/profile.d/nix.fish
+      '';
+      shellAliases.brave = "flatpak run --user com.brave.Browser";
+    };
 
-  # https://git-scm.com/book/en/v2/Git-Tools-Credential-StoragE
-  programs.git.extraConfig.credential.helper = "store";
+    # https://git-scm.com/book/en/v2/Git-Tools-Credential-StoragE
+    git.extraConfig.credential.helper = "store";
 
-  #programs.htop.enable = true;
-  #programs.fish.enable = true;
-  #programs.kitty.configOnly = true;
-  #programs.kitty.textSize = 9;
-  #programs.tmux.enable = true;
-  programs.wezterm.textSize = 9;
-  # programs.wezterm.configOnly = true;
-  #programs.obsidian.enable = true;
-  #programs.zellij.enable = true;
-  #xsession.windowManager.awesome.enable = true;
+    wezterm.textSize = 9;
+  };
 }

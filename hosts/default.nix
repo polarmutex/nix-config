@@ -1,6 +1,5 @@
 {
   inputs,
-  lib,
   withSystem,
   ...
 }: {
@@ -9,32 +8,7 @@
     ./macbook-air-24
     ./polarvortex
   ];
-  _module.args = let
-    pkgs.x86_64-linux = import inputs.nixpkgs-stable {
-      inherit lib;
-      system = "x86_64-linux";
-      config.allowUnfree = true;
-      # Enable the unfree packages
-      config.allowUnfreePredicate = pkg:
-        builtins.elem (lib.getName pkg) [
-          "broadcom-sta"
-          "corefonts"
-          "1password-gui"
-          "1password-cli"
-          "1password"
-          "nvidia-settings"
-          "nvidia-x11"
-        ];
-      overlays = [
-        (_final: prev: {
-          unstable = import inputs.nixpkgs {
-            inherit (prev) system;
-            config.allowUnfree = true;
-          };
-        })
-      ];
-    };
-  in {
+  _module.args = {
     mkNixos = system: extraModules: let
       specialArgs =
         withSystem system
@@ -46,7 +20,7 @@
     in
       inputs.nixpkgs-stable.lib.nixosSystem {
         inherit specialArgs;
-        pkgs = pkgs.x86_64-linux;
+        pkgs = withSystem system ({pkgs-stable, ...}: pkgs-stable);
         modules =
           [{}]
           ++ extraModules;
