@@ -47,6 +47,9 @@ polarbear-home:
 work:
 	home-manager switch  --flake .#"user@work" --impure
 
+macbook-air-24:
+	home-manager switch  --flake .#"brian@macbook-air-24"
+
 update_neovim:
 	nix flake lock --update-input neovim-flake;
 update_awesome:
