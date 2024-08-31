@@ -42,7 +42,7 @@
                   auto-optimise-store = true;
                   builders-use-substitutes = true;
                   experimental-features = ["nix-command" "flakes"];
-                  trusted-users = ["@wheel"];
+                  trusted-users = ["@wheel" "brian"];
                   warn-dirty = false;
                 };
               };

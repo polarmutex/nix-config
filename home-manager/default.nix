@@ -106,15 +106,14 @@ in {
       withSystem system (_:
         mkHomeManager system (extraModules ++ [configs."user@work"]));
     "brian@macbook-air-24" = let
-      system = "aarch-darwin";
+      system = "aarch64-darwin";
       extraModules = [
         # inputs.sops-nix.homeManagerModules.sops
         homeManagerModules.direnv
         # homeManagerModules.git
-        # homeManagerModules.fish
-        # homeManagerModules.htop
-        # homeManagerModules.fonts
-        # homeManagerModules.obsidian
+        homeManagerModules.fish
+        homeManagerModules.htop
+        homeManagerModules.obsidian
         # homeManagerModules.wezterm
         # homeManagerModules.zellij
       ];

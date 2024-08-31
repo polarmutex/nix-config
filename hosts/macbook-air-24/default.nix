@@ -1,5 +1,5 @@
 {
-  config,
+  inputs,
   mkDarwin,
   withSystem,
   ...
@@ -32,6 +32,31 @@ in {
             "Grammarly" = 1462114288;
             "Mindnode" = 1289197285;
           };
+
+          fonts = {
+            packages = [
+              inputs.monolisa-font-flake.packages.${pkgs.system}.monolisa-custom-font
+              (pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
+              # pkgs.symbola
+            ];
+          };
+
+          # zsh is the default shell on Mac and we want to make sure that we're
+          # configuring the rc correctly with nix-darwin paths.
+          programs = {
+            fish = {
+              enable = true;
+              shellInit = ''
+                # Nix
+                if test -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
+                  source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
+                end
+                # End Nix
+              '';
+            };
+          };
+
+          environment.shells = with pkgs; [fish];
         }
       ]
   );
