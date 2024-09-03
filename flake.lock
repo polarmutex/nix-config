@@ -704,11 +704,11 @@
         "spell-en-suggestions": "spell-en-suggestions"
       },
       "locked": {
-        "lastModified": 1725048660,
-        "narHash": "sha256-dX25haZvK/zp2JAKL2eYPgldvQaGFazhG3YG4tf0eTE=",
+        "lastModified": 1725373363,
+        "narHash": "sha256-WpXvmyCx7ac56rxDQmxyFI7q5Ti+4vrXlpQHSuLyOFg=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "fc36ed8ea7b43fccbb59884d9d61b70eff8266ee",
+        "rev": "dc36690c647426e1b074f58c6c8a3360db1d023b",
         "type": "github"
       },
       "original": {
@@ -1096,16 +1096,16 @@
         "nixpkgs-stable": "nixpkgs-stable_2"
       },
       "locked": {
-        "lastModified": 1724857454,
-        "narHash": "sha256-Qyl9Q4QMTLZnnBb/8OuQ9LSkzWjBU1T5l5zIzTxkkhk=",
+        "lastModified": 1723202784,
+        "narHash": "sha256-qbhjc/NEGaDbyy0ucycubq4N3//gDFFH3DOmp1D3u1Q=",
         "owner": "cachix",
-        "repo": "pre-commit-hooks.nix",
-        "rev": "4509ca64f1084e73bc7a721b20c669a8d4c5ebe6",
+        "repo": "git-hooks.nix",
+        "rev": "c7012d0c18567c889b948781bc74a501e92275d1",
         "type": "github"
       },
       "original": {
         "owner": "cachix",
-        "repo": "pre-commit-hooks.nix",
+        "repo": "git-hooks.nix",
         "type": "github"
       }
     },
