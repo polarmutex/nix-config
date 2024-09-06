@@ -11,6 +11,7 @@
           byName = builtins.elem pname [
             "1password"
             "1password-cli"
+            "broadcom-sta"
             "corefonts"
             "discord"
             "nvidia-x11"
