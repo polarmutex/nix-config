@@ -23,7 +23,7 @@ with lib; {
             exit 0
           fi
           ${pkgs.git}/bin/git add .
-          ${pkgs.git}/bin/git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S")"
+          ${pkgs.git}/bin/git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on nixos"
           ${pkgs.git}/bin/git pull --rebase
           ${pkgs.git}/bin/git push -q
         ''
