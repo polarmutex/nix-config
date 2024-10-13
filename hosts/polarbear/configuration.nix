@@ -21,6 +21,7 @@
   environment.systemPackages = with pkgs; [
     nixpkgs-review
     nix-update
+    qmk
   ];
 
   fileSystems = {
@@ -89,4 +90,8 @@
     shell = pkgs.fish;
   };
   programs.fish.enable = true;
+
+  services.udev.packages = [
+    pkgs.qmk-udev-rules
+  ];
 }
