@@ -34,7 +34,7 @@
     #    hash = "sha256-CTWOW1vd200oZZYqDRT4wqr4v5I3AAgEcqA/qi9Ief8=";
     #  };
     #}))
-    (netbeans.override {jdk = pkgs.jdk11;})
+    netbeans
     netscanner
     # nix-melt
     nixpkgs-fmt
