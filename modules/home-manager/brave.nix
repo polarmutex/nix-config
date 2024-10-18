@@ -1,7 +1,6 @@
-{pkgs, ...}: {
-  programs.chromium = {
+{...}: {
+  programs.brave = {
     enable = true;
-    package = pkgs.brave;
     extensions = [
       "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
       "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium.
