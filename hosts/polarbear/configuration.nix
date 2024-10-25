@@ -58,6 +58,7 @@
 
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    opengl.enable = true;
   };
 
   networking.useDHCP = lib.mkDefault true;
