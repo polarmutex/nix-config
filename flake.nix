@@ -28,6 +28,7 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hardware.url = "github:nixos/nixos-hardware";
 
     polar-nur.url = "github:polarmutex/nur";
 
@@ -82,7 +83,6 @@
       url = "gitlab:rycee/nur-expressions";
       flake = false;
     };
-    #hardware.url = "github:nixos/nixos-hardware";
     #polar-dwm.url = "github:polarmutex/dwm";
     #polar-st.url = "github:polarmutex/st";
     #polar-dmenu.url = "github:polarmutex/dmenu";

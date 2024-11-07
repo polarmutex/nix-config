@@ -22,6 +22,7 @@
     nixpkgs-review
     nix-update
     qmk
+    lshw
   ];
 
   fileSystems = {
