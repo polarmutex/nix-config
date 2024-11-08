@@ -14,6 +14,7 @@
             "broadcom-sta"
             "corefonts"
             "discord"
+            "prismlauncher"
             "nvidia-x11"
             "nvidia-settings"
             "obsidian"
