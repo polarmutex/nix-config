@@ -31,7 +31,7 @@ in {
 
   config = let
     font = {
-      name = "MonoLisa Custom";
+      name = "MonoLisa";
       size = cfg.textSize;
     };
 

@@ -34,7 +34,7 @@ in {
         ./configuration.nix
         nixosModules.desktop
         nixosModules.bluetooth
-        # nixosModules.nvidia
+        nixosModules.nvidia
         inputs.hardware.nixosModules.common-hidpi
         inputs.hardware.nixosModules.common-cpu-intel-cpu-only
         inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
@@ -54,6 +54,7 @@ in {
         nixosModules.display-manager
         nixosModules.fonts
         nixosModules.graphical
+        nixosModules.hyprland
         nixosModules.nix
         nixosModules.podman
         nixosModules.trusted

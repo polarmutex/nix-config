@@ -78,12 +78,14 @@ in {
         homeManagerModules.git
         homeManagerModules.gpg
         homeManagerModules.helix
+        homeManagerModules.hyprland
         homeManagerModules.kitty
         homeManagerModules.messaging
         homeManagerModules.obsidian
         homeManagerModules.picom
         homeManagerModules.tmux
         homeManagerModules.wallpaper
+        homeManagerModules.waybar
         homeManagerModules.zed
         homeManagerModules.zellij
       ];
