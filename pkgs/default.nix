@@ -38,6 +38,7 @@
       pkgs = import inputs.nixpkgs {
         inherit config system;
         overlays = [
+          (import inputs.rust-overlay)
         ];
       };
       pkgs-stable = import inputs.nixpkgs-stable {

@@ -84,6 +84,7 @@ in {
         homeManagerModules.picom
         homeManagerModules.tmux
         homeManagerModules.wallpaper
+        homeManagerModules.zed
         homeManagerModules.zellij
       ];
     in
