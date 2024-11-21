@@ -38,6 +38,15 @@
       url = "github:polarmutex/awesome-flake";
     };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    hypridle = {
+      url = "github:hyprwm/hypridle";
+      inputs = {
+        hyprlang.follows = "hyprland/hyprlang";
+        hyprutils.follows = "hyprland/hyprutils";
+        nixpkgs.follows = "hyprland/nixpkgs";
+        systems.follows = "hyprland/systems";
+      };
+    };
 
     #crane = {
     #  url = "github:ipetkov/crane";

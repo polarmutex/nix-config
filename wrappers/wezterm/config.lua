@@ -16,7 +16,7 @@ config.webgpu_power_preference = "HighPerformance"
 --config.underline_position = -6
 config.window_decorations = "RESIZE"
 
-config.font_size = 11
+config.font_size = 9
 config.font = wezterm.font_with_fallback({
 	"MonoLisa",
 	"Symbols Nerd Font",

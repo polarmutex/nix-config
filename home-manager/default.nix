@@ -79,10 +79,11 @@ in {
         homeManagerModules.gpg
         homeManagerModules.helix
         homeManagerModules.hyprland
+        homeManagerModules.hypridle
         homeManagerModules.kitty
         homeManagerModules.messaging
         homeManagerModules.obsidian
-        homeManagerModules.picom
+        # homeManagerModules.picom
         homeManagerModules.tmux
         homeManagerModules.wallpaper
         homeManagerModules.waybar

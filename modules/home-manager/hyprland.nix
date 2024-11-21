@@ -21,6 +21,7 @@
       env = [
         "XCURSOR_SIZE,24"
         "HYPRCURSOR_SIZE,24"
+        "ELECTRON_OZONE_PLATFORM_HINT,auto"
       ];
 
       # https://wiki.hyprland.org/Configuring/Variables/#general
@@ -107,6 +108,8 @@
       misc = {
         force_default_wallpaper = -1; # Set to 0 or 1 to disable the anime mascot wallpapers
         disable_hyprland_logo = true; # If true disables the random hyprland logo / anime girl background. :(
+        mouse_move_enables_dpms = true;
+        key_press_enables_dpms = true;
         # initial_workspace_tracking = 2;
       };
 
@@ -140,19 +143,29 @@
       };
 
       bind = [
-        "SUPER,C,killactive,"
-        "SUPER,D,exec,rofi -show drun"
-        "SUPER,M,exit,"
-        "SUPER,Q,exec,kitty"
+        "$mainMod, C, killactive,"
+        "$mainMod, D, exec, rofi -show drun"
+        "$mainMod, M, exit,"
+        "$mainMod, Q, exec, kitty"
 
-        "SUPER,A,workspace,1"
-        "SUPER,R,workspace,2"
-        "SUPER,S,workspace,3"
-        "SUPER,T,workspace,4"
-        "SUPER,N,workspace,5"
-        "SUPER,E,workspace,6"
-        "SUPER,I,workspace,7"
-        "SUPER,O,workspace,8"
+        "$mainMod, H, movefocus, l"
+        "$mainMod, J, movefocus, d"
+        "$mainMod, K, movefocus, u"
+        "$mainMod, L, movefocus, r"
+
+        "$mainMod SHIFT, H, resizeactive, -10 0"
+        "$mainMod SHIFT, J, resizeactive, 0 10"
+        "$mainMod SHIFT, K, resizeactive, 0 -10"
+        "$mainMod SHIFT, L, resizeactive, 10 0"
+
+        "$mainMod, A, workspace, 1"
+        "$mainMod, R, workspace, 2"
+        "$mainMod, S, workspace, 3"
+        "$mainMod, T, workspace, 4"
+        "$mainMod, N, workspace, 5"
+        "$mainMod, E, workspace, 6"
+        "$mainMod, I, workspace, 7"
+        "$mainMod, O, workspace, 8"
 
         "SUPER $mainMod SHIFT, A, movetoworkspacesilent, 1"
         "SUPER $mainMod SHIFT, R, movetoworkspacesilent, 2"
@@ -195,5 +208,6 @@
       pkill waybar
       $scripts/launch_waybar &
     '')
+    dolphin
   ];
 }

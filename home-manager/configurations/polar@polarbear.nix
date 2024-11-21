@@ -48,7 +48,7 @@
 
   programs = {
     kitty.enable = true;
-    kitty.textSize = 11;
+    kitty.textSize = 9;
   };
 
   sops = let

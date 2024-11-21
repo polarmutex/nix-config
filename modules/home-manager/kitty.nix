@@ -21,7 +21,7 @@ in {
   options.programs.kitty = {
     textSize = lib.mkOption {
       type = lib.types.number;
-      default = 11;
+      default = 9;
     };
     configOnly = lib.mkOption {
       type = lib.types.bool;
