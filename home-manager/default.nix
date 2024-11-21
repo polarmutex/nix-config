@@ -80,6 +80,7 @@ in {
         homeManagerModules.helix
         homeManagerModules.hyprland
         homeManagerModules.hypridle
+        homeManagerModules.hyprpaper
         homeManagerModules.kitty
         homeManagerModules.messaging
         homeManagerModules.obsidian

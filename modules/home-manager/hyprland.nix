@@ -187,6 +187,7 @@
 
       exec-once = [
         "autostart"
+        "hyprpaper"
       ];
     };
   };
