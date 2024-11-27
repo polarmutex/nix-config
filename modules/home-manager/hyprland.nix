@@ -146,7 +146,7 @@
         "$mainMod, C, killactive,"
         "$mainMod, D, exec, rofi -show drun"
         "$mainMod, M, exit,"
-        "$mainMod, Q, exec, kitty"
+        "$mainMod, Return, exec, kitty"
 
         "$mainMod, H, movefocus, l"
         "$mainMod, J, movefocus, d"
