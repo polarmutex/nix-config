@@ -17,7 +17,7 @@
     erdtree
     flameshot
     gcc
-    gnome.nautilus
+    nautilus
     gramps
     lazygit
     libreoffice-fresh
@@ -48,7 +48,7 @@
 
   programs = {
     kitty.enable = true;
-    kitty.textSize = 9;
+    kitty.textSize = 8;
   };
 
   sops = let

@@ -6,7 +6,8 @@
   fonts.fontconfig.enable = true;
   home.packages = [
     pkgs.twitter-color-emoji
-    (pkgs.nerdfonts.override {fonts = ["JetBrainsMono" "NerdFontsSymbolsOnly"];})
+    pkgs.nerd-fonts.symbols-only
+    pkgs.nerd-fonts.jetbrains-mono
     inputs.monolisa-font-flake.packages.${pkgs.system}.monolisa-custom-font
     pkgs.symbola
   ];

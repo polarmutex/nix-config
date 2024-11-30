@@ -209,6 +209,7 @@
       pkill waybar
       $scripts/launch_waybar &
     '')
+    rofi-wayland
     dolphin
   ];
 }

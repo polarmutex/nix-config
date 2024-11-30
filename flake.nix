@@ -19,6 +19,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     #nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
 
@@ -77,7 +78,7 @@
       #url = "path:///home/polar/repos/personal/monolisa-font-flake";
     };
     neovim-flake = {
-      url = "github:polarmutex/neovim-flake";
+      url = "github:polarmutex/neovim-flake?rev=9b70099edf11fa6fa9e5b4eb3e6e2050124debc8";
       #url = "path:/home/polar/repos/personal/neovim-flake/main";
     };
     pre-commit-hooks = {
