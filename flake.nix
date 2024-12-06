@@ -19,7 +19,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    # nixpkgs-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     #nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
 

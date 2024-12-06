@@ -40,10 +40,10 @@
         overlays = [
           (import inputs.rust-overlay)
           (_final: prev: {
-            unstable-small = import inputs.nixpkgs-small {
-              inherit (prev) system;
-              inherit config;
-            };
+            # unstable-small = import inputs.nixpkgs-small {
+            #   inherit (prev) system;
+            #   inherit config;
+            # };
           })
         ];
       };
