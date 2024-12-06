@@ -54,13 +54,13 @@
   sops = let
     user = builtins.getEnv "USER";
   in {
-    age.keyFile = "/home/${user}/.config/sops/age/keys.txt";
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     defaultSopsFile = ../../secrets/secrets.yaml;
     secrets.aoc_session_token = {
-      path = "${config.home.homeDirectory}.config/adventofcode.session";
+      path = "${config.home.homeDirectory}/.config/adventofcode.session";
     };
     secrets.git_config_work = {
-      path = "${config.home.homeDirectory}.config/work_email.session";
+      path = "${config.home.homeDirectory}/.config/work_email.session";
     };
   };
 }
