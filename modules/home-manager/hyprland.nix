@@ -145,7 +145,7 @@
       bind = [
         "$mainMod, C, killactive,"
         "$mainMod, D, exec, rofi -show drun"
-        "$mainMod, M, exit,"
+        "$mainMod SHIFT, M, exit,"
         "$mainMod, Return, exec, kitty"
 
         "$mainMod, H, movefocus, l"

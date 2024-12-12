@@ -38,7 +38,7 @@
     awesome-flake = {
       url = "github:polarmutex/awesome-flake";
     };
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    hyprland.url = "github:hyprwm/Hyprland";
     hypridle = {
       url = "github:hyprwm/hypridle";
       inputs = {
