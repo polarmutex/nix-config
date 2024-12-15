@@ -54,7 +54,7 @@ in {
         nixosModules.display-manager
         nixosModules.fonts
         nixosModules.graphical
-        nixosModules.hyprland
+        # nixosModules.hyprland
         nixosModules.nix
         nixosModules.podman
         nixosModules.trusted

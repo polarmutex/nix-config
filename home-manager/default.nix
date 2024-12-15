@@ -78,16 +78,16 @@ in {
         homeManagerModules.git
         homeManagerModules.gpg
         homeManagerModules.helix
-        homeManagerModules.hyprland
-        homeManagerModules.hypridle
-        homeManagerModules.hyprpaper
+        # homeManagerModules.hyprland
+        # homeManagerModules.hypridle
+        # homeManagerModules.hyprpaper
         homeManagerModules.kitty
         homeManagerModules.messaging
         homeManagerModules.obsidian
-        # homeManagerModules.picom
+        homeManagerModules.picom
         homeManagerModules.tmux
         homeManagerModules.wallpaper
-        homeManagerModules.waybar
+        # homeManagerModules.waybar
         homeManagerModules.zed
         homeManagerModules.zellij
       ];

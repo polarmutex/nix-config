@@ -28,7 +28,7 @@
 
       desktopManager.xterm.enable = false;
 
-      windowManager.leftwm.enable = true;
+      # windowManager.leftwm.enable = true;
       windowManager.awesome = {
         enable = true;
         package = inputs.awesome-flake.packages.${pkgs.system}.awesome-git;

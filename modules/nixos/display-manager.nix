@@ -16,7 +16,7 @@ _: {
         # };
         gdm = {
           enable = true;
-          wayland = true;
+          wayland = false;
         };
       };
     };
