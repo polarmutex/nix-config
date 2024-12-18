@@ -18,7 +18,7 @@
         #"gst" = "git status";
       };
     };
-    fzf = {
+    skim = {
       enable = true;
       enableFishIntegration = true;
     };
