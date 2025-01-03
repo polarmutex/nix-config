@@ -6,24 +6,19 @@
   programs.tmux = {
     enable = true;
     sensibleOnTop = true;
-    #terminal = "tmux-256color";
+    terminal = "tmux-256color";
     escapeTime = 0;
     aggressiveResize = true;
     keyMode = "vi";
     shortcut = "a";
     baseIndex = 1;
+    mouse = true;
+    focusEvents = true;
 
     plugins = [];
 
     extraConfig = ''
-      setw -g mouse on
-      # for true color
-      # Enable RGB colour if running in xterm(1)
-      #set-option -sa terminal-overrides ",xterm*:Tc"
-      # Change the default $TERM to tmux-256color
-      set -g default-terminal "tmux-256color"
-      #set -g default-terminal "xterm-256color"
-      set -ag terminal-overrides ",tmux-256color:RGB"
+      set-option -g default-shell $SHELL
       # TokyoNight colors for Tmux
       set -g mode-style "fg=#7aa2f7,bg=#3b4261"
       set -g message-style "fg=#7aa2f7,bg=#3b4261"
