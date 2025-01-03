@@ -58,6 +58,10 @@
       };
     };
 
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
+
     #crane = {
     #  url = "github:ipetkov/crane";
     #  inputs.nixpkgs.follows = "nixpkgs";

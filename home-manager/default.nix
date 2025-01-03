@@ -75,6 +75,7 @@ in {
         homeManagerModules.fish
         homeManagerModules.fonts
         homeManagerModules.gaming
+        homeManagerModules.ghostty
         homeManagerModules.git
         homeManagerModules.gpg
         homeManagerModules.helix
