@@ -1272,8 +1272,8 @@
         "wrapper-manager": "wrapper-manager"
       },
       "locked": {
-        "lastModified": 1736546820,
-        "narHash": "sha256-bgUaO02bSaExGVvfv1cvCxRfpHJwbI88dSzoQzhCCiM=",
+        "lastModified": 1736727553,
+        "narHash": "sha256-WVb/WUYa2CwWJSGPgpMAQGMYw9nN+fxtrRZogDmg0Hk=",
         "path": "/home/polar/repos/personal/neovim-flake/main",
         "type": "path"
       },
