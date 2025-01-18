@@ -5,7 +5,7 @@
 }: {
   home.packages = [inputs.ghostty.packages.${pkgs.system}.default];
   xdg.configFile."ghostty/config".text = ''
-    theme = kanagawa-wave
+    theme = Kanagawa Wave
     background-opacity = 0.95
     cursor-style = bar
     window-padding-x = 4,4
