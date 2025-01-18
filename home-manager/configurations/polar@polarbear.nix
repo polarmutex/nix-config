@@ -10,7 +10,18 @@
     homeDirectory = "/home/polar";
   };
 
-  home.packages = with pkgs; [
+  home.packages = with pkgs; let
+    morgen-updated =
+      morgen.overrideAttrs
+      (_: rec {
+        version = "3.6.4";
+        src = fetchurl {
+          name = "morgen-${version}.deb";
+          url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
+          hash = "sha256-+33BrZ/NGwCfhS0QVW+d2bPsPPnDYl/7EtWvylf4kgg=";
+        };
+      });
+  in [
     asciidoctor
     cmake
     conan
@@ -44,6 +55,7 @@
     zotero_7
     anki-bin
     ansible
+    morgen-updated
   ];
 
   programs = {

@@ -15,6 +15,7 @@
             "corefonts"
             "discord"
             "prismlauncher"
+            "morgen"
             "nvidia-x11"
             "nvidia-settings"
             "obsidian"
