@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   programs = {
     fish = {
       enable = true;
@@ -26,4 +30,5 @@
       enable = true;
     };
   };
+  xdg.configFile."shell".source = lib.getExe pkgs.fish;
 }

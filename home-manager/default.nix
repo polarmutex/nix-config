@@ -72,7 +72,7 @@ in {
         homeManagerModules.brave
         homeManagerModules.direnv
         homeManagerModules.firefox
-        homeManagerModules.fish
+        # homeManagerModules.fish
         homeManagerModules.fonts
         homeManagerModules.gaming
         homeManagerModules.ghostty
@@ -84,6 +84,7 @@ in {
         # homeManagerModules.hyprpaper
         homeManagerModules.kitty
         homeManagerModules.messaging
+        homeManagerModules.nushell
         homeManagerModules.obsidian
         homeManagerModules.picom
         homeManagerModules.tmux

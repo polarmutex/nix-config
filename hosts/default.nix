@@ -22,7 +22,12 @@
         inherit specialArgs;
         pkgs = withSystem system ({pkgs-stable, ...}: pkgs-stable);
         modules =
-          [{}]
+          [
+            inputs.noshell.nixosModules.default
+            {
+              programs.noshell.enable = true;
+            }
+          ]
           ++ extraModules;
       };
     mkDarwin = system: extraModules: let

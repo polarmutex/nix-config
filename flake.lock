@@ -1742,6 +1742,26 @@
         "type": "github"
       }
     },
+    "noshell": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1717396029,
+        "narHash": "sha256-NPIhvnTYkJZqTY+aabbZ6CAaMAgG6IISvh7GZo1MTfQ=",
+        "owner": "viperML",
+        "repo": "noshell",
+        "rev": "4d194d838a50ea106cd0e47c024e47afc154ab42",
+        "type": "github"
+      },
+      "original": {
+        "owner": "viperML",
+        "repo": "noshell",
+        "type": "github"
+      }
+    },
     "polar-nur": {
       "inputs": {
         "awesome-battery-widget-git": "awesome-battery-widget-git",
@@ -1875,6 +1895,7 @@
         "nix-gaming": "nix-gaming",
         "nixpkgs": "nixpkgs_10",
         "nixpkgs-stable": "nixpkgs-stable_3",
+        "noshell": "noshell",
         "polar-nur": "polar-nur",
         "pre-commit-hooks": "pre-commit-hooks_3",
         "programsdb": "programsdb",

@@ -14,6 +14,6 @@
     window-save-state = always
 
     font-family = Monolisa
-    font-size = 11
+    font-size = 12
   '';
 }

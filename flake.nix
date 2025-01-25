@@ -103,6 +103,10 @@
       url = "github:viperML/wrapper-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    noshell = {
+      url = "github:viperML/noshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # DO I still need?
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
