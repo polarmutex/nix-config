@@ -4,8 +4,25 @@
   ...
 }:
 with lib; {
-  home.packages = with pkgs; [
-    obsidian
+  home.packages = with pkgs; let
+    obsidian-updated =
+      obsidian.overrideAttrs
+      (_: rec {
+        version = "1.8.4";
+        filename =
+          if stdenv.hostPlatform.isDarwin
+          then "Obsidian-${version}.dmg"
+          else "obsidian-${version}.tar.gz";
+        src = fetchurl {
+          url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v${version}/${filename}";
+          hash =
+            if stdenv.hostPlatform.isDarwin
+            then "sha256-kg0gH4LW78uKUxnvE1CG8B1BvJzyO8vlP6taLvmGw/s="
+            else "sha256-bvmvzVyHrjh1Yj3JxEfry521CMX3E2GENmXddEeLwiE=";
+        };
+      });
+  in [
+    obsidian-updated
   ];
 
   systemd.user.services.obsidian-second-brain-sync = {
