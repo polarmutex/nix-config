@@ -14,11 +14,11 @@
     morgen-updated =
       morgen.overrideAttrs
       (_: rec {
-        version = "3.6.5";
+        version = "3.6.6";
         src = fetchurl {
           name = "morgen-${version}.deb";
           url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
-          hash = "sha256-5zVWRaJPKzBg02VQ2LxOeKDqmP/NOIBh2N9Xs3xbxmU=";
+          hash = "sha256-QisOXMj6uUMluPruUjtOEK93l+aZe7qsJUAZ589RzvU=";
         };
       });
   in [
