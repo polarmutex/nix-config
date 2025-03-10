@@ -82,8 +82,8 @@
       #url = "path:///home/polar/repos/personal/monolisa-font-flake";
     };
     neovim-flake = {
-      # url = "github:polarmutex/neovim-flake?rev=9b70099edf11fa6fa9e5b4eb3e6e2050124debc8";
-      url = "path:/home/polar/repos/personal/neovim-flake/main";
+      url = "github:polarmutex/neovim-flake";
+      # url = "path:/home/polar/repos/personal/neovim-flake/main";
     };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
