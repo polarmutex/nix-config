@@ -18,7 +18,7 @@
         src = fetchurl {
           name = "morgen-${version}.deb";
           url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
-          hash = "sha256-tClJdkQBdh8Hm2hMH1iGkt64QyNua3GRstF0pmWCGFk=";
+          hash = "sha256-An3CfJQ89aqpxMOf20YG+cuEVDrhgMGAm/Scn4hMV8E=";
         };
       });
   in [

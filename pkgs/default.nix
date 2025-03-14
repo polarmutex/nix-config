@@ -6,6 +6,9 @@
   perSystem = {system, ...}: {
     _module.args = let
       config = {
+        permittedInsecurePackages = [
+          "electron-32.3.3"
+        ];
         allowUnfreePredicate = pkg: let
           pname = lib.getName pkg;
           byName = builtins.elem pname [
