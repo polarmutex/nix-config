@@ -7,7 +7,7 @@
   one-password-gui-package = pkgs.unstable._1password-gui.override {
     polkitPolicyOwners = ["polar"];
   };
-  one-password-package = pkgs.unstable._1password;
+  one-password-package = pkgs.unstable._1password-cli;
 in {
   environment.systemPackages = [
     one-password-package

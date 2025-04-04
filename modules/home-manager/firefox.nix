@@ -108,13 +108,12 @@ in {
         smartcardSupport = true;
       };
     };
-
     profiles = {
       default = {
         id = 0;
         settings = sharedSettings;
         #userChrome = disableWebRtcIndicator;
-        extensions = with addons; [
+        extensions.packages = with addons; [
           duckduckgo-privacy-essentials
           i-dont-care-about-cookies # auto-accepts cookies=use only with privacy-badger & ublock-origin
           #languagetool
