@@ -71,7 +71,7 @@ in {
         homeManagerModules.awesomewm
         homeManagerModules.brave
         homeManagerModules.direnv
-        homeManagerModules.firefox
+        # homeManagerModules.firefox
         # homeManagerModules.fish
         homeManagerModules.fonts
         homeManagerModules.gaming
