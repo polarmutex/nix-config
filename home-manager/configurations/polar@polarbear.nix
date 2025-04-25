@@ -51,7 +51,6 @@
     nixpkgs-fmt
     peek
     self.packages.${pkgs.system}.wrapped-wezterm
-    self.packages.${pkgs.system}.wrapped-nushell
     zoom-us
     zotero_7
     anki-bin
