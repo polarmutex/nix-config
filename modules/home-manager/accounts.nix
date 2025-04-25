@@ -24,8 +24,8 @@ in {
       };
 
       lieer = {
-        enable = true;
-        sync.enable = true;
+        enable = false;
+        sync.enable = false;
         sync.frequency = "*:0/5"; # Every 5 minutes
         settings = {
           drop_non_existing_label = true;
