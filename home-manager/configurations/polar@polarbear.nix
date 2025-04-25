@@ -14,11 +14,11 @@
     morgen-updated =
       morgen.overrideAttrs
       (_: rec {
-        version = "3.6.11";
+        version = "3.6.12";
         src = fetchurl {
           name = "morgen-${version}.deb";
           url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
-          hash = "sha256-vn3V7TXWMPesZt+65FAeNzUo8n4P9XfSIFnCDvLaZOI=";
+          hash = "sha256-1shqINMYy+yoMsI99+tvJcqWs8dScmmV7X9QTYZ9EfA=";
         };
       });
   in [
@@ -51,6 +51,7 @@
     nixpkgs-fmt
     peek
     self.packages.${pkgs.system}.wrapped-wezterm
+    self.packages.${pkgs.system}.wrapped-nushell
     zoom-us
     zotero_7
     anki-bin
