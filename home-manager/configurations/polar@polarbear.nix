@@ -32,7 +32,7 @@
     gramps
     lazygit
     libreoffice-fresh
-    inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
+    inputs.neovim-flake.packages.${pkgs.system}.neovim
     inputs.deploy-rs.packages.${system}.deploy-rs
     nix-diff
     npins
