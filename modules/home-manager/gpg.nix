@@ -7,7 +7,7 @@
     defaultCacheTtl = 34560000;
     maxCacheTtl = 34560000;
     grabKeyboardAndMouse = false;
-    pinentryPackage = pkgs.pinentry-curses;
+    pinentry.package = pkgs.pinentry-curses;
     #extraConfig = ''
     #  extra-socket /run/user/${toString config.home.uid}/gnupg/S.gpg-agent.extra
     #'';
