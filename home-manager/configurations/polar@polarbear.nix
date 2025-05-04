@@ -75,4 +75,9 @@
       path = "${config.home.homeDirectory}/.config/work_email.session";
     };
   };
+
+  services.ollama = {
+    enable = true;
+    # acceleration = false;
+  };
 }
