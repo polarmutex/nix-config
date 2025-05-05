@@ -56,9 +56,10 @@ in {
         nixosModules.graphical
         # nixosModules.hyprland
         nixosModules.nix
-        nixosModules.podman
+        nixosModules.docker
         nixosModules.trusted
         nixosModules.wm-helper
+        # nixosModules.virt-manager
         nixosModules.virt-manager
         nixosModules.yubikey
       ]));

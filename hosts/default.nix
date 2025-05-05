@@ -7,6 +7,7 @@
     ./polarbear
     ./macbook-air-24
     ./polarvortex
+    ./vm-intel
   ];
   _module.args = {
     mkNixos = system: extraModules: let
@@ -47,7 +48,7 @@
                   auto-optimise-store = true;
                   builders-use-substitutes = true;
                   experimental-features = ["nix-command" "flakes"];
-                  trusted-users = ["@wheel" "brian"];
+                  trusted-users = ["@wheel" "polar"];
                   warn-dirty = false;
                 };
               };

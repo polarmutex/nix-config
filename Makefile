@@ -1,7 +1,14 @@
 # Connectivity info for Linux VM
-NIXADDR ?= unset
+# NIXADDR ?= unset
+NIXADDR ?= 172.16.193.128
 NIXPORT ?= 22
 NIXUSER ?= polar
+
+# Get the path to this Makefile and directory
+MAKEFILE_DIR := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+
+# The name of the nixosConfiguration in the flake
+NIXNAME ?= vm-intel
 
 # Settings
 NIXBLOCKDEVICE ?= sda
@@ -62,3 +69,75 @@ update_website:
 .PHONY: clean
 clean:
 	rm -rf result
+
+# bootstrap a brand new VM. The VM should have NixOS ISO on the CD drive
+# and just set the password of the root user to "root". This will install
+# NixOS. After installing NixOS, you must reboot and set the root password
+# for the next step.
+#
+# NOTE(mitchellh): I'm sure there is a way to do this and bootstrap all
+# in one step but when I tried to merge them I got errors. One day.
+vm/bootstrap0:
+	ssh $(SSH_OPTIONS) -p$(NIXPORT) root@$(NIXADDR) " \
+		parted /dev/sda -- mklabel msdos; \
+		parted /dev/sda -- mkpart primary 1MB -8GB; \
+		parted /dev/sda -- set 1 boot on; \
+		parted /dev/sda -- mkpart primary linux-swap -8GB 100\%; \
+		sleep 1; \
+		mkfs.ext4 -L nixos /dev/sda1; \
+		mkswap -L swap /dev/sda2; \
+		sleep 1; \
+		mount /dev/disk/by-label/nixos /mnt; \
+		nixos-generate-config --root /mnt; \
+		sed --in-place '/system\.stateVersion = .*/a \
+			nix.package = pkgs.nixVersions.latest;\n \
+			nix.extraOptions = \"experimental-features = nix-command flakes\";\n \
+			nix.settings.substituters = [\"https://polarmutex.cachix.org\"];\n \
+			nix.settings.trusted-public-keys = [\"polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08=\"];\n \
+  			services.openssh.enable = true;\n \
+			services.openssh.settings.PasswordAuthentication = true;\n \
+			services.openssh.settings.PermitRootLogin = \"yes\";\n \
+			users.users.root.initialPassword = \"root\";\n \
+			boot.loader.grub.device = \"/dev/sda\";\n \
+		' /mnt/etc/nixos/configuration.nix; \
+		nixos-install --no-root-passwd && reboot; \
+	"
+
+# after bootstrap0, run this to finalize. After this, do everything else
+# in the VM unless secrets change.
+vm/bootstrap:
+	NIXUSER=root $(MAKE) vm/copy
+	NIXUSER=root $(MAKE) vm/switch
+	$(MAKE) vm/secrets
+	ssh $(SSH_OPTIONS) -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) " \
+		sudo reboot; \
+	"
+
+# copy our secrets into the VM
+vm/secrets:
+	# # GPG keyring
+	# rsync -av -e 'ssh $(SSH_OPTIONS)' \
+	# 	--exclude='.#*' \
+	# 	--exclude='S.*' \
+	# 	--exclude='*.conf' \
+	# 	$(HOME)/.gnupg/ $(NIXUSER)@$(NIXADDR):~/.gnupg
+	# SSH keys
+	rsync -av -e 'ssh $(SSH_OPTIONS)' \
+		--exclude='environment' \
+		$(HOME)/.ssh/ $(NIXUSER)@$(NIXADDR):~/.ssh
+
+# copy the Nix configurations into the VM.
+vm/copy:
+	rsync -av -e 'ssh $(SSH_OPTIONS) -p$(NIXPORT)' \
+		--exclude='.git/' \
+		--exclude='.git' \
+		--exclude='.git-crypt/' \
+		--rsync-path="sudo rsync" \
+		$(MAKEFILE_DIR)/ $(NIXUSER)@$(NIXADDR):/nix-config
+
+# run the nixos-rebuild switch command. This does NOT copy files so you
+# have to run vm/copy before.
+vm/switch:
+	ssh $(SSH_OPTIONS) -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) " \
+		sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --flake \"/nix-config#${NIXNAME}\" \
+	"
