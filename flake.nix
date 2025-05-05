@@ -4,24 +4,20 @@
   nixConfig = {
     extra-substituters = [
       "https://polarmutex.cachix.org"
+      "https://polar-nvim.cachix.org"
       "https://nix-community.cachix.org"
-      "https://hyprland.cachix.org"
-      "https://nix-gaming.cachix.org"
     ];
     extra-trusted-public-keys = [
       "polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08="
+      "polar-nvim.cachix.org-1:fToTj9wmSN7xPzjwVbZivoT+pVF3hoTeIqo2brEO1a8="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
     ];
-    allow-import-from-derivation = "true";
+    # allow-import-from-derivation = "true";
   };
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
-    #nixpkgs-mine.url = "github:polarmutex/nixpkgs/emacs-beancount-mode";
 
     flake-compat.url = "github:edolstra/flake-compat";
     flake-utils.url = "github:numtide/flake-utils";
@@ -38,34 +34,11 @@
     awesome-flake = {
       url = "github:polarmutex/awesome-flake";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
-    hypridle = {
-      url = "github:hyprwm/hypridle";
-      inputs = {
-        hyprlang.follows = "hyprland/hyprlang";
-        hyprutils.follows = "hyprland/hyprutils";
-        nixpkgs.follows = "hyprland/nixpkgs";
-        systems.follows = "hyprland/systems";
-      };
-    };
-    hyprpaper = {
-      url = "github:hyprwm/hyprpaper";
-      inputs = {
-        hyprlang.follows = "hyprland/hyprlang";
-        hyprutils.follows = "hyprland/hyprutils";
-        nixpkgs.follows = "hyprland/nixpkgs";
-        systems.follows = "hyprland/systems";
-      };
-    };
 
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
 
-    #crane = {
-    #  url = "github:ipetkov/crane";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs-stable";
@@ -114,20 +87,12 @@
       url = "gitlab:rycee/nur-expressions";
       flake = false;
     };
-    #polar-dwm.url = "github:polarmutex/dwm";
-    #polar-st.url = "github:polarmutex/st";
-    #polar-dmenu.url = "github:polarmutex/dmenu";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     programsdb.url = "github:wamserma/flake-programs-sqlite";
     programsdb.inputs.nixpkgs.follows = "nixpkgs";
-
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-      inputs.flake-parts.follows = "flake-parts";
-    };
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
