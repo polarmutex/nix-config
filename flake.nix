@@ -15,6 +15,65 @@
     # allow-import-from-derivation = "true";
   };
 
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} (
+      {
+        lib,
+        config,
+        ...
+      }: {
+        imports = [
+          inputs.home-manager.flakeModules.home-manager
+          ./packages
+          ./misc/lib
+          ./hosts
+          ./home-manager
+          # ./wrappers
+          # ./modules
+          # ./lib
+        ];
+
+        flake = {
+          nixosModules = config.flake.lib.dirToAttrs ./modules/nixos;
+          homeModules = config.flake.lib.dirToAttrs ./modules/home-manager;
+          #   deploy = {
+          #     nodes = {
+          #       polarvortex = {
+          #         hostname = "brianryall.xyz";
+          #         profiles.system = {
+          #           sshUser = "polar";
+          #           sudo = "doas -u";
+          #           user = "root";
+          #           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
+          #         };
+          #       };
+          #     };
+          #   };
+          # };
+        };
+
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
+
+        perSystem = {
+          pkgs,
+          config,
+          ...
+        }: {
+          devShells.default = with pkgs;
+            mkShellNoCC {
+              packages = [
+                # home-manager
+                sops
+                # taplo
+              ];
+            };
+        };
+      }
+    );
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
@@ -101,98 +160,4 @@
       };
     };
   };
-
-  outputs = inputs @ {
-    self,
-    flake-parts,
-    ...
-  }:
-    (flake-parts.lib.evalFlakeModule
-      {
-        inherit inputs;
-        specialArgs = {};
-      }
-      {
-        imports = [
-          (_: {
-            perSystem = {
-              #config,
-              #inputs',
-              pkgs,
-              system,
-              ...
-            }: {
-              # make pkgs available to all `perSystem` functions
-              #_module.args.pkgs = inputs'.nixpkgs.legacyPackages;
-              #_module.args.pkgs = nixpkgs {
-              #  inherit system overlays;
-              #  config.allowUnfree = true;
-              #};
-              # make custom lib available to all `perSystem` functions
-              # checks =
-              # {
-              #   pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-              #     src = ./.;
-              #     hooks = {
-              #       alejandra = {
-              #         enable = true;
-              #       };
-              #       deadnix = {
-              #         enable = true;
-              #       };
-              #       statix = {
-              #         enable = true;
-              #       };
-              #     };
-              #   };
-              # }
-              #//
-              # inputs.deploy-rs.lib.${system}.deployChecks inputs.self.deploy;
-
-              devShells = {
-                #default = shell {inherit self pkgs;};
-                default = pkgs.mkShell {
-                  name = "nixed-shell";
-                  packages = with pkgs; [
-                    #age
-                    home-manager
-                    sops
-                    #statix
-                    #lm_sensors
-                  ];
-                  # inherit (self.checks.${system}.pre-commit-check) shellHook;
-                };
-              };
-            };
-          })
-          #treefmt-nix.flakeModule
-          #flake-root.flakeModule
-          #mission-control.flakeModule
-          #./nix
-          ./home-manager
-          ./pkgs
-          ./wrappers
-          ./hosts
-          ./modules
-          ./lib
-        ];
-        systems = ["x86_64-linux" "aarch64-darwin"];
-        # flake = {
-        #   deploy = {
-        #     nodes = {
-        #       polarvortex = {
-        #         hostname = "brianryall.xyz";
-        #         profiles.system = {
-        #           sshUser = "polar";
-        #           sudo = "doas -u";
-        #           user = "root";
-        #           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
-        #         };
-        #       };
-        #     };
-        #   };
-        # };
-      })
-    .config
-    .flake;
 }

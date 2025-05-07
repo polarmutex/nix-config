@@ -7,7 +7,7 @@
   ...
 }: let
   system = "x86_64-linux";
-  inherit (config.flake) nixosModules;
+  inherit (config.flake) nixosModules homeModules;
   defaultModules = [
     # make flake inputs accessible in NixOS
     {
@@ -65,6 +65,14 @@ in {
           #     "defaults"
           #   ];
           # };
+        }
+        #-- home-manager
+        {
+          home-manager.sharedModules = [
+            ./home.nix
+            # homeModules.browser
+            inputs.sops-nix.homeManagerModules.sops
+          ];
         }
       ]));
 }
