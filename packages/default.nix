@@ -23,6 +23,7 @@ flake @ {
             "broadcom-sta"
             "corefonts"
             "discord"
+            "google-chrome"
             "prismlauncher"
             "morgen"
             "nvidia-x11"
@@ -84,7 +85,7 @@ flake @ {
         # packages in $FLAKE/packages, callPackage'd automatically
         stage1 = lib.fix (
           self': let
-            callPackage = lib.callPackageWith [pkgs] // self';
+            callPackage = lib.callPackageWith (pkgs // self');
 
             auto = lib.pipe (builtins.readDir ./.) [
               (lib.filterAttrs (_name: value: value == "directory"))
@@ -96,10 +97,10 @@ flake @ {
               # nix = pkgs.nix;
               # nil = inputs'.nil.packages.default;
               # manual overrides to auto callPackage
-              nix-index = callPackage ./nix-index {
-                database = inputs'.nix-index-database.packages.nix-index-database;
-                databaseDate = config.flake.lib.mkDate inputs.nix-index-database.lastModifiedDate;
-              };
+              # nix-index = callPackage ./nix-index {
+              #   database = inputs'.nix-index-database.packages.nix-index-database;
+              #   databaseDate = config.flake.lib.mkDate inputs.nix-index-database.lastModifiedDate;
+              # };
             }
         );
 

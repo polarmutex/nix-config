@@ -25,6 +25,7 @@
         pkgs = withSystem system ({pkgs-stable, ...}: pkgs-stable);
         modules =
           [
+            inputs.sops-nix.nixosModules.sops
             inputs.noshell.nixosModules.default
             {
               programs.noshell.enable = true;

@@ -4,59 +4,60 @@
   lib,
   symlinkJoin,
   #
-  fzf,
-  starship,
-  carapace,
-  direnv,
-  nix-index,
-  eza,
   bat,
-  fish,
-  neovim,
-  gh,
-  unar,
-  hexyl,
-  du-dust,
-  magic-wormhole-rs,
-  fd,
-  ripgrep,
+  carapace,
   difftastic,
-  lurk,
+  direnv,
+  du-dust,
+  eza,
+  fd,
+  fish,
   fq,
+  gh,
+  hexyl,
+  htop,
+  fzf,
   jq,
+  lurk,
+  magic-wormhole-rs,
+  nix-index,
   psmisc,
+  ripgrep,
+  starship,
+  unar,
+  vim,
   yazi,
 }:
 symlinkJoin {
   name = "env";
   paths =
-    (builtins.filter lib.isDerivation (builtins.attrValues [
-      fzf
-      starship
-      carapace
-      direnv
-      nix-index
-      eza
+    builtins.filter lib.isDerivation [
       bat
-      fish
-      neovim
-      gh
-      unar
-      hexyl
-      du-dust
-      magic-wormhole-rs
-      fd
-      ripgrep
+      carapace
       difftastic
-      lurk
+      direnv
+      du-dust
+      eza
+      fd
+      fish
       fq
+      gh
+      hexyl
+      htop
+      fzf
       jq
+      lurk
+      magic-wormhole-rs
+      nix-index
       psmisc
+      ripgrep
+      starship
+      unar
+      vim
       yazi
-    ]))
-    ++ [
-      inputs'.nh.packages.default
-      inputs'.hover-rs.packages.default
-      inputs'.guix-search.packages.default
-    ];
+    ]
+    # ++ [
+    # inputs'.
+    # ]
+    ;
 }

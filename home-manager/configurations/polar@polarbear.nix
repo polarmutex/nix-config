@@ -25,6 +25,7 @@
     asciidoctor
     cmake
     conan
+    devpod
     erdtree
     flameshot
     gcc
