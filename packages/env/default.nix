@@ -14,10 +14,13 @@
   fish,
   fq,
   gh,
+  gnumake,
   hexyl,
   htop,
   fzf,
   jq,
+  just,
+  lazygit,
   lurk,
   magic-wormhole-rs,
   nix-index,
@@ -42,10 +45,13 @@ symlinkJoin {
       fish
       fq
       gh
+      gnumake
       hexyl
       htop
       fzf
       jq
+      just
+      lazygit
       lurk
       magic-wormhole-rs
       nix-index

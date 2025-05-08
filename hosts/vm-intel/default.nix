@@ -39,7 +39,7 @@ in {
         # nixosModules.desktop
         # nixosModules.display-manager
         # nixosModules.graphical
-        # nixosModules.nix
+        nixosModules.nix
         # nixosModules.nvidia
         # nixosModules.nix
         # nixosModules.trusted
@@ -66,13 +66,17 @@ in {
         {
           virtualisation.vmware.guest.enable = true;
 
+          nix.settings.ssl-cert-file = "/root/leidos.crt";
+
           services.openssh.settings.PermitRootLogin = "yes";
 
           # Interface is this on Intel Fusion
           networking.interfaces.ens33.useDHCP = true;
 
           environment.systemPackages = [
+            inputs.neovim-flake.packages.${system}.neovim
             self'.packages.env
+            self'.packages.fish
             self'.packages.ghostty
             self'.packages.git
             self'.packages.google-chrome
