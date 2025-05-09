@@ -22,6 +22,7 @@ creation_rules:
   - path_regex: hosts/vm-intel/eval-secrets.nix$
     key_groups:
       - age:
+        - *admin_polar
         - *admin_work
         - *server_vm_polarbear
         - *server_vm_work
