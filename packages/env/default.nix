@@ -26,6 +26,7 @@
   nix-index,
   psmisc,
   ripgrep,
+  sops,
   starship,
   unar,
   vim,
@@ -57,6 +58,7 @@ symlinkJoin {
       nix-index
       psmisc
       ripgrep
+      sops
       starship
       unar
       vim

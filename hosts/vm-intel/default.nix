@@ -25,7 +25,42 @@
   ];
 in {
   flake.nixosConfigurations.vm-intel = withSystem system ({self', ...}:
-    mkNixos system (defaultModules
+    mkNixos system (
+      [
+        {
+          sops = {
+            # This will add secrets.yml to the nix store
+            # You can avoid this by adding a string to the full path instead, i.e.
+            # sops.defaultSopsFile = "/root/.sops/secrets/example.yaml";
+            defaultSopsFile = ./secrets.yaml;
+            age = {
+              # This will automatically import SSH keys as age keys
+              sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+              # This is using an age key that is expected to already be in the filesystem
+              keyFile = "/var/lib/sops-nix/key.txt";
+              # This will generate a new key if the key specified above does not exist
+              generateKey = true;
+            };
+            # This is the actual specification of the secrets.
+            # sops.secrets.example-key = {};
+            # sops.secrets."myservice/my_subdir/my_secret" = {};
+            secrets = {
+              git_config_work = {
+                mode = "444";
+                group = "wheel";
+              };
+            };
+          };
+          # nix.settings.ssl-cert-file = "/root/work.crt";
+          security.pki.certificates = let
+            secrets = builtins.trace "secrets:" (builtins.extraBuiltins.readSops ./eval-secrets.nix);
+          in [
+            secrets.work-cert-1
+            secrets.work-cert-2
+          ];
+        }
+      ]
+      ++ defaultModules
       ++ [
         ./configuration.nix
         # nixosModules.core
@@ -45,33 +80,8 @@ in {
         # nixosModules.trusted
         # nixosModules.wm-helper
         {
-          sops = {
-            # This will add secrets.yml to the nix store
-            # You can avoid this by adding a string to the full path instead, i.e.
-            # sops.defaultSopsFile = "/root/.sops/secrets/example.yaml";
-            defaultSopsFile = ./secrets.yaml;
-            age = {
-              # This will automatically import SSH keys as age keys
-              sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-              # This is using an age key that is expected to already be in the filesystem
-              keyFile = "/var/lib/sops-nix/key.txt";
-              # This will generate a new key if the key specified above does not exist
-              generateKey = true;
-            };
-            # This is the actual specification of the secrets.
-            # sops.secrets.example-key = {};
-            # sops.secrets."myservice/my_subdir/my_secret" = {};
-            secrets.git_config_work = {
-              mode = "444";
-              group = "wheel";
-            };
-          };
-        }
-        {
           virtualisation.vmware.guest.enable = true;
           virtualisation.vmware.guest.headless = false;
-
-          # nix.settings.ssl-cert-file = "/root/work.crt";
 
           services.openssh.settings.PermitRootLogin = "yes";
 
@@ -108,5 +118,6 @@ in {
             inputs.sops-nix.homeManagerModules.sops
           ];
         }
-      ]));
+      ]
+    ));
 }
