@@ -9,7 +9,7 @@ in {
   _file = ./_mkUser.nix;
 
   environment.shells = [
-    # self'.packages.fish
+    self'.packages.fish
   ];
 
   users.users.${name} = {
@@ -30,7 +30,7 @@ in {
     ];
     openssh.authorizedKeys.keys = [];
     # hashedPasswordFile = "/var/lib/secrets/users.passwd";
-    # shell = "/run/current-system/sw/bin/fish";
+    shell = "/run/current-system/sw/bin/fish";
   };
 
   # systemd.tmpfiles.rules =
