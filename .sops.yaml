@@ -1,12 +1,19 @@
 keys:
-  - &polarmutex age1vjf2wtuvw6pmjukzkxenw5am3lyuzh74077pzmf4ycsy46vkd4wscr9jth
-  - &work age1vfx7yqajaxe2suram0tk7rudv06ra0mrahkvmwpt9t7vcutlf3yqedynz4
-  - &work2 age1z9403klvd7l26se2p6ml859el5lgs3g43yyh2re42g4raea8jycsvkm0g6
+  # - &polarmutex age1vjf2wtuvw6pmjukzkxenw5am3lyuzh74077pzmf4ycsy46vkd4wscr9jth
+  - &admin_polar age1u8xktau67344v0pqx96h4ttv8nf87va6gg72dukdtcaj4v0nlqhsnrzt0j
+  - &admin_work age1ul4tlvkgg8v58yfnhpsxxpx56sfyhsx62gfdsdtjgeufh26jwvfqg6x2w0
+  - &polarbear age1vx5qc0mz7lj6ncly05tzrmywjj0l3m8zednkp3fgzgrpck7z8qzqmhw620
+  - &server_vm_polarber age1xf8ksmuwfjhuqun5ye0fe09cu0g8glm2nley9hpkk78nty42laks69ewg3
 
 creation_rules:
   - path_regex: secrets/[^/]+\.yaml$
     key_groups:
       - age:
-          - *polarmutex
-          - *work
-          - *work2
+        # - *polarmutex
+        - *admin_polar
+        - *polarbear
+  - path_regex: hosts/vm-intel/[^/]+\.yaml$
+    key_groups:
+      - age:
+        - *admin_work
+        - *server_vm_polarber

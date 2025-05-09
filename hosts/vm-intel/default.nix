@@ -49,7 +49,7 @@ in {
             # This will add secrets.yml to the nix store
             # You can avoid this by adding a string to the full path instead, i.e.
             # sops.defaultSopsFile = "/root/.sops/secrets/example.yaml";
-            defaultSopsFile = ./private.yaml;
+            defaultSopsFile = ./secrets.yaml;
             age = {
               # This will automatically import SSH keys as age keys
               sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
@@ -61,12 +61,17 @@ in {
             # This is the actual specification of the secrets.
             # sops.secrets.example-key = {};
             # sops.secrets."myservice/my_subdir/my_secret" = {};
+            secrets.git_config_work = {
+              mode = "444";
+              group = "wheel";
+            };
           };
         }
         {
           virtualisation.vmware.guest.enable = true;
+          virtualisation.vmware.guest.headless = false;
 
-          nix.settings.ssl-cert-file = "/root/leidos.crt";
+          # nix.settings.ssl-cert-file = "/root/work.crt";
 
           services.openssh.settings.PermitRootLogin = "yes";
 

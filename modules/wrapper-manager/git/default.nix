@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   # lib,
   ...
@@ -7,11 +6,10 @@
   myGit = pkgs.gitFull;
   gitconfig =
     builtins.readFile ./gitconfig
-    #+ ''
-     # [includeIf "gitdir:~/repos/work/"]
-      #  path = "${config.sops.secrets.git_config_work.path}";
-    #''
-;
+    + ''
+      [includeIf "gitdir:~/repos/work/"]
+        path = "/run/secrets/git_config_work";
+    '';
 in {
   wrappers.git = {
     basePackage = myGit;

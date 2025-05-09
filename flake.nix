@@ -67,6 +67,7 @@
               packages = [
                 # home-manager
                 sops
+                age
                 # taplo
               ];
             };
