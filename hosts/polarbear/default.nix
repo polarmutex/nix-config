@@ -60,7 +60,7 @@ in {
         nixosModules.trusted
         nixosModules.wm-helper
         # nixosModules.virt-manager
-        nixosModules.virt-manager
+        nixosModules.vmware
         nixosModules.yubikey
       ]));
 }

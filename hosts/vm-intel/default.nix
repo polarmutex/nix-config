@@ -52,12 +52,12 @@ in {
             };
           };
           # nix.settings.ssl-cert-file = "/root/work.crt";
-          security.pki.certificates = let
-            secrets = builtins.trace "secrets:" (builtins.extraBuiltins.readSops ./eval-secrets.nix);
-          in [
-            secrets.work-cert-1
-            secrets.work-cert-2
-          ];
+          # security.pki.certificates = let
+          #   secrets = builtins.trace "secrets:" (builtins.extraBuiltins.readSops ./eval-secrets.nix);
+          # in [
+          #   secrets.work-cert-1
+          #   secrets.work-cert-2
+          # ];
         }
       ]
       ++ defaultModules

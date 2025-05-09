@@ -28,11 +28,13 @@ flake @ {
             "morgen"
             "nvidia-x11"
             "nvidia-settings"
+            "nvidia-persistenced"
             "obsidian"
             "steam"
             "steam-original"
             "symbola"
             "vagrant"
+            "vmware-workstation"
             "zoom"
             # "google-chrome"
           ];
