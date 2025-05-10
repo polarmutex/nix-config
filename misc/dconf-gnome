@@ -1,0 +1,145 @@
+[Extensions]
+window-height=2109
+window-width=3824
+
+[control-center]
+last-panel='keyboard'
+window-state=(3824, 2109, false)
+
+[desktop/app-folders]
+folder-children=['Utilities', 'YaST']
+
+[desktop/app-folders/folders/Utilities]
+apps=['gnome-abrt.desktop', 'gnome-system-log.desktop', 'nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.Connections.desktop', 'org.gnome.DejaDup.desktop', 'org.gnome.Dictionary.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.eog.desktop', 'org.gnome.Evince.desktop', 'org.gnome.FileRoller.desktop', 'org.gnome.fonts.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Usage.desktop', 'vinagre.desktop']
+categories=['X-GNOME-Utilities']
+name='X-GNOME-Utilities.directory'
+translate=true
+
+[desktop/app-folders/folders/YaST]
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
+translate=true
+
+[desktop/input-sources]
+sources=[('xkb', 'us')]
+xkb-options=['terminate:ctrl_alt_bksp']
+
+[desktop/interface]
+color-scheme='prefer-dark'
+gtk-theme='Tokyonight-Dark'
+
+[desktop/notifications]
+application-children=['org-gnome-nautilus', 'org-gnome-console', 'org-gnome-settings', 'brave-browser', 'org-gnome-extensions', 'gnome-power-panel']
+
+[desktop/notifications/application/brave-browser]
+application-id='brave-browser.desktop'
+
+[desktop/notifications/application/gnome-power-panel]
+application-id='gnome-power-panel.desktop'
+
+[desktop/notifications/application/org-gnome-console]
+application-id='org.gnome.Console.desktop'
+
+[desktop/notifications/application/org-gnome-extensions]
+application-id='org.gnome.Extensions.desktop'
+
+[desktop/notifications/application/org-gnome-nautilus]
+application-id='org.gnome.Nautilus.desktop'
+
+[desktop/notifications/application/org-gnome-settings]
+application-id='org.gnome.Settings.desktop'
+
+[desktop/privacy]
+lock-enabled=false
+
+[desktop/screensaver]
+lock-enabled=false
+
+[desktop/wm/keybindings]
+minimize=@as []
+
+[desktop/wm/preferences]
+num-workspaces=8
+workspace-names=['1', '2', '3', '4', '5', '6', '7', '8']
+
+[evolution-data-server]
+migrated=true
+
+[mutter]
+edge-tiling=false
+
+[nautilus/preferences]
+default-folder-viewer='list-view'
+migrated-gtk-settings=true
+search-filter-time-type='last_modified'
+
+[nautilus/window-state]
+initial-size=(1864, 2138)
+initial-size-file-chooser=(890, 550)
+maximized=false
+
+[portal/filechooser/brave-browser]
+last-folder-path='/home/polar/repos/personal/beancount/main/downloads'
+
+[settings-daemon/plugins/color]
+night-light-enabled=true
+night-light-schedule-automatic=false
+
+[shell]
+disable-user-extensions=false
+enabled-extensions=['appindicatorsupport@rgcjonas.gmail.com', 'auto-move-windows@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'hide-universal-access@akiirui.github.io', 'pop-shell@system76.com', 'space-bar@luchrioh', 'user-theme@gnome-shell-extensions.gcampax.github.com']
+favorite-apps=['org.gnome.Nautilus.desktop', 'google-chrome.desktop', 'code.desktop', '1password.desktop']
+welcome-dialog-last-shown-version='44.2'
+
+[shell/extensions/auto-move-windows]
+application-list=['brave-browser.desktop:2', 'google-chrome.desktop:2', 'firefox-devedition.desktop:2', 'code.desktop:1', 'org.gnome.Console.desktop:1', 'org.wezfurlong.wezterm.desktop:1', 'obsidian.desktop:3', 'discord.desktop:4', 'slack.desktop:4', '1password.desktop:8', 'bluetooth-sendto.desktop:8', 'gcm-calibrate.desktop:8', 'gcm-picker.desktop:8', 'gnome-applications-panel.desktop:8', 'gnome-background-panel.desktop:8', 'gnome-bluetooth-panel.desktop:8', 'gnome-color-panel.desktop:8', 'gnome-datetime-panel.desktop:8', 'gnome-default-apps-panel.desktop:8', 'gnome-diagnostics-panel.desktop:8', 'gnome-display-panel.desktop:8', 'gnome-firmware-security-panel.desktop:8', 'gnome-info-overview-panel.desktop:8', 'gnome-keyboard-panel.desktop:8', 'gnome-location-panel.desktop:8', 'gnome-microphone-panel.desktop:8', 'gnome-mouse-panel.desktop:8', 'gnome-multitasking-panel.desktop:8', 'gnome-network-panel.desktop:8', 'gnome-notifications-panel.desktop:8', 'gnome-online-accounts-panel.desktop:8', 'gnome-power-panel.desktop:8', 'gnome-printers-panel.desktop:8', 'gnome-region-panel.desktop:8', 'gnome-removable-media-panel.desktop:8', 'gnome-screen-panel.desktop:8', 'gnome-search-panel.desktop:8', 'gnome-sharing-panel.desktop:8', 'gnome-sound-panel.desktop:8', 'gnome-system-monitor-kde.desktop:8', 'gnome-thunderbolt-panel.desktop:8', 'gnome-universal-access-panel.desktop:8', 'gnome-usage-panel.desktop:8', 'gnome-user-accounts-panel.desktop:8', 'gnome-wacom-panel.desktop:8', 'gnome-wifi-panel.desktop:8', 'gnome-wwan-panel.desktop:8', 'org.gnome.ColorProfileViewer.desktop:8', 'org.gnome.Evince-previewer.desktop:8', 'org.gnome.Extensions.desktop:8', 'org.gnome.Settings.desktop:8', 'org.gnome.Shell.Extensions.desktop:8', 'org.gnome.tweaks.desktop:8', 'spotify.desktop:8']
+
+[shell/extensions/dash-to-dock]
+dash-max-icon-size=54
+dock-fixed=false
+dock-position='LEFT'
+show-mounts=true
+show-trash=true
+
+[shell/extensions/pop-shell]
+activate-launcher=@as []
+active-hint=true
+active-hint-border-radius=uint32 5
+fullscreen-launcher=false
+gap-inner=uint32 2
+gap-outer=uint32 2
+mouse-cursor-focus-location=uint32 4
+mouse-cursor-follows-active-window=false
+tile-by-default=true
+
+[shell/extensions/space-bar/appearance]
+application-styles='.space-bar {\n  -natural-hpadding: 12px;\n}\n\n.space-bar-workspace-label.active {\n  margin: 0 4px;\n  background-color: rgba(255,255,255,0.3);\n  color: rgba(255,255,255,1);\n  border-color: rgba(0,0,0,0);\n  font-weight: 700;\n  border-radius: 4px;\n  border-width: 0px;\n  padding: 3px 8px;\n}\n\n.space-bar-workspace-label.inactive {\n  margin: 0 4px;\n  background-color: rgba(0,0,0,0);\n  color: rgba(255,255,255,1);\n  border-color: rgba(0,0,0,0);\n  font-weight: 700;\n  border-radius: 4px;\n  border-width: 0px;\n  padding: 3px 8px;\n}\n\n.space-bar-workspace-label.inactive.empty {\n  margin: 0 4px;\n  background-color: rgba(0,0,0,0);\n  color: rgba(255,255,255,0.5);\n  border-color: rgba(0,0,0,0);\n  font-weight: 700;\n  border-radius: 4px;\n  border-width: 0px;\n  padding: 3px 8px;\n}'
+workspace-margin=uint32 4
+workspaces-bar-padding=uint32 12
+
+[shell/extensions/space-bar/behavior]
+always-show-numbers=false
+position='left'
+position-index=0
+scroll-wheel='disabled'
+show-empty-workspaces=true
+smart-workspace-names=false
+
+[shell/extensions/space-bar/shortcuts]
+activate-empty-key=@as []
+activate-previous-key=@as []
+enable-activate-workspace-shortcuts=false
+enable-move-to-workspace-shortcuts=false
+open-menu=@as []
+
+[shell/extensions/space-bar/state]
+version=32
+
+[shell/extensions/user-theme]
+name='Tokyonight-Dark'
+
+[shell/world-clocks]
+locations=@av []
+
+[tweaks]
+show-extensions-notice=false
