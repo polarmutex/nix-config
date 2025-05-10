@@ -3,9 +3,6 @@
   lib,
   ...
 }: {
-  # No need for sound on a server
-  sound.enable = false;
-
   # Common server packages
   environment = {
     systemPackages = with pkgs; [

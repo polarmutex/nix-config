@@ -12,7 +12,7 @@ in {
         autoStart = true;
         image = "ghcr.io/umami-software/umami:${umamiTag}";
         environment = {
-          "DATABASE_URL" = "postgres://umami:umami@localhost:${toString config.services.postgresql.port}/umami";
+          "DATABASE_URL" = "postgres://umami:umami@localhost:${toString config.services.postgresql.settings.port}/umami";
         };
         environmentFiles = [];
         # ports = [
