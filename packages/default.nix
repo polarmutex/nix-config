@@ -48,19 +48,19 @@ flake @ {
           else false;
       };
     in {
-      pkgs = import inputs.nixpkgs {
-        inherit config system;
-        overlays = [
-          (import inputs.rust-overlay)
-          (_final: prev: {
-            # unstable-small = import inputs.nixpkgs-small {
-            #   inherit (prev) system;
-            #   inherit config;
-            # };
-          })
-        ];
-      };
-      pkgs-stable = import inputs.nixpkgs-stable {
+      # pkgs = import inputs.nixpkgs {
+      #   inherit config system;
+      #   overlays = [
+      #     (import inputs.rust-overlay)
+      #     (_final: prev: {
+      #       # unstable-small = import inputs.nixpkgs-small {
+      #       #   inherit (prev) system;
+      #       #   inherit config;
+      #       # };
+      #     })
+      #   ];
+      # };
+      pkgs = import inputs.nixpkgs-stable {
         inherit config system;
         overlays = [
           (

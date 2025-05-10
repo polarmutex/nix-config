@@ -34,7 +34,7 @@
   users.mutableUsers = false;
 
   # Use fish as default shell
-  users.defaultUserShell = pkgs.fish;
+  # users.defaultUserShell = pkgs.fish;
 
   # Define default system version
   system.stateVersion = "23.05";

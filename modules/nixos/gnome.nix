@@ -15,13 +15,13 @@
   environment = {
     systemPackages = with pkgs; [
       gnome-tweaks
-      gnomeExtensions.dash-to-panel
+      gnomeExtensions.appindicator
+      gnomeExtensions.auto-move-windows
+      gnomeExtensions.dash-to-dock
+      gnomeExtensions.hide-universal-access
       gnomeExtensions.pop-shell
-      #     # adw-gtk3
-      #     # wl-clipboard
-      #     # vanilla-dmz
-      #     # gnomeExtensions.appindicator
-      #     # gnomeExtensions.astra-monitor
+      gnomeExtensions.space-bar
+      gnomeExtensions.user-themes
     ];
 
     gnome.excludePackages = with pkgs; [

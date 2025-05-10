@@ -48,6 +48,9 @@ blackbear:
 polarvortex:
 	deploy ".#polarvortex" --ssh-user "polar"  --hostname brianryall.xyz
 
+vm:
+	deploy ".#vm-intel" --ssh-user "polar"  --hostname 172.16.193.128
+
 polarbear-home:
 	home-manager switch  --flake .#"polar@polarbear"
 

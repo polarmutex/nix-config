@@ -22,7 +22,7 @@
     in
       inputs.nixpkgs-stable.lib.nixosSystem {
         inherit specialArgs;
-        pkgs = withSystem system ({pkgs-stable, ...}: pkgs-stable);
+        pkgs = withSystem system ({pkgs, ...}: pkgs);
         modules =
           [
             inputs.sops-nix.nixosModules.sops
@@ -32,11 +32,14 @@
             }
             inputs.home-manager.nixosModules.home-manager
             {
-              home-manager.sharedModules = [
-                # config.flake.homeModules.common
-                # inputs.nix-common.homeModules.default
-              ];
-              home-manager.extraSpecialArgs = specialArgs;
+              home-manager = {
+                extraSpecialArgs = specialArgs;
+                sharedModules = [
+                  inputs.sops-nix.homeManagerModules.sops
+                ];
+                useGlobalPkgs = true;
+                useUserPackages = true;
+              };
             }
           ]
           ++ extraModules;

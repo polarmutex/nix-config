@@ -18,12 +18,13 @@
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} (
       {
-        lib,
+        # lib,
         config,
+        self,
         ...
       }: {
         imports = [
-          inputs.home-manager.flakeModules.home-manager
+          # inputs.home-manager.flakeModules.home-manager
           ./packages
           ./misc/lib
           ./hosts
@@ -36,20 +37,19 @@
         flake = {
           nixosModules = config.flake.lib.dirToAttrs ./modules/nixos;
           homeModules = config.flake.lib.dirToAttrs ./modules/home-manager;
-          #   deploy = {
-          #     nodes = {
-          #       polarvortex = {
-          #         hostname = "brianryall.xyz";
-          #         profiles.system = {
-          #           sshUser = "polar";
-          #           sudo = "doas -u";
-          #           user = "root";
-          #           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
-          #         };
-          #       };
-          #     };
-          #   };
-          # };
+          deploy = {
+            nodes = {
+              vm-intel = {
+                hostname = "vm-dev";
+                profiles.system = {
+                  sshUser = "polar";
+                  sudo = "doas -u";
+                  user = "root";
+                  path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vm-intel;
+                };
+              };
+            };
+          };
         };
 
         systems = [
@@ -59,7 +59,7 @@
 
         perSystem = {
           pkgs,
-          config,
+          # config,
           ...
         }: {
           devShells.default = with pkgs;
@@ -68,6 +68,7 @@
                 # home-manager
                 sops
                 age
+                deploy-rs
                 # taplo
               ];
             };
@@ -104,7 +105,8 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/master";
+      # url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     helix = {
