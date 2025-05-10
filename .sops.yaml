@@ -13,6 +13,11 @@ creation_rules:
         # - *polarmutex
         - *admin_polar
         - *polarbear
+  - path_regex: hosts/polarbear/[^/]+\.yaml$
+    key_groups:
+      - age:
+        - *admin_polar
+        - *polarbear
   - path_regex: hosts/vm-intel/[^/]+\.yaml$
     key_groups:
       - age:

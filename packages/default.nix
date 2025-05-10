@@ -128,9 +128,9 @@ flake @ {
         in
           stage2
           // {
-            env = callPackage ./env {
-              inherit inputs';
-            };
+            # env = callPackage ./env {
+            #   inherit inputs';
+            # };
             # maid = inputs.nix-maid p ../modules/maid;
           };
       in

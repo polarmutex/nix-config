@@ -15,12 +15,12 @@
 in {
   wrappers = {
     google-chrome = {
-      basePackage = pkgs.google-chrome;
+      basePackage = pkgs.unstable.google-chrome;
       flags = commonFlags;
     };
 
     ungoogled-chromium = {
-      basePackage = pkgs.ungoogled-chromium;
+      basePackage = pkgs.unstable.ungoogled-chromium;
       flags =
         commonFlags
         ++ [
@@ -33,7 +33,7 @@ in {
     };
 
     brave = {
-      basePackage = pkgs.brave;
+      basePackage = pkgs.unstable.brave;
       flags = commonFlags;
     };
   };

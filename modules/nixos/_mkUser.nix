@@ -1,6 +1,7 @@
 name: {
   lib,
   config,
+  pkgs,
   self',
   ...
 }: let
@@ -10,6 +11,7 @@ in {
 
   environment.shells = [
     self'.packages.fish
+    pkgs.bash
   ];
 
   users.users.${name} = {

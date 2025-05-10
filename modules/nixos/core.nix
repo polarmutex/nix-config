@@ -2,16 +2,36 @@
   environment = {
     systemPackages = with pkgs; [
       bat
-      binutils
-      coreutils
+      carapace
       curl
+      difftastic
+      direnv
+      du-dust
+      eza
       fd
-      gitAndTools.gitFull
+      fish
+      fq
+      unstable.gh
       gnumake
-      neovim
-      ripgrep
+      hexyl
+      unstable.htop
+      fzf
+      jq
+      just
+      unstable.lazygit
+      lurk
+      magic-wormhole-rs
+      unstable.neovim
+      nix-index
+      psmisc
+      unstable.ripgrep
       rsync
+      sops
+      starship
+      unar
+      unstable.vim
       wget
+      yazi
     ];
     variables = {
       EDITOR = "nvim";

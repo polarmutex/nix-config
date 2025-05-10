@@ -3,7 +3,7 @@
   # lib,
   ...
 }: let
-  myGit = pkgs.gitFull;
+  myGit = pkgs.unstable.gitFull;
   gitconfig =
     builtins.readFile ./gitconfig
     + ''

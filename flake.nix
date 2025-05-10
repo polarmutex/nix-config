@@ -70,6 +70,8 @@
                 age
                 deploy-rs
                 # taplo
+                inxi
+                pciutils
               ];
             };
         };

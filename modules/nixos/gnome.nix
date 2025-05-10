@@ -1,14 +1,20 @@
 {pkgs, ...}: {
-  services.xserver = {
-    displayManager.gdm = {
+  services = {
+    libinput = {
       enable = true;
-      # wayland = false;
+      mouse.naturalScrolling = true;
     };
-    desktopManager.gnome = {
-      enable = true;
-      extraGSettingsOverridePackages = with pkgs; [
-        mutter
-      ];
+    xserver = {
+      displayManager.gdm = {
+        enable = true;
+        wayland = true;
+      };
+      desktopManager.gnome = {
+        enable = true;
+        extraGSettingsOverridePackages = with pkgs; [
+          mutter
+        ];
+      };
     };
   };
 
@@ -25,16 +31,26 @@
     ];
 
     gnome.excludePackages = with pkgs; [
-      # totem
-      gnome-maps
-      # gnome-logs
-      # simple-scan
+      atomix # puzzle game
+      cheese # webcam tool
+      epiphany # web browser
+      evince # document viewer
+      geary # email reader
+      gedit # text editor
+      gnome-characters
       gnome-calculator
-      # epiphany
-      gnome-music
-      gnome-tour
       gnome-contacts
-      # gnome-disk-utility
+      # gnome-logs
+      gnome-maps
+      gnome-music
+      gnome-photos
+      gnome-terminal
+      gnome-tour
+      hitori # sudoku game
+      iagno # go game
+      # simple-scan
+      tali # poker game
+      totem # video player
     ];
 
     sessionVariables = {
@@ -44,6 +60,7 @@
       # XCURSOR_THEME = "DMZ-White";
       # XCURSOR_SIZE = "24";
     };
+    variables = {GNOME_SHELL_SLOWDOWN_FACTOR = "0.5";};
   };
   # # programs.geary.enable = false;
 }
