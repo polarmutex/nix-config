@@ -55,8 +55,41 @@ lock-enabled=false
 [desktop/screensaver]
 lock-enabled=false
 
+[desktop/session]
+idle-delay=uint32 300
+
 [desktop/wm/keybindings]
+close=['<Super>q']
 minimize=@as []
+move-to-workspace-1=['<Super><Shift>a']
+move-to-workspace-10=@as []
+move-to-workspace-2=['<Super><Shift>r']
+move-to-workspace-3=['<Super><Shift>s']
+move-to-workspace-4=['<Super><Shift>t']
+move-to-workspace-5=['<Super><Shift>n']
+move-to-workspace-6=['<Super><Shift>e']
+move-to-workspace-7=['<Super><Shift>i']
+move-to-workspace-8=['<Super><Shift>o']
+move-to-workspace-9=@as []
+switch-to-application-1=@as []
+switch-to-application-2=@as []
+switch-to-application-3=@as []
+switch-to-application-4=@as []
+switch-to-application-5=@as []
+switch-to-application-6=@as []
+switch-to-application-7=@as []
+switch-to-application-8=@as []
+switch-to-application-9=@as []
+switch-to-workspace-1=['<Super>a']
+switch-to-workspace-10=@as []
+switch-to-workspace-2=['<Super>r']
+switch-to-workspace-3=['<Super>s']
+switch-to-workspace-4=['<Super>t']
+switch-to-workspace-5=['<Super>n']
+switch-to-workspace-6=['<Super>e']
+switch-to-workspace-7=['<Super>i']
+switch-to-workspace-8=['<Super>o']
+switch-to-workspace-9=@as []
 
 [desktop/wm/preferences]
 num-workspaces=8
@@ -74,7 +107,7 @@ migrated-gtk-settings=true
 search-filter-time-type='last_modified'
 
 [nautilus/window-state]
-initial-size=(1864, 2138)
+initial-size=(1908, 2109)
 initial-size-file-chooser=(890, 550)
 maximized=false
 
@@ -137,6 +170,9 @@ version=32
 
 [shell/extensions/user-theme]
 name='Tokyonight-Dark'
+
+[shell/keybindings]
+toggle-application-view=@as []
 
 [shell/world-clocks]
 locations=@av []

@@ -11,32 +11,7 @@
   };
 
   home.packages = with pkgs; let
-    morgen-updated =
-      morgen.overrideAttrs
-      (_: rec {
-        version = "3.6.12";
-        src = fetchurl {
-          name = "morgen-${version}.deb";
-          url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
-          hash = "sha256-1shqINMYy+yoMsI99+tvJcqWs8dScmmV7X9QTYZ9EfA=";
-        };
-      });
   in [
-    asciidoctor
-    cmake
-    conan
-    devpod
-    erdtree
-    flameshot
-    gcc
-    nautilus
-    gramps
-    lazygit
-    libreoffice-fresh
-    inputs.neovim-flake.packages.${pkgs.system}.neovim
-    inputs.deploy-rs.packages.${system}.deploy-rs
-    nix-diff
-    npins
     #(netbeans.overrideAttrs (_: let
     #  nb_version = "18";
     #in {
@@ -46,17 +21,8 @@
     #    hash = "sha256-CTWOW1vd200oZZYqDRT4wqr4v5I3AAgEcqA/qi9Ief8=";
     #  };
     #}))
-    netbeans
-    netscanner
+    # netbeans
     # nix-melt
-    nixpkgs-fmt
-    peek
-    self.packages.${pkgs.system}.wrapped-wezterm
-    zoom-us
-    zotero_7
-    anki-bin
-    ansible
-    morgen-updated
   ];
 
   programs = {
@@ -75,10 +41,5 @@
     secrets.git_config_work = {
       path = "${config.home.homeDirectory}/.config/work_email.session";
     };
-  };
-
-  services.ollama = {
-    enable = true;
-    # acceleration = false;
   };
 }

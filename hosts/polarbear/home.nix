@@ -22,7 +22,37 @@ with lib.hm.gvariant; {
       # idle-delay = 900; # 15mins
     };
     "org/gnome/desktop/wm/keybindings" = {
+      close = ["<Super>q"];
       minimize = [];
+      move-to-workspace-1 = ["<Super><Shift>a"];
+      move-to-workspace-2 = ["<Super><Shift>r"];
+      move-to-workspace-3 = ["<Super><Shift>s"];
+      move-to-workspace-4 = ["<Super><Shift>t"];
+      move-to-workspace-5 = ["<Super><Shift>n"];
+      move-to-workspace-6 = ["<Super><Shift>e"];
+      move-to-workspace-7 = ["<Super><Shift>i"];
+      move-to-workspace-8 = ["<Super><Shift>o"];
+      move-to-workspace-9 = [];
+      move-to-workspace-10 = [];
+      switch-to-application-1 = [];
+      switch-to-application-2 = [];
+      switch-to-application-3 = [];
+      switch-to-application-4 = [];
+      switch-to-application-5 = [];
+      switch-to-application-6 = [];
+      switch-to-application-7 = [];
+      switch-to-application-8 = [];
+      switch-to-application-9 = [];
+      switch-to-workspace-1 = ["<Super>a"];
+      switch-to-workspace-2 = ["<Super>r"];
+      switch-to-workspace-3 = ["<Super>s"];
+      switch-to-workspace-4 = ["<Super>t"];
+      switch-to-workspace-5 = ["<Super>n"];
+      switch-to-workspace-6 = ["<Super>e"];
+      switch-to-workspace-7 = ["<Super>i"];
+      switch-to-workspace-8 = ["<Super>o"];
+      switch-to-workspace-9 = [];
+      switch-to-workspace-10 = [];
     };
     "org/gnome/desktop/wm/preferences" = {
       num-workspaces = 8;
@@ -41,7 +71,21 @@ with lib.hm.gvariant; {
         "8"
       ];
     };
-
+    "org/gtk/gtk4/settings/file-chooser" = {
+      show-hidden = true;
+    };
+    "org/gtk/settings/file-chooser" = {
+      date-format = "regular";
+      location-mode = "path-bar";
+      show-hidden = true;
+      show-size-column = true;
+      show-type-column = true;
+      sort-column = "name";
+      sort-directories-first = true;
+      sort-order = "ascending";
+      type-format = "category";
+      view-type = "list";
+    };
     #
     # SHELL
     #

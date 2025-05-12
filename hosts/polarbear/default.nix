@@ -28,7 +28,11 @@
     })
   ];
 in {
-  flake.nixosConfigurations.polarbear = withSystem system ({self', ...}:
+  flake.nixosConfigurations.polarbear = withSystem system ({
+    self',
+    pkgs,
+    ...
+  }:
     mkNixos system (
       [
         {
@@ -104,8 +108,34 @@ in {
           systemd.services."getty@tty1".enable = false;
           systemd.services."autovt@tty1".enable = false;
 
-          environment.systemPackages = [
+          environment.sessionVariables.NIXOS_OZONE_WL = "1";
+          environment.systemPackages = with pkgs; let
+            morgen-updated =
+              morgen.overrideAttrs
+              (_: rec {
+                version = "3.6.13";
+                src = fetchurl {
+                  name = "morgen-${version}.deb";
+                  url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
+                  hash = "sha256-a7IkEHRAwa7SnsPcK6psho6E+o1aOlQPPFHaDPrrXxw=";
+                };
+              });
+          in [
+            ansible
+            unstable.anki-bin
+            unstable.devpod
+            flameshot
+            unstable.gramps
+            unstable.libreoffice-fresh
+            netscanner
+            nix-diff
+            unstable.npins
+            unstable.obsidian
+            peek
+            unstable.zoom-us
+            inputs.deploy-rs.packages.${system}.deploy-rs
             inputs.neovim-flake.packages.${system}.neovim
+            morgen-updated
             self'.packages.fish
             self'.packages.ghostty
             self'.packages.git
@@ -115,6 +145,44 @@ in {
 
           home-manager.sharedModules = [
             ./home.nix
+            {
+              # services.ollama = {
+              #   enable = true;
+              #   # acceleration = false;
+              # };
+
+              systemd.user.services.obsidian-second-brain-sync = {
+                Unit = {Description = "Obsidian Second Brain Sync";};
+                Service = {
+                  CPUSchedulingPolicy = "idle";
+                  IOSchedulingClass = "idle";
+                  ExecStart = toString (
+                    pkgs.writeShellScript "obsidian-second-brain-sync" ''
+                      #!/usr/bin/env sh
+                      OBSIDIAN_PATH="$HOME/repos/personal/obsidian-second-brain/main"
+                      cd $OBSIDIAN_PATH
+                      CHANGES_EXIST="$(${pkgs.git}/bin/git status - porcelain | ${pkgs.coreutils}/bin/wc -l)"
+                      if [ "$CHANGES_EXIST" -eq 0 ]; then
+                        exit 0
+                      fi
+                      ${pkgs.git}/bin/git add .
+                      ${pkgs.git}/bin/git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on nixos"
+                      ${pkgs.git}/bin/git pull --rebase
+                      ${pkgs.git}/bin/git push -q
+                    ''
+                  );
+                };
+              };
+
+              systemd.user.timers.obsidian-second-brain-sync = {
+                Unit = {Description = "Obsidian Second Brain Periodic Sync";};
+                Timer = {
+                  Unit = "obsidian-second-brain-sync.service";
+                  OnCalendar = "*:0/30";
+                };
+                Install = {WantedBy = ["timers.target"];};
+              };
+            }
           ];
         }
       ]
