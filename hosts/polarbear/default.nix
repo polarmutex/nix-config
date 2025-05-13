@@ -8,6 +8,7 @@
 }: let
   system = "x86_64-linux";
   inherit (config.flake) nixosModules;
+  inherit (config.flake) homeModules;
   defaultModules = [
     # make flake inputs accessible in NixOS
     {
@@ -144,7 +145,7 @@ in {
           ];
 
           home-manager.sharedModules = [
-            ./home.nix
+            homeModules.pop-shell
             {
               # services.ollama = {
               #   enable = true;
