@@ -103,6 +103,19 @@ flake @ {
               #   database = inputs'.nix-index-database.packages.nix-index-database;
               #   databaseDate = config.flake.lib.mkDate inputs.nix-index-database.lastModifiedDate;
               # };
+
+              # All of the typical devcontainers to be used.
+              devContainers-ubuntu = pkgs.dockerTools.buildLayeredImage {
+                name = "dev-env";
+                tag = "latest";
+                fromImage = pkgs.dockerTools.pullImage {
+                  imageName = "ubuntu";
+                  finalImageTag = "22.04";
+                  imageDigest = "sha256:899ec23064539c814a4dbbf98d4baf0e384e4394ebc8638bea7bbe4cb8ef4e12";
+                  sha256 = "sha256-+xF/L3xa/nnjrD3qZOcBAxyxxxec2NOsfVUKwUYE57s=";
+                };
+                # config.Cmd = ["${rubyEnv}/bin/bundler"];
+              };
             }
         );
 

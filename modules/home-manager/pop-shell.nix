@@ -104,6 +104,7 @@ with lib.hm.gvariant; {
       enabled-extensions = map (e: e.extensionUuid) extensions;
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
+        "brave-browser"
         "google-chrome.desktop"
         "code.desktop"
         "1password.desktop"
@@ -119,7 +120,7 @@ with lib.hm.gvariant; {
       application-list =
         # 1. Web (Browsers)
         (toWorkspace 2 [
-          "brave-browser"
+          # "brave-browser"
           "google-chrome"
           "firefox-devedition"
         ])
