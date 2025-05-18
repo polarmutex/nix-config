@@ -100,6 +100,7 @@ in {
         nixosModules.vmware
         nixosModules.yubikey
         nixosModules.user-polar
+        nixosModules.ollama
         {
           services.displayManager.autoLogin = {
             enable = true;

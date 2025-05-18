@@ -22,8 +22,12 @@ flake @ {
             "1password-cli"
             "broadcom-sta"
             "corefonts"
+            "cuda_cudart"
+            "cuda_cccl"
+            "cuda_nvcc"
             "discord"
             "google-chrome"
+            "libcublas"
             "prismlauncher"
             "morgen"
             "nvidia-x11"
@@ -66,6 +70,10 @@ flake @ {
           (
             _final: prev: {
               unstable = import inputs.nixpkgs {
+                inherit (prev) system;
+                inherit config;
+              };
+              stable-next = import inputs.nixpkgs-stable-next {
                 inherit (prev) system;
                 inherit config;
               };
