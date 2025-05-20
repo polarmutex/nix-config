@@ -34,7 +34,12 @@ in {
 
     brave = {
       basePackage = pkgs.unstable.brave;
-      flags = commonFlags;
+      flags =
+        commonFlags
+        ++ [
+          # "--ozone-platform=wayland"
+          "--disable-gpu"
+        ];
     };
   };
 }

@@ -21,6 +21,13 @@
       # "--iptables=false"
       # "--ip6tables=false"
     ];
+    autoPrune = {
+      enable = true;
+      flags = [
+        "all"
+        "force"
+      ];
+    };
   };
   hardware.nvidia-container-toolkit.enable =
     lib.mkIf (builtins.any (v: v == "nvidia") config.services.xserver.videoDrivers) true;
@@ -30,22 +37,4 @@
   };
 
   users.groups.docker.members = config.users.groups.wheel.members;
-
-  systemd = {
-    timers.docker-prune = {
-      wantedBy = ["timers.target"];
-      partOf = ["docker-prune.service"];
-      timerConfig = {
-        OnCalendar = "weekly";
-        Persistent = true;
-      };
-    };
-    services.docker-prune = {
-      serviceConfig.Type = "oneshot";
-      script = ''
-        ${config.virtualisation.docker.package}/bin/docker system prune --all --force
-      '';
-      requires = ["docker.service"];
-    };
-  };
 }

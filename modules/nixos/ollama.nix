@@ -2,7 +2,7 @@
   services.ollama = {
     enable = true;
     # package = pkgs.unstable.ollama;
-    package = pkgs.stable-next.ollama;
+    package = pkgs.unstable.ollama;
     # Optional: preload models, see https://ollama.com/library
     loadModels = [
       "gemma3:1b"

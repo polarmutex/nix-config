@@ -73,17 +73,14 @@ flake @ {
                 inherit (prev) system;
                 inherit config;
               };
-              stable-next = import inputs.nixpkgs-stable-next {
-                inherit (prev) system;
-                inherit config;
-              };
-              gnome-keyring = prev.gnome-keyring.overrideAttrs (old: {
-                configureFlags =
-                  (lib.remove "--enable-ssh-agent" old.configureFlags)
-                  ++ [
-                    "--disable-ssh-agent"
-                  ];
-              });
+              # why was this here?
+              # gnome-keyring = prev.gnome-keyring.overrideAttrs (old: {
+              #   configureFlags =
+              #     (lib.remove "--enable-ssh-agent" old.configureFlags)
+              #     ++ [
+              #       "--disable-ssh-agent"
+              #     ];
+              # });
             }
           )
         ];

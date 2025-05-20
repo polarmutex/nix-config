@@ -75,6 +75,7 @@ in {
         inputs.hardware.nixosModules.common-hidpi
         inputs.hardware.nixosModules.common-cpu-intel-cpu-only
         inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
+        inputs.hardware.nixosModules.common-gpu-intel-disable
         nixosModules.nvidia
         {
           # The open source driver does not support Maxwell GPUs.
@@ -101,6 +102,7 @@ in {
         nixosModules.yubikey
         nixosModules.user-polar
         nixosModules.ollama
+        nixosModules._1password
         {
           services.displayManager.autoLogin = {
             enable = true;
@@ -110,7 +112,6 @@ in {
           systemd.services."getty@tty1".enable = false;
           systemd.services."autovt@tty1".enable = false;
 
-          environment.sessionVariables.NIXOS_OZONE_WL = "1";
           environment.systemPackages = with pkgs; let
             morgen-updated =
               morgen.overrideAttrs
