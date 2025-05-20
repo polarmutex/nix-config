@@ -92,6 +92,12 @@
     };
     hardware.url = "github:nixos/nixos-hardware";
 
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      # inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    };
+
     polar-nur.url = "github:polarmutex/nur";
 
     awesome-flake = {

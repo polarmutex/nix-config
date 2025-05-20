@@ -76,6 +76,7 @@ in {
         inputs.hardware.nixosModules.common-cpu-intel-cpu-only
         inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
         inputs.hardware.nixosModules.common-gpu-intel-disable
+        inputs.nixos-cosmic.nixosModules.default
         nixosModules.nvidia
         {
           # The open source driver does not support Maxwell GPUs.

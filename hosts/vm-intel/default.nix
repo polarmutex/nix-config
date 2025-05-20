@@ -63,10 +63,11 @@ in {
       ++ defaultModules
       ++ [
         ./configuration.nix
-        # nixosModules.core
+        nixosModules.core
         nixosModules.doas
         nixosModules.docker
         # nixosModules.fonts
+        # nixosModules.cosmic
         nixosModules.gnome
         nixosModules.openssh
         nixosModules.user-polar
@@ -82,6 +83,7 @@ in {
         {
           virtualisation.vmware.guest.enable = true;
           virtualisation.vmware.guest.headless = false;
+          services.xserver.videoDrivers = ["vmware"];
 
           services.openssh.settings.PermitRootLogin = "yes";
 
@@ -98,7 +100,6 @@ in {
 
           environment.systemPackages = [
             inputs.neovim-flake.packages.${system}.neovim
-            self'.packages.env
             self'.packages.fish
             self'.packages.ghostty
             self'.packages.git
