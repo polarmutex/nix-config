@@ -6,11 +6,13 @@
       "https://polarmutex.cachix.org"
       "https://polar-nvim.cachix.org"
       "https://nix-community.cachix.org"
+      "https://cosmic.cachix.org/"
     ];
     extra-trusted-public-keys = [
       "polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08="
       "polar-nvim.cachix.org-1:fToTj9wmSN7xPzjwVbZivoT+pVF3hoTeIqo2brEO1a8="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
     ];
     # allow-import-from-derivation = "true";
   };
@@ -94,7 +96,7 @@
 
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
       # inputs.nixpkgs-stable.follows = "nixpkgs-stable";
     };
 

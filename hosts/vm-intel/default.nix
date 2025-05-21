@@ -67,8 +67,8 @@ in {
         nixosModules.doas
         nixosModules.docker
         # nixosModules.fonts
-        # nixosModules.cosmic
-        nixosModules.gnome
+        nixosModules.cosmic
+        # nixosModules.gnome
         nixosModules.openssh
         nixosModules.user-polar
         # nixosModules.bluetooth

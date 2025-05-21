@@ -72,7 +72,6 @@ in {
       ++ defaultModules
       ++ [
         ./configuration.nix
-        inputs.hardware.nixosModules.common-hidpi
         inputs.hardware.nixosModules.common-cpu-intel-cpu-only
         inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
         inputs.hardware.nixosModules.common-gpu-intel-disable
@@ -94,7 +93,8 @@ in {
         nixosModules.desktop
         nixosModules.bluetooth
         nixosModules.fonts
-        nixosModules.gnome
+        nixosModules.cosmic
+        # nixosModules.gnome
         nixosModules.graphical
         nixosModules.nix
         nixosModules.docker
