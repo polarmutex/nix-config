@@ -10,8 +10,32 @@
   };
 
   environment.systemPackages = with pkgs; [
-    wl-clipboard
+    # wl-clipboard
+    # andromeda
+    # chronos
+    # cosmic-ext-applet-caffeine
+    # cosmic-ext-applet-clipboard-manager
+    # cosmic-ext-applet-emoji-selector
+    # cosmic-ext-applet-external-monitor-brightness
+    # cosmic-ext-calculator
+    cosmic-ext-ctl
+    # examine
+    # forecast
+    # tasks
+    cosmic-ext-tweaks
+    (lib.lowPrio cosmic-comp)
+    # cosmic-reader
+    drm_info
+    # quick-webapps
+    # stellarshot
   ];
+  # ++ lib.optionals stdenv.hostPlatform.isx86 [
+  #   observatory
+  # ]
+
+  environment.sessionVariables = {
+    COSMIC_DATA_CONTROL_ENABLED = "1";
+  };
   security.rtkit.enable = true;
 
   services.pipewire = {
