@@ -9,7 +9,6 @@
       du-dust
       eza
       fd
-      fish
       fq
       unstable.gh
       gnumake
