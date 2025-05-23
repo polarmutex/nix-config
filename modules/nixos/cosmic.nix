@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   nix.settings = {
     substituters = ["https://cosmic.cachix.org"];
     trusted-public-keys = ["cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="];
@@ -38,11 +42,16 @@
   };
   security.rtkit.enable = true;
 
-  services.pipewire = {
-    enable = true;
-    audio.enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-    jack.enable = true;
+  services = {
+    pipewire = {
+      enable = true;
+      audio.enable = true;
+      alsa.enable = true;
+      pulse.enable = true;
+      jack.enable = true;
+    };
   };
+  # 1password
+  # https://discourse.nixos.org/t/1password-cant-save-mfa-code/58254/2
+  # dbus-update-activation-environment --all
 }
