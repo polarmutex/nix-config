@@ -2,7 +2,7 @@
   programs = {
     _1password = {
       enable = true;
-      package = pkgs.unstable._1password;
+      package = pkgs.unstable._1password-cli;
     };
     _1password-gui = {
       enable = true;

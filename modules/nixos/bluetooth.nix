@@ -7,7 +7,7 @@
   services.blueman.enable = true;
 
   # sound.enable = true;
-  hardware.pulseaudio = {
+  services.pulseaudio = {
     enable = false;
     package = pkgs.pulseaudioFull;
     extraConfig = ''

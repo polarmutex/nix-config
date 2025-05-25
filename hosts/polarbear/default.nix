@@ -144,6 +144,7 @@ in {
             self'.packages.git
             self'.packages.google-chrome
             self'.packages.brave
+            pkgs.firefox
           ];
 
           home-manager.sharedModules = [
