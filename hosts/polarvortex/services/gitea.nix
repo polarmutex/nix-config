@@ -6,6 +6,11 @@
   cfg_gitea = config.services.gitea;
   inherit (config.networking) domain;
   port = 8082;
+  theme = pkgs.fetchurl {
+    url = "https://github.com/lutinglt/gitea-github-theme/releases/download/v1.23.3-20250211-1920/theme-github.css";
+    sha256 = "";
+    stripRoot = false;
+  };
 in {
   users.users.git = {
     description = "Gitea Service";
@@ -47,8 +52,8 @@ in {
         DISABLE_HTTP_GIT = true;
       };
       ui = {
-        THEMES = "arc-green";
-        DEFAULT_THEME = "arc-green";
+        THEMES = "gitea-dark";
+        DEFAULT_THEME = "gitea-dark";
       };
       mailer = {
         ENABLED = true;

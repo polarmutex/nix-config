@@ -3,6 +3,7 @@ keys:
   - &admin_polar age1u8xktau67344v0pqx96h4ttv8nf87va6gg72dukdtcaj4v0nlqhsnrzt0j
   - &admin_work age1ul4tlvkgg8v58yfnhpsxxpx56sfyhsx62gfdsdtjgeufh26jwvfqg6x2w0
   - &polarbear age1vx5qc0mz7lj6ncly05tzrmywjj0l3m8zednkp3fgzgrpck7z8qzqmhw620
+  - &polarvortex age1kftndgtjft4ctgg89la4tjr0tlg9cnsr2pysvp647zjkmll30ufqyrxtqa
   - &server_vm_polarbear age1xf8ksmuwfjhuqun5ye0fe09cu0g8glm2nley9hpkk78nty42laks69ewg3
   - &server_vm_work age14y568xrw7gppg343fnrnethrtmdfq8nmqqwcgh6ne4s6lt8h8ycshjzvqh
 
@@ -18,6 +19,11 @@ creation_rules:
       - age:
         - *admin_polar
         - *polarbear
+  - path_regex: hosts/polarvortex/[^/]+\.yaml$
+    key_groups:
+      - age:
+        - *admin_polar
+        - *polarvortex
   - path_regex: hosts/vm-intel/[^/]+\.yaml$
     key_groups:
       - age:
