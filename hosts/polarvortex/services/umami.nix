@@ -3,7 +3,7 @@
   inherit (config.networking) domain;
 
   port = 3000;
-  umamiTag = "postgresql-v2.9.0";
+  umamiTag = "postgresql-latest";
 in {
   virtualisation.oci-containers = {
     backend = "podman";

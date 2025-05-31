@@ -10,11 +10,13 @@ in {
   ];
 
   boot = {
-    initrd.availableKernelModules = ["virtio_pci" "virtio_scsi" "ahci" "sd_mod"];
+    initrd.availableKernelModules = [
+      # "virtio_pci" "virtio_scsi" "ahci" "sd_mod"
+    ];
     initrd.kernelModules = [];
     kernelModules = [];
     extraModulePackages = [];
-    kernelParams = ["console=ttyS0,19200n8"];
+    kernelParams = ["net.ifnames=0"];
   };
 
   networking = {

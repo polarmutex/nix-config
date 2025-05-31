@@ -34,6 +34,7 @@ flake @ {
             "nvidia-settings"
             "nvidia-persistenced"
             "obsidian"
+            "open-webui"
             "steam"
             "steam-original"
             "symbola"

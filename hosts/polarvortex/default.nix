@@ -56,7 +56,13 @@ in {
             # This is the actual specification of the secrets.
             # sops.secrets.example-key = {};
             # sops.secrets."myservice/my_subdir/my_secret" = {};
-            secrets = {};
+            secrets = {
+              # open-webui-envfile = {
+              #   mode = "444";
+              #   group = "wheel";
+              #   owner = "open-webui";
+              # };
+            };
           };
         }
       ]));

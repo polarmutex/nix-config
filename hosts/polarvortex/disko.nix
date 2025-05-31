@@ -1,10 +1,12 @@
 _: {
   fileSystems."/" = {
-    device = "/dev/sda";
+    device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
   };
 
   swapDevices = [
-    {device = "/dev/sdb";}
+    {
+      device = "/dev/disk/by-label/swap";
+    }
   ];
 }

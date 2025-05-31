@@ -45,7 +45,7 @@
                 hostname = "polarvortex";
                 profiles.system = {
                   sshUser = "polar";
-                  sudo = "doas -u";
+                  # sudo = "doas -u";
                   user = "root";
                   path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
                 };
@@ -102,6 +102,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hardware.url = "github:nixos/nixos-hardware";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
