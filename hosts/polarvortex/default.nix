@@ -29,7 +29,7 @@
     })
   ];
 in {
-  flake.nixosConfigurations.polarvortex = withSystem system (_:
+  flake.nixosConfigurations.polarvortex = withSystem system ({self', ...}:
     mkNixos system (defaultModules
       ++ [
         ./boot.nix
@@ -39,6 +39,12 @@ in {
         ./system.nix
         ./users.nix
         nixosModules.server
+        {
+          environment.systemPackages = [
+            inputs.neovim-flake.packages.${system}.neovim
+            self'.packages.git
+          ];
+        }
         {
           sops = {
             # This will add secrets.yml to the nix store

@@ -10,7 +10,6 @@
       bottom
       curl
       dnsutils
-      git
       htop
       jq
       ripgrep
