@@ -8,6 +8,7 @@ flake @ {
     pkgs,
     system,
     inputs',
+    self',
     ...
   }: {
     _module.args = let
@@ -74,6 +75,7 @@ flake @ {
                 inherit (prev) system;
                 inherit config;
               };
+              umami = self'.packages.umami;
               # why was this here?
               # gnome-keyring = prev.gnome-keyring.overrideAttrs (old: {
               #   configureFlags =
@@ -109,6 +111,7 @@ flake @ {
               #   database = inputs'.nix-index-database.packages.nix-index-database;
               #   databaseDate = config.flake.lib.mkDate inputs.nix-index-database.lastModifiedDate;
               # };
+              umami = callPackage ./umami {};
 
               # All of the typical devcontainers to be used.
               devContainers-ubuntu = pkgs.dockerTools.buildLayeredImage {

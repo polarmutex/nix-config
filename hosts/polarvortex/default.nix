@@ -39,6 +39,7 @@ in {
         ./system.nix
         ./users.nix
         nixosModules.server
+        nixosModules.umami
         {
           environment.systemPackages = [
             inputs.neovim-flake.packages.${system}.neovim
@@ -63,6 +64,11 @@ in {
             # sops.secrets.example-key = {};
             # sops.secrets."myservice/my_subdir/my_secret" = {};
             secrets = {
+              umamiAppSecret = {
+                mode = "444";
+                group = "wheel";
+                owner = "root";
+              };
               # open-webui-envfile = {
               #   mode = "444";
               #   group = "wheel";
