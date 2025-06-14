@@ -1610,11 +1610,11 @@
         "pre-commit": "pre-commit"
       },
       "locked": {
-        "lastModified": 1749779509,
-        "narHash": "sha256-iqgWMuLuur1vRc4h3nZtg7SGFHuXusYXg01t2MRdpsk=",
+        "lastModified": 1749910027,
+        "narHash": "sha256-OAqzIB3CL9H2sHHMKXaE9vKt/bVjfu8uhqjsv+/yezw=",
         "owner": "polarmutex",
         "repo": "website",
-        "rev": "ff2f242db7d1bfeeba4df05911ea64f3293e8b0a",
+        "rev": "70884b01c48f98fef9251a2313ff792459540a35",
         "type": "github"
       },
       "original": {

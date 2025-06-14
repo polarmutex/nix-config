@@ -1,36 +1,43 @@
 {
   config,
-  inputs,
-  pkgs,
+  # inputs,
+  # pkgs,
   ...
 }: let
   inherit (config.networking) domain;
   port = 4000;
-  websiteTag = "0.1.2";
+  # websiteTag = "0.1.2";
 in {
-  virtualisation.oci-containers = {
-    containers = {
-      website = {
-        autoStart = true;
-        image = "ghcr.io/polarmutex/website/site-server:${websiteTag}";
-        environment = {
-        };
-        environmentFiles = [];
-        # extraOptions = ["--network=host"];
-        ports = ["127.0.0.1:${toString port}:3000"];
-      };
+  services.polarmutex-website = {
+    enable = true;
+    # package = pkgs.umami;
+    settings = {
+      PORT = port;
     };
   };
+  # virtualisation.oci-containers = {
+  #   containers = {
+  #     website = {
+  #       autoStart = true;
+  #       image = "ghcr.io/polarmutex/website/site-server:${websiteTag}";
+  #       environment = {
+  #       };
+  #       environmentFiles = [];
+  #       # extraOptions = ["--network=host"];
+  #       ports = ["127.0.0.1:${toString port}:3000"];
+  #     };
+  #   };
+  # };
 
-  users.users.website = {
-    description = "Website Service";
-    #home = cfg.stateDir;
-    useDefaultShell = true;
-    group = "website";
-    isSystemUser = true;
-  };
+  # users.users.website = {
+  #   description = "Website Service";
+  #   #home = cfg.stateDir;
+  #   useDefaultShell = true;
+  #   group = "website";
+  #   isSystemUser = true;
+  # };
 
-  users.groups.website = {};
+  # users.groups.website = {};
 
   services.nginx = {
     enable = true;

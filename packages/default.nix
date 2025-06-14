@@ -76,6 +76,7 @@ flake @ {
                 inherit config;
               };
               umami = self'.packages.umami;
+              polarmutex-website = inputs'.website.packages.default;
               # why was this here?
               # gnome-keyring = prev.gnome-keyring.overrideAttrs (old: {
               #   configureFlags =

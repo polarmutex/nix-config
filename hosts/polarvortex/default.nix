@@ -40,6 +40,7 @@ in {
         ./users.nix
         nixosModules.server
         nixosModules.umami
+        nixosModules.website
         {
           environment.systemPackages = [
             inputs.neovim-flake.packages.${system}.neovim

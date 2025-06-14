@@ -155,9 +155,9 @@
       url = "git+ssh://git@git.brianryall.xyz/polarmutex/wallpapers.git";
       #url = "path:///home/polar/repos/personal/wallpapers";
     };
-    #website = {
-    #  url = "git+ssh://git@git.brianryall.xyz/polarmutex/website.git";
-    #};
+    website = {
+      url = "github:polarmutex/website/dev";
+    };
     wrapper-manager = {
       url = "github:viperML/wrapper-manager";
       inputs.nixpkgs.follows = "nixpkgs";
