@@ -37,8 +37,8 @@ in {
       flags =
         commonFlags
         ++ [
-          # "--ozone-platform=wayland"
-          "--disable-gpu"
+          "--ozone-platform=wayland"
+          # "--disable-gpu"
         ];
     };
   };

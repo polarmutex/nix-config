@@ -39,6 +39,9 @@
 
   environment.sessionVariables = {
     COSMIC_DATA_CONTROL_ENABLED = "1";
+    NIXOS_OZONE_WL = "1";
+    QT_QPA_PLATFORM = "wayland";
+    GDK_BACKEND = "wayland";
   };
   security.rtkit.enable = true;
 
