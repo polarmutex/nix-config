@@ -70,11 +70,11 @@ in {
                 group = "wheel";
                 owner = "root";
               };
-              # open-webui-envfile = {
-              #   mode = "444";
-              #   group = "wheel";
-              #   owner = "open-webui";
-              # };
+              openWebUiAppSecret = {
+                mode = "444";
+                group = "wheel";
+                owner = "open-webui";
+              };
             };
           };
         }
