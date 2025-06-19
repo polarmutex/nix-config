@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (config.networking) domain;
-  port = 4000;
+  port = 4500;
   # websiteTag = "0.1.2";
 in {
   services.polarmutex-website = {

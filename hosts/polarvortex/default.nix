@@ -65,6 +65,11 @@ in {
             # sops.secrets.example-key = {};
             # sops.secrets."myservice/my_subdir/my_secret" = {};
             secrets = {
+              liteLLMAppSecret = {
+                mode = "444";
+                group = "wheel";
+                owner = "litellm";
+              };
               umamiAppSecret = {
                 mode = "444";
                 group = "wheel";
