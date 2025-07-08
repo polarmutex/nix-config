@@ -16,12 +16,12 @@ in {
   wrappers = {
     google-chrome = {
       basePackage = pkgs.unstable.google-chrome;
-      flags = commonFlags;
+      prependFlags = commonFlags;
     };
 
     ungoogled-chromium = {
       basePackage = pkgs.unstable.ungoogled-chromium;
-      flags =
+      prependFlags =
         commonFlags
         ++ [
           "--enable-features=${
@@ -34,7 +34,7 @@ in {
 
     brave = {
       basePackage = pkgs.unstable.brave;
-      flags =
+      prependFlags =
         commonFlags
         ++ [
           "--ozone-platform=wayland"
