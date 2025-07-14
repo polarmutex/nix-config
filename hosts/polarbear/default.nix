@@ -89,6 +89,7 @@ in {
             # };
           };
         }
+        nixosModules.ai
         nixosModules.desktop
         nixosModules.bluetooth
         nixosModules.fonts

@@ -4,7 +4,6 @@
   nixConfig = {
     extra-substituters = [
       "https://polarmutex.cachix.org"
-      "https://polar-nvim.cachix.org"
       "https://nix-community.cachix.org"
       "https://cosmic.cachix.org/"
     ];

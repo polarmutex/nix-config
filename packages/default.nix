@@ -22,6 +22,7 @@ flake @ {
             "1password"
             "1password-cli"
             "broadcom-sta"
+            "claude-code"
             "corefonts"
             "cuda_cudart"
             "cuda_cccl"
@@ -76,6 +77,8 @@ flake @ {
                 inherit config;
               };
               umami = self'.packages.umami;
+              claude-usage-monitor = self'.packages.claude-usage-monitor;
+              ccusage = self'.packages.ccusage;
               polarmutex-website = inputs'.website.packages.default;
               # why was this here?
               # gnome-keyring = prev.gnome-keyring.overrideAttrs (old: {
@@ -113,6 +116,8 @@ flake @ {
               #   databaseDate = config.flake.lib.mkDate inputs.nix-index-database.lastModifiedDate;
               # };
               umami = callPackage ./umami {};
+              claude-usage-monitor = callPackage ./claude-usage-monitor.nix {};
+              ccusage = callPackage ./ccusage.nix {};
 
               # All of the typical devcontainers to be used.
               devContainers-ubuntu = pkgs.dockerTools.buildLayeredImage {

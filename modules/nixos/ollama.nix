@@ -8,6 +8,6 @@
       "gemma3:1b"
       "gemma3:4b"
     ];
-    acceleration = "cuda";
+    # acceleration = "cuda";
   };
 }
