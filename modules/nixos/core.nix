@@ -11,6 +11,7 @@
       fd
       fq
       unstable.gh
+      unstable.glab
       gnumake
       hexyl
       unstable.htop

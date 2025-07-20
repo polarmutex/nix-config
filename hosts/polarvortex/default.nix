@@ -38,6 +38,7 @@ in {
         ./services
         ./system.nix
         ./users.nix
+        nixosModules.ai
         nixosModules.server
         nixosModules.umami
         nixosModules.website

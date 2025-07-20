@@ -24,7 +24,7 @@ in {
     useDHCP = false;
     interfaces.eth0.useDHCP = true;
 
-    domain = "brianryall.xyz";
+    domain = "polarmutex.dev";
   };
 
   security.acme.acceptTerms = true;
