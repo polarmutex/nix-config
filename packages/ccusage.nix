@@ -7,28 +7,28 @@
 }:
 stdenv.mkDerivation rec {
   pname = "ccusage";
-  version = "15.3.1";
+  version = "15.5.0";
 
   # Fetch the npm package directly
   src = fetchurl {
     url = "https://registry.npmjs.org/ccusage/-/ccusage-${version}.tgz";
-    hash = "sha256-wnRs0iGA7oVdF/JJwv/Cv/dFEHW3/bO/ovM4qj3QDUA=";
+    hash = "sha256-pb0dlxYOSnqJkZknAKozeOdBH3raVOoqHKGWkRX/Lio=";
   };
 
-  nativeBuildInputs = [ makeWrapper ];
+  nativeBuildInputs = [makeWrapper];
 
   installPhase = ''
     runHook preInstall
-    
+
     mkdir -p $out/lib/node_modules/ccusage $out/bin
-    
+
     # Extract and copy the npm package
     cp -r . $out/lib/node_modules/ccusage/
-    
+
     # Create executable wrapper for the CLI
     makeWrapper ${nodejs}/bin/node $out/bin/ccusage \
       --add-flags "$out/lib/node_modules/ccusage/dist/index.js"
-    
+
     runHook postInstall
   '';
 
