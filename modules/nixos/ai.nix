@@ -3,5 +3,6 @@
     unstable.claude-code
     claude-usage-monitor
     ccusage
+    superclaude
   ];
 }
