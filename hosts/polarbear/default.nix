@@ -104,6 +104,7 @@ in {
         nixosModules.user-polar
         nixosModules.ollama
         nixosModules._1password
+        nixosModules.zed
         {
           services.displayManager.autoLogin = {
             enable = true;

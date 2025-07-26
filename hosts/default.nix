@@ -25,6 +25,7 @@
         pkgs = withSystem system ({pkgs, ...}: pkgs);
         modules =
           [
+            inputs.nix-maid.nixosModules.default
             inputs.sops-nix.nixosModules.sops
             inputs.noshell.nixosModules.default
             {

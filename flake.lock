@@ -849,6 +849,21 @@
         "type": "github"
       }
     },
+    "nix-maid": {
+      "locked": {
+        "lastModified": 1753201460,
+        "narHash": "sha256-OBRN1DqwitwxymeuNGEouTvRIPqMEbMQM5cvXfZvDPQ=",
+        "owner": "viperML",
+        "repo": "nix-maid",
+        "rev": "bf9cac33b417af732dd7c9626c1846d0132cfd27",
+        "type": "github"
+      },
+      "original": {
+        "owner": "viperML",
+        "repo": "nix-maid",
+        "type": "github"
+      }
+    },
     "nixos-cosmic": {
       "inputs": {
         "flake-compat": "flake-compat_6",
@@ -1352,6 +1367,7 @@
         "monolisa-font-flake": "monolisa-font-flake",
         "neovim-flake": "neovim-flake",
         "nix-darwin": "nix-darwin",
+        "nix-maid": "nix-maid",
         "nixos-cosmic": "nixos-cosmic",
         "nixpkgs": "nixpkgs_9",
         "nixpkgs-stable": "nixpkgs-stable_3",
