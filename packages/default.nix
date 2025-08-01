@@ -15,7 +15,8 @@ flake @ {
       config = {
         permittedInsecurePackages = [
           "electron-32.3.3"
-          "broadcom-sta-6.30.223.271-57-6.12.39"
+          "broadcom-sta-6.30.223.271-57-6.12.41"
+          "libsoup-2.74.3"
         ];
         allowUnfreePredicate = pkg: let
           pname = lib.getName pkg;

@@ -129,6 +129,7 @@ in {
             ansible
             unstable.anki-bin
             unstable.devpod
+            unstable.devcontainer
             flameshot
             unstable.gramps
             unstable.libreoffice-fresh
