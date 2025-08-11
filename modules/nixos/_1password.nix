@@ -21,12 +21,12 @@
     # };
   };
   # Unlocking Browser Extensions
-  environment.etc = {
-    "1password/custom_allowed_browsers" = {
-      text = ''
-        vivaldi-bin
-      '';
-      mode = "0755";
-    };
-  };
+  # environment.etc = {
+  #   "1password/custom_allowed_browsers" = {
+  #     text = ''
+  #       vivaldi-bin
+  #     '';
+  #     mode = "0755";
+  #   };
+  # };
 }

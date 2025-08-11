@@ -7,10 +7,11 @@
       "gemma3:4b"
       "gemma3:12b"
       "qwen:4b"
-      "qwen:8b"
-      "qwen:14b"
+      "qwen3:8b"
+      "qwen3:14b"
       "qwen2.5-coder:7b"
       "qwen2.5-coder:14b"
+      "mxbai-embed-large"
     ];
     acceleration = "cuda";
   };

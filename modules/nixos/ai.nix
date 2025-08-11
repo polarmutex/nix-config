@@ -1,8 +1,13 @@
-{pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    unstable.claude-code
-    claude-usage-monitor
-    ccusage
-    # superclaude
+{
+  inputs,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with inputs.nix-ai-tools.packages.${pkgs.system}; [
+    claude-code
+    claude-code-router
+    qwen-code
+    pkgs.claude-usage-monitor
+    pkgs.ccusage
   ];
 }

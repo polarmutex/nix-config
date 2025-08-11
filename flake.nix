@@ -84,6 +84,7 @@
                 # nvtop
                 glxinfo
                 nh
+                lm_sensors
               ];
             };
         };
@@ -192,5 +193,7 @@
       url = "github:viperML/nix-maid";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-ai-tools.url = "github:numtide/nix-ai-tools";
   };
 }

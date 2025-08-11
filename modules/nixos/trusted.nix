@@ -9,17 +9,19 @@
   };
 
   systemd = {
-    user.services._1password-agent-1 = {
-      description = "1password-agent-1";
-      wantedBy = ["graphical-session.target"];
-      wants = ["graphical-session.target"];
-      after = ["graphical-session.target"];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${lib.getExe pkgs.unstable._1password-gui} --silent";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
+    user.services = {
+      _1password-agent-1 = {
+        description = "1password-agent-1";
+        wantedBy = ["graphical-session.target"];
+        wants = ["graphical-session.target"];
+        after = ["graphical-session.target"];
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = "${lib.getExe pkgs.unstable._1password-gui} --silent";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
+        };
       };
     };
   };
