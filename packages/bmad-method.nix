@@ -1,0 +1,42 @@
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
+}:
+buildNpmPackage rec {
+  pname = "bmad-method";
+  version = "1.0.0";
+
+  src = fetchFromGitHub {
+    owner = "bmad-code-org";
+    repo = "BMAD-METHOD";
+    rev = "main";
+    hash = "sha256-3zjSaUVdqi8BZCmeXxnoS5ti1k6lIdYaHb53bD/Q3UU=";
+  };
+
+  npmDepsHash = "sha256-fuP7yiafVdj/Zj5RMD7pw+t5XXUE3v9R0AAL2iYNN5E=";
+
+  # No build needed for this package
+  dontBuild = true;
+
+  meta = with lib; {
+    description = "Universal AI agent framework for agile, AI-driven development";
+    longDescription = ''
+      BMAD-METHOD is a universal AI agent framework designed for agile,
+      AI-driven development across multiple domains. It features agentic planning
+      with dedicated AI agents (Analyst, PM, Architect) that collaborate to create
+      detailed product requirements and architecture documents.
+      
+      Key features include:
+      - Context-engineered development with Scrum Master transformation
+      - Codebase Flattener Tool for AI model consumption
+      - Support for expansion packs across different domains
+      - Comprehensive documentation and community support
+    '';
+    homepage = "https://github.com/bmad-code-org/BMAD-METHOD";
+    license = licenses.mit;
+    maintainers = with maintainers; [polarmutex];
+    mainProgram = "bmad-method";
+    platforms = platforms.unix;
+  };
+}

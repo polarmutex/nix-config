@@ -5,7 +5,7 @@
 }:
 python3Packages.buildPythonApplication rec {
   pname = "claude-usage-monitor";
-  version = "3.0.4";
+  version = "3.1.0";
 
   format = "pyproject";
 
@@ -13,7 +13,7 @@ python3Packages.buildPythonApplication rec {
     owner = "Maciek-roboblog";
     repo = "Claude-Code-Usage-Monitor";
     rev = "v${version}";
-    hash = "sha256-84KEHz9AJyfopbJT43ZY5i9vteC0izT8SrhFCrMK6Mo=";
+    hash = "sha256-v5ooniaN1iVerBW77/00SpghIVE1j8cl2WENcPnS66M=";
   };
 
   nativeBuildInputs = with python3Packages; [
