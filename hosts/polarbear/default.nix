@@ -72,21 +72,36 @@ in {
       ++ defaultModules
       ++ [
         ./configuration.nix
-        inputs.hardware.nixosModules.common-cpu-intel-cpu-only
-        inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
-        inputs.hardware.nixosModules.common-gpu-intel-disable
-        nixosModules.nvidia
+        #inputs.hardware.nixosModules.common-cpu-intel-cpu-only
+        # inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
+        #inputs.hardware.nixosModules.common-gpu-intel-disable
+        # nixosModules.nvidia
         {
           # The open source driver does not support Maxwell GPUs.
-          hardware.nvidia = {
-            open = false;
-            # prime = {
-            #   # Bus ID of the Intel GPU.
-            #   intelBusId = lib.mkDefault "PCI:0:2:0";
-            #
-            #   # Bus ID of the NVIDIA GPU.
-            #   nvidiaBusId = lib.mkDefault "PCI:1:0:0";
-            # };
+
+          services.xserver.videoDrivers = ["nvidia"];
+          hardware = {
+            graphics = {
+              enable = true;
+              enable32Bit = true;
+            };
+            nvidia = {
+              modesetting.enable = true;
+              powerManagement = {
+                enable = false;
+                finegrained = false;
+              };
+              open = true;
+              nvidiaSettings = true;
+              # package = config.boot.kernelPackages.nvidiaPackages.stable;
+              # prime = {
+              #   # Bus ID of the Intel GPU.
+              #   intelBusId = lib.mkDefault "PCI:0:2:0";
+              #
+              #   # Bus ID of the NVIDIA GPU.
+              #   nvidiaBusId = lib.mkDefault "PCI:1:0:0";
+              # };
+            };
           };
         }
         nixosModules.ai
@@ -99,7 +114,7 @@ in {
         nixosModules.nix
         nixosModules.docker
         nixosModules.trusted
-        nixosModules.vmware
+        #nixosModules.vmware
         nixosModules.yubikey
         nixosModules.user-polar
         nixosModules.ollama
@@ -148,6 +163,7 @@ in {
             self'.packages.google-chrome
             self'.packages.brave
             pkgs.firefox
+            nvtopPackages.nvidia
           ];
 
           home-manager.sharedModules = [
