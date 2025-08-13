@@ -193,7 +193,8 @@
       url = "github:viperML/nix-maid";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
+    flakey-profile.url = "github:lf-/flakey-profile";
+    nixgl.url = "github:nix-community/nixGL";
   };
 }
