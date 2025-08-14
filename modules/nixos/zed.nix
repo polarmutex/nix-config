@@ -18,6 +18,7 @@ with lib; {
     patchelf
     clang-tools_18
     gcc
+    clang_18
   ];
 
   # Configure nix-maid for Zed configuration management
@@ -94,10 +95,22 @@ with lib; {
   };
 
   # Ensure rust toolchain is available for extension development
-  # environment.variables = mkIf cfg.enableRustDevelopment {
-  #   RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
-  # };
+  environment.variables = {
+    RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+  };
 
   # Enable necessary system services for development
-  # programs.nix-ld.enable = mkIf cfg.enableRustDevelopment true;
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    openssl
+    curl
+    gitMinimal
+    glibc
+    clang
+    gcc-unwrapped
+    binutils
+    gnutar
+    gzip
+  ];
 }

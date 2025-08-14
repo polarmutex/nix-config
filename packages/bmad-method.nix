@@ -5,16 +5,16 @@
 }:
 buildNpmPackage rec {
   pname = "bmad-method";
-  version = "1.0.0";
+  version = "4.36.2";
 
   src = fetchFromGitHub {
     owner = "bmad-code-org";
     repo = "BMAD-METHOD";
-    rev = "main";
-    hash = "sha256-3zjSaUVdqi8BZCmeXxnoS5ti1k6lIdYaHb53bD/Q3UU=";
+    rev = "v${version}";
+    hash = "sha256-5udF4tAy32i8KEhMr/WkfD3e/aF2MIoPhhyODihppsM=";
   };
 
-  npmDepsHash = "sha256-fuP7yiafVdj/Zj5RMD7pw+t5XXUE3v9R0AAL2iYNN5E=";
+  npmDepsHash = "sha256-jnV2/logTRIwcqkrdu7JDPcDhRu5+ifTWllfqeS6J8c=";
 
   # No build needed for this package
   dontBuild = true;
@@ -26,7 +26,7 @@ buildNpmPackage rec {
       AI-driven development across multiple domains. It features agentic planning
       with dedicated AI agents (Analyst, PM, Architect) that collaborate to create
       detailed product requirements and architecture documents.
-      
+
       Key features include:
       - Context-engineered development with Scrum Master transformation
       - Codebase Flattener Tool for AI model consumption
