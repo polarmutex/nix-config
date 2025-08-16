@@ -18,12 +18,14 @@ creation_rules:
         - *admin_polar
         - *admin_polar2
         - *polarbear
+        - *polarbear2
   - path_regex: hosts/polarbear/[^/]+\.yaml$
     key_groups:
       - age:
         - *admin_polar
         - *admin_polar2
         - *polarbear
+        - *polarbear2
   - path_regex: hosts/polarvortex/[^/]+\.yaml$
     key_groups:
       - age:
