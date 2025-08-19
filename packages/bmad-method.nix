@@ -5,16 +5,16 @@
 }:
 buildNpmPackage rec {
   pname = "bmad-method";
-  version = "5.0.0";
+  version = "4.40.0";
 
   src = fetchFromGitHub {
     owner = "bmad-code-org";
     repo = "BMAD-METHOD";
     rev = "v${version}";
-    hash = "sha256-vkejZS+UXL9+T6P5S69tJgb/kRX1Dj1d/7cjcIjvCBM=";
+    hash = "sha256-vb393zd5PwwAaa+WYCKnDvkdfc2Xl8bltVRqL7CofXM=";
   };
 
-  npmDepsHash = "sha256-evxHocLOL3rxr9ajDT+KDE/OphCJYYZvTG399d5cndM=";
+  npmDepsHash = "sha256-LMii419/tFS6nLFwxbq7eFFvzPBieVlVLZfm9MS/S/s=";
 
   # No build needed for this package
   dontBuild = true;

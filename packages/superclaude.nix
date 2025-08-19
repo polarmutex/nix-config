@@ -5,15 +5,14 @@
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "SuperClaude";
-  version = "4.0.0";
+  version = "4.0.8";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "SuperClaude-Org";
     repo = "SuperClaude_Framework";
-    # rev = "v${version}";
-    rev = "SuperClaude_V4_Beta";
-    hash = "sha256-rChf4vxM/CxiHTof/QXrxmNA1VHpJ36bcS2nUYaTu/g=";
+    rev = "v${version}";
+    hash = "sha256-qyBcRXUqZWDWT+++3KLtHcrOMYjoBU7aQuruJjKm/nY=";
   };
 
   build-system = with python3.pkgs; [

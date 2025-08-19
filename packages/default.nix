@@ -161,7 +161,8 @@ flake @ {
                 inherit pkgs;
                 # Specifies things to pin in the flake registry and in NIX_PATH.
                 pinned = {nixpkgs = toString inputs.nixpkgs;};
-                paths = with pkgs; let
+                paths = with pkgs;
+                with inputs.nix-ai-tools.packages.${pkgs.system}; let
                   findWrapperPackage = packageAttr:
                   # NixGL has wrapper packages in different places depending on how you
                   # access it. We want HM configuration to be the same, regardless of how
@@ -263,16 +264,18 @@ flake @ {
                       };
                 in [
                   inputs.neovim-flake.packages.${system}.neovim
-                  (makePackageWrapper "Intel" {} (unstable.zed-editor.overrideAttrs {withGles = true;}))
-                  # (unstable.zed-editor.overrideAttrs
-                  #   {withGles = true;})
-                  unstable.claude-code
+                  # (makePackageWrapper "Intel" {} (unstable.zed-editor.overrideAttrs {withGles = true;}))
+                  (makePackageWrapper "Intel" {} unstable.zed-editor)
+                  claude-code
+                  ccusage
+                  bmad-method
+                  gemini-cli
+                  pkgs.superclaude
                   unstable.lazygit
                   unstable.gh
                   unstable.glab
                   unstable.devpod
                   unstable.git
-                  bmad-method
                 ];
               };
             }

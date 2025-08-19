@@ -6,11 +6,13 @@
       "https://polarmutex.cachix.org"
       "https://nix-community.cachix.org"
       "https://cosmic.cachix.org/"
+      "https://zed.cachix.org"
     ];
     extra-trusted-public-keys = [
       "polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
+      "zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU="
     ];
     # allow-import-from-derivation = "true";
   };
