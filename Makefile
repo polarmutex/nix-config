@@ -46,7 +46,7 @@ blackbear:
 	deploy ".#blackbear" -d --hostname 192.168.122.44
 
 polarvortex:
-	deploy ".#polarvortex" --ssh-user "polar"  --hostname brianryall.xyz
+	deploy ".#polarvortex" --ssh-user "polar"  --hostname polarmutex.dev
 
 vm:
 	deploy ".#vm-intel" --ssh-user "polar"  --hostname 172.16.193.128

@@ -35,10 +35,6 @@ in {
     shell = "/run/current-system/sw/bin/fish";
   };
 
-  home-manager.users.${name} = {
-    home.stateVersion = "24.11";
-  };
-
   # systemd.tmpfiles.rules =
   #   [
   #     "d ${home} 0700 ${name} ${config.users.users.${name}.group} - -"

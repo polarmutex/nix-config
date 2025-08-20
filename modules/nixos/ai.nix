@@ -9,6 +9,7 @@
     qwen-code
     gemini-cli
     opencode
+    pkgs.superclaude
     pkgs.claude-usage-monitor
     pkgs.ccusage
     pkgs.bmad-method

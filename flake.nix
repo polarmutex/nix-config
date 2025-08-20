@@ -24,11 +24,9 @@
         ...
       }: {
         imports = [
-          # inputs.home-manager.flakeModules.home-manager
           ./packages
           ./misc/lib
           ./hosts
-          ./home-manager
           # ./wrappers
           # ./modules
           # ./lib
@@ -36,7 +34,6 @@
 
         flake = {
           nixosModules = config.flake.lib.dirToAttrs ./modules/nixos;
-          homeModules = config.flake.lib.dirToAttrs ./modules/home-manager;
           deploy = {
             nodes = {
               polarvortex = {
@@ -74,7 +71,6 @@
           devShells.default = with pkgs;
             mkShellNoCC {
               packages = [
-                # home-manager
                 sops
                 age
                 deploy-rs
@@ -129,11 +125,6 @@
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-    home-manager = {
-      # url = "github:nix-community/home-manager/master";
-      url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     helix = {
       url = "github:helix-editor/helix";
@@ -196,5 +187,8 @@
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
     flakey-profile.url = "github:lf-/flakey-profile";
     nixgl.url = "github:nix-community/nixGL";
+    zed = {
+      url = "github:zed-industries/zed";
+    };
   };
 }

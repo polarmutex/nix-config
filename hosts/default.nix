@@ -31,17 +31,6 @@
             {
               programs.noshell.enable = true;
             }
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                extraSpecialArgs = specialArgs;
-                sharedModules = [
-                  inputs.sops-nix.homeManagerModules.sops
-                ];
-                useGlobalPkgs = true;
-                useUserPackages = true;
-              };
-            }
           ]
           ++ extraModules;
       };

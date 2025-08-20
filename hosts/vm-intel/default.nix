@@ -120,11 +120,11 @@ in {
           # };
         }
         #-- home-manager
-        {
-          home-manager.sharedModules = [
-            ./home.nix
-          ];
-        }
+        # {
+        #   home-manager.sharedModules = [
+        #     ./home.nix
+        #   ];
+        # }
       ]
     ));
 }
