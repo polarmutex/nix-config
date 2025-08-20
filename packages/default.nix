@@ -91,6 +91,7 @@ flake @ {
       pkgs = import inputs.nixpkgs-stable {
         inherit config system;
         overlays = [
+          inputs.zed.overlays.default
           (
             _final: prev: {
               unstable = import inputs.nixpkgs {
@@ -101,7 +102,7 @@ flake @ {
               claude-usage-monitor = self'.packages.claude-usage-monitor;
               ccusage = self'.packages.ccusage;
               bmad-method = self'.packages.bmad-method;
-              # superclaude = self'.packages.superclaude;
+              superclaude = self'.packages.superclaude;
               polarmutex-website = inputs'.website.packages.default;
               # why was this here?
               # gnome-keyring = prev.gnome-keyring.overrideAttrs (old: {
@@ -142,7 +143,7 @@ flake @ {
               claude-usage-monitor = callPackage ./claude-usage-monitor.nix {};
               ccusage = callPackage ./ccusage.nix {};
               bmad-method = callPackage ./bmad-method.nix {};
-              # superclaude = callPackage ./superclaude.nix {};
+              superclaude = callPackage ./superclaude.nix {};
 
               # All of the typical devcontainers to be used.
               devContainers-ubuntu = pkgs.dockerTools.buildLayeredImage {

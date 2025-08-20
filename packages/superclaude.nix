@@ -1,20 +1,24 @@
 {
   lib,
   python3,
-  fetchPypi,
+  fetchFromGitHub,
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "SuperClaude";
-  version = "3.0.0.1";
-  format = "wheel";
+  version = "4.0.0";
+  pyproject = true;
 
-  src = fetchPypi {
-    inherit pname version format;
-    python = "py3";
-    abi = "none";
-    platform = "any";
-    hash = "sha256-zsHGmI40V53+D3xIoKresMSZm21GzC73xVdvwV1gH2w=";
+  src = fetchFromGitHub {
+    owner = "SuperClaude-Org";
+    repo = "SuperClaude_Framework";
+    # rev = "v${version}";
+    rev = "SuperClaude_V4_Beta";
+    hash = "sha256-rChf4vxM/CxiHTof/QXrxmNA1VHpJ36bcS2nUYaTu/g=";
   };
+
+  build-system = with python3.pkgs; [
+    setuptools
+  ];
 
   dependencies = with python3.pkgs; [
     # Add actual dependencies once we can inspect the package
