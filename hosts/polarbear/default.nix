@@ -130,58 +130,47 @@ in {
             inputs.neovim-flake.packages.${system}.neovim
             morgen-updated
             self'.packages.fish
+            self'.packages.git-polar
             self'.packages.ghostty
-            self'.packages.git
             self'.packages.google-chrome
             self'.packages.brave
             pkgs.firefox
             nvtopPackages.nvidia
           ];
 
-          # home-manager.sharedModules = [
-          # homeModules.pop-shell
-          # {
-          #   # services.ollama = {
-          #   #   enable = true;
-          #   #   # acceleration = false;
-          #   # };
-          #
-          #   systemd.user.services.obsidian-second-brain-sync = {
-          #     Unit = {Description = "Obsidian Second Brain Sync";};
-          #     Service = {
-          #       CPUSchedulingPolicy = "idle";
-          #       IOSchedulingClass = "idle";
-          #       ExecStart = let
-          #         git = self'.packages.git;
-          #       in
-          #         toString (
-          #           pkgs.writeShellScript "obsidian-second-brain-sync" ''
-          #             #!/usr/bin/env sh
-          #             OBSIDIAN_PATH="/home/polar/repos/personal/obsidian-second-brain/main"
-          #             cd $OBSIDIAN_PATH
-          #             CHANGES_EXIST="$(${git}/bin/git status - porcelain | ${pkgs.coreutils}/bin/wc -l)"
-          #             if [ "$CHANGES_EXIST" -eq 0 ]; then
-          #               exit 0
-          #             fi
-          #             ${git}/bin/git add .
-          #             ${git}/bin/git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on nixos"
-          #             ${git}/bin/git pull --rebase
-          #             ${git}/bin/git push -q
-          #           ''
-          #         );
-          #     };
-          #   };
-          #
-          #   systemd.user.timers.obsidian-second-brain-sync = {
-          #     Unit = {Description = "Obsidian Second Brain Periodic Sync";};
-          #     Timer = {
-          #       Unit = "obsidian-second-brain-sync.service";
-          #       OnCalendar = "*:0/30";
-          #     };
-          #     Install = {WantedBy = ["timers.target"];};
-          #   };
-          # }
-          # ];
+          users.users.polar = {
+            maid = {
+              file.home.".gitconfig".source = self'.packages.git-polar.gitconfig;
+              systemd.services.obsidian-second-brain-sync = {
+                path = [
+                  pkgs.git
+                  pkgs.coreutils
+                ];
+                script = ''
+                  OBSIDIAN_PATH="/home/polar/repos/personal/obsidian-second-brain/main"
+                  cd $OBSIDIAN_PATH
+                  CHANGES_EXIST="$(git status - porcelain | wc -l)"
+                  if [ "$CHANGES_EXIST" -eq 0 ]; then
+                    exit 0
+                  fi
+                  git add .
+                  git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on nixos"
+                  git pull --rebase
+                  git push -q
+                '';
+                wantedBy = ["graphical-session.target"];
+              };
+
+              systemd.timers.obsidian-second-brain-sync = {
+                unitConfig = {Description = "Obsidian Second Brain Periodic Sync";};
+                timerConfig = {
+                  Unit = "obsidian-second-brain-sync.service";
+                  OnCalendar = "*:0/30";
+                };
+                wants = ["timers.target"];
+              };
+            };
+          };
         }
       ]
     ));

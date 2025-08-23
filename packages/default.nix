@@ -15,7 +15,7 @@ flake @ {
       config = {
         permittedInsecurePackages = [
           "electron-32.3.3"
-          "broadcom-sta-6.30.223.271-57-6.12.41"
+          "broadcom-sta-6.30.223.271-57-6.12.42"
           "libsoup-2.74.3"
         ];
         allowUnfreePredicate = pkg: let
@@ -300,10 +300,6 @@ flake @ {
         in
           stage2
           // {
-            # env = callPackage ./env {
-            #   inherit inputs';
-            # };
-            # maid = inputs.nix-maid p ../modules/maid;
           };
       in
         stage3

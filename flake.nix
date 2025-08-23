@@ -153,7 +153,6 @@
     };
     wrapper-manager = {
       url = "github:viperML/wrapper-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     noshell = {
       url = "github:viperML/noshell";
@@ -182,7 +181,6 @@
 
     nix-maid = {
       url = "github:viperML/nix-maid";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
     flakey-profile.url = "github:lf-/flakey-profile";

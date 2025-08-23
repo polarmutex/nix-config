@@ -3,20 +3,29 @@
   # lib,
   ...
 }: let
-  myGit = pkgs.unstable.gitFull;
-  gitconfig =
-    builtins.readFile ./gitconfig
-    + ''
+  gitconfig = builtins.toFile "gitconfig" (
+    (builtins.readFile ./gitconfig)
+    +
+    # gitconfig
+    ''
       [includeIf "gitdir:~/repos/work/"]
         path = "/run/secrets/git_config_work";
-    '';
+    ''
+  );
 in {
-  wrappers.git = {
-    basePackage = myGit;
+  wrappers.git-polar = {
+    basePackage = pkgs.unstable.git.overrideAttrs (old: {
+      passthru =
+        (old.passhtru or {})
+        // {
+          inherit gitconfig;
+        };
+    });
     extraPackages = [
-      pkgs.git-extras
-      myGit
+      pkgs.unstable.git-extras
+      pkgs.unstable.git-graph
+      # myGit
     ];
-    env.GIT_CONFIG_GLOBAL.value = builtins.toFile "gitconfig" gitconfig;
+    env.GIT_CONFIG_GLOBAL.value = gitconfig;
   };
 }
