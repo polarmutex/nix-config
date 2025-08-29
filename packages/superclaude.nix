@@ -12,7 +12,7 @@ python3.pkgs.buildPythonPackage rec {
     owner = "SuperClaude-Org";
     repo = "SuperClaude_Framework";
     rev = "v${version}";
-    hash = "sha256-qyBcRXUqZWDWT+++3KLtHcrOMYjoBU7aQuruJjKm/nY=";
+    hash = "sha256-PyS20QCyKgl9I5BnWKCZY6En/p3ig3S3CPamEj3JOpQ=";
   };
 
   build-system = with python3.pkgs; [

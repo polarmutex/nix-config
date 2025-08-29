@@ -136,6 +136,8 @@ in {
             self'.packages.brave
             pkgs.firefox
             nvtopPackages.nvidia
+            nodejs
+            uv
           ];
 
           users.users.polar = {
