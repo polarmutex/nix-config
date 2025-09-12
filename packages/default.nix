@@ -15,7 +15,7 @@ flake @ {
       config = {
         permittedInsecurePackages = [
           "electron-32.3.3"
-          "broadcom-sta-6.30.223.271-57-6.12.43"
+          "broadcom-sta-6.30.223.271-57-6.12.46"
           "libsoup-2.74.3"
         ];
         allowUnfreePredicate = pkg: let
@@ -23,6 +23,7 @@ flake @ {
           byName = builtins.elem pname [
             "1password"
             "1password-cli"
+            "android-studio-stable"
             "broadcom-sta"
             "claude-code"
             "corefonts"

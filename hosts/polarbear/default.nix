@@ -138,6 +138,7 @@ in {
             nvtopPackages.nvidia
             nodejs
             uv
+            unstable.android-studio
           ];
 
           users.users.polar = {
