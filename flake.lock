@@ -880,11 +880,11 @@
         "spell-en-suggestions": "spell-en-suggestions"
       },
       "locked": {
-        "lastModified": 1757693934,
-        "narHash": "sha256-XxhdgO+2KsU6v52k/aozVoZzRl5yZbwcOOF0wHodpeY=",
+        "lastModified": 1758295554,
+        "narHash": "sha256-FrNFldPPVMIw6+mx5R8qJ3EjkDtg1FXxVgCRh1gDxM8=",
         "owner": "polarmutex",
         "repo": "neovim-flake",
-        "rev": "f5f3a05cbaf08320e42e00dec4f6fea5b34a8dbf",
+        "rev": "71d8aa8270fa43a98d885db3a23081b52d3a090d",
         "type": "github"
       },
       "original": {
@@ -1371,11 +1371,11 @@
     },
     "nixpkgs_9": {
       "locked": {
-        "lastModified": 1754340878,
-        "narHash": "sha256-lgmUyVQL9tSnvvIvBp7x1euhkkCho7n3TMzgjdvgPoU=",
+        "lastModified": 1758029226,
+        "narHash": "sha256-TjqVmbpoCqWywY9xIZLTf6ANFvDCXdctCjoYuYPYdMI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cab778239e705082fe97bb4990e0d24c50924c04",
+        "rev": "08b8f92ac6354983f5382124fef6006cade4a1c1",
         "type": "github"
       },
       "original": {
@@ -1455,11 +1455,11 @@
         "nixpkgs": "nixpkgs_9"
       },
       "locked": {
-        "lastModified": 1755960406,
-        "narHash": "sha256-RF7j6C1TmSTK9tYWO6CdEMtg6XZaUKcvZwOCD2SICZs=",
+        "lastModified": 1758108966,
+        "narHash": "sha256-ytw7ROXaWZ7OfwHrQ9xvjpUWeGVm86pwnEd1QhzawIo=",
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "e891a93b193fcaf2fc8012d890dc7f0befe86ec2",
+        "rev": "54df955a695a84cd47d4a43e08e1feaf90b1fd9b",
         "type": "github"
       },
       "original": {

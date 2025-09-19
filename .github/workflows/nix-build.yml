@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name:  Nix build
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - 'update/flake'
+  workflow_dispatch:
+
+jobs:
+
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        flake_output: [
+          # my-zellij
+          nixosConfigurations.polarbear.config.system.build.toplevel,
+          #homeConfigurations.'polar@polarbear'.activationPackage
+        ]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v24
+      with:
+        extra_nix_config: |
+          auto-optimise-store = true
+          access-tokens = github.com=${{ secrets.PAT }}
+          experimental-features = nix-command flakes
+          substituters = https://cache.nixos.org/ https://nix-community.cachix.org https://zed.cachix.org
+          trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE= zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU=
+    - uses: cachix/cachix-action@master
+      with:
+        name: polarmutex
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+    - name: Setup SSH Agent
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+        echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+    # - run: nix flake check -L #--show-trace
+    - run: nix build .#${{ matrix.flake_output }} -L  --accept-flake-config

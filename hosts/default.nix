@@ -8,7 +8,7 @@
     ./polarbear
     ./macbook-air-24
     ./polarvortex
-    ./vm-intel
+    # ./vm-intel
   ];
   _module.args = {
     mkNixos = system: extraModules: let

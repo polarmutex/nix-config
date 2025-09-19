@@ -100,10 +100,10 @@ in {
           # https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
           systemd.services."getty@tty1".enable = false;
           systemd.services."autovt@tty1".enable = false;
-            environment.sessionVariables = {
-        # Cpu friendly cargo build jobs
-        CARGO_BUILD_JOBS = "10";
-      };
+          environment.sessionVariables = {
+            # Cpu friendly cargo build jobs
+            CARGO_BUILD_JOBS = "10";
+          };
 
           environment.systemPackages = with pkgs; let
             morgen-updated =
