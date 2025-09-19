@@ -18,11 +18,12 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "polarmutex.cachix.org-1:kUFH4ftZAlTrKlfFaKfdhKElKnvynBMOg77XRL2pc08="
       ];
-      plugin-files = "${pkgs.unstable.nix-plugins.overrideAttrs (old: {
-        patches = [./nix-plugins.patch];
-        buildInputs = [pkgs.nixVersions.nix_2_28 pkgs.boost];
-      })}/lib/nix/plugins";
-      extra-builtins-file = [../../misc/extra-builtins.nix];
+      # plugin-files = "${pkgs.unstable.nix-plugins}/lib/nix/plugins";
+      # plugin-files = "${pkgs.unstable.nix-plugins.overrideAttrs (old: {
+      #   patches = [./nix-plugins.patch];
+      #   buildInputs = [pkgs.nixVersions.nix_2_28 pkgs.boost];
+      # })}/lib/nix/plugins";
+      # extra-builtins-file = [../../misc/extra-builtins.nix];
     };
     # nixPath = [
     #   "nixpkgs=${pkgs.path}"

@@ -15,7 +15,7 @@ flake @ {
       config = {
         permittedInsecurePackages = [
           "electron-32.3.3"
-          "broadcom-sta-6.30.223.271-57-6.12.46"
+          "broadcom-sta-6.30.223.271-57-6.12.47"
           "libsoup-2.74.3"
         ];
         allowUnfreePredicate = pkg: let
@@ -104,6 +104,7 @@ flake @ {
               ccusage = self'.packages.ccusage;
               bmad-method = self'.packages.bmad-method;
               superclaude = self'.packages.superclaude;
+              modern-bash = self'.packages.modern-bash;
               polarmutex-website = inputs'.website.packages.default;
               # why was this here?
               # gnome-keyring = prev.gnome-keyring.overrideAttrs (old: {
@@ -145,6 +146,7 @@ flake @ {
               ccusage = callPackage ./ccusage.nix {};
               bmad-method = callPackage ./bmad-method.nix {};
               superclaude = callPackage ./superclaude.nix {};
+              modern-bash = callPackage ./modern-bash.nix {};
 
               # All of the typical devcontainers to be used.
               devContainers-ubuntu = pkgs.dockerTools.buildLayeredImage {

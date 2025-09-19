@@ -42,12 +42,12 @@ in {
         nixosModules.server
         nixosModules.umami
         nixosModules.website
-        {
+        ({ pkgs, ... }: {
           environment.systemPackages = [
             inputs.neovim-flake.packages.${system}.neovim
-            self'.packages.git
+            pkgs.git
           ];
-        }
+        })
         {
           sops = {
             # This will add secrets.yml to the nix store

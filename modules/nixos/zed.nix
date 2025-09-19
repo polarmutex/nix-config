@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   pkgs,
   ...
@@ -6,6 +7,7 @@
 with lib; {
   # Install Zed editor system-wide
   environment.systemPackages = with pkgs; [
+    inputs.zed.packages.${pkgs.system}.default
     zed-editor
     xdg-utils
 
