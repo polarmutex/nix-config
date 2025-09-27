@@ -17,8 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         flake_output: [
+          zed-editor
           # my-zellij
-          nixosConfigurations.polarbear.config.system.build.toplevel,
+          # nixosConfigurations.polarbear.config.system.build.toplevel,
           #homeConfigurations.'polar@polarbear'.activationPackage
         ]
     steps:

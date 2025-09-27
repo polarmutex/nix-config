@@ -35,7 +35,6 @@
       # }
     ];
     extraModulePackages = [
-      config.boot.kernelPackages.broadcom_sta
       config.boot.kernelPackages.nvidia_x11
     ];
   };
