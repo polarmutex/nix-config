@@ -20,7 +20,7 @@
           ...
         }: {inherit self' inputs' inputs;});
     in
-      inputs.nixpkgs-stable.lib.nixosSystem {
+      inputs.nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         pkgs = withSystem system ({pkgs, ...}: pkgs);
         modules =

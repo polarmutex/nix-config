@@ -88,7 +88,7 @@ flake @ {
       #     })
       #   ];
       # };
-      pkgs = import inputs.nixpkgs-stable {
+      pkgs = import inputs.nixpkgs {
         inherit config system;
         overlays = [
           inputs.zed.overlays.default

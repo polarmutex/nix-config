@@ -5,7 +5,7 @@
 }: let
   base = "/etc/nixpkgs/channels";
   nixpkgsPath = "${base}/nixpkgs";
-  nixpkgsStablePath = "${base}/nixpkgs_stable";
+  # nixpkgsStablePath = "${base}/nixpkgs_stable";
 in {
   programs.command-not-found.dbPath = inputs.programsdb.packages.${pkgs.system}.programs-sqlite;
 
@@ -19,11 +19,11 @@ in {
     };
     registry = {
       nixpkgs.flake = inputs.nixpkgs;
-      nixpkgs-stable.flake = inputs.nixpkgs-stable;
+      # nixpkgs-stable.flake = inputs.nixpkgs-stable;
     };
     nixPath = [
       "nixpkgs=${nixpkgsPath}"
-      "nixpkgs-stable=${nixpkgsStablePath}"
+      # "nixpkgs-stable=${nixpkgsStablePath}"
     ];
     settings = {
       allowed-users = ["*"];
@@ -36,6 +36,6 @@ in {
   };
   systemd.tmpfiles.rules = [
     "L+ ${nixpkgsPath}     - - - - ${inputs.nixpkgs}"
-    "L+ ${nixpkgsStablePath} - - - - ${inputs.nixpkgs-stable}"
+    # "L+ ${nixpkgsStablePath} - - - - ${inputs.nixpkgs-stable}"
   ];
 }
