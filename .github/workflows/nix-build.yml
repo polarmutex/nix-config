@@ -17,8 +17,11 @@ jobs:
       fail-fast: false
       matrix:
         flake_output: [
+          google-chrome
+          nvtopPackages.nvidia
+          morgen
+          obsidian
           zed-editor
-          # my-zellij
           # nixosConfigurations.polarbear.config.system.build.toplevel,
           #homeConfigurations.'polar@polarbear'.activationPackage
         ]
