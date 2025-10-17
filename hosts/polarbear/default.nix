@@ -152,8 +152,10 @@ in {
                 path = [
                   pkgs.git
                   pkgs.coreutils
+                  pkgs.openssh
                 ];
                 script = ''
+                  GIT_SSH_COMMAND='ssh -i /home/polar/.ssh/id_ed25519 -o IdentitiesOnly=yes'
                   OBSIDIAN_PATH="/home/polar/repos/personal/obsidian-second-brain/main"
                   cd $OBSIDIAN_PATH
                   CHANGES_EXIST="$(git status - porcelain | wc -l)"
