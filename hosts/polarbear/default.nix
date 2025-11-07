@@ -36,6 +36,7 @@ in {
   }:
     mkNixos system (
       [
+        inputs.nix-maid.nixosModules.default
         {
           sops = {
             # This will add secrets.yml to the nix store

@@ -98,7 +98,6 @@ flake @ {
                 inherit (prev) system;
                 inherit config;
               };
-              umami = self'.packages.umami;
               claude-usage-monitor = self'.packages.claude-usage-monitor;
               ccusage = self'.packages.ccusage;
               bmad-method = self'.packages.bmad-method;
@@ -141,7 +140,6 @@ flake @ {
               #   database = inputs'.nix-index-database.packages.nix-index-database;
               #   databaseDate = config.flake.lib.mkDate inputs.nix-index-database.lastModifiedDate;
               # };
-              umami = callPackage ./umami {};
               claude-usage-monitor = callPackage ./claude-usage-monitor.nix {};
               ccusage = callPackage ./ccusage.nix {};
               bmad-method = callPackage ./bmad-method.nix {};

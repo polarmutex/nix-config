@@ -11,7 +11,7 @@
 in {
   services = {
     open-webui = {
-      enable = true;
+      enable = false;
       port = port;
       environmentFile = config.sops.secrets.openWebUiAppSecret.path;
       environment = {
@@ -120,64 +120,24 @@ in {
   };
 
   systemd.services = {
-    open-webui = {
-      after = [
-        "redis-open-webui.service"
-        "postgresql.service"
-        # "open-webui-auto-setup.service"
-      ];
-      requires = [
-        "redis-open-webui.service"
-        "postgresql.service"
-        # "open-webui-auto-setup.service"
-      ];
-      serviceConfig = {
-        DynamicUser = lib.mkForce false;
-        User = "open-webui";
-        Group = "open-webui";
-        Restart = "always";
-        RestartSec = "3";
-      };
-    };
-    # open-webui-auto-setup = {
-    #   description = "Auto set Open WebUI model configs";
-    #   wantedBy = ["multi-user.target"];
-    #   before = ["open-webui.service"];
-    #   requiredBy = ["open-webui.service"];
-    #   path = [
-    #     pkgs.postgresql
-    #     pkgs.envsubst
+    # open-webui = {
+    #   after = [
+    #     "redis-open-webui.service"
+    #     "postgresql.service"
+    #     # "open-webui-auto-setup.service"
     #   ];
-    #   script = ''
-    #     set -euo pipefail
-    #
-    #     owsql() {
-    #       psql -qtAX -v ON_ERROR_STOP=1 -d open-webui "$@"
-    #     }
-    #
-    #     export ADMIN_ID=$(owsql -c "SELECT id FROM public.user WHERE role = 'admin' ORDER BY created_at ASC LIMIT 1")
-    #     echo "Admin ID: $ADMIN_ID"
-    #
-    #     # export TIMESTAMP=$(date "+%s")
-    #     # echo "Timestamp: $TIMESTAMP"
-    #
-    #     # cat {sqlFile} | envsubst > setup.sql
-    #
-    #     # owsql -c 'DELETE FROM public.model WHERE base_model_id IS NULL'
-    #     # owsql -f setup.sql
-    #   '';
-
-    # serviceConfig = {
-    #   Type = "oneshot";
-    #   Restart = "on-failure";
-    #   RestartSec = "5";
-    #
-    #   RuntimeDirectory = "open-webui-auto-setup";
-    #   WorkingDirectory = "/run/open-webui-auto-setup";
-    #
-    #   User = "open-webui";
-    #   Group = "open-webui";
-    # };
+    #   requires = [
+    #     "redis-open-webui.service"
+    #     "postgresql.service"
+    #     # "open-webui-auto-setup.service"
+    #   ];
+    #   serviceConfig = {
+    #     DynamicUser = lib.mkForce false;
+    #     User = "open-webui";
+    #     Group = "open-webui";
+    #     Restart = "always";
+    #     RestartSec = "3";
+    #   };
     # };
   };
 

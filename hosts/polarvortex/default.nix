@@ -40,9 +40,8 @@ in {
         ./users.nix
         nixosModules.ai
         nixosModules.server
-        nixosModules.umami
         nixosModules.website
-        ({ pkgs, ... }: {
+        ({pkgs, ...}: {
           environment.systemPackages = [
             inputs.neovim-flake.packages.${system}.neovim
             pkgs.git
