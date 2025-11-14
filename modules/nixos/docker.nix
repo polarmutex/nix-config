@@ -29,8 +29,8 @@
       ];
     };
   };
-  hardware.nvidia-container-toolkit.enable =
-    lib.mkIf (builtins.any (v: v == "nvidia") config.services.xserver.videoDrivers) true;
+  # hardware.nvidia-container-toolkit.enable =
+  #   lib.mkIf (builtins.any (v: v == "nvidia") config.services.xserver.videoDrivers) true;
 
   virtualisation.oci-containers = {
     backend = "docker";

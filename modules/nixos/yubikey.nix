@@ -20,7 +20,7 @@
   # security.pam.services.sudo.yubicoAuth = true;
 
   environment.systemPackages = with pkgs; [
-    pcsctools
+    pcsc-tools
     # yubikey-manager
   ];
 

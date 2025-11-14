@@ -18,7 +18,7 @@ with lib; {
     clippy
     rustfmt
     patchelf
-    clang-tools_18
+    llvmPackages_18.clang-tools
     gcc
     clang_18
   ];

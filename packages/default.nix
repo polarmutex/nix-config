@@ -146,6 +146,10 @@ flake @ {
               superclaude = callPackage ./superclaude.nix {};
               modern-bash = callPackage ./modern-bash.nix {};
 
+              inherit (pkgs) obsidian;
+              inherit (pkgs.unstable) _1password-cli;
+              inherit (pkgs.unstable) _1password-gui;
+
               # All of the typical devcontainers to be used.
               devContainers-ubuntu = pkgs.dockerTools.buildLayeredImage {
                 name = "dev-env";

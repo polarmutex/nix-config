@@ -17,6 +17,10 @@ jobs:
       fail-fast: false
       matrix:
         flake_output: [
+          _1password-cli
+          _1password-gui
+          ghostty
+          obsidian
           zed-editor
           # my-zellij
           # nixosConfigurations.polarbear.config.system.build.toplevel,

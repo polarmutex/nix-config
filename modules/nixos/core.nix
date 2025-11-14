@@ -6,7 +6,7 @@
       curl
       difftastic
       direnv
-      du-dust
+      dust
       eza
       fd
       fq

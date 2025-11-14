@@ -82,7 +82,7 @@
                 inxi
                 pciutils
                 # nvtop
-                glxinfo
+                mesa-demos
                 nh
                 lm_sensors
               ];
