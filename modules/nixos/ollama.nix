@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   services.ollama = {
     enable = true;
-    package = pkgs.unstable.ollama;
+    package = pkgs.unstable.ollama-cuda;
     # Optional: preload models, see https://ollama.com/library
     loadModels = [
       "gemma3:4b"
@@ -13,6 +13,5 @@
       "qwen2.5-coder:14b"
       "mxbai-embed-large"
     ];
-    acceleration = "cuda";
   };
 }

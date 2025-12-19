@@ -44,6 +44,7 @@
     nix-update
     qmk
     lshw
+    yt-dlp
   ];
 
   fileSystems."/" = {
