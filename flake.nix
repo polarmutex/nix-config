@@ -85,6 +85,7 @@
                 mesa-demos
                 nh
                 lm_sensors
+                nix-update
               ];
             };
         };
