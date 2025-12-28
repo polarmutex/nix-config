@@ -4,37 +4,167 @@ on:
   schedule:
     - cron: '5 0 * * 5' # runs weekly on Sunday at 00:00
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   lockfile:
     runs-on: ubuntu-latest
     steps:
+      - name: Validate Required Secrets
+        env:
+          PAT_TOKEN: ${{ secrets.PAT }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          ERRORS=0
+
+          # Check PAT
+          if [ -z "${PAT_TOKEN}" ]; then
+            echo "::error::PAT secret is not configured"
+            echo "::error::This workflow requires a Personal Access Token (PAT) to:"
+            echo "::error::  1. Create pull requests that trigger CI workflows"
+            echo "::error::  2. Enable auto-merge on pull requests"
+            echo "::error::  3. Access GitHub packages via Nix"
+            echo "::error::"
+            echo "::error::To configure PAT:"
+            echo "::error::  1. Create token at: https://github.com/settings/tokens/new"
+            echo "::error::  2. Required scopes: 'repo', 'workflow'"
+            echo "::error::  3. Add to repository secrets as 'PAT'"
+            echo "::error::  4. Location: https://github.com/${{ github.repository }}/settings/secrets/actions"
+            ERRORS=1
+          else
+            echo "✅ PAT secret is configured"
+          fi
+
+          # Check SSH_PRIVATE_KEY
+          if [ -z "${SSH_KEY}" ]; then
+            echo "::error::SSH_PRIVATE_KEY secret is not configured"
+            echo "::error::This workflow requires an SSH private key to:"
+            echo "::error::  1. Access private git repositories (git.polarmutex.dev)"
+            echo "::error::  2. Fetch private Nix flake inputs (monolisa-font-flake)"
+            echo "::error::"
+            echo "::error::To configure SSH_PRIVATE_KEY:"
+            echo "::error::  1. Add your private SSH key to repository secrets"
+            echo "::error::  2. Secret name: 'SSH_PRIVATE_KEY'"
+            echo "::error::  3. Location: https://github.com/${{ github.repository }}/settings/secrets/actions"
+            ERRORS=1
+          else
+            echo "✅ SSH_PRIVATE_KEY secret is configured"
+          fi
+
+          if [ $ERRORS -eq 1 ]; then
+            echo "::error::❌ Required secrets are missing - workflow cannot proceed"
+            exit 1
+          fi
+
+          echo "✅ All required secrets are configured"
+
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PAT }}
+          fetch-depth: 0
+      - name: Setup SSH Agent
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          # Setup SSH
+          mkdir -p ~/.ssh
+          ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
+
+          # Start SSH agent
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+
+          # Add SSH key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
+
+          # Export for subsequent steps
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+
+          # Configure SSH
+          cat >> ~/.ssh/config <<EOF
+          Host git.polarmutex.dev
+            HostName git.polarmutex.dev
+            User git
+            StrictHostKeyChecking accept-new
+            BatchMode yes
+          EOF
+
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Test connection
+          echo "Testing SSH connection to git.polarmutex.dev..."
+          ssh -T git@git.polarmutex.dev || echo "SSH test exit code: $?"
+
+          # Verify key is loaded
+          echo "SSH agent keys:"
+          ssh-add -l
       - name: Install Nix
         uses: cachix/install-nix-action@v31
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - name: Setup SSH Agent
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+            access-tokens = github.com=${{ secrets.PAT }}
       - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@v28
+        timeout-minutes: 10
+        run: |
+          echo "Starting flake update..."
+          export NIX_SSHOPTS="-v"
+          nix flake update --verbose 2>&1 | tee flake-update.log
+          echo "Flake update completed"
+
+      - name: Upload flake update log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flake-update-log
+          path: flake-update.log
+          if-no-files-found: ignore
+
+      - name: Debug git status
+        run: |
+          git status
+          git diff flake.lock || echo "No changes to flake.lock"
+          echo "Git config:"
+          git config --list | grep -E '(user\.|url\.|credential\.)' || true
+          echo "Remote info:"
+          git remote -v
+          echo "Current branch:"
+          git branch -a
+
+      - name: Create Pull Request
+        id: create-pr
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.PAT }}
-          pr-title: "chore: update flake.lock" # Title of PR to be created
-          pr-labels: |                  # Labels to be set on the PR
+          commit-message: "chore: update flake.lock"
+          title: "chore: update flake.lock"
+          body: |
+            Automated flake.lock update
+
+            Updated by GitHub Actions
+          labels: |
             dependencies
             automated
-      - uses: reitermarkus/automerge@v2
-        with:
-          token: ${{ secrets.PAT }}
-          merge-method: squash
-          pull-request: ${{ github.event.inputs.pull-request }}
+          branch: update-flake-lock
+          delete-branch: true
+          add-paths: |
+            flake.lock
+
+      - name: PR Summary
+        if: always()
+        run: |
+          echo "PR operation: ${{ steps.create-pr.outputs.pull-request-operation }}"
+          echo "PR number: ${{ steps.create-pr.outputs.pull-request-number }}"
+          echo "PR URL: ${{ steps.create-pr.outputs.pull-request-url }}"
+
+      - name: Enable auto-merge
+        if: steps.create-pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+        run: |
+          echo "Enabling auto-merge on PR #${{ steps.create-pr.outputs.pull-request-number }}..."
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --squash --auto
