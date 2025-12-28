@@ -4,37 +4,130 @@ on:
   schedule:
     - cron: '5 0 * * 5' # runs weekly on Sunday at 00:00
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   lockfile:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Setup SSH Agent
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          # Setup SSH
+          mkdir -p ~/.ssh
+          ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
+
+          # Start SSH agent
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+
+          # Add SSH key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
+
+          # Export for subsequent steps
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+
+          # Configure SSH
+          cat >> ~/.ssh/config <<EOF
+          Host git.polarmutex.dev
+            HostName git.polarmutex.dev
+            User git
+            StrictHostKeyChecking accept-new
+            BatchMode yes
+          EOF
+
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Test connection
+          echo "Testing SSH connection to git.polarmutex.dev..."
+          ssh -T git@git.polarmutex.dev || echo "SSH test exit code: $?"
+
+          # Verify key is loaded
+          echo "SSH agent keys:"
+          ssh-add -l
       - name: Install Nix
         uses: cachix/install-nix-action@v31
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - name: Setup SSH Agent
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
       - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@v28
+        timeout-minutes: 10
+        run: |
+          echo "Starting flake update..."
+          export NIX_SSHOPTS="-v"
+          nix flake update --verbose 2>&1 | tee flake-update.log
+          echo "Flake update completed"
+
+      - name: Upload flake update log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
         with:
-          token: ${{ secrets.PAT }}
-          pr-title: "chore: update flake.lock" # Title of PR to be created
-          pr-labels: |                  # Labels to be set on the PR
+          name: flake-update-log
+          path: flake-update.log
+          if-no-files-found: ignore
+
+      - name: Debug git status
+        run: |
+          git status
+          git diff flake.lock || echo "No changes to flake.lock"
+          echo "Git config:"
+          git config --list | grep -E '(user\.|url\.|credential\.)' || true
+          echo "Remote info:"
+          git remote -v
+          echo "Current branch:"
+          git branch -a
+
+      - name: Create Pull Request
+        id: create-pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          # Note: GITHUB_TOKEN is used by default
+          # To trigger workflows on the PR, configure PAT secret with 'repo' scope
+          commit-message: "chore: update flake.lock"
+          title: "chore: update flake.lock"
+          body: |
+            Automated flake.lock update
+
+            Updated by GitHub Actions
+          labels: |
             dependencies
             automated
-      - uses: reitermarkus/automerge@v2
-        with:
-          token: ${{ secrets.PAT }}
-          merge-method: squash
-          pull-request: ${{ github.event.inputs.pull-request }}
+          branch: update-flake-lock
+          delete-branch: true
+          add-paths: |
+            flake.lock
+
+      - name: PR Summary
+        if: always()
+        run: |
+          echo "PR operation: ${{ steps.create-pr.outputs.pull-request-operation }}"
+          echo "PR number: ${{ steps.create-pr.outputs.pull-request-number }}"
+          echo "PR URL: ${{ steps.create-pr.outputs.pull-request-url }}"
+          echo ""
+          echo "Note: This PR was created with GITHUB_TOKEN"
+          echo "CI workflows (nix-build.yml) won't trigger automatically"
+          echo "To enable automatic CI: manually trigger checks or configure PAT secret"
+
+      - name: Comment on PR
+        if: steps.create-pr.outputs.pull-request-operation == 'created'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ steps.create-pr.outputs.pull-request-number }} --repo ${{ github.repository }} --body "⚠️ **Note**: CI workflows won't run automatically on this PR because it was created with GITHUB_TOKEN.
+
+          To run checks manually:
+          1. Go to the [Actions tab](https://github.com/${{ github.repository }}/actions/workflows/nix-build.yml)
+          2. Click 'Run workflow'
+          3. Select branch: \`update-flake-lock\`
+
+          Or configure a PAT secret to enable automatic CI on future PRs."
