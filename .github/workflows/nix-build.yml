@@ -16,16 +16,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        flake_output: [
-          _1password-cli
-          _1password-gui
-          ghostty
-          obsidian
-          zed-editor
-          # my-zellij
-          # nixosConfigurations.polarbear.config.system.build.toplevel,
-          #homeConfigurations.'polar@polarbear'.activationPackage
-        ]
+        flake_output:
+          - _1password-cli
+          - _1password-gui
+          - ghostty
+          - obsidian
+          - zed-editor
+          # - my-zellij
+          # - nixosConfigurations.polarbear.config.system.build.toplevel
+          # - homeConfigurations.'polar@polarbear'.activationPackage
     steps:
     - uses: actions/checkout@v6
     - uses: cachix/install-nix-action@v31
