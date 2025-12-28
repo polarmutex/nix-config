@@ -21,6 +21,7 @@ jobs:
           - _1password-gui
           - brave
           - ghostty
+          - modern-bash
           - obsidian
           - ungoogled-chromium
           - wezterm
