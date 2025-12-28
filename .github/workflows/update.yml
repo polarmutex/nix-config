@@ -26,7 +26,7 @@ jobs:
           ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
           echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
       - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@v12
+        uses: DeterminateSystems/update-flake-lock@v28
         with:
           token: ${{ secrets.PAT }}
           pr-title: "chore: update flake.lock" # Title of PR to be created
