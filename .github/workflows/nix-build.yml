@@ -19,8 +19,11 @@ jobs:
         flake_output:
           - _1password-cli
           - _1password-gui
+          - brave
           - ghostty
           - obsidian
+          - ungoogled-chromium
+          - wezterm
           - zed-editor
           # - my-zellij
           # - nixosConfigurations.polarbear.config.system.build.toplevel
