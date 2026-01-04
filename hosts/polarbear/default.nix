@@ -150,6 +150,7 @@ in {
             nodejs
             uv
             unstable.android-studio
+            vscode
           ];
 
           users.users.polar = {

@@ -65,6 +65,7 @@ flake @ {
             "cuda_nvcc"
             "libcusparse"
             "libnpp"
+            "vscode"
           ];
           byLicense = builtins.elem pkg.meta.license.shortName [
             # "CUDA EULA"
