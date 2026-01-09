@@ -146,6 +146,7 @@ flake @ {
               bmad-method = callPackage ./bmad-method.nix {};
               superclaude = callPackage ./superclaude.nix {};
               modern-bash = callPackage ./modern-bash.nix {};
+              flippertools = callPackage ./flippertools.nix {};
 
               inherit (pkgs) obsidian;
               inherit (pkgs.unstable) _1password-cli;
