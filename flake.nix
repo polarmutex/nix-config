@@ -185,7 +185,7 @@
     flakey-profile.url = "github:lf-/flakey-profile";
     nixgl.url = "github:nix-community/nixGL";
     zed = {
-      url = "github:zed-industries/zed";
+      url = "github:zed-industries/zed/nightly";
     };
   };
 }

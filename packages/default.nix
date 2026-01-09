@@ -133,7 +133,7 @@ flake @ {
           in
             auto
             // {
-              zed-editor = pkgs.unstable.zed-editor;
+              zed-editor = inputs.zed.packages.${pkgs.system}.default;
               # nix = pkgs.nix;
               # nil = inputs'.nil.packages.default;
               # manual overrides to auto callPackage

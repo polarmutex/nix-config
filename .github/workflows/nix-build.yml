@@ -29,7 +29,6 @@ jobs:
           - ghostty
           - ungoogled-chromium
           - wezterm
-          - zed-editor
           # Custom packages (ensuring CI validation)
           - bmad-method
           - brave

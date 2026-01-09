@@ -7,8 +7,7 @@
 with lib; {
   # Install Zed editor system-wide
   environment.systemPackages = with pkgs; [
-    # inputs.zed.packages.${pkgs.system}.default
-    unstable.zed-editor
+    inputs.zed.packages.${pkgs.system}.default
     xdg-utils
 
     # Rust development tools
