@@ -38,6 +38,7 @@
 
         flake = {
           nixosModules = config.flake.lib.dirToAttrs ./modules/nixos;
+          maidModules = config.flake.lib.dirToAttrs ./modules/maid;
           deploy = {
             nodes = {
               polarvortex = {

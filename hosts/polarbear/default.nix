@@ -8,7 +8,7 @@
 }: let
   system = "x86_64-linux";
   inherit (config.flake) nixosModules;
-  inherit (config.flake) homeModules;
+  inherit (config.flake) maidModules;
   defaultModules = [
     # make flake inputs accessible in NixOS
     {
@@ -151,10 +151,12 @@ in {
             uv
             unstable.android-studio
             vscode
+            self'.packages.context7-mcp
           ];
 
           users.users.polar = {
             maid = {
+                imports =[maidModules.claude-code];
               file.home.".gitconfig".source = self'.packages.git-polar.gitconfig;
               systemd.services.obsidian-second-brain-sync = {
                 path = [
