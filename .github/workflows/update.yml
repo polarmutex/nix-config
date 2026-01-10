@@ -155,7 +155,7 @@ jobs:
 
             - name: Upload flake update log on failure
               if: failure()
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v6
               with:
                   name: flake-update-log
                   path: /tmp/flake-update.log
