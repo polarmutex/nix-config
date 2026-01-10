@@ -1,5 +1,6 @@
 _: {
   imports = [
+    ./fava.nix
     ./blog.nix
     # ./gitea.nix
     ./forgejo.nix

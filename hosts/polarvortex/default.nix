@@ -80,6 +80,19 @@ in {
                 group = "wheel";
                 owner = "open-webui";
               };
+              favaSSHPrivateKey = {
+                mode = "0400";
+                owner = "fava";
+              };
+              favaSSHKnownHosts = {
+                mode = "0400";
+                owner = "fava";
+              };
+              favaHtPasswd = {
+                mode = "0400";
+                owner = "nginx";
+              };
+
             };
           };
         }
@@ -87,6 +100,10 @@ in {
           services.fail2ban = {
             enable = true;
           };
+          services.fava= {
+          enable = true;
+           fava.basicAuth.enable = true;
+        };
         }
       ]));
 }
