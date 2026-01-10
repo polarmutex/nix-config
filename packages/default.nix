@@ -147,6 +147,7 @@ flake @ {
               superclaude = callPackage ./superclaude.nix {};
               modern-bash = callPackage ./modern-bash.nix {};
               flippertools = callPackage ./flippertools.nix {};
+              context7-mcp = callPackage ./context7-mcp.nix {};
 
               inherit (pkgs) obsidian;
               inherit (pkgs.unstable) _1password-cli;

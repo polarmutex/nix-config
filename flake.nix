@@ -69,6 +69,7 @@
 
         perSystem = {
           pkgs,
+          system,
           # config,
           ...
         }: {
@@ -86,6 +87,7 @@
                 nh
                 lm_sensors
                 nix-update
+                inputs.bun2nix.packages.${system}.default
               ];
             };
         };
@@ -189,6 +191,10 @@
     };
     beancount-repo = {
       url = "git+ssh://git@git.polarmutex.dev/polar/beancount.git";
+    };
+    bun2nix = {
+      url = "github:nix-community/bun2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 }
