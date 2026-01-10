@@ -56,8 +56,12 @@ in {
             # sops.secrets."myservice/my_subdir/my_secret" = {};
             secrets = {
               git_config_work = {
-                mode = "444";
+                mode = "440";
                 group = "wheel";
+              };
+              gh-mcp={
+                  mode = "440";
+                  group = "wheel";
               };
             };
           };
@@ -152,6 +156,7 @@ in {
             unstable.android-studio
             vscode
             self'.packages.context7-mcp
+            self'.packages.github-mcp
           ];
 
           users.users.polar = {

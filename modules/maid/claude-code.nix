@@ -1,5 +1,7 @@
 {
   pkgs,
+  config,
+  lib,
   ...
 }:
 {
@@ -14,13 +16,13 @@
         # Foundation Layer MCP Servers
         mcpServers = {
           # GitHub MCP - Version control and repo management
-          # github = {
-          #   command = "uvx";
-          #   args = [ "github-mcp-server" ];
-          #   env = {
-          #     GITHUB_TOKEN = "''${GITHUB_TOKEN}";  # Set via environment variable
-          #   };
-          # };
+          github = {
+            command = "github-mcp-server";
+            args = ["stdio"];
+            env = {
+              GITHUB_TOKEN = "$(cat /run/secrets/gh-mcp)";
+            };
+          };
 
           # Filesystem MCP - Safe file access with path restrictions
           # filesystem = {

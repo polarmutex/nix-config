@@ -148,6 +148,7 @@ flake @ {
               modern-bash = callPackage ./modern-bash.nix {};
               flippertools = callPackage ./flippertools.nix {};
               context7-mcp = callPackage ./context7-mcp.nix {};
+              github-mcp = callPackage ./github-mcp.nix {};
 
               inherit (pkgs) obsidian;
               inherit (pkgs.unstable) _1password-cli;
