@@ -1,170 +1,268 @@
-name: update-flake-lock
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Update Flake Inputs
+
 on:
-  workflow_dispatch: # allows manual triggering
-  schedule:
-    - cron: '5 0 * * 5' # runs weekly on Sunday at 00:00
+    workflow_dispatch:
+        inputs:
+            auto-merge:
+                description: "Auto-merge PR if checks pass"
+                type: boolean
+                required: false
+                default: true
+    schedule:
+        # Run every Friday at 4 AM UTC
+        - cron: "0 4 * * 5"
+
+run-name: Update flake inputs
 
 permissions:
-  contents: write
-  pull-requests: write
+    contents: write
+    pull-requests: write
+    checks: read
+
+env:
+    GIT_USERNAME: github-actions[bot]
+    GIT_EMAIL: github-actions[bot]@users.noreply.github.com
 
 jobs:
-  lockfile:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Validate Required Secrets
-        env:
-          PAT_TOKEN: ${{ secrets.PAT }}
-          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          ERRORS=0
+    update-flake:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Validate Required Secrets
+              env:
+                  PAT_TOKEN: ${{ secrets.PAT }}
+                  SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+              run: |
+                  ERRORS=0
 
-          # Check PAT
-          if [ -z "${PAT_TOKEN}" ]; then
-            echo "::error::PAT secret is not configured"
-            echo "::error::This workflow requires a Personal Access Token (PAT) to:"
-            echo "::error::  1. Create pull requests that trigger CI workflows"
-            echo "::error::  2. Enable auto-merge on pull requests"
-            echo "::error::  3. Access GitHub packages via Nix"
-            echo "::error::"
-            echo "::error::To configure PAT:"
-            echo "::error::  1. Create token at: https://github.com/settings/tokens/new"
-            echo "::error::  2. Required scopes: 'repo', 'workflow'"
-            echo "::error::  3. Add to repository secrets as 'PAT'"
-            echo "::error::  4. Location: https://github.com/${{ github.repository }}/settings/secrets/actions"
-            ERRORS=1
-          else
-            echo "✅ PAT secret is configured"
-          fi
+                  # Check PAT
+                  if [ -z "${PAT_TOKEN}" ]; then
+                    echo "::error::PAT secret is not configured"
+                    echo "::error::This workflow requires a Personal Access Token (PAT) to:"
+                    echo "::error::  1. Create pull requests that trigger CI workflows"
+                    echo "::error::  2. Enable auto-merge on pull requests"
+                    echo "::error::  3. Access GitHub packages via Nix"
+                    echo "::error::"
+                    echo "::error::To configure PAT:"
+                    echo "::error::  1. Create token at: https://github.com/settings/tokens/new"
+                    echo "::error::  2. Required scopes: 'repo', 'workflow'"
+                    echo "::error::  3. Add to repository secrets as 'PAT'"
+                    echo "::error::  4. Location: https://github.com/${{ github.repository }}/settings/secrets/actions"
+                    ERRORS=1
+                  else
+                    echo "✅ PAT secret is configured"
+                  fi
 
-          # Check SSH_PRIVATE_KEY
-          if [ -z "${SSH_KEY}" ]; then
-            echo "::error::SSH_PRIVATE_KEY secret is not configured"
-            echo "::error::This workflow requires an SSH private key to:"
-            echo "::error::  1. Access private git repositories (git.polarmutex.dev)"
-            echo "::error::  2. Fetch private Nix flake inputs (monolisa-font-flake)"
-            echo "::error::"
-            echo "::error::To configure SSH_PRIVATE_KEY:"
-            echo "::error::  1. Add your private SSH key to repository secrets"
-            echo "::error::  2. Secret name: 'SSH_PRIVATE_KEY'"
-            echo "::error::  3. Location: https://github.com/${{ github.repository }}/settings/secrets/actions"
-            ERRORS=1
-          else
-            echo "✅ SSH_PRIVATE_KEY secret is configured"
-          fi
+                  # Check SSH_PRIVATE_KEY
+                  if [ -z "${SSH_KEY}" ]; then
+                    echo "::error::SSH_PRIVATE_KEY secret is not configured"
+                    echo "::error::This workflow requires an SSH private key to:"
+                    echo "::error::  1. Access private git repositories (git.polarmutex.dev)"
+                    echo "::error::  2. Fetch private Nix flake inputs (monolisa-font-flake)"
+                    echo "::error::"
+                    echo "::error::To configure SSH_PRIVATE_KEY:"
+                    echo "::error::  1. Add your private SSH key to repository secrets"
+                    echo "::error::  2. Secret name: 'SSH_PRIVATE_KEY'"
+                    echo "::error::  3. Location: https://github.com/${{ github.repository }}/settings/secrets/actions"
+                    ERRORS=1
+                  else
+                    echo "✅ SSH_PRIVATE_KEY secret is configured"
+                  fi
 
-          if [ $ERRORS -eq 1 ]; then
-            echo "::error::❌ Required secrets are missing - workflow cannot proceed"
-            exit 1
-          fi
+                  if [ $ERRORS -eq 1 ]; then
+                    echo "::error::❌ Required secrets are missing - workflow cannot proceed"
+                    exit 1
+                  fi
 
-          echo "✅ All required secrets are configured"
+                  echo "✅ All required secrets are configured"
 
-      - name: Checkout repository
-        uses: actions/checkout@v6
-        with:
-          token: ${{ secrets.PAT }}
-          fetch-depth: 0
-      - name: Setup SSH Agent
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          # Setup SSH
-          mkdir -p ~/.ssh
-          ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
+            - name: Checkout repository
+              uses: actions/checkout@v6
+              with:
+                  token: ${{ secrets.PAT }}
 
-          # Start SSH agent
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+            - name: Setup SSH Agent
+              env:
+                  SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+              run: |
+                  # Setup SSH
+                  mkdir -p ~/.ssh
+                  ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
 
-          # Add SSH key
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
+                  # Start SSH agent
+                  ssh-agent -a $SSH_AUTH_SOCK > /dev/null
 
-          # Export for subsequent steps
-          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+                  # Add SSH key
+                  echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
 
-          # Configure SSH
-          cat >> ~/.ssh/config <<EOF
-          Host git.polarmutex.dev
-            HostName git.polarmutex.dev
-            User git
-            StrictHostKeyChecking accept-new
-            BatchMode yes
-          EOF
+                  # Export for subsequent steps
+                  echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
 
-          # Configure git
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  # Configure SSH
+                  cat >> ~/.ssh/config <<EOF
+                  Host git.polarmutex.dev
+                    HostName git.polarmutex.dev
+                    User git
+                    StrictHostKeyChecking accept-new
+                    BatchMode yes
+                  EOF
 
-          # Test connection
-          echo "Testing SSH connection to git.polarmutex.dev..."
-          ssh -T git@git.polarmutex.dev || echo "SSH test exit code: $?"
+                  # Test connection
+                  echo "Testing SSH connection to git.polarmutex.dev..."
+                  ssh -T git@git.polarmutex.dev || echo "SSH test exit code: $?"
 
-          # Verify key is loaded
-          echo "SSH agent keys:"
-          ssh-add -l
-      - name: Install Nix
-        uses: cachix/install-nix-action@v31
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-            access-tokens = github.com=${{ secrets.PAT }}
-      - name: Update flake.lock
-        timeout-minutes: 10
-        run: |
-          echo "Starting flake update..."
-          export NIX_SSHOPTS="-v"
-          nix flake update --verbose 2>&1 | tee flake-update.log
-          echo "Flake update completed"
+                  # Verify key is loaded
+                  echo "SSH agent keys:"
+                  ssh-add -l
 
-      - name: Upload flake update log on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: flake-update-log
-          path: flake-update.log
-          if-no-files-found: ignore
+            - name: Install Nix
+              uses: cachix/install-nix-action@v31
+              with:
+                  extra_nix_config: |
+                      experimental-features = nix-command flakes
+                      accept-flake-config = true
+                      access-tokens = github.com=${{ secrets.PAT }}
 
-      - name: Debug git status
-        run: |
-          git status
-          git diff flake.lock || echo "No changes to flake.lock"
-          echo "Git config:"
-          git config --list | grep -E '(user\.|url\.|credential\.)' || true
-          echo "Remote info:"
-          git remote -v
-          echo "Current branch:"
-          git branch -a
+            - name: Configure Git
+              run: |
+                  git config --local user.email "${{ env.GIT_EMAIL }}"
+                  git config --local user.name "${{ env.GIT_USERNAME }}"
 
-      - name: Create Pull Request
-        id: create-pr
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.PAT }}
-          commit-message: "chore: update flake.lock"
-          title: "chore: update flake.lock"
-          body: |
-            Automated flake.lock update
+            - name: Capture versions before update
+              id: capture-before
+              run: |
+                  # Capture flake inputs before update
+                  echo "Capturing current flake.lock state..."
+                  nix flake metadata --json | jq -r '.locks.nodes | with_entries(if .value.locked then .value = .value.locked.rev // .value.locked.narHash // "unknown" else empty end)' > /tmp/before-inputs.json
 
-            Updated by GitHub Actions
-          labels: |
-            dependencies
-            automated
-          branch: update-flake-lock
-          delete-branch: true
-          add-paths: |
-            flake.lock
+                  echo "Current inputs:"
+                  cat /tmp/before-inputs.json
 
-      - name: PR Summary
-        if: always()
-        run: |
-          echo "PR operation: ${{ steps.create-pr.outputs.pull-request-operation }}"
-          echo "PR number: ${{ steps.create-pr.outputs.pull-request-number }}"
-          echo "PR URL: ${{ steps.create-pr.outputs.pull-request-url }}"
+            - name: Update flake.lock
+              id: flake-update
+              timeout-minutes: 10
+              run: |
+                  echo "Starting flake update..."
+                  export NIX_SSHOPTS="-v"
+                  nix flake update --verbose 2>&1 | tee /tmp/flake-update.log
+                  echo "Flake update completed"
 
-      - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number != ''
-        env:
-          GH_TOKEN: ${{ secrets.PAT }}
-        run: |
-          echo "Enabling auto-merge on PR #${{ steps.create-pr.outputs.pull-request-number }}..."
-          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --squash --auto
+                  if ! git diff --quiet flake.lock; then
+                    echo "updated=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "updated=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Upload flake update log on failure
+              if: failure()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: flake-update-log
+                  path: /tmp/flake-update.log
+                  if-no-files-found: ignore
+
+            - name: Build commit message and commit changes
+              id: commit-changes
+              run: |
+                  # Check if there are any changes
+                  if git diff --quiet && git diff --cached --quiet; then
+                    echo "No updates to commit"
+                    echo "has_changes=false" >> "$GITHUB_OUTPUT"
+                    exit 0
+                  fi
+
+                  echo "has_changes=true" >> "$GITHUB_OUTPUT"
+
+                  # Start building commit message
+                  COMMIT_MSG="chore: update flake.lock"
+                  COMMIT_BODY=""
+
+                  # Capture after state
+                  nix flake metadata --json | jq -r '.locks.nodes | with_entries(if .value.locked then .value = .value.locked.rev // .value.locked.narHash // "unknown" else empty end)' > /tmp/after-inputs.json
+
+                  # Generate version changes
+                  COMMIT_BODY="${COMMIT_BODY}Updated flake inputs:\n\n"
+
+                  # Compare before and after
+                  jq -r 'keys[]' /tmp/before-inputs.json | while read -r input; do
+                    BEFORE_REV=$(jq -r --arg key "$input" 'if .[$key] then .[$key] else "missing" end' /tmp/before-inputs.json)
+                    AFTER_REV=$(jq -r --arg key "$input" 'if .[$key] then .[$key] else "missing" end' /tmp/after-inputs.json)
+
+                    if [ "$BEFORE_REV" != "$AFTER_REV" ] && [ "$BEFORE_REV" != "missing" ] && [ "$AFTER_REV" != "missing" ]; then
+                      # Truncate revisions for readability
+                      BEFORE_SHORT="${BEFORE_REV:0:8}"
+                      AFTER_SHORT="${AFTER_REV:0:8}"
+                      COMMIT_BODY="${COMMIT_BODY}  ${input}: ${BEFORE_SHORT} -> ${AFTER_SHORT}\n"
+                    fi
+                  done
+
+                  # Create commit
+                  git add flake.lock
+
+                  # Build full commit message
+                  {
+                    echo "${COMMIT_MSG}"
+                    echo ""
+                    echo -e "${COMMIT_BODY}"
+                  } > /tmp/commit-msg.txt
+
+                  git commit -F /tmp/commit-msg.txt
+
+                  echo "Commit created successfully"
+
+            - name: Create summary
+              if: steps.commit-changes.outputs.has_changes == 'true'
+              run: |
+                  {
+                    echo "## Update Summary"
+                    echo ""
+                    echo "✅ Flake inputs updated"
+                    echo ""
+                    echo "### Changes"
+                    echo '```'
+                    git log -1 --pretty=format:"%B"
+                    echo '```'
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Create Pull Request
+              if: steps.commit-changes.outputs.has_changes == 'true'
+              id: create-pr
+              uses: peter-evans/create-pull-request@v8
+              with:
+                  token: ${{ secrets.PAT }}
+                  branch: automated-flake-update
+                  delete-branch: true
+                  title: "chore: update flake.lock"
+                  body: |
+                      ## Automated Flake Update
+
+                      This PR contains automated updates for flake inputs.
+
+                      ### Commit Details
+                      See the commit message for a detailed list of all version changes.
+
+                      **Triggered by:** ${{ github.event_name == 'workflow_dispatch' && 'Manual trigger' || 'Scheduled run' }}
+
+                      ---
+
+                      🤖 This PR was automatically created by the update-flake workflow.
+                      ${{ (github.event_name == 'schedule' || inputs.auto-merge) && '🔄 Will auto-merge when checks pass.' || '' }}
+                  labels: |
+                      dependencies
+                      automated
+                  draft: false
+
+            - name: Enable auto-merge
+              if: |
+                  steps.create-pr.outputs.pull-request-number &&
+                  (github.event_name == 'schedule' || inputs.auto-merge)
+              env:
+                  GH_TOKEN: ${{ secrets.PAT }}
+                  PR_NUMBER: ${{ steps.create-pr.outputs.pull-request-number }}
+              run: |
+                  echo "Enabling auto-merge for PR #${PR_NUMBER}"
+                  echo ""
+                  echo "ℹ️  Auto-merge will wait for the following before merging:"
+                  echo "  - Required status checks configured in branch protection"
+                  echo ""
+                  gh pr merge "${PR_NUMBER}" --auto --squash --delete-branch
