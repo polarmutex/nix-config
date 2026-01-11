@@ -25,6 +25,8 @@
         nixosModules.doas
         nixosModules.nix
         nixosModules.openssh
+        nixosModules.kernel_hardening
+        nixosModules.security_monitoring
       ];
     })
   ];
@@ -92,13 +94,86 @@ in {
                 mode = "0400";
                 owner = "nginx";
               };
+              githubAuth = {
+                mode = "0400";
+                owner = "root";
+              };
             };
           };
         }
         {
+          # Disable documentation building to avoid missing path errors during remote builds
+          documentation.nixos.enable = lib.mkForce false;
+          documentation.nixos.options.warningsAreErrors = false;
+
+          services.security-monitoring = {
+            enable = true;
+            schedule = "daily"; # Run daily at midnight
+          };
+
           services.fail2ban = {
             enable = true;
+            maxretry = 3;
+            bantime = "24h";
+            bantime-increment = {
+              enable = true;
+              multipliers = "1 2 4 8 16 32 64";
+              maxtime = "168h"; # 1 week max
+              overalljails = true;
+            };
+            jails = {
+              sshd = {
+                settings = {
+                  enabled = true;
+                  port = "22";
+                  filter = "sshd";
+                  logpath = "/var/log/auth.log";
+                  maxretry = 3;
+                  findtime = 600;
+                  bantime = 86400;
+                };
+              };
+              nginx-http-auth = {
+                settings = {
+                  enabled = true;
+                  port = "http,https";
+                  filter = "nginx-http-auth";
+                  logpath = "/var/log/nginx/error.log";
+                  maxretry = 5;
+                };
+              };
+              nginx-limit-req = {
+                settings = {
+                  enabled = true;
+                  port = "http,https";
+                  filter = "nginx-limit-req";
+                  logpath = "/var/log/nginx/error.log";
+                  maxretry = 10;
+                };
+              };
+
+              # Forgejo authentication protection
+              forgejo-auth = {
+                settings = {
+                  enabled = true;
+                  port = "http,https";
+                  filter = "forgejo-auth";
+                  logpath = "/var/lib/forgejo/log/forgejo.log";
+                  maxretry = 5;
+                  findtime = 600;
+                  bantime = 3600;
+                };
+              };
+            };
           };
+
+          # Custom Forgejo fail2ban filter
+          environment.etc."fail2ban/filter.d/forgejo-auth.conf".text = ''
+            [Definition]
+            failregex = ^.*Failed authentication attempt.*from <HOST>.*$
+                        ^.*invalid credentials.*remote_addr=<HOST>.*$
+            ignoreregex =
+          '';
           services.fava = {
             enable = true;
             fava.basicAuth.enable = true;

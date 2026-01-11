@@ -13,10 +13,13 @@ in {
     litellm = {
       extraOptions = [
         "--pull=always"
+        # Using host network to access PostgreSQL Unix socket
+        # Bridge networking would require PostgreSQL to listen on TCP
         "--network=host"
       ];
       image = "ghcr.io/berriai/litellm:main-stable";
-      # ports = ["${builtins.toString port}:4000"];
+      # Note: Cannot use port mapping with --network=host
+      # ports = ["127.0.0.1:${builtins.toString port}:4000"];
       environment = {
         DATABASE_URL = "postgresql://litellm@localhost:5432/litellm?host=/run/postgresql";
         STORE_MODEL_IN_DB = "True"; # allows adding models to proxy via UI

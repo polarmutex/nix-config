@@ -3,6 +3,7 @@
     settings = {
       allowed-users = ["*"];
       auto-optimise-store = true;
+      accept-flake-config = true; # Trust extra-substituters from flakes
       experimental-features = ["nix-command" "flakes" "pipe-operators"];
       substituters = [
         "https://cache.nixos.org"
