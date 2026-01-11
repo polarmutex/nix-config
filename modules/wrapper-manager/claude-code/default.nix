@@ -10,40 +10,13 @@
     github = {
       type = "stdio";
       command = "github-mcp-server";
-      args = ["stdio"];
+      args = ["stdio" "--dynamic-toolsets"];
       env = {
         # GITHUB_PERSONAL_ACCESS_TOKEN = config.sops.secrets.gh-mcp;
         GITHUB_PERSONAL_ACCESS_TOKEN = "$(cat /run/secrets/gh-mcp)";
       };
     };
-    # filesystem = {
-    #   type = "stdio";
-    #   command = "npx";
-    #   args = [
-    #     "-y"
-    #     "@modelcontextprotocol/server-filesystem"
-    #     "/tmp"
-    #   ];
-    # };
-    # database = {
-    #   type = "stdio";
-    #   command = "npx";
-    #   args = [
-    #     "-y"
-    #     "@bytebase/dbhub"
-    #     "--dsn"
-    #     "postgresql://user:pass@localhost:5432/db"
-    #   ];
-    #   env = {
-    #     DATABASE_URL = "postgresql://user:pass@localhost:5432/db";
-    #   };
-    # };
-    # customTransport = {
-    #   type = "websocket";
-    #   url = "wss://example.com/mcp";
-    #   customOption = "value";
-    #   timeout = 5000;
-    # };
+    nixos = {command = "mcp-nixos";};
   };
 in {
   wrappers.claude-code = {

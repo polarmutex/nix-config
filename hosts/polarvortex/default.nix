@@ -92,7 +92,6 @@ in {
                 mode = "0400";
                 owner = "nginx";
               };
-
             };
           };
         }
@@ -100,10 +99,10 @@ in {
           services.fail2ban = {
             enable = true;
           };
-          services.fava= {
-          enable = true;
-           fava.basicAuth.enable = true;
-        };
+          services.fava = {
+            enable = true;
+            fava.basicAuth.enable = true;
+          };
         }
       ]));
 }
