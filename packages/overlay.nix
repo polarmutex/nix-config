@@ -1,0 +1,57 @@
+lib: config: inputs': let
+  inherit
+    (builtins)
+    mapAttrs
+    readDir
+    ;
+
+  sources = import ../npins;
+
+  overlayAuto = final: prev: (
+    readDir ./.
+    |> lib.filterAttrs (_: value: value == "directory")
+    |> mapAttrs (
+      name: _:
+        final.callPackage ./${name} {
+        }
+    )
+  );
+
+  overlayMisc = final: prev: {
+    # nix-index = let
+    #   imported = import sources.nix-index-database {pkgs = final;};
+    # in
+    #   imported.nix-index-with-db;
+
+    # neovim = (import sources.mnw).lib.wrap final { imports = [ ./neovim/module.nix ]; };
+
+    nh = final.callPackage "${sources.nh}/package.nix" {
+      rev = sources.nh.revision;
+    };
+
+    maid = (import sources.nix-maid) final ../modules/maid;
+    unstable = import sources.nixpkgs-unstable {
+      inherit (prev) system;
+      inherit config;
+    };
+
+    polarmutex-website = inputs'.website.packages.default;
+  };
+
+  overlayWrapperManager = final: prev: let
+    wrapper-manager = import sources.wrapper-manager;
+    evald = wrapper-manager.lib {
+      pkgs = prev;
+      modules =
+        builtins.readDir ../modules/wrapper-manager
+        |> builtins.attrNames
+        |> map (n: ../modules/wrapper-manager/${n});
+    };
+  in
+    mapAttrs (_: value: value.wrapped) evald.config.wrappers;
+in
+  lib.composeManyExtensions [
+    overlayAuto
+    overlayMisc
+    overlayWrapperManager
+  ]

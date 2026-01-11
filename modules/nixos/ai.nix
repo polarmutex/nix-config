@@ -4,14 +4,13 @@
   ...
 }: {
   environment.systemPackages = with inputs.nix-ai-tools.packages.${pkgs.system}; [
-    claude-code
     claude-code-router
     qwen-code
-    gemini-cli
     opencode
-    pkgs.superclaude
-    pkgs.claude-usage-monitor
-    pkgs.ccusage
-    pkgs.bmad-method
+    # pkgs.superclaude
+    # pkgs.claude-usage-monitor
+    # pkgs.ccusage
+    # pkgs.bmad-method
+    pkgs.claude-code
   ];
 }

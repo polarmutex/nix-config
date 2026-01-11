@@ -59,9 +59,9 @@ in {
                 mode = "440";
                 group = "wheel";
               };
-              gh-mcp={
-                  mode = "440";
-                  group = "wheel";
+              gh-mcp = {
+                mode = "440";
+                group = "wheel";
               };
             };
           };
@@ -144,25 +144,28 @@ in {
             inputs.deploy-rs.packages.${system}.deploy-rs
             inputs.neovim-flake.packages.${system}.neovim
             morgen-updated
-            self'.packages.fish
-            self'.packages.git-polar
-            self'.packages.ghostty
-            self'.packages.google-chrome
-            self'.packages.brave
+            #self'.packages.fish
+            git-polar
+            ghostty
+            google-chrome
+            brave
             pkgs.firefox
             nvtopPackages.nvidia
             nodejs
             uv
             unstable.android-studio
             vscode
-            self'.packages.context7-mcp
-            self'.packages.github-mcp
+            context7-mcp
+            github-mcp
+            unstable.nil
+            unstable.alejandra
           ];
 
           users.users.polar = {
+            shell = pkgs.fish-polar;
             maid = {
-                imports =[maidModules.claude-code];
-              file.home.".gitconfig".source = self'.packages.git-polar.gitconfig;
+              imports = [maidModules.claude-code];
+              file.home.".gitconfig".source = pkgs.git-polar.gitconfig;
               systemd.services.obsidian-second-brain-sync = {
                 path = [
                   pkgs.git

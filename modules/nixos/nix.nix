@@ -3,7 +3,7 @@
     settings = {
       allowed-users = ["*"];
       auto-optimise-store = true;
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = ["nix-command" "flakes" "pipe-operators"];
       substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
