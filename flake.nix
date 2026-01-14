@@ -89,6 +89,7 @@
                 lm_sensors
                 nix-update
                 inputs.bun2nix.packages.${system}.default
+                neovim.devMode
               ];
             };
         };

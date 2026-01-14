@@ -1,0 +1,50 @@
+{
+  "pins": {
+    "lz.n": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "lumen-oss",
+        "repo": "lz.n"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v2.12.2",
+      "revision": "74194977d829b0d2de9a1514060114b568f6fdba",
+      "url": "https://api.github.com/repos/lumen-oss/lz.n/tarball/refs/tags/v2.12.2",
+      "hash": "sha256-YP8jlE71i/MuF11jsJUNIgojfKpekoSmMlWkKZj+GjQ="
+    },
+    "teide.nvim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "serhez",
+        "repo": "teide.nvim"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "95041d1d78e786bd88be64bca3e1771f7b6236df",
+      "url": "https://github.com/serhez/teide.nvim/archive/95041d1d78e786bd88be64bca3e1771f7b6236df.tar.gz",
+      "hash": "sha256-+rp+HermR7hbCmH+aqe7z8yy+csUKfDIvQnQSpwRDGA="
+    },
+    "which-key.nvim": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "folke",
+        "repo": "which-key.nvim"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v3.17.0",
+      "revision": "fcbf4eea17cb299c02557d576f0d568878e354a4",
+      "url": "https://api.github.com/repos/folke/which-key.nvim/tarball/refs/tags/v3.17.0",
+      "hash": "sha256-kYpiw2Syu54B/nNVqTZeUHJIPNzAv3JpFaMWR9Ai3p4="
+    }
+  },
+  "version": 7
+}
