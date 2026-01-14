@@ -11,6 +11,9 @@
     "${modulesPath}/installer/scan/not-detected.nix"
   ];
 
+  # Disable documentation to avoid build failures with missing modules
+  documentation.nixos.enable = false;
+
   boot = {
     initrd.kernelModules = ["nvidia"];
     initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
