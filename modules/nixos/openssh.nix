@@ -42,7 +42,7 @@
       AllowAgentForwarding = false;
 
       # Only allow specific users
-      AllowUsers = ["polar"];
+      AllowUsers = ["polar" "git"];
     };
   };
   # programs.ssh = {

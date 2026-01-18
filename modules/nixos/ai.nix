@@ -12,5 +12,6 @@
     # pkgs.ccusage
     # pkgs.bmad-method
     pkgs.claude-code
+    gemini-cli
   ];
 }
