@@ -217,7 +217,7 @@ in {
       wantedBy = ["multi-user.target"];
 
       path = [
-        inputs.beancount-repo.packages.${pkgs.system}.default
+        inputs.beancount-repo.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
 
       serviceConfig = {
@@ -225,7 +225,7 @@ in {
         User = cfg.user;
         Group = cfg.group;
         ExecStart = ''
-          ${inputs.beancount-repo.packages.${pkgs.system}.default}/bin/fava \
+          ${inputs.beancount-repo.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/fava \
             --host 127.0.0.1 \
             --port ${toString cfg.fava.port} \
             ${cfg.dataDir}/repo/${cfg.beanFile}

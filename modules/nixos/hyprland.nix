@@ -5,7 +5,7 @@
 }: {
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland.override {
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland.override {
       # legacyRenderer = false; # whether to use the legacy renderer (for old GPUs)x
     };
     portalPackage = with pkgs; xdg-desktop-portal-hyprland;

@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  addons = firefox-addons.packages.${pkgs.system};
+  addons = firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
   # ~/.mozilla/firefox/PROFILE_NAME/prefs.js | user.js
   # https://www.youtube.com/watch?v=F7-bW2y6lcI
   sharedSettings = {

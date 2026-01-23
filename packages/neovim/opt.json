@@ -151,19 +151,6 @@
       "url": "https://api.github.com/repos/rcarriga/nvim-notify/tarball/refs/tags/v3.15.0",
       "hash": "sha256-C+HjESSYbDwWoDLGJqydV4eflH6327iAHbGyInKbgSA="
     },
-    "nvim-treesitter": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "nvim-treesitter",
-        "repo": "nvim-treesitter"
-      },
-      "branch": "main",
-      "submodules": false,
-      "revision": "5a7e5638e7d220575b1c22c8a2e099b52231886e",
-      "url": "https://github.com/nvim-treesitter/nvim-treesitter/archive/5a7e5638e7d220575b1c22c8a2e099b52231886e.tar.gz",
-      "hash": "sha256-1EPAkKmGorpSkg++9zGEqvBsxDRSOi0B5DQVvv2NW0w="
-    },
     "nvim-web-devicons": {
       "type": "GitRelease",
       "repository": {

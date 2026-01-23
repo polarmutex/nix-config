@@ -15,7 +15,7 @@ flake @ {
       sources = import ../npins;
     in
       import sources.nixpkgs rec {
-        inherit system;
+        localSystem = system;
         config = {
           allowInsecurePredicate = pkg: let
             pname = lib.getName pkg;
@@ -35,11 +35,16 @@ flake @ {
         ];
       };
       packages= with pkgs;{
-      obsidian = obsidian;
       _1password-cli = _1password-cli;
       _1password-gui = _1password-gui;
+      blink-cmp= blink-cmp;
       brave= brave;
+      context7-mcp= context7-mcp;
       ghostty= ghostty;
+      github-mcp= github-mcp;
+      mcp-nixos= mcp-nixos;
+      neovim = neovim;
+      obsidian = obsidian;
       ungoogled-chromium= ungoogled-chromium;
       wezterm= wezterm;
       zed-editor = zed-editor;
@@ -167,7 +172,7 @@ flake @ {
   #         in
   #           auto
   #           // {
-  #             zed-editor = inputs.zed.packages.${pkgs.system}.default;
+  #             zed-editor = inputs.zed.packages.${pkgs.stdenv.hostPlatform.system}.default;
   #             # nix = pkgs.nix;
   #             # nil = inputs'.nil.packages.default;
   #             # manual overrides to auto callPackage
@@ -205,7 +210,7 @@ flake @ {
   #               # Specifies things to pin in the flake registry and in NIX_PATH.
   #               pinned = {nixpkgs = toString inputs.nixpkgs;};
   #               paths = with pkgs;
-  #               with inputs.nix-ai-tools.packages.${pkgs.system}; let
+  #               with inputs.nix-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}; let
   #                 findWrapperPackage = packageAttr:
   #                 # NixGL has wrapper packages in different places depending on how you
   #                 # access it. We want HM configuration to be the same, regardless of how
@@ -306,7 +311,7 @@ flake @ {
   #                       override = args: makePackageWrapper vendor environment (pkg.override args);
   #                     };
   #               in [
-  #                 inputs.neovim-flake.packages.${system}.neovim
+  #                 inputs.neovim-flake.packages.${pkgs.stdenv.hostPlatform.system}.neovim
   #                 # (makePackageWrapper "Intel" {} (unstable.zed-editor.overrideAttrs {withGles = true;}))
   #                 (makePackageWrapper "Intel" {} unstable.zed-editor)
   #                 claude-code

@@ -31,7 +31,7 @@
       # windowManager.leftwm.enable = true;
       windowManager.awesome = {
         enable = true;
-        package = inputs.awesome-flake.packages.${pkgs.system}.awesome-git;
+        package = inputs.awesome-flake.packages.${pkgs.stdenv.hostPlatform.system}.awesome-git;
       };
     };
   };

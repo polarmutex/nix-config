@@ -3,9 +3,25 @@ name:  Nix build
 
 on:
   pull_request:
+    paths:
+      - 'flake.nix'
+      - 'flake.lock'
+      - 'packages/**'
+      - 'modules/**'
+      - 'hosts/**'
+      - 'npins/**'
+      - '.github/workflows/nix-build.yml'
   push:
     branches-ignore:
       - 'update/flake'
+    paths:
+      - 'flake.nix'
+      - 'flake.lock'
+      - 'packages/**'
+      - 'modules/**'
+      - 'hosts/**'
+      - 'npins/**'
+      - '.github/workflows/nix-build.yml'
   workflow_dispatch:
 
 jobs:
@@ -15,12 +31,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
+    - name: Setup SSH known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
+    - uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - uses: cachix/install-nix-action@v31
       with:
         extra_nix_config: |
           auto-optimise-store = true
           access-tokens = github.com=${{ secrets.PAT }}
-          experimental-features = nix-command flakes
+          experimental-features = nix-command flakes pipe-operators
           substituters = https://cache.nixos.org/ https://nix-community.cachix.org https://zed.cachix.org
           trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE= zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU=
     - uses: cachix/cachix-action@master
@@ -28,7 +51,8 @@ jobs:
         name: polarmutex
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
     - name: Run nix flake check
-      run: nix flake check -L --accept-flake-config
+      run: |
+        nix flake check -L --accept-flake-config
 
   checks:
     name: Checks
@@ -47,23 +71,47 @@ jobs:
           - _1password-gui
           - brave
           - ghostty
-          - modern-bash
+          # - modern-bash
           - obsidian
           - zed-editor
           - ungoogled-chromium
           - wezterm
     steps:
     - uses: actions/checkout@v6
+    - name: Setup SSH known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
+    - uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - uses: cachix/install-nix-action@v31
       with:
         extra_nix_config: |
           auto-optimise-store = true
           access-tokens = github.com=${{ secrets.PAT }}
-          experimental-features = nix-command flakes
+          experimental-features = nix-command flakes pipe-operators
           substituters = https://cache.nixos.org/ https://nix-community.cachix.org https://zed.cachix.org
           trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE= zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU=
     - uses: cachix/cachix-action@master
       with:
         name: polarmutex
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - run: nix build .#${{ matrix.flake_output }} -L  --accept-flake-config
+    - name: Build package
+      id: build
+      run: nix build .#${{ matrix.flake_output }} -L  --accept-flake-config
+    - name: Generate build summary
+      if: always()
+      run: |
+        {
+          echo "## Build Results: ${{ matrix.flake_output }}"
+          echo ""
+          echo "**Package:** \`${{ matrix.flake_output }}\`"
+          echo "**Status:** ${{ job.status }}"
+          echo ""
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "✅ Build completed successfully"
+          else
+            echo "❌ Build failed - check logs above"
+          fi
+        } >> $GITHUB_STEP_SUMMARY

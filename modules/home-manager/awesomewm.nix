@@ -7,5 +7,5 @@
     rofi
   ];
 
-  xdg.configFile.awesome.source = inputs.awesome-flake.packages.${pkgs.system}.awesome-config-polar;
+  xdg.configFile.awesome.source = inputs.awesome-flake.packages.${pkgs.stdenv.hostPlatform.system}.awesome-config-polar;
 }

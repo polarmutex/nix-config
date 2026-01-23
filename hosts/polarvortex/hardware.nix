@@ -46,7 +46,7 @@ in {
         send_timeout 10;
 
         # Rate limiting zone (10MB can track ~160k IPs)
-        limit_req_zone $binary_remote_addr zone=general:10m rate=10r/s;
+        #limit_req_zone $binary_remote_addr zone=general:10m rate=10r/s;
       '';
 
       virtualHosts = {};
@@ -61,31 +61,6 @@ in {
     enable = true;
     allowPing = true;
     allowedTCPPorts = [80 443 22];
-
-    # Rate limiting to prevent DoS and brute-force attacks
-    extraCommands = ''
-      # SSH rate limiting: max 5 new connections per minute per IP
-      iptables -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --set --name SSH
-      iptables -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --update --seconds 60 --hitcount 5 --rttl --name SSH -j DROP
-
-      # HTTP rate limiting: max 100 new connections per minute per IP
-      iptables -A INPUT -p tcp --dport 80 -m state --state NEW -m recent --set --name HTTP
-      iptables -A INPUT -p tcp --dport 80 -m state --state NEW -m recent --update --seconds 60 --hitcount 100 --rttl --name HTTP -j DROP
-
-      # HTTPS rate limiting: max 100 new connections per minute per IP
-      iptables -A INPUT -p tcp --dport 443 -m state --state NEW -m recent --set --name HTTPS
-      iptables -A INPUT -p tcp --dport 443 -m state --state NEW -m recent --update --seconds 60 --hitcount 100 --rttl --name HTTPS -j DROP
-    '';
-
-    # Cleanup rules on firewall stop
-    extraStopCommands = ''
-      iptables -D INPUT -p tcp --dport 22 -m state --state NEW -m recent --set --name SSH 2>/dev/null || true
-      iptables -D INPUT -p tcp --dport 22 -m state --state NEW -m recent --update --seconds 60 --hitcount 5 --rttl --name SSH -j DROP 2>/dev/null || true
-      iptables -D INPUT -p tcp --dport 80 -m state --state NEW -m recent --set --name HTTP 2>/dev/null || true
-      iptables -D INPUT -p tcp --dport 80 -m state --state NEW -m recent --update --seconds 60 --hitcount 100 --rttl --name HTTP -j DROP 2>/dev/null || true
-      iptables -D INPUT -p tcp --dport 443 -m state --state NEW -m recent --set --name HTTPS 2>/dev/null || true
-      iptables -D INPUT -p tcp --dport 443 -m state --state NEW -m recent --update --seconds 60 --hitcount 100 --rttl --name HTTPS -j DROP 2>/dev/null || true
-    '';
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

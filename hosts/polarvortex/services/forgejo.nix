@@ -20,6 +20,9 @@ in {
     useDefaultShell = true;
     group = "git";
     isSystemUser = true;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHuX4iAlw/LZdhLOZjGu7leM8Y/Nu/27VrXaDR1ogg2s polar@polarbear"
+    ];
   };
   users.groups.git = {};
 
@@ -71,6 +74,8 @@ in {
           DOMAIN = "git.${domain}";
           HTTP_PORT = 3050;
           ROOT_URL = "https://${srv.DOMAIN}/";
+          SSH_DOMAIN = "git.${domain}";
+          SSH_PORT = 22;
         };
         service.DISABLE_REGISTRATION = true;
         session.COOKIE_SECURE = true;

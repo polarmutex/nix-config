@@ -45,7 +45,7 @@ in {
         nixosModules.website
         ({pkgs, ...}: {
           environment.systemPackages = [
-            inputs.neovim-flake.packages.${system}.neovim
+            inputs.neovim-flake.packages.${pkgs.stdenv.hostPlatform.system}.neovim
             pkgs.git
           ];
         })
@@ -115,6 +115,24 @@ in {
             enable = true;
             maxretry = 3;
             bantime = "24h";
+            # Whitelist GitHub Actions IPs (from https://api.github.com/meta)
+            # Major IP ranges covering the 5 banned IPs found:
+            # 172.190.42.55, 20.123.146.92, 20.123.146.94, 4.210.186.201, 172.208.48.177
+            ignoreIP = [
+              "127.0.0.1/8"
+              "::1"
+              # Core GitHub ranges
+              "4.0.0.0/8"           # Covers 4.210.186.201
+              "13.64.0.0/11"
+              "20.0.0.0/8"          # Covers 20.123.146.92, 20.123.146.94
+              "40.64.0.0/10"
+              "52.224.0.0/11"
+              "140.82.112.0/20"
+              "143.55.64.0/20"
+              "172.128.0.0/9"       # Covers 172.190.42.55, 172.208.48.177
+              "185.199.108.0/22"
+              "192.30.252.0/22"
+            ];
             bantime-increment = {
               enable = true;
               multipliers = "1 2 4 8 16 32 64";

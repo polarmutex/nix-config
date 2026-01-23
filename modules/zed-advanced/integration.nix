@@ -53,7 +53,7 @@
 #    in {
 #      imports = [ zedIntegration ];
 #      programs.zed-advanced = zedIntegration.beancountSetup {
-#        beancountLsp = inputs.beancount-language-server.packages.${pkgs.system}.default;
+#        beancountLsp = inputs.beancount-language-server.packages.${pkgs.stdenv.hostPlatform.system}.default;
 #        journalFile = "/path/to/your/journal.beancount";
 #      };
 #    }

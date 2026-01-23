@@ -78,52 +78,60 @@ jobs:
                   echo "Current inputs:"
                   cat /tmp/before-inputs.json
 
-            - name: Update npins
+            - name: Update all npins in parallel
               id: npins-update
-              timeout-minutes: 5
+              timeout-minutes: 10
               run: |
-                  echo "Updating npins sources..."
-                  nix run nixpkgs#npins -- update
+                  echo "Updating all npins sources in parallel..."
+
+                  # Update root npins in background
+                  (
+                    echo "Updating root npins sources..."
+                    nix run nixpkgs#npins -- update
+                  ) &
+                  PID1=$!
+
+                  # Update neovim start plugins in background
+                  (
+                    echo "Updating neovim start plugins..."
+                    cd packages/neovim
+                    nix run .#npins -- --lock-file ./start.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
+                  ) &
+                  PID2=$!
+
+                  # Update neovim opt plugins in background
+                  (
+                    echo "Updating neovim opt plugins..."
+                    cd packages/neovim
+                    nix run .#npins -- --lock-file ./opt.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
+                  ) &
+                  PID3=$!
+
+                  # Wait for all to complete
+                  wait $PID1 $PID2 $PID3
+                  echo "All npins updates completed"
+
+                  # Check what was updated
+                  NPINS_UPDATED=false
+                  NEOVIM_START_UPDATED=false
+                  NEOVIM_OPT_UPDATED=false
 
                   if ! git diff --quiet npins/sources.json; then
-                    echo "updated=true" >> "$GITHUB_OUTPUT"
-                  else
-                    echo "updated=false" >> "$GITHUB_OUTPUT"
+                    NPINS_UPDATED=true
                   fi
-
-            - name: Update neovim plugin npins (start)
-              id: npins-neovim-start
-              timeout-minutes: 5
-              run: |
-                  echo "Updating neovim start plugins..."
-                  cd packages/neovim
-
-                  nix run .#npins -- --lock-file ./start.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
-
-                  cd ../..
 
                   if ! git diff --quiet packages/neovim/start.json; then
-                    echo "updated=true" >> "$GITHUB_OUTPUT"
-                  else
-                    echo "updated=false" >> "$GITHUB_OUTPUT"
+                    NEOVIM_START_UPDATED=true
                   fi
-
-            - name: Update neovim plugin npins (opt)
-              id: npins-neovim-opt
-              timeout-minutes: 5
-              run: |
-                  echo "Updating neovim opt plugins..."
-                  cd packages/neovim
-
-                  nix run .#npins -- --lock-file ./opt.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
-
-                  cd ../..
 
                   if ! git diff --quiet packages/neovim/opt.json; then
-                    echo "updated=true" >> "$GITHUB_OUTPUT"
-                  else
-                    echo "updated=false" >> "$GITHUB_OUTPUT"
+                    NEOVIM_OPT_UPDATED=true
                   fi
+
+                  # Set outputs
+                  echo "updated=$NPINS_UPDATED" >> "$GITHUB_OUTPUT"
+                  echo "neovim-start-updated=$NEOVIM_START_UPDATED" >> "$GITHUB_OUTPUT"
+                  echo "neovim-opt-updated=$NEOVIM_OPT_UPDATED" >> "$GITHUB_OUTPUT"
 
             - name: Update flake.lock
               id: flake-update
@@ -266,10 +274,10 @@ jobs:
                     if [ "${{ steps.npins-update.outputs.updated }}" = "true" ]; then
                       echo "✅ npins sources updated"
                     fi
-                    if [ "${{ steps.npins-neovim-start.outputs.updated }}" = "true" ]; then
+                    if [ "${{ steps.npins-update.outputs.neovim-start-updated }}" = "true" ]; then
                       echo "✅ Neovim start plugins updated"
                     fi
-                    if [ "${{ steps.npins-neovim-opt.outputs.updated }}" = "true" ]; then
+                    if [ "${{ steps.npins-update.outputs.neovim-opt-updated }}" = "true" ]; then
                       echo "✅ Neovim opt plugins updated"
                     fi
                     if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
@@ -281,6 +289,27 @@ jobs:
                     git log -1 --pretty=format:"%B"
                     echo '```'
                   } >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Validate builds still work
+              if: steps.commit-changes.outputs.has_changes == 'true'
+              timeout-minutes: 15
+              run: |
+                  echo "Testing that critical packages still build after updates..."
+
+                  # Test flake check first
+                  echo "Running flake check..."
+                  nix flake check -L --accept-flake-config \
+                    --override-input monolisa-font-flake github:nixos/nixpkgs/nixos-unstable \
+                    --override-input wallpapers github:nixos/nixpkgs/nixos-unstable \
+                    --override-input beancount-repo github:nixos/nixpkgs/nixos-unstable
+
+                  # Test critical packages with dry-run (fast)
+                  echo "Validating critical packages..."
+                  nix build .#neovim --dry-run --accept-flake-config
+                  nix build .#blink-cmp --dry-run --accept-flake-config
+                  nix build .#context7-mcp --dry-run --accept-flake-config
+
+                  echo "✅ All validation checks passed"
 
             - name: Create Pull Request
               if: steps.commit-changes.outputs.has_changes == 'true'
@@ -298,8 +327,8 @@ jobs:
 
                       ### Updated
                       ${{ steps.npins-update.outputs.updated == 'true' && '- ✅ npins sources' || '' }}
-                      ${{ steps.npins-neovim-start.outputs.updated == 'true' && '- ✅ Neovim start plugins' || '' }}
-                      ${{ steps.npins-neovim-opt.outputs.updated == 'true' && '- ✅ Neovim opt plugins' || '' }}
+                      ${{ steps.npins-update.outputs.neovim-start-updated == 'true' && '- ✅ Neovim start plugins' || '' }}
+                      ${{ steps.npins-update.outputs.neovim-opt-updated == 'true' && '- ✅ Neovim opt plugins' || '' }}
                       ${{ steps.flake-update.outputs.updated == 'true' && '- ✅ Flake inputs' || '' }}
 
                       ### Commit Details

@@ -8,7 +8,7 @@
     pkgs.twitter-color-emoji
     pkgs.nerd-fonts.symbols-only
     pkgs.nerd-fonts.jetbrains-mono
-    inputs.monolisa-font-flake.packages.${pkgs.system}.monolisa-custom-font
+    inputs.monolisa-font-flake.packages.${pkgs.stdenv.hostPlatform.system}.monolisa-custom-font
     pkgs.symbola
   ];
 }

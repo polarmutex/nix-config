@@ -143,8 +143,8 @@ in {
             unstable.obsidian
             peek
             unstable.zoom-us
-            inputs.deploy-rs.packages.${system}.deploy-rs
-            inputs.neovim-flake.packages.${system}.neovim
+            inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
+            inputs.neovim-flake.packages.${pkgs.stdenv.hostPlatform.system}.neovim
             morgen-updated
             #self'.packages.fish
             git-polar

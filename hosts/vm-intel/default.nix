@@ -99,7 +99,7 @@ in {
           systemd.services."autovt@tty1".enable = false;
 
           environment.systemPackages = [
-            inputs.neovim-flake.packages.${system}.neovim
+            inputs.neovim-flake.packages.${pkgs.stdenv.hostPlatform.system}.neovim
             self'.packages.fish
             self'.packages.ghostty
             self'.packages.git

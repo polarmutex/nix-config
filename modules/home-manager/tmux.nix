@@ -43,6 +43,6 @@
   };
 
   home.packages = [
-    inputs.tmux-sessionizer.packages.${pkgs.system}.default
+    inputs.tmux-sessionizer.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

@@ -41,7 +41,7 @@ lib: config: inputs': let
 
     maid = (import sources.nix-maid) final ../modules/maid;
     unstable = import sources.nixpkgs-unstable {
-      inherit (prev) system;
+      system = prev.stdenv.hostPlatform.system;
       inherit config;
     };
 

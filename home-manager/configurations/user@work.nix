@@ -22,7 +22,7 @@
       glab
       kubernetes-helm
       lazygit
-      inputs.neovim-flake.packages.${pkgs.system}.neovim-polar
+      inputs.neovim-flake.packages.${pkgs.stdenv.hostPlatform.system}.neovim-polar
       ripgrep
       maven
     ];

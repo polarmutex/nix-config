@@ -12,7 +12,7 @@
     enable = true;
     display = "scale";
     interval = "15m";
-    imageDirectory = "${inputs.wallpapers.packages.${pkgs.system}.polar-wallpapers}/share/wallpapers";
+    imageDirectory = "${inputs.wallpapers.packages.${pkgs.stdenv.hostPlatform.system}.polar-wallpapers}/share/wallpapers";
   };
 
   # wayland
@@ -20,7 +20,7 @@
   # systemd.user.services.random-background-wayland = let
   # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
   # interval = "10m";
-  # imageDirectory = "${inputs.wallpapers.packages.${pkgs.system}.polar-wallpapers}/share/wallpapers";
+  # imageDirectory = "${inputs.wallpapers.packages.${pkgs.stdenv.hostPlatform.system}.polar-wallpapers}/share/wallpapers";
   # in {
   #   Unit = {
   #     Description = "Set random desktop background using hyprpaper";

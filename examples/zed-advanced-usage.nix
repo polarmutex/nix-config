@@ -9,7 +9,7 @@ let
   languageConfigs = import ../modules/wrapper-manager/zed-advanced/languages.nix { inherit lib pkgs; };
   
   # Assuming you have beancount-language-server in your inputs
-  beancountLsp = inputs.beancount-language-server.packages.${pkgs.system}.default or null;
+  beancountLsp = inputs.beancount-language-server.packages.${pkgs.stdenv.hostPlatform.system}.default or null;
   
 in {
   imports = [

@@ -35,7 +35,7 @@ in {
 
           fonts = {
             packages = [
-              inputs.monolisa-font-flake.packages.${pkgs.system}.monolisa-custom-font
+              inputs.monolisa-font-flake.packages.${pkgs.stdenv.hostPlatform.system}.monolisa-custom-font
               (pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
               # pkgs.symbola
             ];

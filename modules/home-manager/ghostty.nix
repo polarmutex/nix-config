@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  home.packages = [inputs.ghostty.packages.${pkgs.system}.default];
+  home.packages = [inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default];
   xdg.configFile."ghostty/config".text = ''
     theme = Kanagawa Wave
     background-opacity = 0.95
