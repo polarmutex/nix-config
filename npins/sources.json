@@ -1,99 +1,99 @@
 {
-    "pins": {
-        "mnw": {
-            "type": "Git",
-            "repository": {
-                "type": "GitHub",
-                "owner": "gerg-l",
-                "repo": "mnw"
-            },
-            "branch": "master",
-            "submodules": false,
-            "revision": "75bb637454b0fbbb5ed652375a4bf7ffd28bcf6f",
-            "url": "https://github.com/gerg-l/mnw/archive/75bb637454b0fbbb5ed652375a4bf7ffd28bcf6f.tar.gz",
-            "hash": "sha256-kSvWF3Xt2HW9hmV5V7i8PqeWJIBUKmuKoHhOgj3Znzs="
-        },
-        "neovim-nightly": {
-            "type": "Git",
-            "repository": {
-                "type": "GitHub",
-                "owner": "nix-community",
-                "repo": "neovim-nightly-overlay"
-            },
-            "branch": "master",
-            "submodules": false,
-            "revision": "c18fb3367dbaa0830dd46443cc1cb006444e1f0e",
-            "url": "https://github.com/nix-community/neovim-nightly-overlay/archive/c18fb3367dbaa0830dd46443cc1cb006444e1f0e.tar.gz",
-            "hash": "sha256-Ufn7eONdsaB6wso01KOyC8fWXDPbCsf6q/120JrSRBg="
-        },
-        "nh": {
-            "type": "GitRelease",
-            "repository": {
-                "type": "GitHub",
-                "owner": "nix-community",
-                "repo": "nh"
-            },
-            "pre_releases": false,
-            "version_upper_bound": null,
-            "release_prefix": null,
-            "submodules": false,
-            "version": "v4.2.0",
-            "revision": "5e04bd5723bb547bd404752ed629c02b89f06645",
-            "url": "https://api.github.com/repos/nix-community/nh/tarball/refs/tags/v4.2.0",
-            "hash": "sha256-6n5SVO8zsdVTD691lri7ZcO4zpqYFU8GIvjI6dbxkA8="
-        },
-        "nix-maid": {
-            "type": "Git",
-            "repository": {
-                "type": "GitHub",
-                "owner": "viperml",
-                "repo": "nix-maid"
-            },
-            "branch": "master",
-            "submodules": false,
-            "revision": "a2aab233f853c107ffc9a9d59ef25401bc2b2965",
-            "url": "https://github.com/viperml/nix-maid/archive/a2aab233f853c107ffc9a9d59ef25401bc2b2965.tar.gz",
-            "hash": "sha256-7KBOKp4GoL324MHEDns4sQmdV5hhdqcgfRIjBHSizh8="
-        },
-        "nixpkgs": {
-            "type": "Git",
-            "repository": {
-                "type": "GitHub",
-                "owner": "nixos",
-                "repo": "nixpkgs"
-            },
-            "branch": "nixos-25.11",
-            "submodules": false,
-            "revision": "d351d0653aeb7877273920cd3e823994e7579b0b",
-            "url": "https://github.com/nixos/nixpkgs/archive/d351d0653aeb7877273920cd3e823994e7579b0b.tar.gz",
-            "hash": "sha256-r4GVX+FToWVE2My8VVZH4V0pTIpnu2ZE8/Z4uxGEMBE="
-        },
-        "nixpkgs-unstable": {
-            "type": "Git",
-            "repository": {
-                "type": "GitHub",
-                "owner": "nixos",
-                "repo": "nixpkgs"
-            },
-            "branch": "nixos-unstable",
-            "submodules": false,
-            "revision": "3497aa5c9457a9d88d71fa93a4a8368816fbeeba",
-            "url": "https://github.com/nixos/nixpkgs/archive/3497aa5c9457a9d88d71fa93a4a8368816fbeeba.tar.gz",
-            "hash": "sha256-dhhvQY67aboBk8b0/u0XB6vwHdgbROZT3fJAjyNh5Ww="
-        },
-        "wrapper-manager": {
-            "type": "Git",
-            "repository": {
-                "type": "GitHub",
-                "owner": "viperml",
-                "repo": "wrapper-manager"
-            },
-            "branch": "master",
-            "submodules": false,
-            "revision": "801dd9c876fcada046af45543e8c7e0bbccf20ea",
-            "url": "https://github.com/viperml/wrapper-manager/archive/801dd9c876fcada046af45543e8c7e0bbccf20ea.tar.gz",
-            "hash": "sha256-OGXsTE5jWhGiFfK6OwMvjksrYSobsIFUSUzKsexCDxY="
-        }
+  "pins": {
+    "mnw": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "gerg-l",
+        "repo": "mnw"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "20d63a8a1ae400557c770052a46a9840e768926b",
+      "url": "https://github.com/gerg-l/mnw/archive/20d63a8a1ae400557c770052a46a9840e768926b.tar.gz",
+      "hash": "sha256-kSvWF3Xt2HW9hmV5V7i8PqeWJIBUKmuKoHhOgj3Znzs="
     },
-    "version": 7
+    "neovim-nightly": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "neovim-nightly-overlay"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "7c77dcce004c0845da25e0fe9a6c8b11bd46e614",
+      "url": "https://github.com/nix-community/neovim-nightly-overlay/archive/7c77dcce004c0845da25e0fe9a6c8b11bd46e614.tar.gz",
+      "hash": "sha256-vMWf9C4LK2fshCKgUYGR0fn4/3qg2/sWyFILv4YYTB8="
+    },
+    "nh": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "nh"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v4.2.0",
+      "revision": "5e04bd5723bb547bd404752ed629c02b89f06645",
+      "url": "https://api.github.com/repos/nix-community/nh/tarball/refs/tags/v4.2.0",
+      "hash": "sha256-6n5SVO8zsdVTD691lri7ZcO4zpqYFU8GIvjI6dbxkA8="
+    },
+    "nix-maid": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "viperml",
+        "repo": "nix-maid"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "a2aab233f853c107ffc9a9d59ef25401bc2b2965",
+      "url": "https://github.com/viperml/nix-maid/archive/a2aab233f853c107ffc9a9d59ef25401bc2b2965.tar.gz",
+      "hash": "sha256-7KBOKp4GoL324MHEDns4sQmdV5hhdqcgfRIjBHSizh8="
+    },
+    "nixpkgs": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nixos",
+        "repo": "nixpkgs"
+      },
+      "branch": "nixos-25.11",
+      "submodules": false,
+      "revision": "078d69f03934859a181e81ba987c2bb033eebfc5",
+      "url": "https://github.com/nixos/nixpkgs/archive/078d69f03934859a181e81ba987c2bb033eebfc5.tar.gz",
+      "hash": "sha256-9yA/LIuAVQq0lXelrZPjLuLVuZdm03p8tfmHhnDIkms="
+    },
+    "nixpkgs-unstable": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nixos",
+        "repo": "nixpkgs"
+      },
+      "branch": "nixos-unstable",
+      "submodules": false,
+      "revision": "88d3861acdd3d2f0e361767018218e51810df8a1",
+      "url": "https://github.com/nixos/nixpkgs/archive/88d3861acdd3d2f0e361767018218e51810df8a1.tar.gz",
+      "hash": "sha256-MJ27Cy2NtBEV5tsK+YraYr2g851f3Fl1LpNHDzDX15c="
+    },
+    "wrapper-manager": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "viperml",
+        "repo": "wrapper-manager"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "801dd9c876fcada046af45543e8c7e0bbccf20ea",
+      "url": "https://github.com/viperml/wrapper-manager/archive/801dd9c876fcada046af45543e8c7e0bbccf20ea.tar.gz",
+      "hash": "sha256-OGXsTE5jWhGiFfK6OwMvjksrYSobsIFUSUzKsexCDxY="
+    }
+  },
+  "version": 7
 }
