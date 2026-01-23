@@ -9,8 +9,9 @@
       ChallengeResponseAuthentication = false;
       PubkeyAuthentication = true;
 
-      # Strict cryptographic algorithms
+      # Strict cryptographic algorithms with post-quantum protection
       KexAlgorithms = [
+        "sntrup761x25519-sha512@openssh.com"  # Hybrid post-quantum (NTRU Prime + X25519)
         "curve25519-sha256"
         "curve25519-sha256@libssh.org"
         "diffie-hellman-group-exchange-sha256"
