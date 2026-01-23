@@ -55,14 +55,5 @@ jobs:
       with:
         name: polarmutex
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - name: Setup SSH Agent
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
-        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-        echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
     # - run: nix flake check -L #--show-trace
     - run: nix build .#${{ matrix.flake_output }} -L  --accept-flake-config

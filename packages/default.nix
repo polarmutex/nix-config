@@ -20,6 +20,7 @@ flake @ {
           allowInsecurePredicate = pkg: let
             pname = lib.getName pkg;
             byName = builtins.elem pname [
+	    "gradle"
               "nix"
             ];
           in

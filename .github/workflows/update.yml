@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Update Flake Inputs
+name: Update Dependencies
 
 on:
     workflow_dispatch:
@@ -13,7 +13,7 @@ on:
         # Run every Friday at 4 AM UTC
         - cron: "0 4 * * 5"
 
-run-name: Update flake inputs
+run-name: Update npins and flake inputs
 
 permissions:
     contents: write
@@ -25,7 +25,7 @@ env:
     GIT_EMAIL: github-actions[bot]@users.noreply.github.com
 
 jobs:
-    update-flake:
+    update-dependencies:
         runs-on: ubuntu-latest
         steps:
             - name: Validate Required Secrets
@@ -78,6 +78,53 @@ jobs:
                   echo "Current inputs:"
                   cat /tmp/before-inputs.json
 
+            - name: Update npins
+              id: npins-update
+              timeout-minutes: 5
+              run: |
+                  echo "Updating npins sources..."
+                  nix run nixpkgs#npins -- update
+
+                  if ! git diff --quiet npins/sources.json; then
+                    echo "updated=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "updated=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Update neovim plugin npins (start)
+              id: npins-neovim-start
+              timeout-minutes: 5
+              run: |
+                  echo "Updating neovim start plugins..."
+                  cd packages/neovim
+
+                  nix run .#npins -- --lock-file ./start.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
+
+                  cd ../..
+
+                  if ! git diff --quiet packages/neovim/start.json; then
+                    echo "updated=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "updated=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Update neovim plugin npins (opt)
+              id: npins-neovim-opt
+              timeout-minutes: 5
+              run: |
+                  echo "Updating neovim opt plugins..."
+                  cd packages/neovim
+
+                  nix run .#npins -- --lock-file ./opt.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
+
+                  cd ../..
+
+                  if ! git diff --quiet packages/neovim/opt.json; then
+                    echo "updated=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "updated=false" >> "$GITHUB_OUTPUT"
+                  fi
+
             - name: Update flake.lock
               id: flake-update
               timeout-minutes: 10
@@ -128,31 +175,76 @@ jobs:
 
                   echo "has_changes=true" >> "$GITHUB_OUTPUT"
 
+                  # Determine what was updated
+                  HAS_NPINS=false
+                  HAS_NEOVIM_START=false
+                  HAS_NEOVIM_OPT=false
+                  HAS_FLAKE=false
+
+                  if ! git diff --quiet npins/sources.json; then
+                    HAS_NPINS=true
+                  fi
+
+                  if ! git diff --quiet packages/neovim/start.json; then
+                    HAS_NEOVIM_START=true
+                  fi
+
+                  if ! git diff --quiet packages/neovim/opt.json; then
+                    HAS_NEOVIM_OPT=true
+                  fi
+
+                  if ! git diff --quiet flake.lock; then
+                    HAS_FLAKE=true
+                  fi
+
                   # Start building commit message
-                  COMMIT_MSG="chore: update flake.lock"
+                  COMMIT_MSG="chore: update dependencies"
+
                   COMMIT_BODY=""
 
-                  # Capture after state
-                  nix flake metadata --json | jq -r '.locks.nodes | with_entries(if .value.locked then .value = .value.locked.rev // .value.locked.narHash // "unknown" else empty end)' > /tmp/after-inputs.json
+                  # Add npins changes if present
+                  if [ "$HAS_NPINS" = true ]; then
+                    COMMIT_BODY="${COMMIT_BODY}Updated npins sources\n\n"
+                    git add npins/sources.json
+                  fi
 
-                  # Generate version changes
-                  COMMIT_BODY="${COMMIT_BODY}Updated flake inputs:\n\n"
-
-                  # Compare before and after
-                  jq -r 'keys[]' /tmp/before-inputs.json | while read -r input; do
-                    BEFORE_REV=$(jq -r --arg key "$input" 'if .[$key] then .[$key] else "missing" end' /tmp/before-inputs.json)
-                    AFTER_REV=$(jq -r --arg key "$input" 'if .[$key] then .[$key] else "missing" end' /tmp/after-inputs.json)
-
-                    if [ "$BEFORE_REV" != "$AFTER_REV" ] && [ "$BEFORE_REV" != "missing" ] && [ "$AFTER_REV" != "missing" ]; then
-                      # Truncate revisions for readability
-                      BEFORE_SHORT="${BEFORE_REV:0:8}"
-                      AFTER_SHORT="${AFTER_REV:0:8}"
-                      COMMIT_BODY="${COMMIT_BODY}  ${input}: ${BEFORE_SHORT} -> ${AFTER_SHORT}\n"
+                  # Add neovim plugin changes if present
+                  if [ "$HAS_NEOVIM_START" = true ] || [ "$HAS_NEOVIM_OPT" = true ]; then
+                    COMMIT_BODY="${COMMIT_BODY}Updated neovim plugins:\n"
+                    if [ "$HAS_NEOVIM_START" = true ]; then
+                      COMMIT_BODY="${COMMIT_BODY}  - start plugins\n"
+                      git add packages/neovim/start.json
                     fi
-                  done
+                    if [ "$HAS_NEOVIM_OPT" = true ]; then
+                      COMMIT_BODY="${COMMIT_BODY}  - opt plugins\n"
+                      git add packages/neovim/opt.json
+                    fi
+                    COMMIT_BODY="${COMMIT_BODY}\n"
+                  fi
 
-                  # Create commit
-                  git add flake.lock
+                  # Add flake changes if present
+                  if [ "$HAS_FLAKE" = true ]; then
+                    # Capture after state
+                    nix flake metadata --json | jq -r '.locks.nodes | with_entries(if .value.locked then .value = .value.locked.rev // .value.locked.narHash // "unknown" else empty end)' > /tmp/after-inputs.json
+
+                    # Generate version changes
+                    COMMIT_BODY="${COMMIT_BODY}Updated flake inputs:\n\n"
+
+                    # Compare before and after
+                    jq -r 'keys[]' /tmp/before-inputs.json | while read -r input; do
+                      BEFORE_REV=$(jq -r --arg key "$input" 'if .[$key] then .[$key] else "missing" end' /tmp/before-inputs.json)
+                      AFTER_REV=$(jq -r --arg key "$input" 'if .[$key] then .[$key] else "missing" end' /tmp/after-inputs.json)
+
+                      if [ "$BEFORE_REV" != "$AFTER_REV" ] && [ "$BEFORE_REV" != "missing" ] && [ "$AFTER_REV" != "missing" ]; then
+                        # Truncate revisions for readability
+                        BEFORE_SHORT="${BEFORE_REV:0:8}"
+                        AFTER_SHORT="${AFTER_REV:0:8}"
+                        COMMIT_BODY="${COMMIT_BODY}  ${input}: ${BEFORE_SHORT} -> ${AFTER_SHORT}\n"
+                      fi
+                    done
+
+                    git add flake.lock
+                  fi
 
                   # Build full commit message
                   {
@@ -171,7 +263,18 @@ jobs:
                   {
                     echo "## Update Summary"
                     echo ""
-                    echo "✅ Flake inputs updated"
+                    if [ "${{ steps.npins-update.outputs.updated }}" = "true" ]; then
+                      echo "✅ npins sources updated"
+                    fi
+                    if [ "${{ steps.npins-neovim-start.outputs.updated }}" = "true" ]; then
+                      echo "✅ Neovim start plugins updated"
+                    fi
+                    if [ "${{ steps.npins-neovim-opt.outputs.updated }}" = "true" ]; then
+                      echo "✅ Neovim opt plugins updated"
+                    fi
+                    if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
+                      echo "✅ Flake inputs updated"
+                    fi
                     echo ""
                     echo "### Changes"
                     echo '```'
@@ -187,11 +290,17 @@ jobs:
                   token: ${{ secrets.PAT }}
                   branch: automated-flake-update
                   delete-branch: true
-                  title: "chore: update flake.lock"
+                  title: "chore: update dependencies"
                   body: |
-                      ## Automated Flake Update
+                      ## Automated Dependency Update
 
-                      This PR contains automated updates for flake inputs.
+                      This PR contains automated updates for dependencies.
+
+                      ### Updated
+                      ${{ steps.npins-update.outputs.updated == 'true' && '- ✅ npins sources' || '' }}
+                      ${{ steps.npins-neovim-start.outputs.updated == 'true' && '- ✅ Neovim start plugins' || '' }}
+                      ${{ steps.npins-neovim-opt.outputs.updated == 'true' && '- ✅ Neovim opt plugins' || '' }}
+                      ${{ steps.flake-update.outputs.updated == 'true' && '- ✅ Flake inputs' || '' }}
 
                       ### Commit Details
                       See the commit message for a detailed list of all version changes.
@@ -200,7 +309,7 @@ jobs:
 
                       ---
 
-                      🤖 This PR was automatically created by the update-flake workflow.
+                      🤖 This PR was automatically created by the update workflow.
                       ${{ (github.event_name == 'schedule' || inputs.auto-merge) && '🔄 Will auto-merge when checks pass.' || '' }}
                   labels: |
                       dependencies
