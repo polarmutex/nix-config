@@ -31,10 +31,7 @@ jobs:
             - name: Validate Required Secrets
               env:
                   PAT_TOKEN: ${{ secrets.PAT }}
-                  SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
               run: |
-                  ERRORS=0
-
                   # Check PAT
                   if [ -z "${PAT_TOKEN}" ]; then
                     echo "::error::PAT secret is not configured"
@@ -48,72 +45,15 @@ jobs:
                     echo "::error::  2. Required scopes: 'repo', 'workflow'"
                     echo "::error::  3. Add to repository secrets as 'PAT'"
                     echo "::error::  4. Location: https://github.com/${{ github.repository }}/settings/secrets/actions"
-                    ERRORS=1
-                  else
-                    echo "✅ PAT secret is configured"
-                  fi
-
-                  # Check SSH_PRIVATE_KEY
-                  if [ -z "${SSH_KEY}" ]; then
-                    echo "::error::SSH_PRIVATE_KEY secret is not configured"
-                    echo "::error::This workflow requires an SSH private key to:"
-                    echo "::error::  1. Access private git repositories (git.polarmutex.dev)"
-                    echo "::error::  2. Fetch private Nix flake inputs (monolisa-font-flake)"
-                    echo "::error::"
-                    echo "::error::To configure SSH_PRIVATE_KEY:"
-                    echo "::error::  1. Add your private SSH key to repository secrets"
-                    echo "::error::  2. Secret name: 'SSH_PRIVATE_KEY'"
-                    echo "::error::  3. Location: https://github.com/${{ github.repository }}/settings/secrets/actions"
-                    ERRORS=1
-                  else
-                    echo "✅ SSH_PRIVATE_KEY secret is configured"
-                  fi
-
-                  if [ $ERRORS -eq 1 ]; then
-                    echo "::error::❌ Required secrets are missing - workflow cannot proceed"
                     exit 1
                   fi
 
-                  echo "✅ All required secrets are configured"
+                  echo "✅ PAT secret is configured"
 
             - name: Checkout repository
               uses: actions/checkout@v6
               with:
                   token: ${{ secrets.PAT }}
-
-            - name: Setup SSH Agent
-              env:
-                  SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-              run: |
-                  # Setup SSH
-                  mkdir -p ~/.ssh
-                  ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
-
-                  # Start SSH agent
-                  ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-
-                  # Add SSH key
-                  echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
-
-                  # Export for subsequent steps
-                  echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
-
-                  # Configure SSH
-                  cat >> ~/.ssh/config <<EOF
-                  Host git.polarmutex.dev
-                    HostName git.polarmutex.dev
-                    User git
-                    StrictHostKeyChecking accept-new
-                    BatchMode yes
-                  EOF
-
-                  # Test connection
-                  echo "Testing SSH connection to git.polarmutex.dev..."
-                  ssh -T git@git.polarmutex.dev || echo "SSH test exit code: $?"
-
-                  # Verify key is loaded
-                  echo "SSH agent keys:"
-                  ssh-add -l
 
             - name: Install Nix
               uses: cachix/install-nix-action@v31
@@ -142,9 +82,24 @@ jobs:
               id: flake-update
               timeout-minutes: 10
               run: |
-                  echo "Starting flake update..."
-                  export NIX_SSHOPTS="-v"
-                  nix flake update --verbose 2>&1 | tee /tmp/flake-update.log
+                  echo "Starting flake update (excluding private inputs)..."
+
+                  # Update only public inputs, skip private ones
+                  # List all inputs except the private ones
+                  INPUTS_TO_UPDATE=$(nix flake metadata --json | jq -r '
+                    .locks.nodes.root.inputs |
+                    to_entries[] |
+                    select(.key != "monolisa-font-flake" and .key != "wallpapers" and .key != "beancount-repo") |
+                    .key
+                  ' | tr '\n' ' ')
+
+                  echo "Updating inputs: $INPUTS_TO_UPDATE"
+
+                  for input in $INPUTS_TO_UPDATE; do
+                    echo "Updating $input..."
+                    nix flake lock --update-input "$input" 2>&1 | tee -a /tmp/flake-update.log || true
+                  done
+
                   echo "Flake update completed"
 
                   if ! git diff --quiet flake.lock; then
