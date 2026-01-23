@@ -109,7 +109,9 @@ in {
             # Cpu friendly cargo build jobs
             CARGO_BUILD_JOBS = "10";
 
-            JAVA_HOME = "${pkgs.openjdk17.home}";
+            JAVA_HOME =  let
+	    javapkg =pkgs.jdk17.override { enableJavaFX = true; };
+	    in javapkg.home;
             # Increase max memory sizes for gradle builds
             JAVA_OPTIONS = "-Xms1024m -Xmx4096m";
             # https://github.com/swaywm/sway/issues/595
