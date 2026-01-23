@@ -34,6 +34,16 @@ flake @ {
           (import ./overlay.nix lib config inputs')
         ];
       };
+      packages= with pkgs;{
+      obsidian = obsidian;
+      _1password-cli = _1password-cli;
+      _1password-gui = _1password-gui;
+      brave= brave;
+      ghostty= ghostty;
+      ungoogled-chromium= ungoogled-chromium;
+      wezterm= wezterm;
+      zed-editor = zed-editor;
+      };
   };
   #   _module.args = let
   #     config = {
