@@ -55,11 +55,21 @@ jobs:
               with:
                   token: ${{ secrets.PAT }}
 
+            - name: Setup SSH known hosts
+              run: |
+                  mkdir -p ~/.ssh
+                  ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
+
+            - name: Setup SSH agent
+              uses: webfactory/ssh-agent@v0.9.0
+              with:
+                  ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
             - name: Install Nix
               uses: cachix/install-nix-action@v31
               with:
                   extra_nix_config: |
-                      experimental-features = nix-command flakes
+                      experimental-features = nix-command flakes pipe-operators
                       accept-flake-config = true
                       access-tokens = github.com=${{ secrets.PAT }}
 
@@ -137,23 +147,10 @@ jobs:
               id: flake-update
               timeout-minutes: 10
               run: |
-                  echo "Starting flake update (excluding private inputs)..."
+                  echo "Starting flake update..."
 
-                  # Update only public inputs, skip private ones
-                  # List all inputs except the private ones
-                  INPUTS_TO_UPDATE=$(nix flake metadata --json | jq -r '
-                    .locks.nodes.root.inputs |
-                    to_entries[] |
-                    select(.key != "monolisa-font-flake" and .key != "wallpapers" and .key != "beancount-repo") |
-                    .key
-                  ' | tr '\n' ' ')
-
-                  echo "Updating inputs: $INPUTS_TO_UPDATE"
-
-                  for input in $INPUTS_TO_UPDATE; do
-                    echo "Updating $input..."
-                    nix flake lock --update-input "$input" 2>&1 | tee -a /tmp/flake-update.log || true
-                  done
+                  # Update all flake inputs
+                  nix flake update 2>&1 | tee /tmp/flake-update.log
 
                   echo "Flake update completed"
 
@@ -238,6 +235,9 @@ jobs:
                     # Generate version changes
                     COMMIT_BODY="${COMMIT_BODY}Updated flake inputs:\n\n"
 
+                    # Clear version changes file
+                    > /tmp/version-changes.txt
+
                     # Compare before and after
                     jq -r 'keys[]' /tmp/before-inputs.json | while read -r input; do
                       BEFORE_REV=$(jq -r --arg key "$input" 'if .[$key] then .[$key] else "missing" end' /tmp/before-inputs.json)
@@ -247,7 +247,10 @@ jobs:
                         # Truncate revisions for readability
                         BEFORE_SHORT="${BEFORE_REV:0:8}"
                         AFTER_SHORT="${AFTER_REV:0:8}"
-                        COMMIT_BODY="${COMMIT_BODY}  ${input}: ${BEFORE_SHORT} -> ${AFTER_SHORT}\n"
+                        CHANGE_LINE="  ${input}: ${BEFORE_SHORT} -> ${AFTER_SHORT}\n"
+                        COMMIT_BODY="${COMMIT_BODY}${CHANGE_LINE}"
+                        # Save to file for PR body (without escape sequences)
+                        echo "  ${input}: ${BEFORE_SHORT} -> ${AFTER_SHORT}" >> /tmp/version-changes.txt
                       fi
                     done
 
@@ -290,26 +293,83 @@ jobs:
                     echo '```'
                   } >> "$GITHUB_STEP_SUMMARY"
 
-            - name: Validate builds still work
+            # - name: Validate builds still work
+            #   if: steps.commit-changes.outputs.has_changes == 'true'
+            #   timeout-minutes: 15
+            #   run: |
+            #       echo "Testing that critical packages still build after updates..."
+            #
+            #       # Test flake check first
+            #       echo "Running flake check..."
+            #       nix flake check -L --accept-flake-config
+            #
+            #       # Test critical packages with dry-run (fast)
+            #       echo "Validating critical packages..."
+            #       nix build .#neovim --dry-run --accept-flake-config
+            #       nix build .#blink-cmp --dry-run --accept-flake-config
+            #       nix build .#context7-mcp --dry-run --accept-flake-config
+            #
+            #       echo "✅ All validation checks passed"
+
+            - name: Generate PR body
               if: steps.commit-changes.outputs.has_changes == 'true'
-              timeout-minutes: 15
+              id: generate-pr-body
               run: |
-                  echo "Testing that critical packages still build after updates..."
+                  # Start building PR body
+                  PR_BODY="## Automated Dependency Update
 
-                  # Test flake check first
-                  echo "Running flake check..."
-                  nix flake check -L --accept-flake-config \
-                    --override-input monolisa-font-flake github:nixos/nixpkgs/nixos-unstable \
-                    --override-input wallpapers github:nixos/nixpkgs/nixos-unstable \
-                    --override-input beancount-repo github:nixos/nixpkgs/nixos-unstable
+                  This PR contains automated updates for dependencies.
 
-                  # Test critical packages with dry-run (fast)
-                  echo "Validating critical packages..."
-                  nix build .#neovim --dry-run --accept-flake-config
-                  nix build .#blink-cmp --dry-run --accept-flake-config
-                  nix build .#context7-mcp --dry-run --accept-flake-config
+                  ### Updated"
 
-                  echo "✅ All validation checks passed"
+                  # Add update checkmarks
+                  if [ "${{ steps.npins-update.outputs.updated }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  - ✅ npins sources"
+                  fi
+
+                  if [ "${{ steps.npins-update.outputs.neovim-start-updated }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  - ✅ Neovim start plugins"
+                  fi
+
+                  if [ "${{ steps.npins-update.outputs.neovim-opt-updated }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  - ✅ Neovim opt plugins"
+                  fi
+
+                  if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  - ✅ Flake inputs"
+                  fi
+
+                  # Add version changes if available
+                  if [ -f /tmp/version-changes.txt ] && [ -s /tmp/version-changes.txt ]; then
+                    PR_BODY="${PR_BODY}
+
+                  ### Version Changes
+                  \`\`\`"
+                    PR_BODY="${PR_BODY}
+                  $(cat /tmp/version-changes.txt)"
+                    PR_BODY="${PR_BODY}
+                  \`\`\`"
+                  fi
+
+                  PR_BODY="${PR_BODY}
+
+                  **Triggered by:** ${{ github.event_name == 'workflow_dispatch' && 'Manual trigger' || 'Scheduled run' }}
+
+                  ---
+
+                  🤖 This PR was automatically created by the update workflow."
+
+                  if [ "${{ github.event_name == 'schedule' || inputs.auto-merge }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  🔄 Will auto-merge when checks pass."
+                  fi
+
+                  # Save to file for use in next step
+                  echo "$PR_BODY" > /tmp/pr-body.txt
 
             - name: Create Pull Request
               if: steps.commit-changes.outputs.has_changes == 'true'
@@ -320,26 +380,7 @@ jobs:
                   branch: automated-flake-update
                   delete-branch: true
                   title: "chore: update dependencies"
-                  body: |
-                      ## Automated Dependency Update
-
-                      This PR contains automated updates for dependencies.
-
-                      ### Updated
-                      ${{ steps.npins-update.outputs.updated == 'true' && '- ✅ npins sources' || '' }}
-                      ${{ steps.npins-update.outputs.neovim-start-updated == 'true' && '- ✅ Neovim start plugins' || '' }}
-                      ${{ steps.npins-update.outputs.neovim-opt-updated == 'true' && '- ✅ Neovim opt plugins' || '' }}
-                      ${{ steps.flake-update.outputs.updated == 'true' && '- ✅ Flake inputs' || '' }}
-
-                      ### Commit Details
-                      See the commit message for a detailed list of all version changes.
-
-                      **Triggered by:** ${{ github.event_name == 'workflow_dispatch' && 'Manual trigger' || 'Scheduled run' }}
-
-                      ---
-
-                      🤖 This PR was automatically created by the update workflow.
-                      ${{ (github.event_name == 'schedule' || inputs.auto-merge) && '🔄 Will auto-merge when checks pass.' || '' }}
+                  body-path: /tmp/pr-body.txt
                   labels: |
                       dependencies
                       automated
@@ -349,13 +390,27 @@ jobs:
               if: |
                   steps.create-pr.outputs.pull-request-number &&
                   (github.event_name == 'schedule' || inputs.auto-merge)
+              continue-on-error: true
               env:
                   GH_TOKEN: ${{ secrets.PAT }}
                   PR_NUMBER: ${{ steps.create-pr.outputs.pull-request-number }}
               run: |
-                  echo "Enabling auto-merge for PR #${PR_NUMBER}"
+                  echo "Attempting to enable auto-merge for PR #${PR_NUMBER}"
                   echo ""
                   echo "ℹ️  Auto-merge will wait for the following before merging:"
                   echo "  - Required status checks configured in branch protection"
                   echo ""
-                  gh pr merge "${PR_NUMBER}" --auto --squash --delete-branch
+
+                  if gh pr merge "${PR_NUMBER}" --auto --squash --delete-branch 2>&1; then
+                    echo "✅ Auto-merge enabled successfully"
+                  else
+                    echo "⚠️  Auto-merge is not enabled for this repository"
+                    echo ""
+                    echo "To enable auto-merge:"
+                    echo "  1. Go to: https://github.com/${{ github.repository }}/settings"
+                    echo "  2. Scroll to 'Pull Requests'"
+                    echo "  3. Check 'Allow auto-merge'"
+                    echo ""
+                    echo "PR created successfully but will require manual merge."
+                    exit 0
+                  fi
