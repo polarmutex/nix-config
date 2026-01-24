@@ -497,6 +497,129 @@ jobs:
                   # Save to file for use in next step
                   echo "$PR_BODY" > /tmp/pr-body.txt
 
+            - name: Generate PR body
+              if: steps.commit-changes.outputs.has_changes == 'true'
+              id: generate-pr-body
+              run: |
+                  # Start building PR body
+                  PR_BODY="## Automated Dependency Update
+
+                  This PR contains automated updates for dependencies.
+
+                  ### Updated"
+
+                  # Add update checkmarks
+                  if [ "${{ steps.npins-update.outputs.updated }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  - ✅ npins sources"
+                  fi
+
+                  if [ "${{ steps.npins-update.outputs.neovim-start-updated }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  - ✅ Neovim start plugins"
+                  fi
+
+                  if [ "${{ steps.npins-update.outputs.neovim-opt-updated }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  - ✅ Neovim opt plugins"
+                  fi
+
+                  if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  - ✅ Flake inputs"
+                  fi
+
+                  # Add version changes sections
+                  CHANGES_ADDED=false
+
+                  # Add npins changes
+                  if [ -f /tmp/npins-changes.txt ] && [ -s /tmp/npins-changes.txt ]; then
+                    if [ "$CHANGES_ADDED" = false ]; then
+                      PR_BODY="${PR_BODY}
+
+                  ### Version Changes"
+                      CHANGES_ADDED=true
+                    fi
+                    PR_BODY="${PR_BODY}
+
+                  #### Npins Sources
+                  \`\`\`"
+                    PR_BODY="${PR_BODY}
+                  $(cat /tmp/npins-changes.txt)"
+                    PR_BODY="${PR_BODY}
+                  \`\`\`"
+                  fi
+
+                  # Add neovim start plugin changes
+                  if [ -f /tmp/neovim-start-changes.txt ] && [ -s /tmp/neovim-start-changes.txt ]; then
+                    if [ "$CHANGES_ADDED" = false ]; then
+                      PR_BODY="${PR_BODY}
+
+                  ### Version Changes"
+                      CHANGES_ADDED=true
+                    fi
+                    PR_BODY="${PR_BODY}
+
+                  #### Neovim Start Plugins
+                  \`\`\`"
+                    PR_BODY="${PR_BODY}
+                  $(cat /tmp/neovim-start-changes.txt)"
+                    PR_BODY="${PR_BODY}
+                  \`\`\`"
+                  fi
+
+                  # Add neovim opt plugin changes
+                  if [ -f /tmp/neovim-opt-changes.txt ] && [ -s /tmp/neovim-opt-changes.txt ]; then
+                    if [ "$CHANGES_ADDED" = false ]; then
+                      PR_BODY="${PR_BODY}
+
+                  ### Version Changes"
+                      CHANGES_ADDED=true
+                    fi
+                    PR_BODY="${PR_BODY}
+
+                  #### Neovim Opt Plugins
+                  \`\`\`"
+                    PR_BODY="${PR_BODY}
+                  $(cat /tmp/neovim-opt-changes.txt)"
+                    PR_BODY="${PR_BODY}
+                  \`\`\`"
+                  fi
+
+                  # Add flake input changes
+                  if [ -f /tmp/version-changes.txt ] && [ -s /tmp/version-changes.txt ]; then
+                    if [ "$CHANGES_ADDED" = false ]; then
+                      PR_BODY="${PR_BODY}
+
+                  ### Version Changes"
+                      CHANGES_ADDED=true
+                    fi
+                    PR_BODY="${PR_BODY}
+
+                  #### Flake Inputs
+                  \`\`\`"
+                    PR_BODY="${PR_BODY}
+                  $(cat /tmp/version-changes.txt)"
+                    PR_BODY="${PR_BODY}
+                  \`\`\`"
+                  fi
+
+                  PR_BODY="${PR_BODY}
+
+                  **Triggered by:** ${{ github.event_name == 'workflow_dispatch' && 'Manual trigger' || 'Scheduled run' }}
+
+                  ---
+
+                  🤖 This PR was automatically created by the update workflow."
+
+                  if [ "${{ github.event_name == 'schedule' || inputs.auto-merge }}" = "true" ]; then
+                    PR_BODY="${PR_BODY}
+                  🔄 Will auto-merge when checks pass."
+                  fi
+
+                  # Save to file for use in next step
+                  echo "$PR_BODY" > /tmp/pr-body.txt
+
             - name: Create Pull Request
               if: steps.commit-changes.outputs.has_changes == 'true'
               id: create-pr
