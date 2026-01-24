@@ -14,6 +14,7 @@ on:
   push:
     branches-ignore:
       - 'update/flake'
+      - 'automated-flake-update'
     paths:
       - 'flake.nix'
       - 'flake.lock'
@@ -31,17 +32,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
+
     - name: Setup SSH known hosts
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
-    - uses: webfactory/ssh-agent@v0.9.0
+
+    - name: Setup SSH agent
+      uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
     - uses: cachix/install-nix-action@v31
       with:
         extra_nix_config: |
           auto-optimise-store = true
+          accept-flake-config = true
           access-tokens = github.com=${{ secrets.PAT }}
           experimental-features = nix-command flakes pipe-operators
           substituters = https://cache.nixos.org/ https://nix-community.cachix.org https://zed.cachix.org
@@ -50,6 +56,11 @@ jobs:
       with:
         name: polarmutex
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+    - name: Test SSH connectivity
+      run: |
+        ssh -T git@git.polarmutex.dev || true
+
     - name: Run nix flake check
       run: |
         nix flake check -L --accept-flake-config
@@ -78,17 +89,22 @@ jobs:
           - wezterm
     steps:
     - uses: actions/checkout@v6
+
     - name: Setup SSH known hosts
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
-    - uses: webfactory/ssh-agent@v0.9.0
+
+    - name: Setup SSH agent
+      uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
     - uses: cachix/install-nix-action@v31
       with:
         extra_nix_config: |
           auto-optimise-store = true
+          accept-flake-config = true
           access-tokens = github.com=${{ secrets.PAT }}
           experimental-features = nix-command flakes pipe-operators
           substituters = https://cache.nixos.org/ https://nix-community.cachix.org https://zed.cachix.org
@@ -97,6 +113,11 @@ jobs:
       with:
         name: polarmutex
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+    - name: Test SSH connectivity
+      run: |
+        ssh -T git@git.polarmutex.dev || true
+
     - name: Build package
       id: build
       run: nix build .#${{ matrix.flake_output }} -L  --accept-flake-config
