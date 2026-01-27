@@ -34,9 +34,14 @@ jobs:
     - uses: actions/checkout@v6
 
     - name: Setup SSH known hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan git.polarmutex.dev >> ~/.ssh/known_hosts
+      uses: nick-fields/retry@v3
+      with:
+        timeout_minutes: 1
+        max_attempts: 3
+        retry_wait_seconds: 5
+        command: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -T 10 git.polarmutex.dev >> ~/.ssh/known_hosts
 
     - name: Setup SSH agent
       uses: webfactory/ssh-agent@v0.9.0
