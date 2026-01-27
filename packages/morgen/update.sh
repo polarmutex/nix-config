@@ -1,55 +1,41 @@
-#!/usr/bin/env bash
-# Helper script to update Morgen package version
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p curl jq nix-prefetch
 
 set -euo pipefail
 
-# Color codes for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# URL to check for the latest version
+latestUrl="https://dl.todesktop.com/210203cqcj00tw1/linux/deb/x64"
+
+# Fetch the latest version information
+latestInfo=$(curl -sI -X GET $latestUrl | grep -oP 'morgen-\K\d+(\.\d+)*(?=[^\d])')
+
+if [[ -z "$latestInfo" ]]; then
+    echo "Could not find the latest version number."
+    exit 1
+fi
+
+# Extract the version number
+latestVersion=$(echo "$latestInfo" | head -n 1)
+
+echo "Latest version of Morgen is $latestVersion"
 
 # Get current version from default.nix
-CURRENT_VERSION=$(grep -oP 'version = "\K[^"]+' default.nix || echo "unknown")
+currentVersion=$(grep -oP 'version = "\K[^"]+' "$(dirname "$0")/default.nix")
 
-echo -e "${BLUE}Morgen Package Updater${NC}"
-echo -e "${BLUE}=====================${NC}"
-echo ""
-echo -e "Current version in default.nix: ${GREEN}$CURRENT_VERSION${NC}"
-echo ""
-
-# Check if version was provided as argument
-if [[ $# -eq 1 ]]; then
-    NEW_VERSION="$1"
-    echo -e "${YELLOW}Updating to version: $NEW_VERSION${NC}"
-    echo ""
-
-    # Ask for confirmation
-    read -p "Proceed with update? (y/N) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        cd ../..
-        echo -e "${GREEN}Running nix-update...${NC}"
-        nix-update morgen --flake --version="$NEW_VERSION" --build
-        echo -e "${GREEN}Update complete!${NC}"
-    else
-        echo -e "${YELLOW}Update cancelled.${NC}"
-    fi
-else
-    echo -e "${YELLOW}To find the latest version:${NC}"
-    echo "  1. Visit https://morgen.so/download"
-    echo "  2. Check the version number shown on the download page"
-    echo ""
-    echo -e "${YELLOW}To update this package, run:${NC}"
-    echo ""
-    echo -e "  ${GREEN}# Using this script:${NC}"
-    echo "  ./update.sh VERSION_NUMBER"
-    echo ""
-    echo -e "  ${GREEN}# Or use nix-update directly from repo root:${NC}"
-    echo "  nix-update morgen --flake --version=VERSION_NUMBER --build"
-    echo ""
-    echo -e "${BLUE}Example:${NC}"
-    echo "  ./update.sh 3.6.20"
-    echo ""
+if [[ "$currentVersion" == "$latestVersion" ]]; then
+    echo "Already at latest version $latestVersion"
+    exit 0
 fi
+
+echo "Updating from $currentVersion to $latestVersion"
+
+# Fetch new hash
+newUrl="https://dl.todesktop.com/210203cqcj00tw1/versions/${latestVersion}/linux/deb"
+newHash=$(nix-prefetch-url --type sha256 "$newUrl")
+newHash=$(nix hash convert --hash-algo sha256 --to sri "$newHash")
+
+# Update default.nix
+sed -i "s/version = \".*\";/version = \"$latestVersion\";/" "$(dirname "$0")/default.nix"
+sed -i "s|hash = \".*\";|hash = \"$newHash\";|" "$(dirname "$0")/default.nix"
+
+echo "Updated morgen to $latestVersion with hash $newHash"

@@ -166,9 +166,7 @@ jobs:
               run: |
                   echo "Updating custom packages with nix-update..."
 
-                  # List of packages to update
                   PACKAGES=(
-                    "bmad-method"
                     "blink-cmp"
                     "ccusage"
                     "claude-usage-monitor"
@@ -176,8 +174,6 @@ jobs:
                     "flippertools"
                     "github-mcp"
                     "mcp-nixos"
-                    "morgen"
-                    "superclaude"
                   )
 
                   # Initialize tracking file
@@ -200,8 +196,8 @@ jobs:
                     BEFORE_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
                     BEFORE_REV=$(grep -m1 'rev = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "")
 
-                    # Run nix-update
-                    if nix run nixpkgs#nix-update -- --flake --build "$pkg" 2>&1 | tee -a /tmp/nix-update-log.txt; then
+                    # Run nix-update (flake mode, update only, no build)
+                    if nix run nixpkgs#nix-update -- --flake "$pkg" 2>&1 | tee -a /tmp/nix-update-log.txt; then
                       # Capture after version
                       AFTER_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
                       AFTER_REV=$(grep -m1 'rev = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "")
@@ -221,7 +217,29 @@ jobs:
                     fi
                   done
 
-                  # Check if anything was updated
+            - name: Update morgen with custom script
+              id: morgen-update
+              run: |
+                  echo "Updating morgen with custom update script..."
+
+                  PKG_FILE="packages/morgen/default.nix"
+                  BEFORE_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
+
+                  # Run the custom update script directly
+                  if bash packages/morgen/update.sh 2>&1 | tee -a /tmp/morgen-update-log.txt; then
+                    AFTER_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
+
+                    if [ "$BEFORE_VERSION" != "$AFTER_VERSION" ]; then
+                      echo "  morgen: $BEFORE_VERSION -> $AFTER_VERSION" >> /tmp/nix-update-changes.txt
+                      echo "Morgen updated successfully from $BEFORE_VERSION to $AFTER_VERSION"
+                    else
+                      echo "Morgen already at latest version $BEFORE_VERSION"
+                    fi
+                  else
+                    echo "Failed to update morgen" | tee -a /tmp/morgen-update-log.txt
+                  fi
+
+                  # Check if anything was updated (combine results from both steps)
                   if [ -s /tmp/nix-update-changes.txt ]; then
                     echo "updated=true" >> "$GITHUB_OUTPUT"
                   else
@@ -233,7 +251,9 @@ jobs:
               uses: actions/upload-artifact@v6
               with:
                   name: nix-update-log
-                  path: /tmp/nix-update-log.txt
+                  path: |
+                    /tmp/nix-update-log.txt
+                    /tmp/morgen-update-log.txt
                   if-no-files-found: ignore
 
             - name: Update flake.lock
@@ -442,7 +462,7 @@ jobs:
                     if [ "${{ steps.npins-update.outputs.neovim-opt-updated }}" = "true" ]; then
                       echo "✅ Neovim opt plugins updated"
                     fi
-                    if [ "${{ steps.nix-update.outputs.updated }}" = "true" ]; then
+                    if [ "${{ steps.morgen-update.outputs.updated }}" = "true" ]; then
                       echo "✅ Custom packages updated"
                     fi
                     if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
@@ -500,7 +520,7 @@ jobs:
                   - ✅ Neovim opt plugins"
                   fi
 
-                  if [ "${{ steps.nix-update.outputs.updated }}" = "true" ]; then
+                  if [ "${{ steps.morgen-update.outputs.updated }}" = "true" ]; then
                     PR_BODY="${PR_BODY}
                   - ✅ Custom packages"
                   fi
