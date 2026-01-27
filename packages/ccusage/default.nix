@@ -7,12 +7,12 @@
 }:
 stdenv.mkDerivation rec {
   pname = "ccusage";
-  version = "17.2.0";
+  version = "18.0.5";
 
   # Fetch the npm package directly
   src = fetchurl {
     url = "https://registry.npmjs.org/ccusage/-/ccusage-${version}.tgz";
-    hash = "sha256-jCi9Q7depEBUGRBnnfq05L9znDs72igAE2+crnOv2nY=";
+    hash = "sha256-Co9+jFDk4WmefrDnJvladjjYk+XHhYYEKNKb9MbrkU8=";
   };
 
   nativeBuildInputs = [makeWrapper];
