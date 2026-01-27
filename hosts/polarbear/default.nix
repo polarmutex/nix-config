@@ -118,18 +118,7 @@ in {
             _JAVA_AWT_WM_NONREPARENTING = "1";
           };
 
-          environment.systemPackages = with pkgs; let
-            morgen-updated =
-              morgen.overrideAttrs
-              (_: rec {
-                version = "3.6.16";
-                src = fetchurl {
-                  name = "morgen-${version}.deb";
-                  url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
-                  hash = "sha256-j1iv37b7erKOgvKU7R9GaTRNtcQpS4n9Awnni4OLvus=";
-                };
-              });
-          in [
+          environment.systemPackages = with pkgs;[
             ansible
             unstable.anki-bin
             unstable.devpod
@@ -145,7 +134,7 @@ in {
             unstable.zoom-us
             inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
             inputs.neovim-flake.packages.${pkgs.stdenv.hostPlatform.system}.neovim
-            morgen-updated
+            morgen
             #self'.packages.fish
             git-polar
             ghostty

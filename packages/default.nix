@@ -39,7 +39,10 @@ flake @ {
       _1password-gui = _1password-gui;
       blink-cmp= blink-cmp;
       brave= brave;
+      ccusage=ccusage;
+      claude-usage-monitor=claude-usage-monitor;
       context7-mcp= context7-mcp;
+      flippertools=flippertools;
       ghostty= ghostty;
       github-mcp= github-mcp;
       mcp-nixos= mcp-nixos;

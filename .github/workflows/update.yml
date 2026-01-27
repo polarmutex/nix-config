@@ -166,18 +166,13 @@ jobs:
               run: |
                   echo "Updating custom packages with nix-update..."
 
-                  # List of packages to update
                   PACKAGES=(
-                    "bmad-method"
                     "blink-cmp"
                     "ccusage"
                     "claude-usage-monitor"
                     "context7-mcp"
-                    "flippertools"
                     "github-mcp"
                     "mcp-nixos"
-                    "morgen"
-                    "superclaude"
                   )
 
                   # Initialize tracking file
@@ -200,8 +195,8 @@ jobs:
                     BEFORE_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
                     BEFORE_REV=$(grep -m1 'rev = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "")
 
-                    # Run nix-update
-                    if nix run nixpkgs#nix-update -- --flake --build "$pkg" 2>&1 | tee -a /tmp/nix-update-log.txt; then
+                    # Run nix-update (flake mode, update only, no build)
+                    if nix run nixpkgs#nix-update -- --flake "$pkg" 2>&1 | tee -a /tmp/nix-update-log.txt; then
                       # Capture after version
                       AFTER_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
                       AFTER_REV=$(grep -m1 'rev = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "")
@@ -221,19 +216,76 @@ jobs:
                     fi
                   done
 
-                  # Check if anything was updated
-                  if [ -s /tmp/nix-update-changes.txt ]; then
+            - name: Update custom script packages
+              id: custom-script-update
+              run: |
+                  echo "Updating packages with custom update scripts..."
+
+                  CUSTOM_SCRIPT_PACKAGES=(
+                    "morgen"
+                    "flippertools"
+                  )
+
+                  # Initialize tracking file for custom script updates
+                  > /tmp/custom-script-update-changes.txt
+                  UPDATED_ANY_CUSTOM_SCRIPT_PKG=false
+
+                  for pkg in "${CUSTOM_SCRIPT_PACKAGES[@]}"; do
+                    echo "Updating $pkg with custom update script..."
+
+                    PKG_FILE="packages/$pkg/default.nix" # Assume default.nix for version grabbing
+
+                    # Check if the package file exists
+                    if [ ! -f "$PKG_FILE" ]; then
+                      echo "Warning: Package default.nix not found for $pkg at $PKG_FILE, skipping version check."
+                      BEFORE_VERSION="unknown"
+                    else
+                      BEFORE_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
+                    fi
+
+                    # Run the custom update script
+                    if bash "packages/$pkg/update.sh" 2>&1 | tee -a "/tmp/${pkg}-update-log.txt"; then
+                      if [ -f "$PKG_FILE" ]; then
+                        AFTER_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
+                      else
+                        AFTER_VERSION="unknown"
+                      fi
+
+                      if [ "$BEFORE_VERSION" != "unknown" ] && [ "$AFTER_VERSION" != "unknown" ] && [ "$BEFORE_VERSION" != "$AFTER_VERSION" ]; then
+                        echo "  $pkg: $BEFORE_VERSION -> $AFTER_VERSION" >> /tmp/custom-script-update-changes.txt
+                        echo "$pkg updated successfully from $BEFORE_VERSION to $AFTER_VERSION"
+                        UPDATED_ANY_CUSTOM_SCRIPT_PKG=true
+                      elif [ "$BEFORE_VERSION" == "unknown" ] && [ "$AFTER_VERSION" != "unknown" ]; then
+                        echo "  $pkg: unknown -> $AFTER_VERSION (initial version detected)" >> /tmp/custom-script-update-changes.txt
+                        echo "$pkg updated successfully, initial version detected: $AFTER_VERSION"
+                        UPDATED_ANY_CUSTOM_SCRIPT_PKG=true
+                      elif [ "$BEFORE_VERSION" != "unknown" ] && [ "$AFTER_VERSION" == "unknown" ]; then
+                        echo "  $pkg: $BEFORE_VERSION -> unknown (version lost after update)" >> /tmp/custom-script-update-changes.txt
+                        echo "Warning: Version information for $pkg lost after update."
+                        UPDATED_ANY_CUSTOM_SCRIPT_PKG=true
+                      else
+                        echo "$pkg already at latest version $BEFORE_VERSION"
+                      fi
+                    else
+                      echo "Failed to update $pkg" | tee -a "/tmp/${pkg}-update-log.txt"
+                    fi
+                  done
+
+                  if [ "$UPDATED_ANY_CUSTOM_SCRIPT_PKG" = true ]; then
                     echo "updated=true" >> "$GITHUB_OUTPUT"
                   else
                     echo "updated=false" >> "$GITHUB_OUTPUT"
                   fi
+
 
             - name: Upload nix-update log on failure
               if: failure()
               uses: actions/upload-artifact@v6
               with:
                   name: nix-update-log
-                  path: /tmp/nix-update-log.txt
+                  path: |
+                    /tmp/nix-update-log.txt
+                    /tmp/*-update-log.txt
                   if-no-files-found: ignore
 
             - name: Update flake.lock
@@ -296,8 +348,15 @@ jobs:
                     HAS_FLAKE=true
                   fi
 
+                  HAS_NIX_UPDATE=false
+                  HAS_CUSTOM_SCRIPT_UPDATE=false
+
                   if [ -f /tmp/nix-update-changes.txt ] && [ -s /tmp/nix-update-changes.txt ]; then
                     HAS_NIX_UPDATE=true
+                  fi
+
+                  if [ -f /tmp/custom-script-update-changes.txt ] && [ -s /tmp/custom-script-update-changes.txt ]; then
+                    HAS_CUSTOM_SCRIPT_UPDATE=true
                   fi
 
                   # Start building commit message
@@ -378,11 +437,24 @@ jobs:
 
                   # Add nix-update changes if present
                   if [ "$HAS_NIX_UPDATE" = true ]; then
-                    COMMIT_BODY="${COMMIT_BODY}Updated custom packages:\n\n"
+                    COMMIT_BODY="${COMMIT_BODY}Updated custom packages (nix-update):\n\n"
                     while IFS= read -r line; do
                       COMMIT_BODY="${COMMIT_BODY}${line}\n"
                     done < /tmp/nix-update-changes.txt
                     COMMIT_BODY="${COMMIT_BODY}\n"
+                  fi
+
+                  # Add custom-script-update changes if present
+                  if [ "$HAS_CUSTOM_SCRIPT_UPDATE" = true ]; then
+                    COMMIT_BODY="${COMMIT_BODY}Updated custom packages (custom scripts):\n\n"
+                    while IFS= read -r line; do
+                      COMMIT_BODY="${COMMIT_BODY}${line}\n"
+                    done < /tmp/custom-script-update-changes.txt
+                    COMMIT_BODY="${COMMIT_BODY}\n"
+                  fi
+
+                  # Stage all packages if any custom package was updated by nix-update or custom scripts
+                  if [ "$HAS_NIX_UPDATE" = true ] || [ "$HAS_CUSTOM_SCRIPT_UPDATE" = true ]; then
                     git add packages/
                   fi
 
@@ -442,7 +514,7 @@ jobs:
                     if [ "${{ steps.npins-update.outputs.neovim-opt-updated }}" = "true" ]; then
                       echo "✅ Neovim opt plugins updated"
                     fi
-                    if [ "${{ steps.nix-update.outputs.updated }}" = "true" ]; then
+                    if [ "${{ steps.custom-script-update.outputs.updated }}" = "true" ]; then
                       echo "✅ Custom packages updated"
                     fi
                     if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
@@ -500,7 +572,7 @@ jobs:
                   - ✅ Neovim opt plugins"
                   fi
 
-                  if [ "${{ steps.nix-update.outputs.updated }}" = "true" ]; then
+                  if [ "${{ steps.custom-script-update.outputs.updated }}" = "true" ]; then
                     PR_BODY="${PR_BODY}
                   - ✅ Custom packages"
                   fi
@@ -577,10 +649,28 @@ jobs:
                     fi
                     PR_BODY="${PR_BODY}
 
-                  #### Custom Packages
+                  #### Custom Packages (nix-update)
                   \`\`\`"
                     PR_BODY="${PR_BODY}
                   $(cat /tmp/nix-update-changes.txt)"
+                    PR_BODY="${PR_BODY}
+                  \`\`\`"
+                  fi
+
+                  # Add custom package changes (custom scripts)
+                  if [ -f /tmp/custom-script-update-changes.txt ] && [ -s /tmp/custom-script-update-changes.txt ]; then
+                    if [ "$CHANGES_ADDED" = false ]; then
+                      PR_BODY="${PR_BODY}
+
+                  ### Version Changes"
+                      CHANGES_ADDED=true
+                    fi
+                    PR_BODY="${PR_BODY}
+
+                  #### Custom Packages (custom scripts)
+                  \`\`\`"
+                    PR_BODY="${PR_BODY}
+                  $(cat /tmp/custom-script-update-changes.txt)"
                     PR_BODY="${PR_BODY}
                   \`\`\`"
                   fi
