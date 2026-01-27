@@ -155,6 +155,82 @@ jobs:
                   echo "neovim-start-updated=$NEOVIM_START_UPDATED" >> "$GITHUB_OUTPUT"
                   echo "neovim-opt-updated=$NEOVIM_OPT_UPDATED" >> "$GITHUB_OUTPUT"
 
+            - name: Update custom packages with nix-update
+              id: nix-update
+              timeout-minutes: 15
+              run: |
+                  echo "Updating custom packages with nix-update..."
+
+                  # List of packages to update
+                  PACKAGES=(
+                    "bmad-method"
+                    "blink-cmp"
+                    "ccusage"
+                    "claude-usage-monitor"
+                    "context7-mcp"
+                    "flippertools"
+                    "github-mcp"
+                    "mcp-nixos"
+                    "morgen"
+                    "superclaude"
+                  )
+
+                  # Initialize tracking file
+                  > /tmp/nix-update-changes.txt
+
+                  # Update each package
+                  for pkg in "${PACKAGES[@]}"; do
+                    echo "Updating $pkg..."
+
+                    # Capture before version
+                    if [ -f "packages/$pkg.nix" ]; then
+                      PKG_FILE="packages/$pkg.nix"
+                    elif [ -f "packages/$pkg/default.nix" ]; then
+                      PKG_FILE="packages/$pkg/default.nix"
+                    else
+                      echo "Package file not found for $pkg, skipping..."
+                      continue
+                    fi
+
+                    BEFORE_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
+                    BEFORE_REV=$(grep -m1 'rev = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "")
+
+                    # Run nix-update
+                    if nix run nixpkgs#nix-update -- --flake --build "$pkg" 2>&1 | tee -a /tmp/nix-update-log.txt; then
+                      # Capture after version
+                      AFTER_VERSION=$(grep -m1 'version = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "unknown")
+                      AFTER_REV=$(grep -m1 'rev = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/' || echo "")
+
+                      # Check if updated
+                      if [ "$BEFORE_VERSION" != "$AFTER_VERSION" ] || [ "$BEFORE_REV" != "$AFTER_REV" ]; then
+                        if [ -n "$BEFORE_REV" ] && [ -n "$AFTER_REV" ]; then
+                          BEFORE_SHORT="${BEFORE_REV:0:8}"
+                          AFTER_SHORT="${AFTER_REV:0:8}"
+                          echo "  $pkg: $BEFORE_VERSION ($BEFORE_SHORT) -> $AFTER_VERSION ($AFTER_SHORT)" >> /tmp/nix-update-changes.txt
+                        else
+                          echo "  $pkg: $BEFORE_VERSION -> $AFTER_VERSION" >> /tmp/nix-update-changes.txt
+                        fi
+                      fi
+                    else
+                      echo "Failed to update $pkg, continuing..." | tee -a /tmp/nix-update-log.txt
+                    fi
+                  done
+
+                  # Check if anything was updated
+                  if [ -s /tmp/nix-update-changes.txt ]; then
+                    echo "updated=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "updated=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Upload nix-update log on failure
+              if: failure()
+              uses: actions/upload-artifact@v6
+              with:
+                  name: nix-update-log
+                  path: /tmp/nix-update-log.txt
+                  if-no-files-found: ignore
+
             - name: Update flake.lock
               id: flake-update
               timeout-minutes: 10
@@ -197,6 +273,7 @@ jobs:
                   HAS_NEOVIM_START=false
                   HAS_NEOVIM_OPT=false
                   HAS_FLAKE=false
+                  HAS_NIX_UPDATE=false
 
                   if ! git diff --quiet npins/sources.json; then
                     HAS_NPINS=true
@@ -212,6 +289,10 @@ jobs:
 
                   if ! git diff --quiet flake.lock; then
                     HAS_FLAKE=true
+                  fi
+
+                  if [ -f /tmp/nix-update-changes.txt ] && [ -s /tmp/nix-update-changes.txt ]; then
+                    HAS_NIX_UPDATE=true
                   fi
 
                   # Start building commit message
@@ -290,6 +371,16 @@ jobs:
                     fi
                   fi
 
+                  # Add nix-update changes if present
+                  if [ "$HAS_NIX_UPDATE" = true ]; then
+                    COMMIT_BODY="${COMMIT_BODY}Updated custom packages:\n\n"
+                    while IFS= read -r line; do
+                      COMMIT_BODY="${COMMIT_BODY}${line}\n"
+                    done < /tmp/nix-update-changes.txt
+                    COMMIT_BODY="${COMMIT_BODY}\n"
+                    git add packages/
+                  fi
+
                   # Add flake changes if present
                   if [ "$HAS_FLAKE" = true ]; then
                     # Capture after state
@@ -346,6 +437,9 @@ jobs:
                     if [ "${{ steps.npins-update.outputs.neovim-opt-updated }}" = "true" ]; then
                       echo "✅ Neovim opt plugins updated"
                     fi
+                    if [ "${{ steps.nix-update.outputs.updated }}" = "true" ]; then
+                      echo "✅ Custom packages updated"
+                    fi
                     if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
                       echo "✅ Flake inputs updated"
                     fi
@@ -401,127 +495,9 @@ jobs:
                   - ✅ Neovim opt plugins"
                   fi
 
-                  if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
+                  if [ "${{ steps.nix-update.outputs.updated }}" = "true" ]; then
                     PR_BODY="${PR_BODY}
-                  - ✅ Flake inputs"
-                  fi
-
-                  # Add version changes sections
-                  CHANGES_ADDED=false
-
-                  # Add npins changes
-                  if [ -f /tmp/npins-changes.txt ] && [ -s /tmp/npins-changes.txt ]; then
-                    if [ "$CHANGES_ADDED" = false ]; then
-                      PR_BODY="${PR_BODY}
-
-                  ### Version Changes"
-                      CHANGES_ADDED=true
-                    fi
-                    PR_BODY="${PR_BODY}
-
-                  #### Npins Sources
-                  \`\`\`"
-                    PR_BODY="${PR_BODY}
-                  $(cat /tmp/npins-changes.txt)"
-                    PR_BODY="${PR_BODY}
-                  \`\`\`"
-                  fi
-
-                  # Add neovim start plugin changes
-                  if [ -f /tmp/neovim-start-changes.txt ] && [ -s /tmp/neovim-start-changes.txt ]; then
-                    if [ "$CHANGES_ADDED" = false ]; then
-                      PR_BODY="${PR_BODY}
-
-                  ### Version Changes"
-                      CHANGES_ADDED=true
-                    fi
-                    PR_BODY="${PR_BODY}
-
-                  #### Neovim Start Plugins
-                  \`\`\`"
-                    PR_BODY="${PR_BODY}
-                  $(cat /tmp/neovim-start-changes.txt)"
-                    PR_BODY="${PR_BODY}
-                  \`\`\`"
-                  fi
-
-                  # Add neovim opt plugin changes
-                  if [ -f /tmp/neovim-opt-changes.txt ] && [ -s /tmp/neovim-opt-changes.txt ]; then
-                    if [ "$CHANGES_ADDED" = false ]; then
-                      PR_BODY="${PR_BODY}
-
-                  ### Version Changes"
-                      CHANGES_ADDED=true
-                    fi
-                    PR_BODY="${PR_BODY}
-
-                  #### Neovim Opt Plugins
-                  \`\`\`"
-                    PR_BODY="${PR_BODY}
-                  $(cat /tmp/neovim-opt-changes.txt)"
-                    PR_BODY="${PR_BODY}
-                  \`\`\`"
-                  fi
-
-                  # Add flake input changes
-                  if [ -f /tmp/version-changes.txt ] && [ -s /tmp/version-changes.txt ]; then
-                    if [ "$CHANGES_ADDED" = false ]; then
-                      PR_BODY="${PR_BODY}
-
-                  ### Version Changes"
-                      CHANGES_ADDED=true
-                    fi
-                    PR_BODY="${PR_BODY}
-
-                  #### Flake Inputs
-                  \`\`\`"
-                    PR_BODY="${PR_BODY}
-                  $(cat /tmp/version-changes.txt)"
-                    PR_BODY="${PR_BODY}
-                  \`\`\`"
-                  fi
-
-                  PR_BODY="${PR_BODY}
-
-                  **Triggered by:** ${{ github.event_name == 'workflow_dispatch' && 'Manual trigger' || 'Scheduled run' }}
-
-                  ---
-
-                  🤖 This PR was automatically created by the update workflow."
-
-                  if [ "${{ github.event_name == 'schedule' || inputs.auto-merge }}" = "true" ]; then
-                    PR_BODY="${PR_BODY}
-                  🔄 Will auto-merge when checks pass."
-                  fi
-
-                  # Save to file for use in next step
-                  echo "$PR_BODY" > /tmp/pr-body.txt
-
-            - name: Generate PR body
-              if: steps.commit-changes.outputs.has_changes == 'true'
-              id: generate-pr-body
-              run: |
-                  # Start building PR body
-                  PR_BODY="## Automated Dependency Update
-
-                  This PR contains automated updates for dependencies.
-
-                  ### Updated"
-
-                  # Add update checkmarks
-                  if [ "${{ steps.npins-update.outputs.updated }}" = "true" ]; then
-                    PR_BODY="${PR_BODY}
-                  - ✅ npins sources"
-                  fi
-
-                  if [ "${{ steps.npins-update.outputs.neovim-start-updated }}" = "true" ]; then
-                    PR_BODY="${PR_BODY}
-                  - ✅ Neovim start plugins"
-                  fi
-
-                  if [ "${{ steps.npins-update.outputs.neovim-opt-updated }}" = "true" ]; then
-                    PR_BODY="${PR_BODY}
-                  - ✅ Neovim opt plugins"
+                  - ✅ Custom packages"
                   fi
 
                   if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
@@ -582,6 +558,24 @@ jobs:
                   \`\`\`"
                     PR_BODY="${PR_BODY}
                   $(cat /tmp/neovim-opt-changes.txt)"
+                    PR_BODY="${PR_BODY}
+                  \`\`\`"
+                  fi
+
+                  # Add custom package changes
+                  if [ -f /tmp/nix-update-changes.txt ] && [ -s /tmp/nix-update-changes.txt ]; then
+                    if [ "$CHANGES_ADDED" = false ]; then
+                      PR_BODY="${PR_BODY}
+
+                  ### Version Changes"
+                      CHANGES_ADDED=true
+                    fi
+                    PR_BODY="${PR_BODY}
+
+                  #### Custom Packages
+                  \`\`\`"
+                    PR_BODY="${PR_BODY}
+                  $(cat /tmp/nix-update-changes.txt)"
                     PR_BODY="${PR_BODY}
                   \`\`\`"
                   fi
