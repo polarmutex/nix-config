@@ -43,33 +43,37 @@ in {
     startAttrs = npinsToPlugins ./start.json;
 
     # start = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-    start = [
+    start =
       (pkgs.unstable.vimPlugins.nvim-treesitter.withPlugins
-        (p: [
-          p.beancount
-          p.c
-          p.cmake
-          p.cpp
-          p.csv
-          p.dockerfile
-          p.git_config
-          p.gitcommit
-          p.helm
-          p.html
-          p.java
-          p.json
-          p.lua
-          p.make
-          p.markdown
-          p.nix
-          p.python
-          p.rust
-          p.sql
-          p.typescript
-          p.yaml
-          p.zig
-        ]))
-    ];
+        (p:
+          with p; [
+            bash
+            beancount
+            c
+            cmake
+            comment
+            cpp
+            csv
+            dockerfile
+            git_config
+            gitcommit
+            helm
+            html
+            java
+            json
+            lua
+            luadoc # --- type annotations
+            make
+            markdown
+            nix
+            python
+            rust
+            sql
+            tsx
+            typescript
+            yaml
+            zig
+          ])).dependencies;
 
     optAttrs =
       {

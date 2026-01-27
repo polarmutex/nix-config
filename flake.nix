@@ -71,6 +71,7 @@
         perSystem = {
           pkgs,
           system,
+          self',
           # config,
           ...
         }: {
@@ -91,6 +92,10 @@
                 inputs.bun2nix.packages.${pkgs.stdenv.hostPlatform.system}.default
                 neovim.devMode
               ];
+
+              shellHook = ''
+                ln -fs ${pkgs.luarc-json} .luarc.json
+              '';
             };
         };
       }
@@ -120,6 +125,8 @@
     awesome-flake = {
       url = "github:polarmutex/awesome-flake";
     };
+
+    gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
 
     ghostty = {
       url = "github:ghostty-org/ghostty";

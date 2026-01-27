@@ -26,14 +26,13 @@ update-all:
     nix flake update
     @echo "✅ All inputs updated"
 
-new-nvim-plugin-release start_opt user repo:
+# Add a new neovim plugin. If branch is not specified, tracks releases (or default branch if no releases).
+new-nvim-plugin start_opt user repo branch='':
     #!/bin/sh
-    npins --lock-file ./packages/neovim/{{start_opt}}.json add --name {{repo}} github {{user}} {{repo}}
-    NEW_VERSION=$(jq -rcn 'inputs | .pins | .[] | select(.repository.repo == "{{repo}}" ) |  if .version != null then .version else .revision[0:8] end' npins-plugins/{{start_opt}}.json)
-    git commit -am "chore(pin/new): {{repo}}: init @ $NEW_VERSION"
-
-new-nvim-plugin start_opt user repo branch:
-    #!/bin/sh
-    npins --lock-file ./packages/neovim/{{start_opt}}.json add --name {{repo}} github {{user}} {{repo}} --branch {{branch}}
-    NEW_VERSION=$(jq -rcn 'inputs | .pins | .[] | select(.repository.repo == "{{repo}}" ) |  if .version != null then .version else .revision[0:8] end' packages/neovim/{{start_opt}}.json)
+    if [ -n "{{branch}}" ]; then
+        npins --lock-file ./packages/neovim/{{start_opt}}.json add --name {{repo}} github {{user}} {{repo}} --branch {{branch}}
+    else
+        npins --lock-file ./packages/neovim/{{start_opt}}.json add --name {{repo}} github {{user}} {{repo}}
+    fi
+    NEW_VERSION=$(jq -rcn 'inputs | .pins | .[] | select(.repository.repo == "{{repo}}" ) | if .version != null then .version else .revision[0:8] end' packages/neovim/{{start_opt}}.json)
     git commit -am "chore(pin/new): {{repo}}: init @ $NEW_VERSION"

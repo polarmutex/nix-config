@@ -20,7 +20,7 @@ lib: config: inputs': let
   # Import neovim-nightly overlay first to get the neovim package
   overlayNeovimNightly = import sources.neovim-nightly;
 
-  overlayMisc = final: prev: {
+  overlayMisc = final: prev: rec {
     # nix-index = let
     #   imported = import sources.nix-index-database {pkgs = final;};
     # in
@@ -33,6 +33,23 @@ lib: config: inputs': let
       (import sources.mnw).lib.wrap final {
         neovim = pkgsWithNeovim.neovim;
         imports = [./neovim/config.nix];
+      };
+    luarc-json = let
+      pinned-start-plugins = (import sources.mnw).lib.npinsToPlugins final ./neovim/start.json;
+      pinned-opt-plugins = (import sources.mnw).lib.npinsToPlugins final ./neovim/opt.json;
+      # npinsToPlugins = input: builtins.mapAttrs (_: v: v {inherit pkgs;}) (import ./neovim/npins.nix {inherit input;});
+      # startAttrs = builtins.attrValues (npinsToPlugins ./neovim/start.json);
+      # optAttrs = builtins.attrValues (
+      #   {
+      #     "blink.cmp" = pkgs.blink-cmp;
+      #   }
+      #   // npinsToPlugins ./neovim/opt.json
+      # );
+    in
+      final.mk-luarc-json {
+        nvim = neovim;
+        # plugins = builtins.attrValues npinPlugins';
+        plugins = pinned-start-plugins ++ pinned-opt-plugins;
       };
 
     nh = final.callPackage "${sources.nh}/package.nix" {

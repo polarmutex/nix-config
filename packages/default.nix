@@ -20,7 +20,7 @@ flake @ {
           allowInsecurePredicate = pkg: let
             pname = lib.getName pkg;
             byName = builtins.elem pname [
-	    "gradle"
+              "gradle"
               "nix"
             ];
           in
@@ -32,28 +32,29 @@ flake @ {
         };
         overlays = [
           (import ./overlay.nix lib config inputs')
+          inputs.gen-luarc.overlays.default
         ];
       };
-      packages= with pkgs;{
+    packages = with pkgs; {
       _1password-cli = _1password-cli;
       _1password-gui = _1password-gui;
-      blink-cmp= blink-cmp;
-      brave= brave;
-      ccusage=ccusage;
-      claude-usage-monitor=claude-usage-monitor;
-      context7-mcp= context7-mcp;
-      flippertools=flippertools;
-      ghostty= ghostty;
-      github-mcp= github-mcp;
-      mcp-nixos= mcp-nixos;
+      blink-cmp = blink-cmp;
+      brave = brave;
+      ccusage = ccusage;
+      claude-usage-monitor = claude-usage-monitor;
+      context7-mcp = context7-mcp;
+      flippertools = flippertools;
+      ghostty = ghostty;
+      github-mcp = github-mcp;
+      mcp-nixos = mcp-nixos;
       morgen = morgen;
       neovim = neovim;
       obsidian = obsidian;
-      ollama=ollama;
-      ungoogled-chromium= ungoogled-chromium;
-      wezterm= wezterm;
+      ollama = ollama;
+      ungoogled-chromium = ungoogled-chromium;
+      wezterm = wezterm;
       zed-editor = zed-editor;
-      };
+    };
   };
   #   _module.args = let
   #     config = {
