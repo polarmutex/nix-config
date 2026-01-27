@@ -43,6 +43,7 @@ flake @ {
       ghostty= ghostty;
       github-mcp= github-mcp;
       mcp-nixos= mcp-nixos;
+      morgen = morgen;
       neovim = neovim;
       obsidian = obsidian;
       ungoogled-chromium= ungoogled-chromium;

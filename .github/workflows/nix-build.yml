@@ -77,6 +77,7 @@ jobs:
           - context7-mcp
           - github-mcp
           - mcp-nixos
+          - morgen
           - neovim
           - _1password-cli
           - _1password-gui
