@@ -16,6 +16,19 @@
       "url": "https://api.github.com/repos/lumen-oss/lz.n/tarball/refs/tags/v2.12.2",
       "hash": "sha256-YP8jlE71i/MuF11jsJUNIgojfKpekoSmMlWkKZj+GjQ="
     },
+    "nvim-treesitter": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nvim-treesitter",
+        "repo": "nvim-treesitter"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "568ede7e79172a0fe7c9d631454a97ad968deaf2",
+      "url": "https://github.com/nvim-treesitter/nvim-treesitter/archive/568ede7e79172a0fe7c9d631454a97ad968deaf2.tar.gz",
+      "hash": "sha256-ioLYtoxZvwWxP5FHczoOpmF6sEFZxASGnXMPMX105kA="
+    },
     "teide.nvim": {
       "type": "Git",
       "repository": {
