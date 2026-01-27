@@ -49,6 +49,7 @@ flake @ {
       morgen = morgen;
       neovim = neovim;
       obsidian = obsidian;
+      ollama=ollama;
       ungoogled-chromium= ungoogled-chromium;
       wezterm= wezterm;
       zed-editor = zed-editor;

@@ -90,6 +90,7 @@ jobs:
           - ghostty
           # - modern-bash
           - obsidian
+          - ollama
           - zed-editor
           - ungoogled-chromium
           - wezterm
