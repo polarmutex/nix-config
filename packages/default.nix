@@ -1,6 +1,5 @@
-flake @ {
+{
   lib,
-  config,
   inputs,
   ...
 }: {
@@ -8,7 +7,6 @@ flake @ {
     pkgs,
     system,
     inputs',
-    self',
     ...
   }: {
     _module.args.pkgs = let
@@ -35,170 +33,28 @@ flake @ {
           inputs.gen-luarc.overlays.default
         ];
       };
+
     packages = with pkgs; {
-      _1password-cli = _1password-cli;
-      _1password-gui = _1password-gui;
-      blink-cmp = blink-cmp;
-      brave = brave;
-      ccusage = ccusage;
-      claude-usage-monitor = claude-usage-monitor;
-      context7-mcp = context7-mcp;
-      flippertools = flippertools;
-      ghostty = ghostty;
-      github-mcp = github-mcp;
-      mcp-nixos = mcp-nixos;
-      morgen = morgen;
-      neovim = neovim;
-      obsidian = obsidian;
-      ollama = ollama;
-      ungoogled-chromium = ungoogled-chromium;
-      wezterm = wezterm;
-      zed-editor = zed-editor;
+      inherit _1password-cli;
+      inherit _1password-gui;
+      inherit blink-cmp;
+      inherit brave;
+      inherit ccusage;
+      inherit claude-usage-monitor;
+      inherit context7-mcp;
+      inherit flippertools;
+      inherit ghostty;
+      inherit github-mcp;
+      inherit mcp-nixos;
+      inherit morgen;
+      inherit neovim;
+      inherit obsidian;
+      inherit ollama;
+      inherit ungoogled-chromium;
+      inherit wezterm;
+      inherit zed-editor;
     };
   };
-  #   _module.args = let
-  #     config = {
-  #       permittedInsecurePackages = [
-  #         "electron-32.3.3"
-  #         "libsoup-2.74.3"
-  #       ];
-  #       allowUnfreePredicate = pkg: let
-  #         pname = lib.getName pkg;
-  #         byName = builtins.elem pname [
-  #           "1password"
-  #           "1password-cli"
-  #           "android-studio-stable"
-  #           "broadcom-sta"
-  #           "claude-code"
-  #           "corefonts"
-  #           "discord"
-  #           "google-chrome"
-  #           "libcublas"
-  #           "prismlauncher"
-  #           "morgen"
-  #           "nvidia-x11"
-  #           "nvidia-settings"
-  #           "nvidia-persistenced"
-  #           "obsidian"
-  #           "open-webui"
-  #           "steam"
-  #           "steam-original"
-  #           "symbola"
-  #           "vagrant"
-  #           "vmware-workstation"
-  #           "zoom"
-  #           # "google-chrome"
-  #           # cuda
-  #           "cuda_cudart"
-  #           "cuda_cccl"
-  #           "cuda-merged"
-  #           "cuda_cuobjdump"
-  #           "cuda_gdb"
-  #           "cuda_nvdisasm"
-  #           "cuda_nvprune"
-  #           "cuda_cupti"
-  #           "cuda_cuxxfilt"
-  #           "cuda_nvml_dev"
-  #           "cuda_nvrtc"
-  #           "cuda_nvtx"
-  #           "cuda_profiler_api"
-  #           "cuda_sanitizer_api"
-  #           "libcufft"
-  #           "libcurand"
-  #           "libcusolver"
-  #           "libnvjitlink"
-  #           "cuda_nvcc"
-  #           "libcusparse"
-  #           "libnpp"
-  #           "vscode"
-  #         ];
-  #         byLicense = builtins.elem pkg.meta.license.shortName [
-  #           # "CUDA EULA"
-  #           # "bsl11"
-  #         ];
-  #       in
-  #         if byName || byLicense
-  #         then lib.warn "Allowing unfree package: ${pname}" true
-  #         else false;
-  #     };
-  #   in {
-  #     # pkgs = import inputs.nixpkgs {
-  #     #   inherit config system;
-  #     #   overlays = [
-  #     #     (import inputs.rust-overlay)
-  #     #     (_final: prev: {
-  #     #       # unstable-small = import inputs.nixpkgs-small {
-  #     #       #   inherit (prev) system;
-  #     #       #   inherit config;
-  #     #       # };
-  #     #     })
-  #     #   ];
-  #     # };
-  #     pkgs = import inputs.nixpkgs {
-  #       inherit config system;
-  #       overlays = [
-  #         inputs.zed.overlays.default
-  #         (
-  #           _final: prev: {
-  #             unstable = import inputs.nixpkgs {
-  #               inherit (prev) system;
-  #               inherit config;
-  #             };
-  #             claude-usage-monitor = self'.packages.claude-usage-monitor;
-  #             ccusage = self'.packages.ccusage;
-  #             bmad-method = self'.packages.bmad-method;
-  #             superclaude = self'.packages.superclaude;
-  #             modern-bash = self'.packages.modern-bash;
-  #             polarmutex-website = inputs'.website.packages.default;
-  #             # why was this here?
-  #             # gnome-keyring = prev.gnome-keyring.overrideAttrs (old: {
-  #             #   configureFlags =
-  #             #     (lib.remove "--enable-ssh-agent" old.configureFlags)
-  #             #     ++ [
-  #             #       "--disable-ssh-agent"
-  #             #     ];
-  #             # });
-  #           }
-  #         )
-  #       ];
-  #     };
-  #   };
-
-  #   packages = lib.fix (
-  #     self: let
-  #       # packages in $FLAKE/packages, callPackage'd automatically
-  #       stage1 = lib.fix (
-  #         self': let
-  #           callPackage = lib.callPackageWith (pkgs // self');
-
-  #           auto = lib.pipe (builtins.readDir ./.) [
-  #             (lib.filterAttrs (_name: value: value == "directory"))
-  #             (builtins.mapAttrs (name: _: callPackage ./${name} {}))
-  #           ];
-  #         in
-  #           auto
-  #           // {
-  #             zed-editor = inputs.zed.packages.${pkgs.stdenv.hostPlatform.system}.default;
-  #             # nix = pkgs.nix;
-  #             # nil = inputs'.nil.packages.default;
-  #             # manual overrides to auto callPackage
-  #             # nix-index = callPackage ./nix-index {
-  #             #   database = inputs'.nix-index-database.packages.nix-index-database;
-  #             #   databaseDate = config.flake.lib.mkDate inputs.nix-index-database.lastModifiedDate;
-  #             # };
-  #             claude-usage-monitor = callPackage ./claude-usage-monitor.nix {};
-  #             ccusage = callPackage ./ccusage.nix {};
-  #             bmad-method = callPackage ./bmad-method.nix {};
-  #             superclaude = callPackage ./superclaude.nix {};
-  #             modern-bash = callPackage ./modern-bash.nix {};
-  #             flippertools = callPackage ./flippertools.nix {};
-  #             context7-mcp = callPackage ./context7-mcp.nix {};
-  #             github-mcp = callPackage ./github-mcp.nix {};
-
-  #             inherit (pkgs) obsidian;
-  #             inherit (pkgs.unstable) _1password-cli;
-  #             inherit (pkgs.unstable) _1password-gui;
-
   #             # All of the typical devcontainers to be used.
   #             devContainers-ubuntu = pkgs.dockerTools.buildLayeredImage {
   #               name = "dev-env";
@@ -211,6 +67,7 @@ flake @ {
   #               };
   #               # config.Cmd = ["${rubyEnv}/bin/bundler"];
   #             };
+
   #             profile = inputs.flakey-profile.lib.mkProfile {
   #               inherit pkgs;
   #               # Specifies things to pin in the flake registry and in NIX_PATH.
@@ -334,34 +191,4 @@ flake @ {
   #             };
   #           }
   #       );
-
-  #       # wrapper-manager packages
-  #       stage2 =
-  #         stage1
-  #         // (inputs.wrapper-manager.lib {
-  #           pkgs = pkgs // stage1;
-  #           modules = lib.pipe (builtins.readDir ../modules/wrapper-manager) [
-  #             (lib.filterAttrs (_name: value: value == "directory"))
-  #             builtins.attrNames
-  #             (map (n: ../modules/wrapper-manager/${n}))
-  #           ];
-  #           specialArgs = {
-  #             inherit inputs';
-  #           };
-  #         }).config.build.packages;
-
-  #       # packages that depend of wrappers
-  #       stage3 = let
-  #         p = pkgs // self;
-  #         callPackage = lib.callPackageWith p;
-  #       in
-  #         stage2
-  #         // {
-  #         };
-  #     in
-  #       stage3
-  #   );
-
-  #   checks = {};
-  # };
 }

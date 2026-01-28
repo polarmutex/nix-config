@@ -19,6 +19,13 @@
     # allow-import-from-derivation = "true";
   };
 
+  # outputs = inputs: let
+  #   sources = import ./npins;
+  #   import-tree = import sources.import-tree;
+  # in
+  #   inputs.flake-parts.lib.mkFlake {inherit inputs;}
+  #   (import-tree ./parts);
+
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} (
       {
@@ -27,77 +34,18 @@
         self,
         ...
       }: {
-        imports = [
+        imports = let
+          sources = import ./npins;
+          import-tree = import sources.import-tree;
+        in [
           ./packages
-          ./misc/lib
-          ./hosts
-          # ./wrappers
-          # ./modules
-          # ./lib
+          (import-tree ./parts)
         ];
-
-        flake = {
-          nixosModules = config.flake.lib.dirToAttrs ./modules/nixos;
-          maidModules = config.flake.lib.dirToAttrs ./modules/maid;
-          deploy = {
-            nodes = {
-              polarvortex = {
-                hostname = "polarvortex";
-                profiles.system = {
-                  sshUser = "polar";
-                  # sudo = "doas -u";
-                  user = "root";
-                  path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
-                };
-              };
-              vm-intel = {
-                hostname = "vm-dev";
-                profiles.system = {
-                  sshUser = "polar";
-                  sudo = "doas -u";
-                  user = "root";
-                  path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vm-intel;
-                };
-              };
-            };
-          };
-        };
 
         systems = [
           "x86_64-linux"
           "aarch64-linux"
         ];
-
-        perSystem = {
-          pkgs,
-          system,
-          self',
-          # config,
-          ...
-        }: {
-          devShells.default = with pkgs;
-            mkShellNoCC {
-              packages = [
-                sops
-                age
-                deploy-rs
-                # taplo
-                inxi
-                pciutils
-                # nvtop
-                mesa-demos
-                nh
-                lm_sensors
-                nix-update
-                inputs.bun2nix.packages.${pkgs.stdenv.hostPlatform.system}.default
-                neovim.devMode
-              ];
-
-              shellHook = ''
-                ln -fs ${pkgs.luarc-json} .luarc.json
-              '';
-            };
-        };
       }
     );
 
@@ -107,7 +55,10 @@
 
     flake-compat.url = "github:edolstra/flake-compat";
     flake-utils.url = "github:numtide/flake-utils";
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -120,11 +71,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    polar-nur.url = "github:polarmutex/nur";
+    # polar-nur.url = "github:polarmutex/nur";
 
-    awesome-flake = {
-      url = "github:polarmutex/awesome-flake";
-    };
+    # awesome-flake = {
+    #   url = "github:polarmutex/awesome-flake";
+    #   inputs.flake-parts.follows = "flake-parts";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
 
@@ -136,49 +89,55 @@
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     helix = {
       url = "github:helix-editor/helix";
     };
+
     monolisa-font-flake = {
       url = "git+ssh://git@git.polarmutex.dev/polar/monolisa-font-flake.git";
       #url = "path:///home/polar/repos/personal/monolisa-font-flake";
     };
-    neovim-flake = {
-      url = "github:polarmutex/neovim-flake";
-      # url = "path:/home/polar/repos/personal/neovim-flake/main";
-    };
+
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     tmux-sessionizer = {
       url = "github:polarmutex/tmux-sessionizer";
     };
+
     wallpapers = {
       url = "git+ssh://git@git.polarmutex.dev/polar/wallpapers.git";
       #url = "path:///home/polar/repos/personal/wallpapers";
     };
+
     website = {
       url = "github:polarmutex/website/dev";
     };
+
     wrapper-manager = {
       url = "github:viperML/wrapper-manager";
     };
+
     noshell = {
       url = "github:viperML/noshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # DO I still need?
-    firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-    rycee = {
-      url = "gitlab:rycee/nur-expressions";
-      flake = false;
-    };
+    # firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+    # rycee = {
+    #   url = "gitlab:rycee/nur-expressions";
+    #   flake = false;
+    # };
+    #
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     programsdb.url = "github:wamserma/flake-programs-sqlite";
     programsdb.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -192,15 +151,21 @@
     nix-maid = {
       url = "github:viperML/nix-maid";
     };
+
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
+
     flakey-profile.url = "github:lf-/flakey-profile";
+
     nixgl.url = "github:nix-community/nixGL";
+
     zed = {
       url = "github:zed-industries/zed/nightly";
     };
+
     beancount-repo = {
       url = "git+ssh://git@git.polarmutex.dev/polar/beancount.git";
     };
+
     bun2nix = {
       url = "github:nix-community/bun2nix";
       inputs.nixpkgs.follows = "nixpkgs";

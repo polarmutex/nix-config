@@ -7,7 +7,7 @@
   imports = [
     ./polarbear
     ./macbook-air-24
-    ./polarvortex
+    # ./polarvortex
     # ./vm-intel
   ];
   _module.args = {
