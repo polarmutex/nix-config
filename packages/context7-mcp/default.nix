@@ -10,7 +10,7 @@
 }:
 stdenv.mkDerivation rec {
   pname = "context7-mcp";
-  version = "@upstash/context7-tools-ai-sdk@0.2.2";
+  version = "ctx7@0.2.3";
 
   src = fetchFromGitHub {
     owner = "upstash";
