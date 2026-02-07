@@ -10,7 +10,7 @@ in {
   _file = ./_mkUser.nix;
 
   environment.shells = [
-    pkgs.fish-polar
+    self'.packages.fish-polar
     pkgs.bash
   ];
 

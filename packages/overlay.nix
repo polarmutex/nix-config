@@ -1,4 +1,4 @@
-lib: config: inputs': let
+lib: config: inputs': self: let
   inherit
     (builtins)
     mapAttrs
@@ -65,20 +65,8 @@ lib: config: inputs': let
     polarmutex-website = inputs'.website.packages.default;
   };
 
-  overlayWrapperManager = final: prev: let
-    wrapper-manager = import sources.wrapper-manager;
-    evald = wrapper-manager.lib {
-      pkgs = prev;
-      modules =
-        builtins.readDir ../modules/wrapper-manager
-        |> builtins.attrNames
-        |> map (n: ../modules/wrapper-manager/${n});
-    };
-  in
-    mapAttrs (_: value: value.wrapped) evald.config.wrappers;
 in
   lib.composeManyExtensions [
     overlayAuto
     overlayMisc
-    overlayWrapperManager
   ]

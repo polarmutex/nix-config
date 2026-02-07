@@ -17,6 +17,7 @@ in {
       {
         _module.args = {
           inherit inputs;
+          self' = withSystem system ({self', ...}: self');
         };
       }
       self.nixosModules.host-polarbear
@@ -29,7 +30,11 @@ in {
     ];
   };
 
-  flake.nixosModules.host-polarbear = {pkgs, ...}: {
+  flake.nixosModules.host-polarbear = {
+    pkgs,
+    self',
+    ...
+  }: {
     imports = [
       self.nixosModules.core
       self.nixosModules.doas
@@ -129,9 +134,8 @@ in {
       inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
       neovim
       morgen
-      #self'.packages.fish
-      git-polar
-      ghostty
+      pkgs.git-polar
+      ghostty-polar
       google-chrome
       brave
       pkgs.firefox

@@ -37,9 +37,11 @@
         imports = let
           sources = import ./npins;
           import-tree = import sources.import-tree;
+          wrappers = import sources.nix-wrapper-modules {};
         in [
           ./packages
           (import-tree ./parts)
+          wrappers.flakeModules.wrappers
         ];
 
         systems = [

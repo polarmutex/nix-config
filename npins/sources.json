@@ -68,6 +68,19 @@
       "url": "https://github.com/viperml/nix-maid/archive/303e67a8c67d1ba1416abd8842d206a57b46f832.tar.gz",
       "hash": "sha256-nvybtwQnyGeUbAq/iOMnt0rOGrp8nkyjnZTW9XIsrfI="
     },
+    "nix-wrapper-modules": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "birdeehub",
+        "repo": "nix-wrapper-modules"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "73ed3dcf993b58add88bd727fd6d5dfc62d226bf",
+      "url": "https://github.com/birdeehub/nix-wrapper-modules/archive/73ed3dcf993b58add88bd727fd6d5dfc62d226bf.tar.gz",
+      "hash": "sha256-ObrHdAP9poMDvvfEgY0xVtv5Jbqqn6vwBpX+I9bVLF4="
+    },
     "nixpkgs": {
       "type": "Git",
       "repository": {

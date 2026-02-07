@@ -7,10 +7,18 @@
     pkgs,
     system,
     inputs',
+    self',
     ...
   }: {
     _module.args.pkgs = let
       sources = import ../npins;
+
+      # Overlay to add wrapper packages to pkgs
+      wrappersOverlay = final: prev: {
+        ghostty-polar = self'.packages.ghostty-polar;
+        git-polar = self'.packages.git-polar;
+        fish-polar = self'.packages.fish-polar;
+      };
     in
       import sources.nixpkgs rec {
         localSystem = system;
@@ -29,8 +37,9 @@
           allowUnfreePredicate = pkg: lib.warn "Allowing unfree package: ${lib.getName pkg}" true;
         };
         overlays = [
-          (import ./overlay.nix lib config inputs')
+          (import ./overlay.nix lib config inputs' self')
           inputs.gen-luarc.overlays.default
+          wrappersOverlay
         ];
       };
 
@@ -43,7 +52,8 @@
       inherit claude-usage-monitor;
       inherit context7-mcp;
       inherit flippertools;
-      inherit ghostty;
+      # Don't inherit wrappers here - they're added to pkgs via wrappersOverlay
+      # and are auto-exposed as packages by nix-wrapper-modules
       inherit github-mcp;
       inherit mcp-nixos;
       inherit morgen;

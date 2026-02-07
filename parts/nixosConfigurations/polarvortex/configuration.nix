@@ -16,6 +16,7 @@ in {
       {
         _module.args = {
           inherit inputs;
+          self' = withSystem system ({self', ...}: self');
         };
       }
       self.nixosModules.host-polarvortex
