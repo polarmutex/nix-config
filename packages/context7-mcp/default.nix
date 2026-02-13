@@ -10,7 +10,7 @@
 }:
 stdenv.mkDerivation rec {
   pname = "context7-mcp";
-  version = "ctx7@0.2.3";
+  version = "ctx7@0.2.4";
 
   src = fetchFromGitHub {
     owner = "upstash";

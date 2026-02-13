@@ -15,12 +15,12 @@
 }:
 stdenv.mkDerivation rec {
   pname = "morgen";
-  version = "4.0.1";
+  version = "4.0.3";
 
   src = fetchurl {
     name = "morgen-${version}.deb";
     url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
-    hash = "sha256-UmbHA7p3nuat0zv/uIHZV9li/LHOnk9oUB1RGJwj6zE=";
+    hash = "sha256-rqVn/2foNsqiLNtQgmvYb+xXJg+x4R1hy6gEDUyRwMc=";
   };
 
   nativeBuildInputs = [
