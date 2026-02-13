@@ -77,9 +77,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "73ed3dcf993b58add88bd727fd6d5dfc62d226bf",
-      "url": "https://github.com/birdeehub/nix-wrapper-modules/archive/73ed3dcf993b58add88bd727fd6d5dfc62d226bf.tar.gz",
-      "hash": "sha256-ObrHdAP9poMDvvfEgY0xVtv5Jbqqn6vwBpX+I9bVLF4="
+      "revision": "b0156b26febb69963a9e43cef0ec566da3d9c6c0",
+      "url": "https://github.com/birdeehub/nix-wrapper-modules/archive/b0156b26febb69963a9e43cef0ec566da3d9c6c0.tar.gz",
+      "hash": "sha256-wRj5iBNX/5+dOMl3WzHYulrNTZDCyMTlXgxwI4cMHSg="
     },
     "nixpkgs": {
       "type": "Git",
