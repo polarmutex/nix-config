@@ -121,16 +121,14 @@ jobs:
                   # Update neovim start plugins in background
                   (
                     echo "Updating neovim start plugins..."
-                    cd packages/neovim
-                    nix run .#npins -- --lock-file ./start.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
+                    nix run nixpkgs#npins -- --lock-file packages/neovim/start.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
                   ) &
                   PID2=$!
 
                   # Update neovim opt plugins in background
                   (
                     echo "Updating neovim opt plugins..."
-                    cd packages/neovim
-                    nix run .#npins -- --lock-file ./opt.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
+                    nix run nixpkgs#npins -- --lock-file packages/neovim/opt.json update -f 2>&1 | { grep '.*Changes:$\|.*url:.*' || true; }
                   ) &
                   PID3=$!
 
