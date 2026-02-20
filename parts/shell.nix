@@ -15,7 +15,7 @@ _: {
           # lm_sensors
           nix-update
           # inputs.bun2nix.packages.${pkgs.stdenv.hostPlatform.system}.default
-          neovim.devMode
+          # neovim.devMode
         ];
 
         shellHook = ''

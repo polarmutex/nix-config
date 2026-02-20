@@ -18,6 +18,7 @@
         ghostty-polar = self'.packages.ghostty-polar;
         git-polar = self'.packages.git-polar;
         fish-polar = self'.packages.fish-polar;
+        neovim-polar = self'.packages.neovim-polar;
       };
     in
       import sources.nixpkgs rec {
@@ -43,26 +44,26 @@
         ];
       };
 
-    packages = with pkgs; {
-      inherit _1password-cli;
-      inherit _1password-gui;
-      inherit blink-cmp;
-      inherit brave;
-      inherit ccusage;
-      inherit claude-usage-monitor;
-      inherit context7-mcp;
-      inherit flippertools;
+    packages = {
+      inherit (pkgs) _1password-cli;
+      inherit (pkgs) _1password-gui;
+      inherit (pkgs) blink-cmp;
+      inherit (pkgs) brave;
+      inherit (pkgs) ccusage;
+      inherit (pkgs) claude-usage-monitor;
+      inherit (pkgs) context7-mcp;
+      inherit (pkgs) flippertools;
       # Don't inherit wrappers here - they're added to pkgs via wrappersOverlay
       # and are auto-exposed as packages by nix-wrapper-modules
-      inherit github-mcp;
-      inherit mcp-nixos;
-      inherit morgen;
-      inherit neovim;
-      inherit obsidian;
-      inherit ollama;
-      inherit ungoogled-chromium;
-      inherit wezterm;
-      inherit zed-editor;
+      inherit (pkgs) github-mcp;
+      inherit (pkgs) mcp-nixos;
+      inherit (pkgs) morgen;
+      neovim = self'.packages.neovim-polar;
+      inherit (pkgs) obsidian;
+      inherit (pkgs) ollama;
+      inherit (pkgs) ungoogled-chromium;
+      inherit (pkgs) wezterm;
+      inherit (pkgs) zed-editor;
     };
   };
   #             # All of the typical devcontainers to be used.
