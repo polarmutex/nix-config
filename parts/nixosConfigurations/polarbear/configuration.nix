@@ -121,7 +121,7 @@ in {
       ansible
       unstable.anki-bin
       unstable.devpod
-      unstable.devcontainer
+      # unstable.devcontainer  # FIXME: broken build in current nixpkgs-unstable
       flameshot
       unstable.gramps
       unstable.libreoffice-fresh
@@ -153,7 +153,9 @@ in {
     users.users.polar = {
       shell = pkgs.fish-polar;
       maid = {
-        imports = [maidModules.claude-code];
+        imports = [
+          #maidModules.claude-code
+        ];
         file.home.".gitconfig".source = pkgs.git-polar.gitconfig;
         systemd.services.obsidian-second-brain-sync = {
           path = [

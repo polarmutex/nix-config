@@ -13,7 +13,7 @@
       # Application settings for software engineering workflows
       settings = {
         # Include co-author attribution in commits
-        includeCoAuthoredBy = true;
+        includeCoAuthoredBy = false;
 
         # Prefer project-specific instructions
         preferProjectMdOverUserMd = false;

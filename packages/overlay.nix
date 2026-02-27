@@ -10,6 +10,8 @@ lib: config: inputs': self: let
   overlayAuto = final: prev: (
     readDir ./.
     |> lib.filterAttrs (_: value: value == "directory")
+    # Exclude neovim - it's now a config directory for wrapper modules, not a package
+    |> lib.filterAttrs (name: _: name != "neovim")
     |> mapAttrs (
       name: _:
         final.callPackage ./${name} {
@@ -55,7 +57,6 @@ lib: config: inputs': self: let
 
     polarmutex-website = inputs'.website.packages.default;
   };
-
 in
   lib.composeManyExtensions [
     overlayAuto
