@@ -278,7 +278,7 @@ jobs:
 
             - name: Upload nix-update log on failure
               if: failure()
-              uses: actions/upload-artifact@v6
+              uses: actions/upload-artifact@v7
               with:
                   name: nix-update-log
                   path: |
@@ -305,7 +305,7 @@ jobs:
 
             - name: Upload flake update log on failure
               if: failure()
-              uses: actions/upload-artifact@v6
+              uses: actions/upload-artifact@v7
               with:
                   name: flake-update-log
                   path: /tmp/flake-update.log
