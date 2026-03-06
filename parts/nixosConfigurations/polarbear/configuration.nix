@@ -148,6 +148,7 @@ in {
       github-mcp
       unstable.nil
       unstable.alejandra
+      wl-clipboard
     ];
 
     users.users.polar = {

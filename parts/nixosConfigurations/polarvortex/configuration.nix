@@ -51,7 +51,8 @@ in {
 
     environment.systemPackages = with pkgs; [
       neovim
-      git
+      git-polar
+      unstable.tmux
     ];
 
     sops = {
