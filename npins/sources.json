@@ -9,9 +9,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "10fda59eee7d7970ec443b925f32a1bc7526648c",
-      "url": "https://github.com/vic/import-tree/archive/10fda59eee7d7970ec443b925f32a1bc7526648c.tar.gz",
-      "hash": "sha256-OQQ1MhB9t1J71b2wxRRTdH/Qd8UGG0p+dGspfCf5U1c="
+      "revision": "c6ebc59c85ee54cfb68163d06d1a3149ce0fe431",
+      "url": "https://github.com/vic/import-tree/archive/c6ebc59c85ee54cfb68163d06d1a3149ce0fe431.tar.gz",
+      "hash": "sha256-6apV5N1F5tTD8JY9AUGnkWmy56HqDPn4MNFRsq4Rg+s="
     },
     "mnw": {
       "type": "Git",
@@ -35,9 +35,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "c5ec84c53a477099c10a33d20e3702d2ccf7b856",
-      "url": "https://github.com/nix-community/neovim-nightly-overlay/archive/c5ec84c53a477099c10a33d20e3702d2ccf7b856.tar.gz",
-      "hash": "sha256-+LM56fjXkZqx7IXMq4eWJeDW4d93/UWgrif6c9TOlvo="
+      "revision": "0990740d36eb5674abfd899746ac5f51a96bf1c0",
+      "url": "https://github.com/nix-community/neovim-nightly-overlay/archive/0990740d36eb5674abfd899746ac5f51a96bf1c0.tar.gz",
+      "hash": "sha256-UaO8aE+qRQgglrJbhi9hzSeiP8oob9brLY3pKvq8mRA="
     },
     "nh": {
       "type": "GitRelease",
@@ -64,9 +64,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "303e67a8c67d1ba1416abd8842d206a57b46f832",
-      "url": "https://github.com/viperml/nix-maid/archive/303e67a8c67d1ba1416abd8842d206a57b46f832.tar.gz",
-      "hash": "sha256-nvybtwQnyGeUbAq/iOMnt0rOGrp8nkyjnZTW9XIsrfI="
+      "revision": "82ff422d40d662f1fa79add1bf3049340790d71d",
+      "url": "https://github.com/viperml/nix-maid/archive/82ff422d40d662f1fa79add1bf3049340790d71d.tar.gz",
+      "hash": "sha256-Xac9AJ4ivmj48IMHsci9uEKW1LXRWpvhIy0xKB0QTzw="
     },
     "nix-wrapper-modules": {
       "type": "Git",
@@ -77,9 +77,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "2c0a3b795766b25d15ad1ec9eef3a06160154c9a",
-      "url": "https://github.com/birdeehub/nix-wrapper-modules/archive/2c0a3b795766b25d15ad1ec9eef3a06160154c9a.tar.gz",
-      "hash": "sha256-BKxBM4RNWP+5q0ZQ6v3JlJ0e6fFj/YoYNZ7/OpgabdU="
+      "revision": "c53fd67dbf1cccec37b8216128e5b647e70bd149",
+      "url": "https://github.com/birdeehub/nix-wrapper-modules/archive/c53fd67dbf1cccec37b8216128e5b647e70bd149.tar.gz",
+      "hash": "sha256-DY3xNV1kgPEHX8X9HG7Uix5OIt0MQri8i7X+BqGM4DI="
     },
     "nixpkgs": {
       "type": "Git",
@@ -90,9 +90,9 @@
       },
       "branch": "nixos-25.11",
       "submodules": false,
-      "revision": "fabb8c9deee281e50b1065002c9828f2cf7b2239",
-      "url": "https://github.com/nixos/nixpkgs/archive/fabb8c9deee281e50b1065002c9828f2cf7b2239.tar.gz",
-      "hash": "sha256-YaHht/C35INEX3DeJQNWjNaTcPjYmBwwjFJ2jdtr+5U="
+      "revision": "e9f278faa1d0c2fc835bd331d4666b59b505a410",
+      "url": "https://github.com/nixos/nixpkgs/archive/e9f278faa1d0c2fc835bd331d4666b59b505a410.tar.gz",
+      "hash": "sha256-Jms57zzlFf64ayKzzBWSE2SGvJmK+NGt8Gli71d9kmY="
     },
     "nixpkgs-unstable": {
       "type": "Git",
@@ -103,9 +103,9 @@
       },
       "branch": "nixos-unstable",
       "submodules": false,
-      "revision": "80bdc1e5ce51f56b19791b52b2901187931f5353",
-      "url": "https://github.com/nixos/nixpkgs/archive/80bdc1e5ce51f56b19791b52b2901187931f5353.tar.gz",
-      "hash": "sha256-QKyJ0QGWBn6r0invrMAK8dmJoBYWoOWy7lN+UHzW1jc="
+      "revision": "c06b4ae3d6599a672a6210b7021d699c351eebda",
+      "url": "https://github.com/nixos/nixpkgs/archive/c06b4ae3d6599a672a6210b7021d699c351eebda.tar.gz",
+      "hash": "sha256-wvfdLLWJ2I9oEpDd9PfMA8osfIZicoQ5MT1jIwNs9Tk="
     },
     "wrapper-manager": {
       "type": "Git",
@@ -116,9 +116,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "801dd9c876fcada046af45543e8c7e0bbccf20ea",
-      "url": "https://github.com/viperml/wrapper-manager/archive/801dd9c876fcada046af45543e8c7e0bbccf20ea.tar.gz",
-      "hash": "sha256-OGXsTE5jWhGiFfK6OwMvjksrYSobsIFUSUzKsexCDxY="
+      "revision": "51ad0422b925d830bf4af36979fed51209f79c0a",
+      "url": "https://github.com/viperml/wrapper-manager/archive/51ad0422b925d830bf4af36979fed51209f79c0a.tar.gz",
+      "hash": "sha256-fCm4sOeTDf3kBtYMmU4OHsviI/oF8rMbPkUMcQf6lw4="
     }
   },
   "version": 7

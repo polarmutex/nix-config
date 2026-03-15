@@ -14,8 +14,8 @@
       settings = {
         core.fsmonitor = true;
         credential.helper = "libsecret";
-        credential."https://github.com".helper = ["" "!gh auth git-credential"];
-        credential."https://gist.github.com".helper = ["" "!gh auth git-credential"];
+        # credential."https://github.com".helper = ["" "!gh auth git-credential"];
+        # credential."https://gist.github.com".helper = ["" "!gh auth git-credential"];
         user = {
           email = "brian@brianryall.xyz";
           name = "Brian Ryall";
