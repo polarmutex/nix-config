@@ -43,6 +43,7 @@ in {
       self.nixosModules.blog-service
       self.nixosModules.forgejo-service
       self.nixosModules.litellm-service
+      self.nixosModules.openclaw-service
       self.nixosModules.openwebui-service
       self.nixosModules.umami-service
     ];
@@ -196,10 +197,34 @@ in {
                   ^.*invalid credentials.*remote_addr=<HOST>.*$
       ignoreregex =
     '';
+
     services.fava = {
       enable = false;
       fava.basicAuth.enable = true;
     };
+
+    services.openclaw = {
+      enable = true;
+      package = inputs.nix-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}.openclaw;
+      domain = "openclaw";
+      gatewayPort = 3030;
+      # Tool security — allowlist mode (default, recommended)
+      toolSecurity = "allowlist";
+      toolAllowlist = [
+        "read"
+        "write"
+        "edit"
+        "web_search"
+        "web_fetch"
+        "message"
+        "tts"
+        # Uncomment to enable (understand the risks):
+        # "exec"
+        # "browser"
+        # "nodes"
+      ];
+    };
+
     users.users.polar = {
       uid = 1000;
       isNormalUser = true;
