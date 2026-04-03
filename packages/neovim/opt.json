@@ -237,9 +237,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "32fcc38ab7e559f24763f6b3d9c37658ebf407d6",
-      "url": "https://github.com/catgoose/nvim-colorizer.lua/archive/32fcc38ab7e559f24763f6b3d9c37658ebf407d6.tar.gz",
-      "hash": "sha256-5+X1LsVAsq2xNDLUAJYfNPKKPpeihZqWnR2NA1ablVA="
+      "revision": "c8c2c19436d33165ec34fa90c975bc0a739fe3fb",
+      "url": "https://github.com/catgoose/nvim-colorizer.lua/archive/c8c2c19436d33165ec34fa90c975bc0a739fe3fb.tar.gz",
+      "hash": "sha256-gB40s09NNw9sc42J6dcxCXNQXbB2K3gJ8rDFq4eSTzs="
     },
     "nvim-lint": {
       "type": "Git",
@@ -329,10 +329,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v8.0.4",
-      "revision": "f2f0c1231a5b019dbc1fd6dafac1751c878925a3",
-      "url": "https://api.github.com/repos/mrcjkb/rustaceanvim/tarball/refs/tags/v8.0.4",
-      "hash": "sha256-7UTu+AKuGqPqZzM1WJ9s4qQklE27LEilaHO9vpCgC1o="
+      "version": "v8.0.5",
+      "revision": "f69c85a955b9a83d495e3dc8d43adb6364a0b765",
+      "url": "https://api.github.com/repos/mrcjkb/rustaceanvim/tarball/refs/tags/v8.0.5",
+      "hash": "sha256-Nf1PoJfOOtdHx3WTEM3MZSnWSAJwp0eTvSr1jm1pAJ8="
     },
     "snacks.nvim": {
       "type": "GitRelease",
