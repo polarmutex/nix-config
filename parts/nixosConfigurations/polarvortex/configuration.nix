@@ -44,7 +44,7 @@ in {
       self.nixosModules.forgejo-service
       self.nixosModules.litellm-service
       self.nixosModules.openclaw-service
-      self.nixosModules.openwebui-service
+      # self.nixosModules.openwebui-service
       self.nixosModules.umami-service
     ];
 
@@ -83,11 +83,11 @@ in {
           group = "wheel";
           owner = "root";
         };
-        openWebUiAppSecret = {
-          mode = "444";
-          group = "wheel";
-          owner = "open-webui";
-        };
+        # openWebUiAppSecret = {
+        #   mode = "444";
+        #   group = "wheel";
+        #   owner = "open-webui";
+        # };
         # favaSSHPrivateKey = {
         #   mode = "0400";
         #   owner = "fava";
@@ -103,6 +103,11 @@ in {
         githubAuth = {
           mode = "0400";
           owner = "root";
+        };
+        telegramBotToken = {
+          mode = "444";
+          group = "wheel";
+          owner = "openclaw";
         };
       };
     };
@@ -222,6 +227,27 @@ in {
         # "exec"
         # "browser"
         # "nodes"
+      ];
+      # Telegram bot (optional)
+      telegram = {
+        enable = true;
+        tokenFile = "/run/secrets/telegramBotToken";
+      };
+    };
+
+    services.ollama = {
+      enable = true;
+      package = pkgs.unstable.ollama;
+      # Optional: preload models, see https://ollama.com/library
+      loadModels = [
+        "gemma3:4b"
+        "gemma3:12b"
+        "qwen:4b"
+        "qwen3:8b"
+        "qwen3:14b"
+        "qwen2.5-coder:7b"
+        "qwen2.5-coder:14b"
+        "mxbai-embed-large"
       ];
     };
 

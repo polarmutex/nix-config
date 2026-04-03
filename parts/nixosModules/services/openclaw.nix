@@ -18,6 +18,24 @@
           mode = "local"; # Required: enables gateway service (no CLI flag for this)
         };
       }
+      // lib.optionalAttrs (cfg.telegram.enable && cfg.telegram.tokenFile != null) {
+        plugins.entries.telegram.enabled = true;
+        channels.telegram = {
+          enabled = true;
+          tokenFile = "${cfg.telegram.tokenFile}";
+          allowFrom = ["PolarVortexBot"];
+          groups = {
+            "*" = {
+              requireMention = true;
+            };
+          };
+          # accounts.default.enabled = true;
+        };
+      }
+      # // lib.optionalAttrs (cfg.discord.enable && cfg.discord.tokenFile != null) {
+      #   plugins.entries.discord.enabled = true;
+      #   channels.discord.enabled = true;
+      # }
       // cfg.extraGatewayConfig;
 
     gatewayConfigFile = settingsFormat.generate "openclaw-gateway.json" gatewayConfig;
@@ -199,6 +217,22 @@
           ExecStart = let
             startScript = pkgs.writeShellScript "openclaw-start" ''
               export OPENCLAW_GATEWAY_TOKEN=$(cat "$CREDENTIALS_DIRECTORY/auth-token")
+
+              # Load model API key if configured
+              ${lib.optionalString (cfg.modelApiKeyFile != null) ''
+                export OPENCLAW_MODEL_API_KEY=$(cat "$CREDENTIALS_DIRECTORY/model-api-key")
+              ''}
+
+              # Load telegram token if enabled
+              ${lib.optionalString (cfg.telegram.enable && cfg.telegram.tokenFile != null) ''
+                export OPENCLAW_TELEGRAM_TOKEN=$(cat "$CREDENTIALS_DIRECTORY/telegram-token")
+              ''}
+
+              # Load discord token if enabled
+              ${lib.optionalString (cfg.discord.enable && cfg.discord.tokenFile != null) ''
+                export OPENCLAW_DISCORD_TOKEN=$(cat "$CREDENTIALS_DIRECTORY/discord-token")
+              ''}
+
               # Use 'gateway' (foreground mode) instead of 'gateway start' (checks for systemd user service)
               exec ${cfg.package}/bin/openclaw gateway \
                 --port ${toString cfg.gatewayPort} \
@@ -209,7 +243,14 @@
           RestartSec = 5;
           WorkingDirectory = cfg.dataDir;
           StateDirectory = "openclaw";
-          LoadCredential = "auth-token:${cfg.authTokenFile}";
+          LoadCredential =
+            ["auth-token:${cfg.authTokenFile}"]
+            ++ lib.optional (cfg.telegram.enable && cfg.telegram.tokenFile != null)
+            "telegram-token:${cfg.telegram.tokenFile}"
+            ++ lib.optional (cfg.discord.enable && cfg.discord.tokenFile != null)
+            "discord-token:${cfg.discord.tokenFile}"
+            ++ lib.optional (cfg.modelApiKeyFile != null)
+            "model-api-key:${cfg.modelApiKeyFile}";
 
           # ── Hardening ──
           DynamicUser = false; # We use a dedicated user below
@@ -227,9 +268,9 @@
           ProtectClock = true;
           ProtectHostname = true;
           RestrictAddressFamilies = [
-            "AF_INET"    # IPv4
-            "AF_INET6"   # IPv6
-            "AF_UNIX"    # Unix sockets
+            "AF_INET" # IPv4
+            "AF_INET6" # IPv6
+            "AF_UNIX" # Unix sockets
             "AF_NETLINK" # Required for os.networkInterfaces() to query network interfaces
           ];
           RestrictNamespaces = true;

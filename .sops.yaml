@@ -19,27 +19,27 @@ creation_rules:
         - *admin_polar2
         - *polarbear
         - *polarbear2
-  - path_regex: hosts/polarbear/[^/]+\.yaml$
+  - path_regex: parts/nixosConfigurations/polarbear/[^/]+\.yaml$
     key_groups:
       - age:
         - *admin_polar
         - *admin_polar2
         - *polarbear
         - *polarbear2
-  - path_regex: hosts/polarvortex/[^/]+\.yaml$
+  - path_regex: parts/nixosConfigurations/polarvortex/[^/]+\.yaml$
     key_groups:
       - age:
         - *admin_polar
         - *admin_polar2
         - *polarvortex
         - *polarvortex2
-  - path_regex: hosts/vm-intel/[^/]+\.yaml$
+  - path_regex: parts/nixosConfigurations/vm-intel/[^/]+\.yaml$
     key_groups:
       - age:
         - *admin_work
         - *server_vm_polarbear
         - *server_vm_work
-  - path_regex: hosts/vm-intel/eval-secrets.nix$
+  - path_regex: parts/nixosConfigurations/vm-intel/eval-secrets.nix$
     key_groups:
       - age:
         - *admin_polar

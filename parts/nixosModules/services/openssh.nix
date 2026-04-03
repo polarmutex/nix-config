@@ -38,7 +38,7 @@
 
         # Disable unnecessary features
         X11Forwarding = false;
-        AllowTcpForwarding = "no";
+        AllowTcpForwarding = "local";
         AllowStreamLocalForwarding = "no";
         GatewayPorts = "no";
         AllowAgentForwarding = false;
