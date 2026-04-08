@@ -7,7 +7,7 @@ lib: config: inputs': self: let
 
   sources = import ../npins;
 
-  overlayAuto = final: prev: (
+  overlayAuto = final: _prev: (
     readDir ./.
     |> lib.filterAttrs (_: value: value == "directory")
     # Exclude neovim - it's now a config directory for wrapper modules, not a package

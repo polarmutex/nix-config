@@ -107,6 +107,22 @@
       "url": "https://github.com/nixos/nixpkgs/archive/6201e203d09599479a3b3450ed24fa81537ebc4e.tar.gz",
       "hash": "sha256-ZojAnPuCdy657PbTq5V0Y+AHKhZAIwSIT2cb8UgAz/U="
     },
+    "paperclip": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "paperclipai",
+        "repo": "paperclip"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v2026.403.0",
+      "revision": "a07237779bd5391a4683a754ed95249d57a49b2c",
+      "url": "https://api.github.com/repos/paperclipai/paperclip/tarball/refs/tags/v2026.403.0",
+      "hash": "sha256-DS5orY8WifC9+KLlVn7w4l3u4t1xOH7SfNqnn9wkQwk="
+    },
     "wrapper-manager": {
       "type": "Git",
       "repository": {

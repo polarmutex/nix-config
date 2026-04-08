@@ -44,6 +44,7 @@ in {
       self.nixosModules.forgejo-service
       self.nixosModules.litellm-service
       self.nixosModules.openclaw-service
+      self.nixosModules.paperclip-service
       # self.nixosModules.openwebui-service
       self.nixosModules.umami-service
     ];
@@ -104,11 +105,11 @@ in {
           mode = "0400";
           owner = "root";
         };
-        telegramBotToken = {
-          mode = "444";
-          group = "wheel";
-          owner = "openclaw";
-        };
+        # telegramBotToken = {
+        #   mode = "444";
+        #   group = "wheel";
+        #   owner = "openclaw";
+        # };
       };
     };
 
@@ -209,7 +210,7 @@ in {
     };
 
     services.openclaw = {
-      enable = true;
+      enable = false;
       package = inputs.nix-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}.openclaw;
       domain = "openclaw";
       gatewayPort = 3030;
@@ -235,21 +236,25 @@ in {
       };
     };
 
-    services.ollama = {
+    services.paperclip = {
       enable = true;
-      package = pkgs.unstable.ollama;
-      # Optional: preload models, see https://ollama.com/library
-      loadModels = [
-        "gemma3:4b"
-        "gemma3:12b"
-        "qwen:4b"
-        "qwen3:8b"
-        "qwen3:14b"
-        "qwen2.5-coder:7b"
-        "qwen2.5-coder:14b"
-        "mxbai-embed-large"
-      ];
     };
+
+    # services.ollama = {
+    #   enable = true;
+    #   package = pkgs.unstable.ollama;
+    #   # Optional: preload models, see https://ollama.com/library
+    #   loadModels = [
+    #     "gemma3:4b"
+    #     "gemma3:12b"
+    #     "qwen:4b"
+    #     "qwen3:8b"
+    #     "qwen3:14b"
+    #     "qwen2.5-coder:7b"
+    #     "qwen2.5-coder:14b"
+    #     "mxbai-embed-large"
+    #   ];
+    # };
 
     users.users.polar = {
       uid = 1000;

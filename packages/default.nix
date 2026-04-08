@@ -59,6 +59,7 @@
       inherit (pkgs) mcp-nixos;
       inherit (pkgs) morgen;
       neovim = self'.packages.neovim-polar;
+      inherit (pkgs) paperclip;
       inherit (pkgs.unstable) obsidian;
       inherit (pkgs.unstable) ollama;
       inherit (pkgs.unstable) ollama-cuda;
