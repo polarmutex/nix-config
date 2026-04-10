@@ -11,7 +11,7 @@
 in
   stdenv.mkDerivation rec {
     pname = "paperclip";
-    version = sources.paperclip.version;
+    version = "unstable-${lib.substring 0 8 sources.paperclip.revision}";
 
     src = sources.paperclip;
 
@@ -19,7 +19,7 @@ in
       inherit pname version src;
       pnpm = pnpm_9;
       fetcherVersion = 3;
-      hash = "sha256-T8dV2tI4m2e8EBicFc/bgI0zewU/RH7PbrxvdNkeeEw=";
+      hash = "sha256-b35YfaE+5L/Sf1OScs7TKFwXSB3EE/zTH+l03dHT2Vc=";
     };
 
     nativeBuildInputs = [
