@@ -175,6 +175,7 @@
           self'.packages.neovim-polar
           # (makePackageWrapper "Intel" {} (unstable.zed-editor.overrideAttrs {withGles = true;}))
           # (makePackageWrapper "Intel" {} unstable.zed-editor)
+          unstable.claude-code
           unstable.lazygit
           unstable.gh
           unstable.glab

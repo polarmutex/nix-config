@@ -17,6 +17,7 @@
 
     config = {
       binName = "polar";
+      settings.aliases = ["nvim"];
 
       # Use neovim-nightly
       package = let
