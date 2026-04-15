@@ -12,7 +12,8 @@
       # pkgs.claude-usage-monitor
       # pkgs.ccusage
       # pkgs.bmad-method
-      pkgs.claude-code
+      # pkgs.claude-code
+      pkgs.claude-code-polar
       gemini-cli
     ];
   };

@@ -13,6 +13,22 @@
       "url": "https://github.com/vic/import-tree/archive/c41e7d58045f9057880b0d85e1152d6a4430dbf1.tar.gz",
       "hash": "sha256-BtZ2dtkBdSUnFPPFc+n0kcMbgaTxzFNPv2iaO326Ffg="
     },
+    "llm-wiki": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nvk",
+        "repo": "llm-wiki"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v0.2.0",
+      "revision": "981383f7050b923b101579f7c5d430fc29deff88",
+      "url": "https://api.github.com/repos/nvk/llm-wiki/tarball/refs/tags/v0.2.0",
+      "hash": "sha256-AiRPRAgIoPbvhgOhXrz0lnAnoi4Lbrz0UDRzu6djC9c="
+    },
     "mnw": {
       "type": "Git",
       "repository": {
@@ -106,6 +122,19 @@
       "revision": "68d8aa3d661f0e6bd5862291b5bb263b2a6595c9",
       "url": "https://github.com/nixos/nixpkgs/archive/68d8aa3d661f0e6bd5862291b5bb263b2a6595c9.tar.gz",
       "hash": "sha256-vPKLpjhIVWdDrfiUM8atW6YkIggCEKdSAlJPzzhkQlw="
+    },
+    "obsidian-skills": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "kepano",
+        "repo": "obsidian-skills"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "fa1e131a014576ff8f8919f191a7ca8d8fded39b",
+      "url": "https://github.com/kepano/obsidian-skills/archive/fa1e131a014576ff8f8919f191a7ca8d8fded39b.tar.gz",
+      "hash": "sha256-/D5HKtLvVdBh7g7zCFDQmInL7/q8koiR6HL0ARmTCoE="
     },
     "paperclip": {
       "type": "Git",

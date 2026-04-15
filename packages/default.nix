@@ -19,6 +19,7 @@
         git-polar = self'.packages.git-polar;
         fish-polar = self'.packages.fish-polar;
         neovim-polar = self'.packages.neovim-polar;
+        claude-code-polar = self'.packages.claude-code-polar;
       };
     in
       import sources.nixpkgs rec {
