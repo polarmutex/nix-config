@@ -38,9 +38,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "fcb3e9ac127d178b4c189088396165b3facc219e",
-      "url": "https://github.com/nvim-lua/plenary.nvim/archive/fcb3e9ac127d178b4c189088396165b3facc219e.tar.gz",
-      "hash": "sha256-MrXyHMjzqhRWMgyszaftZDLlItCT8pnt+GOpL/OsbVE="
+      "revision": "74b06c6c75e4eeb3108ec01852001636d85a932b",
+      "url": "https://github.com/nvim-lua/plenary.nvim/archive/74b06c6c75e4eeb3108ec01852001636d85a932b.tar.gz",
+      "hash": "sha256-nkfETDkPiE+Kd2BWYZijgUp9bP8RgFwRmvqJz2BMuq4="
     },
     "teide.nvim": {
       "type": "Git",
