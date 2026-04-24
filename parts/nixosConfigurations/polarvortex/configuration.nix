@@ -55,6 +55,7 @@ in {
       neovim
       git-polar
       unstable.tmux
+      tsm
     ];
 
     sops = {
