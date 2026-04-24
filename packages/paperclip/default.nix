@@ -19,7 +19,7 @@ in
       inherit pname version src;
       pnpm = pnpm_9;
       fetcherVersion = 3;
-      hash = "sha256-b35YfaE+5L/Sf1OScs7TKFwXSB3EE/zTH+l03dHT2Vc=";
+      hash = "sha256-5SgY5W5xrY2p8DN9fZ38SNhR+BIXm7hOXILpfyQcRsQ=";
     };
 
     nativeBuildInputs = [
