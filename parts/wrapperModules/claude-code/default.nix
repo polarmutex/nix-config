@@ -200,7 +200,14 @@
         }
         // cfg.extraAgents;
 
-      mcpConfig = cfg.extraMcpServers;
+      mcpConfig =
+        {
+          browsermcp = {
+            command = "npx";
+            args = ["@browsermcp/mcp@latest"];
+          };
+        }
+        // cfg.extraMcpServers;
 
       pluginDirs =
         [
