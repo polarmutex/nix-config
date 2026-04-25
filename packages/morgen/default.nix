@@ -49,8 +49,7 @@ stdenv.mkDerivation rec {
     # 2. Fixes startup script
     substituteInPlace $TMP/work/dist/main.js \
       --replace "process.resourcesPath,\"todesktop-runtime-config.json" "\"$out/opt/Morgen/resources/todesktop-runtime-config.json" \
-      --replace "Exec=\".concat(process.execPath," "Exec=\".concat(\"$out/bin/morgen\"," \
-      --replace "zj&&ee.app.disableHardwareAcceleration()" "false&&ee.app.disableHardwareAcceleration()"
+      --replace "Exec=\".concat(process.execPath," "Exec=\".concat(\"$out/bin/morgen\","
     asar pack --unpack='{*.node,*.ftz,rect-overlay}' "$TMP/work" $out/opt/Morgen/resources/app.asar
 
     substituteInPlace $out/share/applications/morgen.desktop \
