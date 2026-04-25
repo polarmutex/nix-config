@@ -29,11 +29,13 @@
     settingsConfig = toGhosttyConf config.settings;
 
     # Combine base config from file with any additional settings
-    configContent = baseConfig + (
-      if config.settings != {}
-      then "\n# Additional settings from module options\n" + settingsConfig
-      else ""
-    );
+    configContent =
+      baseConfig
+      + (
+        if config.settings != {}
+        then "\n# Additional settings from module options\n" + settingsConfig
+        else ""
+      );
   in {
     imports = [wlib.modules.default];
 
@@ -47,7 +49,8 @@
             (types.listOf types.str)
           ]
         );
-        default = {};
+        default = {
+        };
         example = lib.literalExpression ''
           {
             theme = "catppuccin-mocha";
