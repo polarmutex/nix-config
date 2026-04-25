@@ -60,6 +60,7 @@
       inherit (pkgs) mcp-nixos;
       inherit (pkgs) morgen;
       neovim = self'.packages.neovim-polar;
+      inherit (pkgs) claude-plugins-telegram;
       inherit (pkgs) paperclip;
       inherit (pkgs) tsm;
       inherit (pkgs.unstable) obsidian;

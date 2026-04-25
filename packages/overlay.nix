@@ -55,6 +55,8 @@ lib: config: inputs': self: let
       inherit config;
     };
 
+    bun2nix = inputs'.bun2nix.packages.default;
+
     polarmutex-website = inputs'.website.packages.default;
   };
 in

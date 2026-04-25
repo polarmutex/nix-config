@@ -202,17 +202,18 @@
 
       mcpConfig =
         {
-          browsermcp = {
-            command = "npx";
-            args = ["@browsermcp/mcp@latest"];
-          };
+          # browsermcp = {
+          #   command = "npx";
+          #   args = ["@browsermcp/mcp@latest"];
+          # };
         }
         // cfg.extraMcpServers;
 
       pluginDirs =
         [
-          "${sources.llm-wiki}/claude-plugin"
-          "${sources.obsidian-skills}"
+          # "${sources.llm-wiki}/claude-plugin"
+          # "${sources.obsidian-skills}"
+          "${pkgs.claude-plugins-telegram}"
         ]
         ++ cfg.extraPluginDirs;
 

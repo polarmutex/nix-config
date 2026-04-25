@@ -22,6 +22,7 @@ in {
       self.nixosModules.host-polarvortex
       inputs.sops-nix.nixosModules.sops
       inputs.noshell.nixosModules.default
+      inputs.nix-maid.nixosModules.default
       {
         programs.noshell.enable = true;
       }
@@ -36,7 +37,7 @@ in {
       self.nixosModules.openssh
       self.nixosModules.kernel-hardening
       self.nixosModules.security-monitoring
-      self.nixosModules.ai
+      # self.nixosModules.ai
       self.nixosModules.server
       self.nixosModules.website
       self.nixosModules.fava-service
@@ -56,6 +57,9 @@ in {
       git-polar
       unstable.tmux
       tsm
+      nodejs
+      bun
+      unstable.claude-code
     ];
 
     sops = {
@@ -258,6 +262,7 @@ in {
     # };
 
     users.users.polar = {
+      shell = pkgs.fish-polar;
       uid = 1000;
       isNormalUser = true;
       extraGroups = [
@@ -265,6 +270,78 @@ in {
         "networkmanager"
       ];
       initialHashedPassword = "$6$p/7P2dlx4xBEV72W$Ooep2JnmTJhTnexObNtAt3CNqRIhqgA2cD4bZtWMXOYAP.yBig8XToII0Fxy2Kc/Q12gep7Uqfsq6wIxRv7f21";
+      maid = let
+        claude-settings = {
+          maxContextTokens = 15000;
+          includeCoAuthoredBy = false;
+          preferProjectMdOverUserMd = false;
+          enabledPlugins = {
+            # "agent-sdk-dev@claude-plugins-official" = true;
+            # "skill-creator@claude-plugins-official" = true;
+            "telegram@claude-plugins-official" = true;
+          };
+          skipDangerousModePermissionPrompt = true;
+          permissions = {
+            allow = [
+              # Build and test tools
+              "Bash(npm:*)"
+              "Bash(pnpm:*)"
+              "Bash(yarn:*)"
+              "Bash(bun:*)"
+              "Bash(cargo:*)"
+              "Bash(go:*)"
+              "Bash(make:*)"
+              "Bash(just:*)"
+              "Bash(nix:*)"
+              "Bash(nix-build:*)"
+              "Bash(nix-shell:*)"
+
+              # Testing frameworks
+              "Bash(pytest:*)"
+              "Bash(vitest:*)"
+              "Bash(jest:*)"
+              "Bash(cargo test:*)"
+              "Bash(go test:*)"
+
+              # Linting and formatting
+              "Bash(eslint:*)"
+              "Bash(prettier:*)"
+              "Bash(black:*)"
+              "Bash(ruff:*)"
+              "Bash(rustfmt:*)"
+              "Bash(gofmt:*)"
+              "Bash(nixfmt:*)"
+              "Bash(alejandra:*)"
+
+              # Git operations (read-only)
+              "Bash(git status:*)"
+              "Bash(git diff:*)"
+              "Bash(git log:*)"
+              "Bash(git branch:*)"
+              "Bash(git show:*)"
+              "Bash(git ls-files:*)"
+
+              # Common utilities
+              "Bash(ls:*)"
+              "Bash(tree:*)"
+              "Bash(wc:*)"
+              "Bash(which:*)"
+              "Bash(pwd:*)"
+              "Bash(env:*)"
+            ];
+
+            deny = [
+              "Bash(rm -rf /:*)"
+              "Bash(sudo:*)"
+              "Bash(chmod 777:*)"
+              "Bash(curl:*)|Bash(wget:*)"
+            ];
+          };
+        };
+      in {
+        file.home.".claude/settings.json".text =
+          builtins.toJSON claude-settings;
+      };
     };
 
     users.users.root = {
