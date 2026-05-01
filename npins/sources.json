@@ -162,6 +162,19 @@
       "url": "https://github.com/paperclipai/paperclip/archive/e4995bbb1cc36454fc0fa3142ad9c7030c397ff0.tar.gz",
       "hash": "sha256-gCl3UQwHTzUDdQ0MAvcJk9f8TvOSlZEChc3WQtM1fQs="
     },
+    "skills": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "mattpocock",
+        "repo": "skills"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "b843cb5ea74b1fe5e58a0fc23cddef9e66076fb8",
+      "url": "https://github.com/mattpocock/skills/archive/b843cb5ea74b1fe5e58a0fc23cddef9e66076fb8.tar.gz",
+      "hash": "sha256-qOhU5bBnT6kI8c7i0r0IyecrgLJNNPlmQtAb6qWM73Q="
+    },
     "wrapper-manager": {
       "type": "Git",
       "repository": {

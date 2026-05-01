@@ -62,6 +62,7 @@
       neovim = self'.packages.neovim-polar;
       inherit (pkgs) claude-plugins-telegram;
       inherit (pkgs) paperclip;
+      inherit (pkgs) skills;
       inherit (pkgs) tsm;
       inherit (pkgs.unstable) obsidian;
       inherit (pkgs.unstable) ollama;
