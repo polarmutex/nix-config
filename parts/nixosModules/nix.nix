@@ -1,6 +1,8 @@
 {
   flake.nixosModules.nix = {pkgs, ...}: {
     nix = {
+      daemonCPUSchedPolicy = "idle";
+      daemonIOSchedClass = "idle";
       settings = {
         allowed-users = ["*"];
         auto-optimise-store = true;

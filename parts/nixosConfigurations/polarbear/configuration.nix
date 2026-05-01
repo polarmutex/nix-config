@@ -35,6 +35,9 @@ in {
     self',
     ...
   }: {
+    nix.settings.cores = 4;
+    systemd.services.nix-daemon.serviceConfig.AllowedCPUs = "4-11";
+
     imports = [
       self.nixosModules.core
       self.nixosModules.doas
