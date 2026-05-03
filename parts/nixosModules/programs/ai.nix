@@ -4,7 +4,7 @@
     pkgs,
     ...
   }: {
-    environment.systemPackages = with inputs.nix-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}; [
+    environment.systemPackages = with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       claude-code-router
       qwen-code
       opencode

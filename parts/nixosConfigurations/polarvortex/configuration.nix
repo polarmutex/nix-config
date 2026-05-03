@@ -216,7 +216,7 @@ in {
 
     services.openclaw = {
       enable = false;
-      package = inputs.nix-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}.openclaw;
+      package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.openclaw;
       domain = "openclaw";
       gatewayPort = 3030;
       # Tool security — allowlist mode (default, recommended)

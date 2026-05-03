@@ -75,7 +75,7 @@
         # Specifies things to pin in the flake registry and in NIX_PATH.
         pinned = {nixpkgs = toString inputs.nixpkgs;};
         paths = with pkgs;
-        with inputs.nix-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}; let
+        with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; let
           #   findWrapperPackage = packageAttr:
           #   # NixGL has wrapper packages in different places depending on how you
           #   # access it. We want HM configuration to be the same, regardless of how
