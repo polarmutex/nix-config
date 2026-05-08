@@ -9,15 +9,11 @@
       };
       # Optional: preload models, see https://ollama.com/library
       loadModels = [
-        # "gemma3:4b"
+        "qwen3:14b"
+        "qwen2.5-coder:14b"
         "gemma3:12b"
-        "gemma4:e4b"
-        # "qwen:4b"
-        # "qwen3:8b"
-        # "qwen3:14b"
-        # "qwen2.5-coder:7b"
-        # "qwen2.5-coder:14b"
-        # "mxbai-embed-large"
+        "gpt-oss:20b"
+        "ministral-3:14b"
       ];
     };
   };

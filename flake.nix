@@ -154,7 +154,7 @@
       url = "github:viperML/nix-maid";
     };
 
-    nix-ai-tools.url = "github:numtide/nix-ai-tools";
+    llm-agents.url = "github:numtide/llm-agents.nix";
 
     flakey-profile.url = "github:lf-/flakey-profile";
 
