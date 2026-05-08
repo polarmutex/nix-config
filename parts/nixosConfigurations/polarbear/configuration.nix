@@ -153,6 +153,7 @@ in {
       unstable.nil
       unstable.alejandra
       wl-clipboard
+      zizmor
     ];
 
     users.users.polar = {

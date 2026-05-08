@@ -68,6 +68,7 @@
       inherit (pkgs.unstable) ollama;
       inherit (pkgs.unstable) ollama-cuda;
       inherit (pkgs) ungoogled-chromium;
+      inherit (pkgs) zizmor;
       inherit (pkgs) wezterm;
       inherit (pkgs) zed-editor;
       profile = inputs.flakey-profile.lib.mkProfile {

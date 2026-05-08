@@ -187,6 +187,22 @@
       "revision": "51ad0422b925d830bf4af36979fed51209f79c0a",
       "url": "https://github.com/viperml/wrapper-manager/archive/51ad0422b925d830bf4af36979fed51209f79c0a.tar.gz",
       "hash": "sha256-fCm4sOeTDf3kBtYMmU4OHsviI/oF8rMbPkUMcQf6lw4="
+    },
+    "zizmor": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "zizmorcore",
+        "repo": "zizmor"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v1.24.1",
+      "revision": "2eaf42bcccfed62978cee0905902acbc294d5123",
+      "url": "https://api.github.com/repos/zizmorcore/zizmor/tarball/refs/tags/v1.24.1",
+      "hash": "sha256-JPh6xw8kWWR3GfneOK0MytOgYnZI0dFxXp15g1Pkve8="
     }
   },
   "version": 7
