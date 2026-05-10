@@ -10,21 +10,8 @@
     config = {
       package = pkgs.unstable.git;
 
-      # Declarative git configuration
-      settings = {
-        core.fsmonitor = true;
-        credential.helper = "libsecret";
-        # credential."https://github.com".helper = ["" "!gh auth git-credential"];
-        # credential."https://gist.github.com".helper = ["" "!gh auth git-credential"];
-        user = {
-          email = "brian@brianryall.xyz";
-          name = "Brian Ryall";
-        };
-      };
-
-      # Additional config for work-specific settings via sops
-      configFile.content = lib.mkAfter ''
-        # vim ft=gitconfig
+      # vim: ft=gitconfig
+      configFile.content = ''
         [core]
           fsmonitor = true
         [credential]
