@@ -163,15 +163,15 @@ in {
           #maidModules.claude-code
         ];
         file.home.".gitconfig".source = pkgs.git-polar.gitconfig;
-        systemd.services.obsidian-second-brain-sync = {
+        systemd.services.obsidian-ideaverse-sync = {
           path = [
-            pkgs.git
+            pkgs.git-polar
             pkgs.coreutils
             pkgs.openssh
           ];
           script = ''
             GIT_SSH_COMMAND='ssh -i /home/polar/.ssh/id_ed25519 -o IdentitiesOnly=yes'
-            OBSIDIAN_PATH="/home/polar/repos/personal/obsidian-second-brain/main"
+            OBSIDIAN_PATH="/home/polar/repos/personal/ideaverse/main"
             cd $OBSIDIAN_PATH
             CHANGES_EXIST="$(git status - porcelain | wc -l)"
             if [ "$CHANGES_EXIST" -eq 0 ]; then
@@ -185,10 +185,10 @@ in {
           wantedBy = ["graphical-session.target"];
         };
 
-        systemd.timers.obsidian-second-brain-sync = {
-          unitConfig = {Description = "Obsidian Second Brain Periodic Sync";};
+        systemd.timers.obsidian-ideaverse-sync = {
+          unitConfig = {Description = "Obsidian Ideaverse Periodic Sync";};
           timerConfig = {
-            Unit = "obsidian-second-brain-sync.service";
+            Unit = "obsidian-ideaverse-sync.service";
             OnCalendar = "*:0/30";
           };
           wants = ["timers.target"];
