@@ -5,10 +5,10 @@
   sources = import ../../npins;
 in
   stdenv.mkDerivation {
-    pname = "skills";
-    version = sources.skills.revision;
+    pname = "mattpocock-skills";
+    version = sources.mattpocock-skills.revision;
 
-    src = sources.skills;
+    src = sources.mattpocock-skills;
 
     dontBuild = true;
 

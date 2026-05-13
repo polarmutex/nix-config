@@ -10,7 +10,7 @@ in
 
     src = sources.zizmor;
 
-    cargoHash = "sha256-K0547EuCK3NfASP2sDr7qSAv9zyWY6XZL8YCxbLu+5I=";
+    cargoHash = "sha256-eNgq6B7aI90/hfBqieDbO7zV53PugyAUADxpqH4t4ek=";
 
     doCheck = false;
 

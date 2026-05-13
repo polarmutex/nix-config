@@ -162,7 +162,7 @@
       "url": "https://github.com/paperclipai/paperclip/archive/901c088e1499d0ba8db76c03171d55f62c9aa312.tar.gz",
       "hash": "sha256-4gFahfk0p2lAF5Ps+O6VWVXDFDkcVE3Zz15nhZG2AwU="
     },
-    "skills": {
+    "mattpocock-skills": {
       "type": "Git",
       "repository": {
         "type": "GitHub",

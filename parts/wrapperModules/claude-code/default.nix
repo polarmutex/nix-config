@@ -214,7 +214,7 @@
           # "${sources.llm-wiki}/claude-plugin"
           # "${sources.obsidian-skills}"
           "${pkgs.claude-plugins-telegram}"
-          "${pkgs.skills}"
+          "${pkgs.mattpocock-skills}"
         ]
         ++ cfg.extraPluginDirs;
 
