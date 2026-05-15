@@ -208,9 +208,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "241ff8214b4ec051eb51e74a61ff729c0271b429",
-      "url": "https://github.com/nvimtools/none-ls.nvim/archive/241ff8214b4ec051eb51e74a61ff729c0271b429.tar.gz",
-      "hash": "sha256-tplnARSDuc9dkaai6/rm2kS+5jTWmVQXWvJ+Ij9HmQs="
+      "revision": "f9d557ac7cd28a3a993b5ea49716498bd540b01f",
+      "url": "https://github.com/nvimtools/none-ls.nvim/archive/f9d557ac7cd28a3a993b5ea49716498bd540b01f.tar.gz",
+      "hash": "sha256-gMncplPHwy6MgQQRU/Niqh4YR3vfas34Ehz6p1PUOBQ="
     },
     "nui.nvim": {
       "type": "GitRelease",
@@ -250,9 +250,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "eab58b48eb11d7745c11c505e0f3057165902461",
-      "url": "https://github.com/mfussenegger/nvim-lint/archive/eab58b48eb11d7745c11c505e0f3057165902461.tar.gz",
-      "hash": "sha256-5bVnAw7xxTntwmYYDZGt+3HOizlddqMOIyg/zqGbSEM="
+      "revision": "665525810630701b84181e4d9eefd24b49845b29",
+      "url": "https://github.com/mfussenegger/nvim-lint/archive/665525810630701b84181e4d9eefd24b49845b29.tar.gz",
+      "hash": "sha256-lFMtmAVGU2HKOsImNINH9xeEiFTvrd8G2l2m5mT7cMY="
     },
     "nvim-lspconfig": {
       "type": "GitRelease",
@@ -329,10 +329,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v9.0.3",
-      "revision": "bc391bbb8db0dbf3e3e9fe8f9f03112ecbab7463",
-      "url": "https://api.github.com/repos/mrcjkb/rustaceanvim/tarball/refs/tags/v9.0.3",
-      "hash": "sha256-Mne+6VXCbx0yYzqX16pGWlhjQYzSQomNEsfiT0Aep5A="
+      "version": "v9.0.4",
+      "revision": "a60811ae6054ba981cb4693aaecd715dea783327",
+      "url": "https://api.github.com/repos/mrcjkb/rustaceanvim/tarball/refs/tags/v9.0.4",
+      "hash": "sha256-CSg/SiH9mQh3VJjP/Q1VeY7AegDSufrNr3LnHcn3OdU="
     },
     "snacks.nvim": {
       "type": "GitRelease",
