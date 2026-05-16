@@ -22,6 +22,7 @@ in {
       }
       self.nixosModules.host-polarbear
       inputs.sops-nix.nixosModules.sops
+      inputs.claude-cowork-service.nixosModules.default
       inputs.nix-maid.nixosModules.default
       inputs.noshell.nixosModules.default
       {
@@ -48,6 +49,7 @@ in {
       # inputs.hardware.nixosModules.common-gpu-intel-disable
       # self.nixosModules.nvidia
       self.nixosModules.ai
+      self.nixosModules.claude
       self.nixosModules.desktop
       self.nixosModules.bluetooth
       self.nixosModules.fonts
@@ -182,7 +184,6 @@ in {
             git pull --rebase
             git push -q
           '';
-          wantedBy = ["graphical-session.target"];
         };
 
         systemd.timers.obsidian-ideaverse-sync = {
@@ -191,7 +192,7 @@ in {
             Unit = "obsidian-ideaverse-sync.service";
             OnCalendar = "*:0/30";
           };
-          wants = ["timers.target"];
+          wantedBy = ["timers.target"];
         };
       };
     };
