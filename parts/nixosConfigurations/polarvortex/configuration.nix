@@ -309,8 +309,17 @@ in {
               "Bash(git show:*)"
               "Bash(git ls-files:*)"
 
+              # Web fetching
+              "WebFetch(domain:forecast.weather.gov)"
+
+              # Ideaverse vault
+              "Write(/home/polar/repos/personal/ideaverse/**)"
+              "Edit(/home/polar/repos/personal/ideaverse/**)"
+
               # Common utilities
               "Bash(ls:*)"
+              "Bash(find:*)"
+              "Bash(sort:*)"
               "Bash(tree:*)"
               "Bash(wc:*)"
               "Bash(which:*)"
@@ -362,12 +371,30 @@ in {
         systemd.services.zellij-claude = let
           zellijLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
             layout {
-                pane command="${pkgs.claude-code}/bin/claude"
+                pane command="${pkgs.claude-code}/bin/claude" {
+                    args "--channels" "plugin:telegram@claude-plugins-official" "--permission-mode" "auto"
+                }
             }
           '';
           zellijStartScript = pkgs.writeShellScript "zellij-claude-start" ''
-            ${pkgs.unstable.zellij}/bin/zellij delete-session claude-session --force 2>/dev/null || true
-            ${pkgs.unstable.zellij}/bin/zellij attach --create-background claude-session options --default-layout ${zellijLayout}
+            ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
+            $ZELLIJ delete-session claude-session --force 2>/dev/null || true
+            $ZELLIJ attach --create-background claude-session
+
+            # Wait for direnv to finish loading the nix flake (up to 60s)
+            for i in $(seq 1 60); do
+              screen=$($ZELLIJ --session claude-session action dump-screen 2>/dev/null)
+              if echo "$screen" | grep -q "direnv: export"; then
+                break
+              fi
+              sleep 1
+            done
+
+            # Short pause for shell prompt to render after direnv finishes
+            sleep 1
+
+            $ZELLIJ --session claude-session action paste "claude --channels plugin:telegram@claude-plugins-official --permission-mode auto"
+            $ZELLIJ --session claude-session action send-keys "Enter"
           '';
           zellijStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
             ${pkgs.unstable.zellij}/bin/zellij delete-session claude-session --force 2>/dev/null || true
@@ -375,9 +402,13 @@ in {
         in {
           description = "Persistent zellij session 'claude-session'";
           wantedBy = ["default.target"];
+          environment = {
+            TERM = "xterm-256color";
+          };
           serviceConfig = {
             Type = "oneshot";
             RemainAfterExit = "yes";
+            WorkingDirectory = "/home/polar/repos/personal/ideaverse";
             ExecStart = zellijStartScript;
             ExecStop = zellijStopScript;
           };
