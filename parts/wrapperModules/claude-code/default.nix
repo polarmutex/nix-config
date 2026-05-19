@@ -20,6 +20,12 @@
         description = "Maximum tokens to fit in context window.";
       };
 
+      extraSettings = lib.mkOption {
+        type = lib.types.attrsOf lib.types.anything;
+        default = {};
+        description = "Additional claude-code settings";
+      };
+
       extraAllowedCommands = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [];
@@ -64,6 +70,13 @@
         };
       };
 
+      channels = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [];
+        description = "Channels to activate (passed as --channels flags).";
+        example = ["plugin:telegram@claude-plugins-official"];
+      };
+
       extraPluginDirs = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [];
@@ -82,72 +95,74 @@
 
       strictMcpConfig = cfg.strictMcpConfig;
 
-      settings = {
-        includeCoAuthoredBy = false;
-        preferProjectMdOverUserMd = false;
-        # maxTokensToFitInContext = cfg.maxContextTokens;
+      settings =
+        {
+          includeCoAuthoredBy = false;
+          preferProjectMdOverUserMd = false;
+          # maxTokensToFitInContext = cfg.maxContextTokens;
 
-        permissions = {
-          allow =
-            [
-              # Build and test tools
-              "Bash(npm:*)"
-              "Bash(pnpm:*)"
-              "Bash(yarn:*)"
-              "Bash(bun:*)"
-              "Bash(cargo:*)"
-              "Bash(go:*)"
-              "Bash(make:*)"
-              "Bash(just:*)"
-              "Bash(nix:*)"
-              "Bash(nix-build:*)"
-              "Bash(nix-shell:*)"
+          permissions = {
+            allow =
+              [
+                # Build and test tools
+                "Bash(npm:*)"
+                "Bash(pnpm:*)"
+                "Bash(yarn:*)"
+                "Bash(bun:*)"
+                "Bash(cargo:*)"
+                "Bash(go:*)"
+                "Bash(make:*)"
+                "Bash(just:*)"
+                "Bash(nix:*)"
+                "Bash(nix-build:*)"
+                "Bash(nix-shell:*)"
 
-              # Testing frameworks
-              "Bash(pytest:*)"
-              "Bash(vitest:*)"
-              "Bash(jest:*)"
-              "Bash(cargo test:*)"
-              "Bash(go test:*)"
+                # Testing frameworks
+                "Bash(pytest:*)"
+                "Bash(vitest:*)"
+                "Bash(jest:*)"
+                "Bash(cargo test:*)"
+                "Bash(go test:*)"
 
-              # Linting and formatting
-              "Bash(eslint:*)"
-              "Bash(prettier:*)"
-              "Bash(black:*)"
-              "Bash(ruff:*)"
-              "Bash(rustfmt:*)"
-              "Bash(gofmt:*)"
-              "Bash(nixfmt:*)"
-              "Bash(alejandra:*)"
+                # Linting and formatting
+                "Bash(eslint:*)"
+                "Bash(prettier:*)"
+                "Bash(black:*)"
+                "Bash(ruff:*)"
+                "Bash(rustfmt:*)"
+                "Bash(gofmt:*)"
+                "Bash(nixfmt:*)"
+                "Bash(alejandra:*)"
 
-              # Git operations (read-only)
-              "Bash(git status:*)"
-              "Bash(git diff:*)"
-              "Bash(git log:*)"
-              "Bash(git branch:*)"
-              "Bash(git show:*)"
-              "Bash(git ls-files:*)"
+                # Git operations (read-only)
+                "Bash(git status:*)"
+                "Bash(git diff:*)"
+                "Bash(git log:*)"
+                "Bash(git branch:*)"
+                "Bash(git show:*)"
+                "Bash(git ls-files:*)"
 
-              # Common utilities
-              "Bash(ls:*)"
-              "Bash(tree:*)"
-              "Bash(wc:*)"
-              "Bash(which:*)"
-              "Bash(pwd:*)"
-              "Bash(env:*)"
-            ]
-            ++ cfg.extraAllowedCommands;
+                # Common utilities
+                "Bash(ls:*)"
+                "Bash(tree:*)"
+                "Bash(wc:*)"
+                "Bash(which:*)"
+                "Bash(pwd:*)"
+                "Bash(env:*)"
+              ]
+              ++ cfg.extraAllowedCommands;
 
-          deny =
-            [
-              "Bash(rm -rf /:*)"
-              "Bash(sudo:*)"
-              "Bash(chmod 777:*)"
-              "Bash(curl:*)|Bash(wget:*)"
-            ]
-            ++ cfg.extraDeniedCommands;
-        };
-      };
+            deny =
+              [
+                "Bash(rm -rf /:*)"
+                "Bash(sudo:*)"
+                "Bash(chmod 777:*)"
+                "Bash(curl:*)|Bash(wget:*)"
+              ]
+              ++ cfg.extraDeniedCommands;
+          };
+        }
+        // cfg.extraSettings;
 
       agents =
         {
@@ -213,10 +228,12 @@
         [
           # "${sources.llm-wiki}/claude-plugin"
           # "${sources.obsidian-skills}"
-          "${pkgs.claude-plugins-telegram}"
-          "${pkgs.mattpocock-skills}"
+          # "${pkgs.claude-plugins-telegram}"
+          # "${pkgs.mattpocock-skills}"
         ]
         ++ cfg.extraPluginDirs;
+
+      flags."--channels" = lib.mkIf (cfg.channels != []) cfg.channels;
 
       prefixVar = [
         [

@@ -34,6 +34,8 @@ in {
   flake.nixosModules.host-polarbear = {
     pkgs,
     self',
+    config,
+    inputs,
     ...
   }: {
     nix.settings.cores = 4;
@@ -67,6 +69,20 @@ in {
       self.nixosModules.onepassword
       self.nixosModules.zed
     ];
+
+    wrappers.claude-code-polar = {
+      enable = true;
+      # polarbear-specific wrapper options:
+      # polar.extraMcpServers = { ... };
+      polar.extraPluginDirs = [
+        "${pkgs.mattpocock-skills}"
+      ];
+    };
+
+    services.claude-cowork = {
+      enable = true;
+      extraPath = [config.wrappers.claude-code-polar.wrapper];
+    };
 
     sops = {
       # This will add secrets.yml to the nix store
@@ -124,6 +140,7 @@ in {
     };
 
     environment.systemPackages = with pkgs; [
+      inputs.claude-desktop.packages.x86_64-linux.default
       ansible
       unstable.anki-bin
       unstable.devpod

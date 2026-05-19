@@ -26,6 +26,9 @@ in
     installPhase = ''
       runHook preInstall
       cp -r . $out
+      substituteInPlace $out/package.json \
+        --replace-fail '"start": "bun install --no-summary && bun server.ts"' \
+        '"start": "bun server.ts"'
       runHook postInstall
     '';
   }

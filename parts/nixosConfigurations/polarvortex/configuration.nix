@@ -37,20 +37,30 @@ in {
       self.nixosModules.openssh
       self.nixosModules.kernel-hardening
       self.nixosModules.security-monitoring
-      # self.nixosModules.ai
       self.nixosModules.server
       self.nixosModules.website
       self.nixosModules.fava-service
       self.nixosModules.blog-service
       self.nixosModules.forgejo-service
       self.nixosModules.litellm-service
-      self.nixosModules.openclaw-service
-      self.nixosModules.paperclip-service
-      # self.nixosModules.openwebui-service
+      # self.nixosModules.paperclip-service
       self.nixosModules.umami-service
     ];
 
     networking.hostName = "polarvortex";
+
+    # wrappers.claude-code-polar = {
+    #   enable = true;
+    #   # polarvortex-specific wrapper options:
+    #   # polar.extraMcpServers = { ... };
+    #   # pluginDirs = lib.mkForce [ ];
+    #   # polar.channels = ["plugin:telegram@claude-plugins-official"];
+    #   polar.extraPluginDirs = [
+    #     # "${sources.claude-plugins-official}"
+    #     # "${pkgs.claude-plugins-telegram}"
+    #   ];
+    #   # runShell = ["export TELEGRAM_BOT_TOKEN=\"$(cat /run/secrets/telegramBotToken 2>/dev/null)\""];
+    # };
 
     environment.systemPackages = with pkgs; [
       neovim
@@ -59,7 +69,8 @@ in {
       tsm
       nodejs
       bun
-      unstable.claude-code
+      unstable.zellij
+      claude-code # should be unstable
     ];
 
     sops = {
@@ -110,11 +121,10 @@ in {
           mode = "0400";
           owner = "root";
         };
-        # telegramBotToken = {
-        #   mode = "444";
-        #   group = "wheel";
-        #   owner = "openclaw";
-        # };
+        telegramBotToken = {
+          mode = "0400";
+          owner = "polar";
+        };
       };
     };
 
@@ -214,36 +224,9 @@ in {
       fava.basicAuth.enable = true;
     };
 
-    services.openclaw = {
-      enable = false;
-      package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.openclaw;
-      domain = "openclaw";
-      gatewayPort = 3030;
-      # Tool security — allowlist mode (default, recommended)
-      toolSecurity = "allowlist";
-      toolAllowlist = [
-        "read"
-        "write"
-        "edit"
-        "web_search"
-        "web_fetch"
-        "message"
-        "tts"
-        # Uncomment to enable (understand the risks):
-        # "exec"
-        # "browser"
-        # "nodes"
-      ];
-      # Telegram bot (optional)
-      telegram = {
-        enable = true;
-        tokenFile = "/run/secrets/telegramBotToken";
-      };
-    };
-
-    services.paperclip = {
-      enable = true;
-    };
+    # services.paperclip = {
+    #   enable = false;
+    # };
 
     # services.ollama = {
     #   enable = true;
@@ -260,6 +243,11 @@ in {
     #     "mxbai-embed-large"
     #   ];
     # };
+
+    # Linger ensures systemd starts polar's user session at boot (creates /run/user/1000).
+    systemd.tmpfiles.rules = [
+      "f /var/lib/systemd/linger/polar 0644 root root -"
+    ];
 
     users.users.polar = {
       shell = pkgs.fish-polar;
@@ -341,6 +329,75 @@ in {
       in {
         file.home.".claude/settings.json".text =
           builtins.toJSON claude-settings;
+        systemd.services.obsidian-ideaverse-sync = {
+          path = [
+            pkgs.git-polar
+            pkgs.coreutils
+            pkgs.openssh
+          ];
+          script = ''
+            GIT_SSH_COMMAND='ssh -i /home/polar/.ssh/id_ed25519 -o IdentitiesOnly=yes'
+            OBSIDIAN_PATH="/home/polar/repos/personal/ideaverse"
+            cd $OBSIDIAN_PATH
+            CHANGES_EXIST="$(git status - porcelain | wc -l)"
+            if [ "$CHANGES_EXIST" -eq 0 ]; then
+              exit 0
+            fi
+            git add .
+            git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on polarvortex"
+            git pull --rebase
+            git push -q
+          '';
+        };
+
+        systemd.timers.obsidian-ideaverse-sync = {
+          unitConfig = {Description = "Obsidian Ideaverse Periodic Sync";};
+          timerConfig = {
+            Unit = "obsidian-ideaverse-sync.service";
+            OnCalendar = "*:0/30";
+          };
+          wantedBy = ["timers.target"];
+        };
+
+        systemd.services.zellij-claude = let
+          zellijLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
+            layout {
+                pane command="${pkgs.claude-code}/bin/claude"
+            }
+          '';
+          zellijStartScript = pkgs.writeShellScript "zellij-claude-start" ''
+            ${pkgs.unstable.zellij}/bin/zellij delete-session claude-session --force 2>/dev/null || true
+            ${pkgs.unstable.zellij}/bin/zellij attach --create-background claude-session options --default-layout ${zellijLayout}
+          '';
+          zellijStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
+            ${pkgs.unstable.zellij}/bin/zellij delete-session claude-session --force 2>/dev/null || true
+          '';
+        in {
+          description = "Persistent zellij session 'claude-session'";
+          wantedBy = ["default.target"];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = "yes";
+            ExecStart = zellijStartScript;
+            ExecStop = zellijStopScript;
+          };
+        };
+
+        systemd.services.zellij-claude-restart = {
+          description = "Nightly restart of zellij claude session";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.systemd}/bin/systemctl --user restart zellij-claude.service";
+          };
+        };
+
+        systemd.timers.zellij-claude-restart = {
+          wantedBy = ["timers.target"];
+          timerConfig = {
+            OnCalendar = "*-*-* 02:00:00";
+            Persistent = true;
+          };
+        };
       };
     };
 
