@@ -3,71 +3,69 @@
   stdenv,
   fetchurl,
   dpkg,
-  autoPatchelfHook,
   makeWrapper,
-  electron,
-  asar,
-  alsa-lib,
-  gtk3,
-  libxshmfence,
-  libgbm,
-  nss,
+  chromium,
+  writeShellScript,
+  makeDesktopItem,
+  copyDesktopItems,
 }:
-stdenv.mkDerivation rec {
-  pname = "morgen";
-  version = "4.0.5";
-
-  src = fetchurl {
-    name = "morgen-${version}.deb";
-    url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
+let
+  morgenDeb = fetchurl {
+    name = "morgen-4.0.5.deb";
+    url = "https://dl.todesktop.com/210203cqcj00tw1/versions/4.0.5/linux/deb";
     hash = "sha256-McFJM23NiCqyQouavRHrfga1WK5YUs6+NxYRf5ry7h8=";
   };
 
+  morgenScript = writeShellScript "morgen" ''
+    exec ${chromium}/bin/chromium --app=https://web.morgen.so "$@"
+  '';
+
+  desktopItem = makeDesktopItem {
+    name = "morgen";
+    desktopName = "Morgen";
+    comment = "All-in-one Calendars, Tasks and Scheduler";
+    exec = "morgen %U";
+    icon = "morgen";
+    categories = [ "Office" "Calendar" ];
+    startupWMClass = "web.morgen.so";
+  };
+in
+stdenv.mkDerivation {
+  pname = "morgen";
+  version = "web";
+
+  dontUnpack = true;
+
   nativeBuildInputs = [
     dpkg
-    autoPatchelfHook
     makeWrapper
-    asar
+    copyDesktopItems
   ];
 
-  buildInputs = [
-    alsa-lib
-    gtk3
-    libxshmfence
-    libgbm
-    nss
-  ];
+  desktopItems = [ desktopItem ];
 
   installPhase = ''
     runHook preInstall
 
-    mv usr $out
-    mv opt $out
+    install -Dm755 ${morgenScript} $out/bin/morgen
 
-    asar extract $out/opt/Morgen/resources/app.asar "$TMP/work"
-    # 1. Fixes path for todesktop-runtime-config.json
-    # 2. Fixes startup script
-    substituteInPlace $TMP/work/dist/main.js \
-      --replace "process.resourcesPath,\"todesktop-runtime-config.json" "\"$out/opt/Morgen/resources/todesktop-runtime-config.json" \
-      --replace "Exec=\".concat(process.execPath," "Exec=\".concat(\"$out/bin/morgen\","
-    asar pack --unpack='{*.node,*.ftz,rect-overlay}' "$TMP/work" $out/opt/Morgen/resources/app.asar
-
-    substituteInPlace $out/share/applications/morgen.desktop \
-      --replace '/opt/Morgen' $out/bin
-
-    makeWrapper ${electron}/bin/electron $out/bin/morgen \
-      --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer --enable-wayland-ime=true}} $out/opt/Morgen/resources/app.asar"
+    dpkg -x ${morgenDeb} $TMP/deb
+    for size in 16x16 32x32 48x48 64x64 128x128 256x256 512x512 1024x1024; do
+      src="$TMP/deb/usr/share/icons/hicolor/$size/apps/morgen.png"
+      if [ -f "$src" ]; then
+        install -Dm644 "$src" "$out/share/icons/hicolor/$size/apps/morgen.png"
+      fi
+    done
 
     runHook postInstall
   '';
 
   meta = {
-    description = "All-in-one Calendars, Tasks and Scheduler";
+    description = "All-in-one Calendars, Tasks and Scheduler (web wrapper)";
     homepage = "https://morgen.so/";
     mainProgram = "morgen";
-    sourceProvenance = with lib.sourceTypes; [binaryNativeCode];
     license = lib.licenses.unfree;
-    maintainers = with lib.maintainers; [justanotherariel polarmutex];
-    platforms = ["x86_64-linux"];
+    maintainers = with lib.maintainers; [ polarmutex ];
+    platforms = lib.platforms.linux;
   };
 }
