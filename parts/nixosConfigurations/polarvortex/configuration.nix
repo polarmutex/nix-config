@@ -31,7 +31,13 @@ in {
     ];
   };
 
-  flake.nixosModules.host-polarvortex = {pkgs, config, ...}: {
+  flake.nixosModules.host-polarvortex = {
+    pkgs,
+    config,
+    ...
+  }: let
+    claudeMorgenBin = "claude-morgen";
+  in {
     imports = [
       self.nixosModules.core
       self.nixosModules.doas
@@ -54,7 +60,7 @@ in {
 
     wrappers.claude-code-polar = {
       enable = true;
-      binName = "claude-morgen";
+      binName = claudeMorgenBin;
       polar.extraMcpServers = {
         morgen = {
           command = "${pkgs.morgen-mcp}/bin/morgenmcp";
@@ -277,7 +283,7 @@ in {
           enabledPlugins = {
             # "agent-sdk-dev@claude-plugins-official" = true;
             # "skill-creator@claude-plugins-official" = true;
-            "telegram@claude-plugins-official" = true;
+            "telegram@claude-plugins-official" = false;
           };
           skipDangerousModePermissionPrompt = true;
           permissions = {
@@ -347,97 +353,160 @@ in {
           };
         };
       in {
-        file.home.".claude/settings.json".text =
-          builtins.toJSON claude-settings;
-        systemd.services.obsidian-ideaverse-sync = {
-          path = [
-            pkgs.git-polar
-            pkgs.coreutils
-            pkgs.openssh
-          ];
-          script = ''
-            GIT_SSH_COMMAND='ssh -i /home/polar/.ssh/id_ed25519 -o IdentitiesOnly=yes'
-            OBSIDIAN_PATH="/home/polar/repos/personal/ideaverse"
-            cd $OBSIDIAN_PATH
-            CHANGES_EXIST="$(git status - porcelain | wc -l)"
-            if [ "$CHANGES_EXIST" -eq 0 ]; then
-              exit 0
-            fi
-            git add .
-            git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on polarvortex"
-            git pull --rebase
-            git push -q
-          '';
-        };
+        file.home.".claude/settings.json".text = builtins.toJSON claude-settings;
 
-        systemd.timers.obsidian-ideaverse-sync = {
-          unitConfig = {Description = "Obsidian Ideaverse Periodic Sync";};
-          timerConfig = {
-            Unit = "obsidian-ideaverse-sync.service";
-            OnCalendar = "*:0/30";
-          };
-          wantedBy = ["timers.target"];
-        };
+        systemd = {
+          services = {
+            obsidian-ideaverse-sync = {
+              path = [
+                pkgs.git-polar
+                pkgs.coreutils
+                pkgs.openssh
+              ];
+              script = ''
+                GIT_SSH_COMMAND='ssh -i /home/polar/.ssh/id_ed25519 -o IdentitiesOnly=yes'
+                OBSIDIAN_PATH="/home/polar/repos/personal/ideaverse"
+                cd $OBSIDIAN_PATH
+                CHANGES_EXIST="$(git status --porcelain | wc -l)"
+                if [ "$CHANGES_EXIST" -gt 0 ]; then
+                  git add .
+                  git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on polarvortex"
+                fi
+                if ! git pull --rebase; then
+                  git rebase --abort
+                  exit 1
+                fi
+                git push -q
+              '';
+            };
 
-        systemd.services.zellij-claude = let
-          zellijLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
-            layout {
-                pane command="${pkgs.claude-code}/bin/claude" {
-                    args "--channels" "plugin:telegram@claude-plugins-official" "--permission-mode" "auto"
+            zellij-claude-remote = let
+              # zellijTelegramLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
+              #   layout {
+              #     pane command="${pkgs.claude-code}/bin/claude" {
+              #       args "--channels" "plugin:telegram@claude-plugins-official" "--permission-mode" "auto"
+              #     }
+              #   }
+              # '';
+              zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
+                layout {
+                  pane command="${pkgs.claude-code}/bin/claude" {
+                    args "--permission-mode" "auto"
+                  }
                 }
-            }
-          '';
-          zellijStartScript = pkgs.writeShellScript "zellij-claude-start" ''
-            ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
-            $ZELLIJ delete-session claude-session --force 2>/dev/null || true
-            $ZELLIJ attach --create-background claude-session
+              '';
+              zellijRemoteStartScript = pkgs.writeShellScript "zellij-remote-claude-start" ''
+                ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
+                $ZELLIJ delete-session claude-remote-session --force 2>/dev/null || true
+                $ZELLIJ --layout ${zellijNormalLayout} attach --create-background claude-remote-session
+              '';
+              zellijRemoteStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
+                ${pkgs.unstable.zellij}/bin/zellij delete-session claude-remote-session --force 2>/dev/null || true
+              '';
+            in {
+              description = "Persistent zellij session 'claude-remote-session'";
+              wantedBy = ["default.target"];
+              environment = {
+                TERM = "xterm-256color";
+                SHELL = "${pkgs.bashInteractive}/bin/bash";
+              };
+              serviceConfig = {
+                Type = "oneshot";
+                RemainAfterExit = "yes";
+                WorkingDirectory = "/home/polar/repos/personal/ideaverse";
+                ExecStart = zellijRemoteStartScript;
+                ExecStop = zellijRemoteStopScript;
+              };
+            };
 
-            # Wait for direnv to finish loading the nix flake (up to 60s)
-            for i in $(seq 1 60); do
-              screen=$($ZELLIJ --session claude-session action dump-screen 2>/dev/null)
-              if echo "$screen" | grep -q "direnv: export"; then
-                break
-              fi
-              sleep 1
-            done
+            zellij-claude-ssh = let
+              zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
+                layout {
+                  pane command="${pkgs.claude-code}/bin/claude" {}
+                }
+              '';
+              zellijStartScript = pkgs.writeShellScript "zellij-claude-start" ''
+                ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
+                $ZELLIJ delete-session claude-session --force 2>/dev/null || true
+                $ZELLIJ --layout ${zellijNormalLayout} attach --create-background claude-session
+              '';
+              zellijStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
+                ${pkgs.unstable.zellij}/bin/zellij delete-session claude-session --force 2>/dev/null || true
+              '';
+            in {
+              description = "Persistent zellij session 'claude-session'";
+              wantedBy = ["default.target"];
+              environment = {
+                TERM = "xterm-256color";
+                SHELL = "${pkgs.bashInteractive}/bin/bash";
+              };
+              serviceConfig = {
+                Type = "oneshot";
+                RemainAfterExit = "yes";
+                WorkingDirectory = "/home/polar/repos/personal/ideaverse";
+                ExecStart = zellijStartScript;
+                ExecStop = zellijStopScript;
+              };
+            };
 
-            # Short pause for shell prompt to render after direnv finishes
-            sleep 1
+            zellij-claude-morgen = let
+              zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
+                layout {
+                  pane command="${config.wrappers.claude-code-polar.wrapper}/bin/${claudeMorgenBin}" {}
+                }
+              '';
+              zellijStartScript = pkgs.writeShellScript "zellij-daily-claude-start" ''
+                if [ -r ${config.sops.secrets.morgenApiToken.path} ]; then
+                  export MORGEN_API_KEY=$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.morgenApiToken.path})
+                fi
+                ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
+                $ZELLIJ delete-session claude-dailylog-session --force 2>/dev/null || true
+                $ZELLIJ --layout ${zellijNormalLayout} attach --create-background claude-dailylog-session
+              '';
+              zellijStopScript = pkgs.writeShellScript "zellij-daily-claude-stop" ''
+                ${pkgs.unstable.zellij}/bin/zellij delete-session claude-dailylog-session --force 2>/dev/null || true
+              '';
+            in {
+              description = "Persistent zellij session 'claude-dailylog-session'";
+              wantedBy = ["default.target"];
+              environment = {
+                TERM = "xterm-256color";
+                SHELL = "${pkgs.bashInteractive}/bin/bash";
+              };
+              serviceConfig = {
+                Type = "oneshot";
+                RemainAfterExit = "yes";
+                WorkingDirectory = "/home/polar/repos/personal/ideaverse";
+                ExecStart = zellijStartScript;
+                ExecStop = zellijStopScript;
+              };
+            };
 
-            $ZELLIJ --session claude-session action paste "claude --channels plugin:telegram@claude-plugins-official --permission-mode auto"
-            $ZELLIJ --session claude-session action send-keys "Enter"
-          '';
-          zellijStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
-            ${pkgs.unstable.zellij}/bin/zellij delete-session claude-session --force 2>/dev/null || true
-          '';
-        in {
-          description = "Persistent zellij session 'claude-session'";
-          wantedBy = ["default.target"];
-          environment = {
-            TERM = "xterm-256color";
+            # zellij-claude-restart = {
+            #   description = "Nightly restart of zellij claude session";
+            #   serviceConfig = {
+            #     Type = "oneshot";
+            #     ExecStart = "${pkgs.systemd}/bin/systemctl --user restart zellij-claude-remote.service";
+            #   };
+            # };
           };
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = "yes";
-            WorkingDirectory = "/home/polar/repos/personal/ideaverse";
-            ExecStart = zellijStartScript;
-            ExecStop = zellijStopScript;
-          };
-        };
 
-        systemd.services.zellij-claude-restart = {
-          description = "Nightly restart of zellij claude session";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${pkgs.systemd}/bin/systemctl --user restart zellij-claude.service";
-          };
-        };
-
-        systemd.timers.zellij-claude-restart = {
-          wantedBy = ["timers.target"];
-          timerConfig = {
-            OnCalendar = "*-*-* 02:00:00";
-            Persistent = true;
+          timers = {
+            obsidian-ideaverse-sync = {
+              unitConfig = {Description = "Obsidian Ideaverse Periodic Sync";};
+              timerConfig = {
+                Unit = "obsidian-ideaverse-sync.service";
+                OnCalendar = "*:0/30";
+              };
+              wantedBy = ["timers.target"];
+            };
+            # zellij-claude-restart = {
+            #   wantedBy = ["timers.target"];
+            #   timerConfig = {
+            #     OnCalendar = "*-*-* 02:00:00";
+            #     Persistent = true;
+            #   };
+            # };
           };
         };
       };
