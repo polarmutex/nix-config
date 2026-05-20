@@ -1,10 +1,12 @@
 {
   lib,
+  config,
   inputs,
   self,
   withSystem,
   ...
 }: let
+  flakeCfg = config;
   sources = import ../../../npins;
   evalConfig = import "${sources.nixpkgs}/nixos/lib/eval-config.nix";
   system = "x86_64-linux";
@@ -29,7 +31,7 @@ in {
     ];
   };
 
-  flake.nixosModules.host-polarvortex = {pkgs, ...}: {
+  flake.nixosModules.host-polarvortex = {pkgs, config, ...}: {
     imports = [
       self.nixosModules.core
       self.nixosModules.doas
@@ -45,22 +47,27 @@ in {
       self.nixosModules.litellm-service
       # self.nixosModules.paperclip-service
       self.nixosModules.umami-service
+      flakeCfg.flake.wrappers.claude-code-polar.install
     ];
 
     networking.hostName = "polarvortex";
 
-    # wrappers.claude-code-polar = {
-    #   enable = true;
-    #   # polarvortex-specific wrapper options:
-    #   # polar.extraMcpServers = { ... };
-    #   # pluginDirs = lib.mkForce [ ];
-    #   # polar.channels = ["plugin:telegram@claude-plugins-official"];
-    #   polar.extraPluginDirs = [
-    #     # "${sources.claude-plugins-official}"
-    #     # "${pkgs.claude-plugins-telegram}"
-    #   ];
-    #   # runShell = ["export TELEGRAM_BOT_TOKEN=\"$(cat /run/secrets/telegramBotToken 2>/dev/null)\""];
-    # };
+    wrappers.claude-code-polar = {
+      enable = true;
+      binName = "claude-morgen";
+      polar.extraMcpServers = {
+        morgen = {
+          command = "${pkgs.morgen-mcp}/bin/morgenmcp";
+          type = "stdio";
+        };
+      };
+    };
+
+    environment.extraInit = ''
+      if [ -r ${config.sops.secrets.morgenApiToken.path} ]; then
+        export MORGEN_API_KEY=$(cat ${config.sops.secrets.morgenApiToken.path})
+      fi
+    '';
 
     environment.systemPackages = with pkgs; [
       neovim
@@ -122,6 +129,10 @@ in {
           owner = "root";
         };
         telegramBotToken = {
+          mode = "0400";
+          owner = "polar";
+        };
+        morgenApiToken = {
           mode = "0400";
           owner = "polar";
         };

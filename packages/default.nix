@@ -20,6 +20,7 @@
         fish-polar = self'.packages.fish-polar;
         neovim-polar = self'.packages.neovim-polar;
         claude-code-polar = self'.packages.claude-code-polar;
+        claude-code-morgen = self'.packages.claude-code-morgen;
       };
     in
       import sources.nixpkgs rec {
@@ -57,6 +58,7 @@
       # Don't inherit wrappers here - they're added to pkgs via wrappersOverlay
       # and are auto-exposed as packages by nix-wrapper-modules
       inherit (pkgs) github-mcp;
+      inherit (pkgs) morgen-mcp;
       inherit (pkgs) mcp-nixos;
       inherit (pkgs) morgen;
       neovim = self'.packages.neovim-polar;

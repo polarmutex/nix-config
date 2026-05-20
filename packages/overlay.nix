@@ -58,6 +58,8 @@ lib: config: inputs': self: let
     bun2nix = inputs'.bun2nix.packages.default;
     claude-code = inputs'.llm-agents.packages.claude-code;
 
+    morgen-mcp = inputs'.MorgenMCP.packages.default;
+
     polarmutex-website = inputs'.website.packages.default;
   };
 in

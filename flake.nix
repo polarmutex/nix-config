@@ -175,5 +175,10 @@
       url = "github:nix-community/bun2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    MorgenMCP = {
+      url = "github:polarmutex/MorgenMCP";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

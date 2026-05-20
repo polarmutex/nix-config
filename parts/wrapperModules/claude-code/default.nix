@@ -12,6 +12,12 @@
     imports = [wlib.wrapperModules.claude-code];
 
     options.polar = {
+      binName = lib.mkOption {
+        type = lib.types.str;
+        default = "claude";
+        description = "Override bin name of wrapper";
+      };
+
       strictMcpConfig = lib.mkEnableOption "strict MCP config (only use mcpConfig-defined servers)";
 
       maxContextTokens = lib.mkOption {
