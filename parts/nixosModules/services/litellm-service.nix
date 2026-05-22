@@ -13,7 +13,6 @@
     virtualisation.oci-containers.containers = {
       litellm = {
         extraOptions = [
-          "--pull=always"
           # Using host network to access PostgreSQL Unix socket
           # Bridge networking would require PostgreSQL to listen on TCP
           "--network=host"

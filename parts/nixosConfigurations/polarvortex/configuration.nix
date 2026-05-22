@@ -51,6 +51,7 @@ in {
       self.nixosModules.blog-service
       self.nixosModules.forgejo-service
       self.nixosModules.litellm-service
+      self.nixosModules.miniflux-service
       # self.nixosModules.paperclip-service
       self.nixosModules.umami-service
       flakeCfg.flake.wrappers.claude-code-polar.install
@@ -141,6 +142,10 @@ in {
         morgenApiToken = {
           mode = "0400";
           owner = "polar";
+        };
+        minifluxCredentials = {
+          mode = "0400";
+          owner = "root";
         };
       };
     };

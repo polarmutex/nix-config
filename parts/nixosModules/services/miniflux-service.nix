@@ -21,7 +21,7 @@
         CLEANUP_FREQUENCY = "48";
         LISTEN_ADDR = "127.0.0.1:8787";
       };
-      adminCredentialsFile = "/var/src/machine-config/.secrets/miniflux/credentials";
+      adminCredentialsFile = config.sops.secrets.minifluxCredentials.path;
     };
   };
 }
