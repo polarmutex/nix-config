@@ -65,6 +65,7 @@
       inherit (pkgs) claude-plugins-telegram;
       inherit (pkgs) paperclip;
       inherit (pkgs) mattpocock-skills;
+      inherit (pkgs) obsidian-skills;
       inherit (pkgs) tsm;
       inherit (pkgs.unstable) obsidian;
       inherit (pkgs.unstable) ollama;
