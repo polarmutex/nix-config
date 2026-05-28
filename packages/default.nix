@@ -21,6 +21,7 @@
         neovim-polar = self'.packages.neovim-polar;
         claude-code-polar = self'.packages.claude-code-polar;
         claude-code-morgen = self'.packages.claude-code-morgen;
+        obsidian-polar = self'.packages.obsidian-polar;
       };
     in
       import sources.nixpkgs rec {

@@ -144,7 +144,6 @@ in {
       inputs.claude-desktop.packages.x86_64-linux.default
       ansible
       unstable.anki-bin
-      unstable.bun
       unstable.devpod
       # unstable.devcontainer  # FIXME: broken build in current nixpkgs-unstable
       flameshot
@@ -153,7 +152,7 @@ in {
       netscanner
       nix-diff
       unstable.npins
-      unstable.obsidian
+      pkgs.obsidian-polar
       peek
       unstable.zoom-us
       inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
