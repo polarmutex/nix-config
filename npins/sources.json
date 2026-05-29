@@ -9,9 +9,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "1d5ba6426aa27bab9dcf69e89b2f119609ce0885",
-      "url": "https://github.com/anthropics/claude-plugins-official/archive/1d5ba6426aa27bab9dcf69e89b2f119609ce0885.tar.gz",
-      "hash": "sha256-UFlNhWQ5kz8zhOExXacgy+xNJ273dF3v3h1MKdPG5Jk="
+      "revision": "502de97746f8485de58ac9f02c062cab5ca2e936",
+      "url": "https://github.com/anthropics/claude-plugins-official/archive/502de97746f8485de58ac9f02c062cab5ca2e936.tar.gz",
+      "hash": "sha256-gsniUP55TL6qhhBfWCW0StmveFJI8j+/y1YjJ1EhFLk="
     },
     "import-tree": {
       "type": "Git",
@@ -37,10 +37,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v0.9.0",
-      "revision": "505b56c50ff75bbf61eedd236b44d192c0e0674c",
-      "url": "https://api.github.com/repos/nvk/llm-wiki/tarball/refs/tags/v0.9.0",
-      "hash": "sha256-MOGyjLYZkclzVSEQKBhiJyQNqoPSG4ff42XvRRbPLeY="
+      "version": "v0.10.2",
+      "revision": "7e9bd0adf0eb91962856aa0e683a2d4822b90875",
+      "url": "https://api.github.com/repos/nvk/llm-wiki/tarball/refs/tags/v0.10.2",
+      "hash": "sha256-5dYnHsJLIFLHXhv+d0G/Mna0frnt4CY5XvU4j1DdQEU="
     },
     "mattpocock-skills": {
       "type": "Git",
@@ -51,9 +51,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "b8be62ffacb0118fa3eaa29a0923c87c8c11985c",
-      "url": "https://github.com/mattpocock/skills/archive/b8be62ffacb0118fa3eaa29a0923c87c8c11985c.tar.gz",
-      "hash": "sha256-Qwuu27f95xgAJ4hdv/4TNahHhprCMIxl1H9f9ymEsno="
+      "revision": "e3b90b5238f38cdea5996e16861dcae28ef52eda",
+      "url": "https://github.com/mattpocock/skills/archive/e3b90b5238f38cdea5996e16861dcae28ef52eda.tar.gz",
+      "hash": "sha256-RRVV4V4h/9GkwnHU4G4PLQtwdU1Lm4istvGncwmQ9dg="
     },
     "mnw": {
       "type": "Git",
@@ -64,9 +64,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "1a3573fc9d2486738fe0b2cacc5cd10dd5f3a445",
-      "url": "https://github.com/gerg-l/mnw/archive/1a3573fc9d2486738fe0b2cacc5cd10dd5f3a445.tar.gz",
-      "hash": "sha256-n0twkzWexzjsoDycOTvvQNuGEdg62UiNHYcFCduYpKI="
+      "revision": "8e71691ad38b1efa7d7488c75ab115db33e046fd",
+      "url": "https://github.com/gerg-l/mnw/archive/8e71691ad38b1efa7d7488c75ab115db33e046fd.tar.gz",
+      "hash": "sha256-3c/aliHq9oXfmMSN5MZo8sk0znw9Zp+mDT3arj3xuiU="
     },
     "neovim-nightly": {
       "type": "Git",
@@ -77,9 +77,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "4c2644c8ae9d038a132b24ad86335b7ce0391d3f",
-      "url": "https://github.com/nix-community/neovim-nightly-overlay/archive/4c2644c8ae9d038a132b24ad86335b7ce0391d3f.tar.gz",
-      "hash": "sha256-z2GAOqjdEBwJahcVpl1BH7S5XnBsv837l0J/lYkYiGk="
+      "revision": "c6cc238427db8f61b786a66d7e02cf7724b30226",
+      "url": "https://github.com/nix-community/neovim-nightly-overlay/archive/c6cc238427db8f61b786a66d7e02cf7724b30226.tar.gz",
+      "hash": "sha256-m984DKbcIeNNuLYFjN3780rPEd55Xe9/cB4BNKkIDvg="
     },
     "nh": {
       "type": "GitRelease",
@@ -119,9 +119,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "e7ed7a1205945befdf2e0d73ba7df91d935e5af1",
-      "url": "https://github.com/birdeehub/nix-wrapper-modules/archive/e7ed7a1205945befdf2e0d73ba7df91d935e5af1.tar.gz",
-      "hash": "sha256-VFoBwH7ZjVxCnvZTb5ODRXt70sLtWMxstive0N+RS50="
+      "revision": "168fd6f514a9f8fa47df4fdcf9ecd61db10aec68",
+      "url": "https://github.com/birdeehub/nix-wrapper-modules/archive/168fd6f514a9f8fa47df4fdcf9ecd61db10aec68.tar.gz",
+      "hash": "sha256-Udj+9DzeLccvPKoW9Q8xFdqIhrw2jhYMoqxBv+8iWzo="
     },
     "nixpkgs": {
       "type": "Git",
@@ -132,9 +132,9 @@
       },
       "branch": "nixos-25.11",
       "submodules": false,
-      "revision": "687f05a9184cad4eaf905c48b63649e3a86f5433",
-      "url": "https://github.com/nixos/nixpkgs/archive/687f05a9184cad4eaf905c48b63649e3a86f5433.tar.gz",
-      "hash": "sha256-vZJZjLo513IeI8hjzHFc6TDezUd4uCE2Eq4SNO3DNNg="
+      "revision": "25f538306313eae3927264466c70d7001dcea1df",
+      "url": "https://github.com/nixos/nixpkgs/archive/25f538306313eae3927264466c70d7001dcea1df.tar.gz",
+      "hash": "sha256-ZsIrKmhp4vbBXoXXmR/tBXA/UCsAQiJL9vsgZEduhVY="
     },
     "nixpkgs-unstable": {
       "type": "Git",
@@ -145,9 +145,9 @@
       },
       "branch": "nixos-unstable",
       "submodules": false,
-      "revision": "d233902339c02a9c334e7e593de68855ad26c4cb",
-      "url": "https://github.com/nixos/nixpkgs/archive/d233902339c02a9c334e7e593de68855ad26c4cb.tar.gz",
-      "hash": "sha256-30sZNZoA1cqF5JNO9fVX+wgiQYjB7HJqqJ4ztCDeBZE="
+      "revision": "64c08a7ca051951c8eae34e3e3cb1e202fe36786",
+      "url": "https://github.com/nixos/nixpkgs/archive/64c08a7ca051951c8eae34e3e3cb1e202fe36786.tar.gz",
+      "hash": "sha256-tpyBcxPpcQb8ukyNF7DoCwfSY3VPsxHoYwj00Cayv5o="
     },
     "obsidian-skills": {
       "type": "Git",
@@ -158,9 +158,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "ac9398734fe719565809f7a6048b05c36b1ca38f",
-      "url": "https://github.com/kepano/obsidian-skills/archive/ac9398734fe719565809f7a6048b05c36b1ca38f.tar.gz",
-      "hash": "sha256-2kr8fmkuxRLaTy2O+dTv9K+75mRIqkLmaArw2/hj5uc="
+      "revision": "553ef99aa3306dd23f268e1ba9af752577684f69",
+      "url": "https://github.com/kepano/obsidian-skills/archive/553ef99aa3306dd23f268e1ba9af752577684f69.tar.gz",
+      "hash": "sha256-KwmnZrHkl/LqMLF+P0YnIqEpL3lGa6DSRUTgqYK1fes="
     },
     "paperclip": {
       "type": "Git",
@@ -171,9 +171,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "c91a06232625d1939858fcdfbdc0c9b3a64a8296",
-      "url": "https://github.com/paperclipai/paperclip/archive/c91a06232625d1939858fcdfbdc0c9b3a64a8296.tar.gz",
-      "hash": "sha256-jS628KNDNyWRko5EAhq8+8FiyG7tg9pf7D75zvx0IG4="
+      "revision": "9eac727cf13f6445c76e61190b6f831833759979",
+      "url": "https://github.com/paperclipai/paperclip/archive/9eac727cf13f6445c76e61190b6f831833759979.tar.gz",
+      "hash": "sha256-r262assudHYCDqM0qPqfJG8LqxZ4Iz/3Iois/AI/qjM="
     },
     "wrapper-manager": {
       "type": "Git",
