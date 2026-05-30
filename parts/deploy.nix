@@ -12,6 +12,7 @@
             sshUser = "polar";
             # sudo = "doas -u";
             user = "root";
+            confirmTimeout = 120;
             path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.polarvortex;
           };
         };

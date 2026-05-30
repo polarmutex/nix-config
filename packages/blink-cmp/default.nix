@@ -1,19 +1,16 @@
+let
+  sources = import ../../npins;
+in
 {
   rustPlatform,
-  fetchFromGitHub,
 }:
 rustPlatform.buildRustPackage {
   pname = "blink.cmp";
-  version = "1.9.1";
+  version = "1.10.2";
 
-  src = fetchFromGitHub {
-    owner = "Saghen";
-    repo = "blink.cmp";
-    rev = "6a4914ca987453464a7dfc7fc237a992adb567d0";
-    hash = "sha256-HJaj9wi0FZB9vvHpeQFeDZAth5Qi3QrlFJJiiqGl5/8=";
-  };
+  src = sources."blink.cmp";
 
-  cargoHash = "sha256-Qdt8O7IGj2HySb1jxsv3m33ZxJg96Ckw26oTEEyQjfs=";
+  cargoHash = "sha256-z8koRYVM9mkgKB6rdZAKIfjZfinVUUpYAW0IvPgmjZ4=";
 
   # Tries to call git
   preBuild = ''

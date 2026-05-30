@@ -494,8 +494,9 @@ in {
             #     ExecStart = "${pkgs.systemd}/bin/systemctl --user restart zellij-claude-remote.service";
             #   };
             # };
-          };
+            # };
 
+          };
           timers = {
             obsidian-ideaverse-sync = {
               unitConfig = {Description = "Obsidian Ideaverse Periodic Sync";};
@@ -511,7 +512,6 @@ in {
             #     OnCalendar = "*-*-* 02:00:00";
             #     Persistent = true;
             #   };
-            # };
           };
         };
       };

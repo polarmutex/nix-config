@@ -1,5 +1,21 @@
 {
   "pins": {
+    "blink.cmp": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "saghen",
+        "repo": "blink.cmp"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v1.10.2",
+      "revision": "9b189bb2a0e03412e0e901dfbd09904f86cd593c",
+      "url": "https://api.github.com/repos/saghen/blink.cmp/tarball/refs/tags/v1.10.2",
+      "hash": "sha256-C1FpyGw0f35NdHvDUGPXxmKdOgw3SpIteK1gAjVy6Ns="
+    },
     "claude-plugins-official": {
       "type": "Git",
       "repository": {
@@ -130,11 +146,11 @@
         "owner": "nixos",
         "repo": "nixpkgs"
       },
-      "branch": "nixos-25.11",
+      "branch": "nixos-26.05",
       "submodules": false,
-      "revision": "25f538306313eae3927264466c70d7001dcea1df",
-      "url": "https://github.com/nixos/nixpkgs/archive/25f538306313eae3927264466c70d7001dcea1df.tar.gz",
-      "hash": "sha256-ZsIrKmhp4vbBXoXXmR/tBXA/UCsAQiJL9vsgZEduhVY="
+      "revision": "ec942ba042dad5ef097e2ef3a3effc034241f011",
+      "url": "https://github.com/nixos/nixpkgs/archive/ec942ba042dad5ef097e2ef3a3effc034241f011.tar.gz",
+      "hash": "sha256-R5nauXyqyfRUFiZycFFZdkF7wl6eaUpPLst35+2nJQY="
     },
     "nixpkgs-unstable": {
       "type": "Git",
