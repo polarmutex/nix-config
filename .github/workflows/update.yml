@@ -111,6 +111,11 @@ jobs:
               run: |
                   echo "Updating all npins sources in parallel..."
 
+                  # Upgrade lock file formats before updating
+                  nix run nixpkgs#npins -- upgrade
+                  nix run nixpkgs#npins -- --lock-file packages/neovim/start.json upgrade
+                  nix run nixpkgs#npins -- --lock-file packages/neovim/opt.json upgrade
+
                   # Update root npins in background
                   (
                     echo "Updating root npins sources..."
