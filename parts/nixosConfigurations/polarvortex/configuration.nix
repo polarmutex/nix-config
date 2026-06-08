@@ -35,9 +35,7 @@ in {
     pkgs,
     config,
     ...
-  }: let
-    claudeMorgenBin = "claude-morgen";
-  in {
+  }: {
     imports = [
       self.nixosModules.core
       self.nixosModules.doas
@@ -54,20 +52,13 @@ in {
       self.nixosModules.miniflux-service
       # self.nixosModules.paperclip-service
       self.nixosModules.umami-service
-      flakeCfg.flake.wrappers.claude-code-polar.install
+      flakeCfg.flake.wrappers.claude-code-morgen.install
     ];
 
     networking.hostName = "polarvortex";
 
-    wrappers.claude-code-polar = {
+    wrappers.claude-code-morgen = {
       enable = true;
-      binName = claudeMorgenBin;
-      polar.extraMcpServers = {
-        morgen = {
-          command = "${pkgs.morgen-mcp}/bin/morgenmcp";
-          type = "stdio";
-        };
-      };
     };
 
     environment.extraInit = ''
@@ -457,7 +448,7 @@ in {
             zellij-claude-morgen = let
               zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
                 layout {
-                  pane command="${config.wrappers.claude-code-polar.wrapper}/bin/${claudeMorgenBin}" {}
+                  pane command="${config.wrappers.claude-code-morgen.wrapper}/bin/claude-morgen" {}
                 }
               '';
               zellijStartScript = pkgs.writeShellScript "zellij-daily-claude-start" ''
@@ -495,7 +486,6 @@ in {
             #   };
             # };
             # };
-
           };
           timers = {
             obsidian-ideaverse-sync = {
