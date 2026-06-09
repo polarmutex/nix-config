@@ -50,16 +50,13 @@ in {
       self.nixosModules.forgejo-service
       self.nixosModules.litellm-service
       self.nixosModules.miniflux-service
+      self.nixosModules.claude
       # self.nixosModules.paperclip-service
       self.nixosModules.umami-service
       flakeCfg.flake.wrappers.claude-code-morgen.install
     ];
 
     networking.hostName = "polarvortex";
-
-    wrappers.claude-code-morgen = {
-      enable = true;
-    };
 
     environment.extraInit = ''
       if [ -r ${config.sops.secrets.morgenApiToken.path} ]; then
@@ -76,7 +73,16 @@ in {
       bun
       unstable.zellij
       claude-code # should be unstable
+      unstable.defuddle
     ];
+
+    wrappers.claude-code-morgen = {
+      enable = true;
+    };
+
+    wrappers.claude-code-polar = {
+      enable = true;
+    };
 
     sops = {
       # This will add secrets.yml to the nix store
@@ -272,110 +278,91 @@ in {
       ];
       initialHashedPassword = "$6$p/7P2dlx4xBEV72W$Ooep2JnmTJhTnexObNtAt3CNqRIhqgA2cD4bZtWMXOYAP.yBig8XToII0Fxy2Kc/Q12gep7Uqfsq6wIxRv7f21";
       maid = let
-        claude-settings = {
-          maxContextTokens = 15000;
-          includeCoAuthoredBy = false;
-          preferProjectMdOverUserMd = false;
-          enabledPlugins = {
-            # "agent-sdk-dev@claude-plugins-official" = true;
-            # "skill-creator@claude-plugins-official" = true;
-            "telegram@claude-plugins-official" = false;
-          };
-          skipDangerousModePermissionPrompt = true;
-          permissions = {
-            allow = [
-              # Build and test tools
-              "Bash(npm:*)"
-              "Bash(pnpm:*)"
-              "Bash(yarn:*)"
-              "Bash(bun:*)"
-              "Bash(cargo:*)"
-              "Bash(go:*)"
-              "Bash(make:*)"
-              "Bash(just:*)"
-              "Bash(nix:*)"
-              "Bash(nix-build:*)"
-              "Bash(nix-shell:*)"
-
-              # Testing frameworks
-              "Bash(pytest:*)"
-              "Bash(vitest:*)"
-              "Bash(jest:*)"
-              "Bash(cargo test:*)"
-              "Bash(go test:*)"
-
-              # Linting and formatting
-              "Bash(eslint:*)"
-              "Bash(prettier:*)"
-              "Bash(black:*)"
-              "Bash(ruff:*)"
-              "Bash(rustfmt:*)"
-              "Bash(gofmt:*)"
-              "Bash(nixfmt:*)"
-              "Bash(alejandra:*)"
-
-              # Git operations (read-only)
-              "Bash(git status:*)"
-              "Bash(git diff:*)"
-              "Bash(git log:*)"
-              "Bash(git branch:*)"
-              "Bash(git show:*)"
-              "Bash(git ls-files:*)"
-
-              # Web fetching
-              "WebFetch(domain:forecast.weather.gov)"
-
-              # Ideaverse vault
-              "Write(/home/polar/repos/personal/ideaverse/**)"
-              "Edit(/home/polar/repos/personal/ideaverse/**)"
-
-              # Common utilities
-              "Bash(ls:*)"
-              "Bash(find:*)"
-              "Bash(sort:*)"
-              "Bash(tree:*)"
-              "Bash(wc:*)"
-              "Bash(which:*)"
-              "Bash(pwd:*)"
-              "Bash(env:*)"
-            ];
-
-            deny = [
-              "Bash(rm -rf /:*)"
-              "Bash(sudo:*)"
-              "Bash(chmod 777:*)"
-              "Bash(curl:*)|Bash(wget:*)"
-            ];
-          };
-        };
+        #   claude-settings = {
+        #     maxContextTokens = 15000;
+        #     includeCoAuthoredBy = false;
+        #     preferProjectMdOverUserMd = false;
+        #     enabledPlugins = {
+        #       # "agent-sdk-dev@claude-plugins-official" = true;
+        #       # "skill-creator@claude-plugins-official" = true;
+        #       "telegram@claude-plugins-official" = false;
+        #     };
+        #     skipDangerousModePermissionPrompt = true;
+        #     permissions = {
+        #       allow = [
+        #         # Build and test tools
+        #         "Bash(npm:*)"
+        #         "Bash(pnpm:*)"
+        #         "Bash(yarn:*)"
+        #         "Bash(bun:*)"
+        #         "Bash(cargo:*)"
+        #         "Bash(go:*)"
+        #         "Bash(make:*)"
+        #         "Bash(just:*)"
+        #         "Bash(nix:*)"
+        #         "Bash(nix-build:*)"
+        #         "Bash(nix-shell:*)"
+        #
+        #         # Testing frameworks
+        #         "Bash(pytest:*)"
+        #         "Bash(vitest:*)"
+        #         "Bash(jest:*)"
+        #         "Bash(cargo test:*)"
+        #         "Bash(go test:*)"
+        #
+        #         # Linting and formatting
+        #         "Bash(eslint:*)"
+        #         "Bash(prettier:*)"
+        #         "Bash(black:*)"
+        #         "Bash(ruff:*)"
+        #         "Bash(rustfmt:*)"
+        #         "Bash(gofmt:*)"
+        #         "Bash(nixfmt:*)"
+        #         "Bash(alejandra:*)"
+        #
+        #         # Git operations (read-only)
+        #         "Bash(git status:*)"
+        #         "Bash(git diff:*)"
+        #         "Bash(git log:*)"
+        #         "Bash(git branch:*)"
+        #         "Bash(git show:*)"
+        #         "Bash(git ls-files:*)"
+        #
+        #         # Web fetching
+        #         "WebFetch(domain:forecast.weather.gov)"
+        #
+        #         # Ideaverse vault
+        #         "Write(/home/polar/repos/personal/ideaverse/**)"
+        #         "Edit(/home/polar/repos/personal/ideaverse/**)"
+        #
+        #         # Common utilities
+        #         "Bash(ls:*)"
+        #         "Bash(find:*)"
+        #         "Bash(sort:*)"
+        #         "Bash(tree:*)"
+        #         "Bash(wc:*)"
+        #         "Bash(which:*)"
+        #         "Bash(pwd:*)"
+        #         "Bash(env:*)"
+        #       ];
+        #
+        #       deny = [
+        #         "Bash(rm -rf /:*)"
+        #         "Bash(sudo:*)"
+        #         "Bash(chmod 777:*)"
+        #         "Bash(curl:*)|Bash(wget:*)"
+        #       ];
+        #     };
+        #   };
       in {
-        file.home.".claude/settings.json".text = builtins.toJSON claude-settings;
+        imports = [flakeCfg.flake.maidModules.ideaverse-sync];
+        ideaverse-sync = {
+          repoPath = "/home/polar/repos/personal/ideaverse";
+          platform = "polarvortex";
+        };
 
         systemd = {
           services = {
-            obsidian-ideaverse-sync = {
-              path = [
-                pkgs.git-polar
-                pkgs.coreutils
-                pkgs.openssh
-              ];
-              script = ''
-                GIT_SSH_COMMAND='ssh -i /home/polar/.ssh/id_ed25519 -o IdentitiesOnly=yes'
-                OBSIDIAN_PATH="/home/polar/repos/personal/ideaverse"
-                cd $OBSIDIAN_PATH
-                CHANGES_EXIST="$(git status --porcelain | wc -l)"
-                if [ "$CHANGES_EXIST" -gt 0 ]; then
-                  git add .
-                  git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on polarvortex"
-                fi
-                if ! git pull --rebase; then
-                  git rebase --abort
-                  exit 1
-                fi
-                git push -q
-              '';
-            };
-
             zellij-claude-remote = let
               # zellijTelegramLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
               #   layout {
@@ -486,22 +473,6 @@ in {
             #   };
             # };
             # };
-          };
-          timers = {
-            obsidian-ideaverse-sync = {
-              unitConfig = {Description = "Obsidian Ideaverse Periodic Sync";};
-              timerConfig = {
-                Unit = "obsidian-ideaverse-sync.service";
-                OnCalendar = "*:0/30";
-              };
-              wantedBy = ["timers.target"];
-            };
-            # zellij-claude-restart = {
-            #   wantedBy = ["timers.target"];
-            #   timerConfig = {
-            #     OnCalendar = "*-*-* 02:00:00";
-            #     Persistent = true;
-            #   };
           };
         };
       };

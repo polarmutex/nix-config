@@ -174,44 +174,21 @@ in {
       unstable.alejandra
       wl-clipboard
       zizmor
+      unstable.defuddle
     ];
 
     users.users.polar = {
       shell = pkgs.fish-polar;
       maid = {
         imports = [
-          #maidModules.claude-code
+          maidModules.ideaverse-sync
         ];
+        ideaverse-sync = {
+          repoPath = "/home/polar/repos/personal/ideaverse/main";
+          timerMinutes = 30;
+          platform = "polarbear";
+        };
         file.home.".gitconfig".source = pkgs.git-polar.gitconfig;
-        systemd.services.obsidian-ideaverse-sync = {
-          path = [
-            pkgs.git-polar
-            pkgs.coreutils
-            pkgs.openssh
-          ];
-          script = ''
-            GIT_SSH_COMMAND='ssh -i /home/polar/.ssh/id_ed25519 -o IdentitiesOnly=yes'
-            OBSIDIAN_PATH="/home/polar/repos/personal/ideaverse/main"
-            cd $OBSIDIAN_PATH
-            CHANGES_EXIST="$(git status - porcelain | wc -l)"
-            if [ "$CHANGES_EXIST" -eq 0 ]; then
-              exit 0
-            fi
-            git add .
-            git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on nixos"
-            git pull --rebase
-            git push -q
-          '';
-        };
-
-        systemd.timers.obsidian-ideaverse-sync = {
-          unitConfig = {Description = "Obsidian Ideaverse Periodic Sync";};
-          timerConfig = {
-            Unit = "obsidian-ideaverse-sync.service";
-            OnCalendar = "*:0/30";
-          };
-          wantedBy = ["timers.target"];
-        };
       };
     };
   };
