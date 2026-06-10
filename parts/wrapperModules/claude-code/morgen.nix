@@ -6,6 +6,7 @@
       binName = "claude-morgen";
       extraAllowedCommands = [
         "Edit(**)"
+        "WebFetch(domain:forecast.weather.gov)"
       ];
       extraDeniedCommands = [
       ];

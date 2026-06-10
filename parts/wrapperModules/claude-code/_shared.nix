@@ -95,6 +95,7 @@ in {
 
   config = {
     package = pkgs.claude-code;
+    binName = cfg.binName;
 
     inherit (cfg) strictMcpConfig;
 
@@ -148,6 +149,9 @@ in {
               "Bash(ls:*)"
               "Bash(find:*)"
               "Bash(grep:*)"
+              "Bash(sort:*)"
+              "Bash(head:*)"
+              "Bash(xargs:*)"
               "Bash(tree:*)"
               "Bash(wc:*)"
               "Bash(which:*)"
