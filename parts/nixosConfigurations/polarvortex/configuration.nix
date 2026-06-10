@@ -435,7 +435,7 @@ in {
             zellij-claude-morgen = let
               zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
                 layout {
-                  pane command="${config.wrappers.claude-code-morgen.wrapper}/bin/claude-morgen" {}
+                  pane name="claude-morgen" command="${config.wrappers.claude-code-morgen.wrapper}/bin/claude-morgen" {}
                 }
               '';
               zellijStartScript = pkgs.writeShellScript "zellij-daily-claude-start" ''
@@ -473,6 +473,36 @@ in {
             #   };
             # };
             # };
+
+            zellij-claude-morgen-prompt = let
+              sendPromptScript = pkgs.writeShellScript "send-daily-brief-prompt" ''
+                ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
+                PROMPT='read @me.md , @"aios/maps/Vault Map.md" , and @"aios/maps/Skill Map.md" and run the daily brief'
+                PANE_ID=$($ZELLIJ --session claude-dailylog-session action list-panes | ${pkgs.gawk}/bin/awk 'NR>1 && $2=="terminal" {print $1; exit}')
+                $ZELLIJ --session claude-dailylog-session action write-chars --pane-id "$PANE_ID" "/clear"
+                $ZELLIJ --session claude-dailylog-session action send-keys --pane-id "$PANE_ID" "Enter"
+                sleep 1
+                $ZELLIJ --session claude-dailylog-session action write-chars --pane-id "$PANE_ID" "$PROMPT"
+                $ZELLIJ --session claude-dailylog-session action send-keys --pane-id "$PANE_ID" "Enter"
+              '';
+            in {
+              description = "Send daily brief prompt to claude-dailylog-session";
+              serviceConfig = {
+                Type = "oneshot";
+                ExecStart = sendPromptScript;
+              };
+            };
+          };
+
+          timers = {
+            zellij-claude-morgen-prompt = {
+              description = "Daily 6am daily brief prompt";
+              wantedBy = ["timers.target"];
+              timerConfig = {
+                OnCalendar = "*-*-* 06:00:00";
+                Persistent = true;
+              };
+            };
           };
         };
       };
