@@ -26,8 +26,9 @@
         export GIT_SSH_COMMAND='ssh -i /home/polar/.ssh/id_ed25519 -o IdentitiesOnly=yes'
         cd ${cfg.repoPath}
         git add .
-        git diff --cached --quiet && exit 0
-        git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on ${cfg.platform}"
+        if ! git diff --cached --quiet; then
+          git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on ${cfg.platform}"
+        fi
         if ! git pull --rebase -q; then
           git rebase --abort
           git pull --no-rebase -X ours -q
