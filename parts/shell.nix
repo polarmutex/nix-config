@@ -3,6 +3,7 @@ _: {
     devShells.default = with pkgs;
       mkShellNoCC {
         packages = [
+          tigervnc
           sops
           # age
           # deploy-rs

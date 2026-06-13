@@ -74,6 +74,8 @@ in {
       unstable.zellij
       claude-code # should be unstable
       unstable.defuddle
+      pkgs.obsidian-polar
+      x11vnc
     ];
 
     wrappers.claude-code-morgen = {
@@ -355,7 +357,14 @@ in {
         #     };
         #   };
       in {
-        imports = [flakeCfg.flake.maidModules.ideaverse-sync];
+        imports = [
+          flakeCfg.flake.maidModules.ideaverse-sync
+          flakeCfg.flake.maidModules.obsidian-xvfb
+        ];
+        obsidian-xvfb = {
+          vaultPath = "/home/polar/repos/personal/ideaverse";
+          display = ":99";
+        };
         ideaverse-sync = {
           repoPath = "/home/polar/repos/personal/ideaverse";
           platform = "polarvortex";
@@ -363,6 +372,18 @@ in {
 
         systemd = {
           services = {
+            x11vnc = {
+              description = "x11vnc VNC server for Obsidian Xvfb display";
+              after = ["xvfb.service"];
+              requires = ["xvfb.service"];
+              serviceConfig = {
+                Type = "simple";
+                ExecStart = "${pkgs.x11vnc}/bin/x11vnc -display :99 -forever -localhost -nopw";
+                Restart = "on-failure";
+                RestartSec = 5;
+              };
+            };
+
             zellij-claude-remote = let
               # zellijTelegramLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
               #   layout {
