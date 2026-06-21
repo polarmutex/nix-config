@@ -32,7 +32,7 @@ jobs:
     if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Setup SSH known hosts
       uses: nick-fields/retry@v4
@@ -102,7 +102,7 @@ jobs:
           # ollama
           # android-studio
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Setup SSH known hosts
       run: |
