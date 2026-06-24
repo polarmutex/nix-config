@@ -29,11 +29,16 @@
         if ! git diff --cached --quiet; then
           git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on ${cfg.platform}"
         fi
-        if ! git pull --rebase -q; then
-          git rebase --abort
-          git pull --no-rebase -X ours -q
-        fi
-        git push -q
+        for i in 1 2 3; do
+          if ! git pull --rebase -q; then
+            git rebase --abort
+            git pull --no-rebase -X ours -q
+          fi
+          if git push -q; then
+            break
+          fi
+          ${pkgs.coreutils}/bin/sleep 5
+        done
       '';
       commonPath = [
         pkgs.git-polar
