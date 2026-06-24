@@ -53,6 +53,7 @@ in {
       self.nixosModules.claude
       # self.nixosModules.paperclip-service
       self.nixosModules.umami-service
+      self.nixosModules.tailscale
       flakeCfg.flake.wrappers.claude-code-morgen.install
     ];
 
@@ -146,8 +147,14 @@ in {
           mode = "0400";
           owner = "root";
         };
+        tailscaleAuthKey = {
+          mode = "0400";
+          owner = "root";
+        };
       };
     };
+
+    services.tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
 
     # Disable documentation building to avoid missing path errors during remote builds
     documentation.nixos.enable = lib.mkForce false;

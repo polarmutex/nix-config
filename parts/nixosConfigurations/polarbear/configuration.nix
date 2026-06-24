@@ -68,6 +68,7 @@ in {
       self.nixosModules.n8n-service
       self.nixosModules.onepassword
       self.nixosModules.zed
+      self.nixosModules.tailscale
     ];
 
     wrappers.claude-code-polar = {
@@ -110,8 +111,13 @@ in {
           mode = "440";
           group = "wheel";
         };
+        tailscaleAuthKey = {
+          mode = "0400";
+        };
       };
     };
+
+    services.tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
     # nix.settings.ssl-cert-file = "/root/work.crt";
     # security.pki.certificates = let
     #   secrets = builtins.trace "secrets:" (builtins.extraBuiltins.readSops ./eval-secrets.nix);
