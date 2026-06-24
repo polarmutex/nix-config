@@ -1,6 +1,5 @@
 {
   flake.nixosModules.zed = {
-    inputs,
     lib,
     pkgs,
     ...
@@ -8,7 +7,7 @@
     with lib; {
       # Install Zed editor system-wide
       environment.systemPackages = with pkgs; [
-        inputs.zed.packages.${pkgs.stdenv.hostPlatform.system}.default
+        zed-editor
         xdg-utils
 
         # Rust development tools

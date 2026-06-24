@@ -163,10 +163,6 @@
 
     nixgl.url = "github:nix-community/nixGL";
 
-    zed = {
-      url = "github:zed-industries/zed/nightly";
-    };
-
     beancount-repo = {
       url = "git+ssh://git@git.polarmutex.dev/polar/beancount.git";
     };
