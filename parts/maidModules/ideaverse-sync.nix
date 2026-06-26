@@ -58,8 +58,8 @@
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
-          ExecStart = "${pkgs.coreutils}/bin/true";
         };
+        script = syncScript;
         preStop = syncScript;
       };
 
