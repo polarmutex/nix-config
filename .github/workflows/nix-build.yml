@@ -80,26 +80,22 @@ jobs:
       fail-fast: false
       matrix:
         flake_output:
-          # Custom packages (ensuring CI validation)
+          - _1password-cli
+          - _1password-gui
           - blink-cmp
+          - brave
           - context7-mcp
-          - github-mcp
+          - ghostty-polar
           - mcp-nixos
           - morgen
           - neovim
-          - _1password-cli
-          - _1password-gui
-          - brave
-          - ghostty-polar
-          # - modern-bash
           - obsidian
-          - ollama
-          - zed-editor
+          - ollama # need cuda
           - ungoogled-chromium
           - wezterm
-          # google-chrome
-          # claud-code wrapped
-          # ollama
+          - zed-editor
+          - zizmor
+          # - modern-bash
           # android-studio
     steps:
     - uses: actions/checkout@v7
