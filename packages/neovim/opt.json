@@ -130,10 +130,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v0.17.0",
-      "revision": "514b8b1f1a512134547ebc14d72aeece755892b4",
-      "url": "https://api.github.com/repos/nvim-mini/mini.ai/tarball/refs/tags/v0.17.0",
-      "hash": "sha256-6p1oh5CQX5zHh7LWm4eXBs08wWC7hp8z9L5wbSMf67M="
+      "version": "v0.18.0",
+      "revision": "a3a3ef5481841d66d85f2f19f0253a0681ba0961",
+      "url": "https://api.github.com/repos/nvim-mini/mini.ai/tarball/refs/tags/v0.18.0",
+      "hash": "sha256-5lmxcbEwlUcV3D4Zw93dLH2onFdpGMEAhul51lbxFIg="
     },
     "mini.icons": {
       "type": "GitRelease",
@@ -146,10 +146,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v0.17.0",
-      "revision": "f7136c3878d024c363062d5060658ea81cd13288",
-      "url": "https://api.github.com/repos/nvim-mini/mini.icons/tarball/refs/tags/v0.17.0",
-      "hash": "sha256-yns7HZFklgkiXoQJheDRAAtmoKTW9g+hpT/gf5DzwAw="
+      "version": "v0.18.0",
+      "revision": "1e8763bcefa00868fe466ad0a31517adfe8a5dd7",
+      "url": "https://api.github.com/repos/nvim-mini/mini.icons/tarball/refs/tags/v0.18.0",
+      "hash": "sha256-Lr5/aHSnwfDAidvGTIOfEvp0lNpnp5kFNnIUSssnaOw="
     },
     "mini.pairs": {
       "type": "GitRelease",
@@ -162,10 +162,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v0.17.0",
-      "revision": "4e03648f8f23b0abcd91f03dd20be349d9302520",
-      "url": "https://api.github.com/repos/nvim-mini/mini.pairs/tarball/refs/tags/v0.17.0",
-      "hash": "sha256-78BoRhNF3gzd1EyGovHkd+q+XysRX5H8Yea4rVY5Wsk="
+      "version": "v0.18.0",
+      "revision": "5c2d07a0cd102e4b38ddfab581b2c2f178816a13",
+      "url": "https://api.github.com/repos/nvim-mini/mini.pairs/tarball/refs/tags/v0.18.0",
+      "hash": "sha256-35ewaDXW5RoQUHns0hVXMw6OTf/BTvKXLd1u/warDSE="
     },
     "neogit": {
       "type": "GitRelease",
@@ -250,9 +250,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "4b7957daf4b81eb578114bd6fcf20b6f5a2b59e8",
-      "url": "https://github.com/mfussenegger/nvim-lint/archive/4b7957daf4b81eb578114bd6fcf20b6f5a2b59e8.tar.gz",
-      "hash": "sha256-5df927RmgLzj2oOsQRrv7KRMOpTD59R4g22p94/6k7g="
+      "revision": "a219b2c9e5b4765e5c845aba119dad55806fcaf1",
+      "url": "https://github.com/mfussenegger/nvim-lint/archive/a219b2c9e5b4765e5c845aba119dad55806fcaf1.tar.gz",
+      "hash": "sha256-pABhzTRkcxAT/ELeltz47eCAKCnzdoCtc2QRu3wm0xU="
     },
     "nvim-lspconfig": {
       "type": "GitRelease",

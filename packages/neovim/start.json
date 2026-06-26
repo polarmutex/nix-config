@@ -11,10 +11,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v3.0.0",
-      "revision": "fdb654e16862b6077e7f4ce78cba2c02aca0c35c",
-      "url": "https://api.github.com/repos/lumen-oss/lz.n/tarball/refs/tags/v3.0.0",
-      "hash": "sha256-kZGKNz4yLw8PwVuYBE/q5vYmIX2Nlcn7uy1cWJfnzgo="
+      "version": "v3.0.2",
+      "revision": "cd21cd6861c613a1e9285fdfd9b1d008eac9b7ec",
+      "url": "https://api.github.com/repos/lumen-oss/lz.n/tarball/refs/tags/v3.0.2",
+      "hash": "sha256-90JleDLnnE47KUyS9jtR/3xwuqDvVHfqrIMtJuzdtAA="
     },
     "nvim-treesitter": {
       "type": "Git",
