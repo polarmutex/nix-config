@@ -25,9 +25,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "94258c5913c482462e8c242ef3060a011a4e186d",
-      "url": "https://github.com/anthropics/claude-plugins-official/archive/94258c5913c482462e8c242ef3060a011a4e186d.tar.gz",
-      "hash": "sha256-ObUtz+g74sNUW2Mm2zlnQMsHkBw80cLpa57asBl6IFU="
+      "revision": "82f22ec4f0a73aa2564036ffc28a1da00c707e0c",
+      "url": "https://github.com/anthropics/claude-plugins-official/archive/82f22ec4f0a73aa2564036ffc28a1da00c707e0c.tar.gz",
+      "hash": "sha256-FUdnXtg2G5PDvoOkq89Ky+v+JB6PIoMTy1elcwALzyg="
     },
     "import-tree": {
       "type": "Git",
@@ -67,9 +67,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461",
-      "url": "https://github.com/mattpocock/skills/archive/6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461.tar.gz",
-      "hash": "sha256-6T0KwZcUIIbd6kpkQXPCnnJPVY2mEjxYjed4FjKnRAw="
+      "revision": "5d78bd0903420f97c791f834201e550c765699f8",
+      "url": "https://github.com/mattpocock/skills/archive/5d78bd0903420f97c791f834201e550c765699f8.tar.gz",
+      "hash": "sha256-efsb/AXAmEvcjoknbExBeEHFB28o2c2Nk8muWwNNQFQ="
     },
     "mnw": {
       "type": "Git",
@@ -93,9 +93,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "f70c69e316e0aa26e1a4b38168622ba9646fa412",
-      "url": "https://github.com/nix-community/neovim-nightly-overlay/archive/f70c69e316e0aa26e1a4b38168622ba9646fa412.tar.gz",
-      "hash": "sha256-bhHqbSo2Zew3PzVgOAxK6M7BEvlC2WjVbXmKBXZOJ10="
+      "revision": "148caccccd3819dca1591447a7cf9a8100316a77",
+      "url": "https://github.com/nix-community/neovim-nightly-overlay/archive/148caccccd3819dca1591447a7cf9a8100316a77.tar.gz",
+      "hash": "sha256-u4fMhHbsLFjci0ky4td0jCzs76+IzoCxTAIMaCxOyi0="
     },
     "nh": {
       "type": "GitRelease",
@@ -135,9 +135,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "8dd304c3582ddd339217e1cc5fb53f50acb63c2d",
-      "url": "https://github.com/birdeehub/nix-wrapper-modules/archive/8dd304c3582ddd339217e1cc5fb53f50acb63c2d.tar.gz",
-      "hash": "sha256-3F5DixT3Gk91lBI9E+TGMm0ko5HrRbDiL23di16TJGA="
+      "revision": "6e7f66fa2cdf4d63162580b438f7fcf87c28a46f",
+      "url": "https://github.com/birdeehub/nix-wrapper-modules/archive/6e7f66fa2cdf4d63162580b438f7fcf87c28a46f.tar.gz",
+      "hash": "sha256-vAmbArdCyjqpVW+37aCy/PMBOLIqukUXLQuEKLwUhA4="
     },
     "nixpkgs": {
       "type": "Git",
@@ -148,9 +148,9 @@
       },
       "branch": "nixos-26.05",
       "submodules": false,
-      "revision": "a0374025a863d007d98e3297f6aa46cc3141c2f0",
-      "url": "https://github.com/nixos/nixpkgs/archive/a0374025a863d007d98e3297f6aa46cc3141c2f0.tar.gz",
-      "hash": "sha256-9mUW6gNwoN2SWc/l0fW4svPNOulXLl8ijqKyeSOGgJE="
+      "revision": "667d5cf1c59585031d743c78b394b0a647537c35",
+      "url": "https://github.com/nixos/nixpkgs/archive/667d5cf1c59585031d743c78b394b0a647537c35.tar.gz",
+      "hash": "sha256-QyuGP5+QOtmXpy4i2X4DhBVBaySBdDKQEhqKcphcp34="
     },
     "nixpkgs-unstable": {
       "type": "Git",
@@ -187,9 +187,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "fc95699fdef5b1295a64904b3aa287713e26ff26",
-      "url": "https://github.com/paperclipai/paperclip/archive/fc95699fdef5b1295a64904b3aa287713e26ff26.tar.gz",
-      "hash": "sha256-4WlmA4WjesUalc32tlIcrzzOiI554V4w79ISUDonOYg="
+      "revision": "fdb8b5678be980081e1f1b71a2736ca609eaf06b",
+      "url": "https://github.com/paperclipai/paperclip/archive/fdb8b5678be980081e1f1b71a2736ca609eaf06b.tar.gz",
+      "hash": "sha256-8+nUIEREhUQ6jA+C20VPiuUJOVl15A2jaRIyH0KTvcg="
     },
     "wrapper-manager": {
       "type": "Git",
@@ -215,10 +215,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v1.25.2",
-      "revision": "b50d8f60e27e0084aa3a5f5dff46054a8253ac2a",
-      "url": "https://api.github.com/repos/zizmorcore/zizmor/tarball/refs/tags/v1.25.2",
-      "hash": "sha256-nmhmW+e/Mys/PVGA0V2NalFDQ/qkcvT0F80XrmIZYb4="
+      "version": "v1.26.1",
+      "revision": "597db4d7dc5730bdc1370197bf5678a5ca028abb",
+      "url": "https://api.github.com/repos/zizmorcore/zizmor/tarball/refs/tags/v1.26.1",
+      "hash": "sha256-AL4y9lB60zvWhr5U6vzVyg0DhxFCaKkP8+6DWdg2vYA="
     }
   },
   "version": 8
