@@ -13,7 +13,8 @@
       #packages = with pkgs; [
       packages = with pkgs; [
         corefonts
-        inputs.monolisa-font-flake.packages.${pkgs.stdenv.hostPlatform.system}.monolisa-custom-font
+        inputs.monolisa-font-flake.packages.${pkgs.stdenv.hostPlatform.system}.monolisa-code-variable-font
+        inputs.monolisa-font-flake.packages.${pkgs.stdenv.hostPlatform.system}.monolisa-text-variable-font
         twitter-color-emoji
         #(nerdfonts.override { fonts = [ "Hack" ]; })
       ];

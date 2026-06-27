@@ -578,7 +578,7 @@
     },
     "flake-utils_10": {
       "inputs": {
-        "systems": "systems_15"
+        "systems": "systems_16"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -718,12 +718,15 @@
       }
     },
     "flake-utils_8": {
+      "inputs": {
+        "systems": "systems_13"
+      },
       "locked": {
-        "lastModified": 1667395993,
-        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
         "type": "github"
       },
       "original": {
@@ -734,7 +737,7 @@
     },
     "flake-utils_9": {
       "inputs": {
-        "systems": "systems_13"
+        "systems": "systems_14"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -1089,11 +1092,11 @@
         "nixpkgs": "nixpkgs_11"
       },
       "locked": {
-        "lastModified": 1723079225,
-        "narHash": "sha256-GqVplZ5mCN68bBFwvPkpszjauXc1TK/6nNBfU2RIOzE=",
+        "lastModified": 1782504012,
+        "narHash": "sha256-I47NArTteaooO1baA/3hE1ATfh4RYctW4d80ChIZ+ag=",
         "ref": "refs/heads/main",
-        "rev": "095842f0ada6cc5b8fc0f45f203de8450cddd9ed",
-        "revCount": 7,
+        "rev": "d961883d4e153e413a5f02c28f9b6af3e7c02249",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@git.polarmutex.dev/polar/monolisa-font-flake.git"
       },
@@ -1233,11 +1236,11 @@
     },
     "nixpkgs_11": {
       "locked": {
-        "lastModified": 1667639549,
-        "narHash": "sha256-frqZKSG/933Ctwl9voSZnXDwo8CqddXcjQhnCzwNqaM=",
+        "lastModified": 1782175435,
+        "narHash": "sha256-EMzXKmnOtBQ2MnvpiNOm7E+kOMvdPrIKaeg52Tip2Uk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cae3751e9f74eea29c573d6c2f14523f41c2821a",
+        "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
         "type": "github"
       },
       "original": {
@@ -1892,6 +1895,21 @@
         "type": "github"
       }
     },
+    "systems_16": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "systems_2": {
       "locked": {
         "lastModified": 1681028828,
@@ -2113,7 +2131,7 @@
     },
     "utils_2": {
       "inputs": {
-        "systems": "systems_14"
+        "systems": "systems_15"
       },
       "locked": {
         "lastModified": 1731533236,
