@@ -118,6 +118,9 @@ in {
     };
 
     services.tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
+    # Unlock gnome-keyring on autologin via cosmic-greeter PAM service.
+    # Requires the "Login" keyring to have an empty password (set once via seahorse).
+    security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
     # nix.settings.ssl-cert-file = "/root/work.crt";
     # security.pki.certificates = let
     #   secrets = builtins.trace "secrets:" (builtins.extraBuiltins.readSops ./eval-secrets.nix);

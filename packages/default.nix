@@ -30,8 +30,8 @@
           allowInsecurePredicate = pkg: let
             pname = lib.getName pkg;
             byName = builtins.elem pname [
-              "gradle"
-              "nix"
+              # "gradle"
+              # "nix"
             ];
           in
             if byName
