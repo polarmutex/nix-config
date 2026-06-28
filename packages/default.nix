@@ -71,6 +71,7 @@
       inherit (pkgs.unstable) obsidian;
       inherit (pkgs.unstable) ollama;
       inherit (pkgs.unstable) ollama-cuda;
+      inherit (pkgs) whisper-dictation;
       inherit (pkgs) ungoogled-chromium;
       inherit (pkgs) zizmor;
       inherit (pkgs) wezterm;

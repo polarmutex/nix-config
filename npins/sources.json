@@ -191,6 +191,19 @@
       "url": "https://github.com/paperclipai/paperclip/archive/fdb8b5678be980081e1f1b71a2736ca609eaf06b.tar.gz",
       "hash": "sha256-8+nUIEREhUQ6jA+C20VPiuUJOVl15A2jaRIyH0KTvcg="
     },
+    "whisper-dictation": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "jacopone",
+        "repo": "whisper-dictation"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "20190a148d8bce6f0d0b78a56cc22afe02844e8f",
+      "url": "https://github.com/jacopone/whisper-dictation/archive/20190a148d8bce6f0d0b78a56cc22afe02844e8f.tar.gz",
+      "hash": "sha256-5Dd0zVTh+nUf3lxrDpgQSHbr0pU40hGh/hUuRbwG790="
+    },
     "wrapper-manager": {
       "type": "Git",
       "repository": {

@@ -184,7 +184,18 @@ in {
       wl-clipboard
       zizmor
       unstable.defuddle
+      (whisper-dictation.override {
+        cudaSupport = true;
+        cudaPackages = pkgs.cudaPackages;
+      })
+      (whisper-cpp.override {
+        cudaSupport = true;
+        cudaPackages = pkgs.cudaPackages;
+      })
     ];
+
+    programs.ydotool.enable = true;
+    users.users.polar.extraGroups = ["ydotool"];
 
     users.users.polar = {
       shell = pkgs.fish-polar;
