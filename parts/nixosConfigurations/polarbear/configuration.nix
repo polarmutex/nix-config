@@ -184,6 +184,7 @@ in {
       wl-clipboard
       zizmor
       unstable.defuddle
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
       (whisper-dictation.override {
         cudaSupport = true;
         cudaPackages = pkgs.cudaPackages;

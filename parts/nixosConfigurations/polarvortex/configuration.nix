@@ -77,6 +77,7 @@ in {
       unstable.defuddle
       pkgs.obsidian-polar
       x11vnc
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
     ];
 
     wrappers.claude-code-morgen = {
