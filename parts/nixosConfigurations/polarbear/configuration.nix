@@ -22,7 +22,6 @@ in {
       }
       self.nixosModules.host-polarbear
       inputs.sops-nix.nixosModules.sops
-      inputs.claude-cowork-service.nixosModules.default
       inputs.nix-maid.nixosModules.default
       inputs.noshell.nixosModules.default
       {
@@ -69,6 +68,7 @@ in {
       self.nixosModules.onepassword
       self.nixosModules.zed
       self.nixosModules.tailscale
+      self.nixosModules.claude-desktop
     ];
 
     wrappers.claude-code-polar = {
@@ -81,10 +81,7 @@ in {
       ];
     };
 
-    services.claude-cowork = {
-      enable = true;
-      extraPath = [config.wrappers.claude-code-polar.wrapper];
-    };
+    services.claude-desktop.claudeCodePackage = config.wrappers.claude-code-polar.wrapper;
 
     sops = {
       # This will add secrets.yml to the nix store
@@ -150,7 +147,6 @@ in {
     };
 
     environment.systemPackages = with pkgs; [
-      inputs.claude-desktop.packages.x86_64-linux.default
       ansible
       unstable.anki-bin
       unstable.devpod

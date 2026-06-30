@@ -24,7 +24,7 @@
       };
       height = lib.mkOption {
         type = lib.types.int;
-        default = 2064;
+        default = 2014;
       };
     };
 

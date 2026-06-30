@@ -51,6 +51,7 @@ in {
       self.nixosModules.litellm-service
       self.nixosModules.miniflux-service
       self.nixosModules.claude
+      self.nixosModules.claude-desktop
       # self.nixosModules.paperclip-service
       self.nixosModules.umami-service
       self.nixosModules.tailscale
@@ -87,6 +88,8 @@ in {
     wrappers.claude-code-polar = {
       enable = true;
     };
+
+    services.claude-desktop.claudeCodePackage = config.wrappers.claude-code-polar.wrapper;
 
     sops = {
       # This will add secrets.yml to the nix store
@@ -368,10 +371,14 @@ in {
         imports = [
           flakeCfg.flake.maidModules.ideaverse-sync
           flakeCfg.flake.maidModules.obsidian-xvfb
+          flakeCfg.flake.maidModules.claude-desktop-xvfb
         ];
         obsidian-xvfb = {
           vaultPath = "/home/polar/repos/personal/ideaverse";
           display = ":99";
+        };
+        claude-desktop-xvfb = {
+          claudeDesktopPackage = inputs.claude-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default;
         };
         ideaverse-sync = {
           repoPath = "/home/polar/repos/personal/ideaverse";
