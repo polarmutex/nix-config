@@ -372,6 +372,7 @@ in {
           flakeCfg.flake.maidModules.ideaverse-sync
           flakeCfg.flake.maidModules.obsidian-xvfb
           flakeCfg.flake.maidModules.claude-desktop-xvfb
+          flakeCfg.flake.maidModules.claude-dailylog
         ];
         obsidian-xvfb = {
           vaultPath = "/home/polar/repos/personal/ideaverse";
@@ -379,6 +380,13 @@ in {
         };
         claude-desktop-xvfb = {
           claudeDesktopPackage = inputs.claude-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        };
+        claude-dailylog = {
+          claudePackage = config.wrappers.claude-code-morgen.wrapper;
+          claudeBinName = "claude-morgen";
+          herdrPackage = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
+          morgenApiTokenPath = config.sops.secrets.morgenApiToken.path;
+          claudeArgs = ["--dangerously-skip-permissions"];
         };
         ideaverse-sync = {
           repoPath = "/home/polar/repos/personal/ideaverse";
@@ -468,39 +476,6 @@ in {
               };
             };
 
-            zellij-claude-morgen = let
-              zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
-                layout {
-                  pane name="claude-morgen" command="${config.wrappers.claude-code-morgen.wrapper}/bin/claude-morgen" {}
-                }
-              '';
-              zellijStartScript = pkgs.writeShellScript "zellij-daily-claude-start" ''
-                if [ -r ${config.sops.secrets.morgenApiToken.path} ]; then
-                  export MORGEN_API_KEY=$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.morgenApiToken.path})
-                fi
-                ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
-                $ZELLIJ delete-session claude-dailylog-session --force 2>/dev/null || true
-                $ZELLIJ --layout ${zellijNormalLayout} attach --create-background claude-dailylog-session
-              '';
-              zellijStopScript = pkgs.writeShellScript "zellij-daily-claude-stop" ''
-                ${pkgs.unstable.zellij}/bin/zellij delete-session claude-dailylog-session --force 2>/dev/null || true
-              '';
-            in {
-              description = "Persistent zellij session 'claude-dailylog-session'";
-              wantedBy = ["default.target"];
-              environment = {
-                TERM = "xterm-256color";
-                SHELL = "${pkgs.bashInteractive}/bin/bash";
-              };
-              serviceConfig = {
-                Type = "oneshot";
-                RemainAfterExit = "yes";
-                WorkingDirectory = "/home/polar/repos/personal/ideaverse";
-                ExecStart = zellijStartScript;
-                ExecStop = zellijStopScript;
-              };
-            };
-
             # zellij-claude-restart = {
             #   description = "Nightly restart of zellij claude session";
             #   serviceConfig = {
@@ -508,37 +483,6 @@ in {
             #     ExecStart = "${pkgs.systemd}/bin/systemctl --user restart zellij-claude-remote.service";
             #   };
             # };
-            # };
-
-            zellij-claude-morgen-prompt = let
-              sendPromptScript = pkgs.writeShellScript "send-daily-brief-prompt" ''
-                ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
-                PROMPT='read @me.md , @"aios/maps/Vault Map.md" , and @"aios/maps/Skill Map.md" and run the daily brief'
-                PANE_ID=$($ZELLIJ --session claude-dailylog-session action list-panes | ${pkgs.gawk}/bin/awk 'NR>1 && $2=="terminal" {print $1; exit}')
-                $ZELLIJ --session claude-dailylog-session action write-chars --pane-id "$PANE_ID" "/clear"
-                $ZELLIJ --session claude-dailylog-session action send-keys --pane-id "$PANE_ID" "Enter"
-                sleep 1
-                $ZELLIJ --session claude-dailylog-session action write-chars --pane-id "$PANE_ID" "$PROMPT"
-                $ZELLIJ --session claude-dailylog-session action send-keys --pane-id "$PANE_ID" "Enter"
-              '';
-            in {
-              description = "Send daily brief prompt to claude-dailylog-session";
-              serviceConfig = {
-                Type = "oneshot";
-                ExecStart = sendPromptScript;
-              };
-            };
-          };
-
-          timers = {
-            zellij-claude-morgen-prompt = {
-              description = "Daily 6am daily brief prompt";
-              wantedBy = ["timers.target"];
-              timerConfig = {
-                OnCalendar = "*-*-* 06:00:00";
-                Persistent = true;
-              };
-            };
           };
         };
       };
