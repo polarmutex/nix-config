@@ -85,6 +85,7 @@ jobs:
           - blink-cmp
           - brave
           - context7-mcp
+          - deploy-rs
           - ghostty-polar
           - mcp-nixos
           - morgen
