@@ -157,6 +157,7 @@
               [ "$STATUS" = "idle" ] && break
               sleep 1
             done
+            PANE_ID=$($HERDR agent get ${cfg.agentName} | ${pkgs.jq}/bin/jq -r '.result.agent.pane_id')
             $HERDR pane run "$PANE_ID" "${cfg.dailyPrompt}"
           '';
         # else

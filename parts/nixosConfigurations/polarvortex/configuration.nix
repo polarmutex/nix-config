@@ -155,6 +155,10 @@ in {
           mode = "0400";
           owner = "root";
         };
+        healthImportToken = {
+          mode = "0400";
+          owner = "polar";
+        };
       };
     };
 
@@ -250,6 +254,8 @@ in {
                   ^.*invalid credentials.*remote_addr=<HOST>.*$
       ignoreregex =
     '';
+
+    networking.firewall.interfaces."tailscale0".allowedTCPPorts = [9871];
 
     services.fava = {
       enable = false;
@@ -373,7 +379,12 @@ in {
           flakeCfg.flake.maidModules.obsidian-xvfb
           flakeCfg.flake.maidModules.claude-desktop-xvfb
           flakeCfg.flake.maidModules.claude-dailylog
+          flakeCfg.flake.maidModules.health-import-listener
         ];
+        health-import-listener = {
+          importDir = "/home/polar/repos/personal/ideaverse/+/Health Auto Export";
+          tokenFile = config.sops.secrets.healthImportToken.path;
+        };
         obsidian-xvfb = {
           vaultPath = "/home/polar/repos/personal/ideaverse";
           display = ":99";
