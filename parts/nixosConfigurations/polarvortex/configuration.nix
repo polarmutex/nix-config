@@ -34,6 +34,7 @@ in {
   flake.nixosModules.host-polarvortex = {
     pkgs,
     config,
+    inputs,
     ...
   }: {
     imports = [
@@ -42,54 +43,198 @@ in {
       self.nixosModules.nix
       self.nixosModules.openssh
       self.nixosModules.kernel-hardening
-      self.nixosModules.security-monitoring
       self.nixosModules.server
+      # services
       self.nixosModules.website
-      self.nixosModules.fava-service
       self.nixosModules.blog-service
+      self.nixosModules.fava-service
       self.nixosModules.forgejo-service
+      self.nixosModules.hermes-agent-service
       self.nixosModules.litellm-service
       self.nixosModules.miniflux-service
+      # self.nixosModules.paperclip-service
+      self.nixosModules.security-monitoring
+      self.nixosModules.tailscale
+      self.nixosModules.umami-service
+      # apps
       self.nixosModules.claude
       self.nixosModules.claude-desktop
-      # self.nixosModules.paperclip-service
-      self.nixosModules.umami-service
-      self.nixosModules.tailscale
       flakeCfg.flake.wrappers.claude-code-morgen.install
     ];
 
-    networking.hostName = "polarvortex";
+    # Disable documentation building to avoid missing path errors during remote builds
+    documentation.nixos.enable = lib.mkForce false;
+    documentation.nixos.options.warningsAreErrors = false;
 
-    environment.extraInit = ''
-      if [ -r ${config.sops.secrets.morgenApiToken.path} ]; then
-        export MORGEN_API_KEY=$(cat ${config.sops.secrets.morgenApiToken.path})
-      fi
-    '';
+    environment = {
+      variables.HERMES_HOME = "/var/lib/hermes/.hermes";
+      variables.HERMES_MANAGED = "NixOS";
 
-    environment.systemPackages = with pkgs; [
-      neovim
-      git-polar
-      unstable.tmux
-      tsm
-      nodejs
-      bun
-      unstable.zellij
-      claude-code # should be unstable
-      unstable.defuddle
-      pkgs.obsidian-polar
-      x11vnc
-      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
-    ];
+      # Custom Forgejo fail2ban filter
+      etc."fail2ban/filter.d/forgejo-auth.conf".text = ''
+        [Definition]
+        failregex = ^.*Failed authentication attempt.*from <HOST>.*$
+                    ^.*invalid credentials.*remote_addr=<HOST>.*$
+        ignoreregex =
+      '';
 
-    wrappers.claude-code-morgen = {
-      enable = true;
+      extraInit = ''
+        if [ -r ${config.sops.secrets.morgenApiToken.path} ]; then
+          export MORGEN_API_KEY=$(cat ${config.sops.secrets.morgenApiToken.path})
+        fi
+      '';
+
+      systemPackages = with pkgs; [
+        neovim
+        git-polar
+        unstable.tmux
+        tsm
+        nodejs
+        bun
+        unstable.zellij
+        claude-code # should be unstable
+        unstable.defuddle
+        pkgs.obsidian-polar
+        x11vnc
+        inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
+        inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
+      ];
     };
 
-    wrappers.claude-code-polar = {
-      enable = true;
+    networking = {
+      hostName = "polarvortex";
+      firewall.interfaces."tailscale0".allowedTCPPorts = [9119 9871];
     };
 
-    services.claude-desktop.claudeCodePackage = config.wrappers.claude-code-polar.wrapper;
+    services = {
+      claude-desktop.claudeCodePackage = config.wrappers.claude-code-polar.wrapper;
+
+      fail2ban = {
+        enable = true;
+        maxretry = 3;
+        bantime = "24h";
+        # Whitelist GitHub Actions IPs (from https://api.github.com/meta)
+        # Major IP ranges covering the 5 banned IPs found:
+        # 172.190.42.55, 20.123.146.92, 20.123.146.94, 4.210.186.201, 172.208.48.177
+        ignoreIP = [
+          "127.0.0.1/8"
+          "::1"
+          # Core GitHub ranges
+          "4.0.0.0/8" # Covers 4.210.186.201
+          "13.64.0.0/11"
+          "20.0.0.0/8" # Covers 20.123.146.92, 20.123.146.94
+          "40.64.0.0/10"
+          "52.224.0.0/11"
+          "140.82.112.0/20"
+          "143.55.64.0/20"
+          "172.128.0.0/9" # Covers 172.190.42.55, 172.208.48.177
+          "185.199.108.0/22"
+          "192.30.252.0/22"
+        ];
+        bantime-increment = {
+          enable = true;
+          multipliers = "1 2 4 8 16 32 64";
+          maxtime = "168h"; # 1 week max
+          overalljails = true;
+        };
+        jails = {
+          sshd = {
+            settings = {
+              enabled = true;
+              port = "22";
+              filter = "sshd";
+              logpath = "/var/log/auth.log";
+              maxretry = 3;
+              findtime = 600;
+              bantime = 86400;
+            };
+          };
+          nginx-http-auth = {
+            settings = {
+              enabled = true;
+              port = "http,https";
+              filter = "nginx-http-auth";
+              logpath = "/var/log/nginx/error.log";
+              maxretry = 5;
+            };
+          };
+          nginx-limit-req = {
+            settings = {
+              enabled = true;
+              port = "http,https";
+              filter = "nginx-limit-req";
+              logpath = "/var/log/nginx/error.log";
+              maxretry = 10;
+            };
+          };
+
+          # Forgejo authentication protection
+          forgejo-auth = {
+            settings = {
+              enabled = true;
+              port = "http,https";
+              filter = "forgejo-auth";
+              logpath = "/var/lib/forgejo/log/forgejo.log";
+              maxretry = 5;
+              findtime = 600;
+              bantime = 3600;
+            };
+          };
+        };
+      };
+
+      fava = {
+        enable = false;
+        fava.basicAuth.enable = true;
+      };
+
+      hermes-agent-service = {
+        enable = true;
+        hostUsers = ["polar"];
+      };
+
+      hermes-agent.settings.dashboard.basic_auth = {
+        username = "polar";
+        password_hash = "scrypt$16384$8$1$/ly3m0CcEaHGK9u865BmOQ==$FcV6dTo/WIBYoytTYAUzEfho3/0nuAu9DLSwtQfOTP4=";
+      };
+
+      # ollama = {
+      #   enable = true;
+      #   package = pkgs.unstable.ollama;
+      #   # Optional: preload models, see https://ollama.com/library
+      #   loadModels = [
+      #     "gemma3:4b"
+      #     "gemma3:12b"
+      #     "qwen:4b"
+      #     "qwen3:8b"
+      #     "qwen3:14b"
+      #     "qwen2.5-coder:7b"
+      #     "qwen2.5-coder:14b"
+      #     "mxbai-embed-large"
+      #   ];
+      # };
+
+      # paperclip = {
+      #   enable = false;
+      # };
+
+      security-monitoring = {
+        enable = true;
+        schedule = "daily"; # Run daily at midnight
+      };
+
+      tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
+    };
+
+    wrappers = {
+      claude-code-morgen = {
+        enable = true;
+      };
+
+      claude-code-polar = {
+        enable = true;
+      };
+    };
 
     sops = {
       # This will add secrets.yml to the nix store
@@ -162,125 +307,27 @@ in {
       };
     };
 
-    services.tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
+    systemd.services.hermes-dashboard.environment.HERMES_MANAGED = "NixOS";
 
-    # Disable documentation building to avoid missing path errors during remote builds
-    documentation.nixos.enable = lib.mkForce false;
-    documentation.nixos.options.warningsAreErrors = false;
+    systemd.services.hermes-agent.serviceConfig.ExecStartPost = "-${pkgs.writeShellScript "hermes-fix-perms" ''
+      ${pkgs.coreutils}/bin/chmod 2770 /var/lib/hermes/.hermes
+      ${pkgs.findutils}/bin/find /var/lib/hermes/.hermes -maxdepth 1 -exec ${pkgs.coreutils}/bin/chmod g+rX {} + || true
+    ''}";
 
-    services.security-monitoring = {
-      enable = true;
-      schedule = "daily"; # Run daily at midnight
-    };
-
-    services.fail2ban = {
-      enable = true;
-      maxretry = 3;
-      bantime = "24h";
-      # Whitelist GitHub Actions IPs (from https://api.github.com/meta)
-      # Major IP ranges covering the 5 banned IPs found:
-      # 172.190.42.55, 20.123.146.92, 20.123.146.94, 4.210.186.201, 172.208.48.177
-      ignoreIP = [
-        "127.0.0.1/8"
-        "::1"
-        # Core GitHub ranges
-        "4.0.0.0/8" # Covers 4.210.186.201
-        "13.64.0.0/11"
-        "20.0.0.0/8" # Covers 20.123.146.92, 20.123.146.94
-        "40.64.0.0/10"
-        "52.224.0.0/11"
-        "140.82.112.0/20"
-        "143.55.64.0/20"
-        "172.128.0.0/9" # Covers 172.190.42.55, 172.208.48.177
-        "185.199.108.0/22"
-        "192.30.252.0/22"
-      ];
-      bantime-increment = {
-        enable = true;
-        multipliers = "1 2 4 8 16 32 64";
-        maxtime = "168h"; # 1 week max
-        overalljails = true;
-      };
-      jails = {
-        sshd = {
-          settings = {
-            enabled = true;
-            port = "22";
-            filter = "sshd";
-            logpath = "/var/log/auth.log";
-            maxretry = 3;
-            findtime = 600;
-            bantime = 86400;
-          };
-        };
-        nginx-http-auth = {
-          settings = {
-            enabled = true;
-            port = "http,https";
-            filter = "nginx-http-auth";
-            logpath = "/var/log/nginx/error.log";
-            maxretry = 5;
-          };
-        };
-        nginx-limit-req = {
-          settings = {
-            enabled = true;
-            port = "http,https";
-            filter = "nginx-limit-req";
-            logpath = "/var/log/nginx/error.log";
-            maxretry = 10;
-          };
-        };
-
-        # Forgejo authentication protection
-        forgejo-auth = {
-          settings = {
-            enabled = true;
-            port = "http,https";
-            filter = "forgejo-auth";
-            logpath = "/var/lib/forgejo/log/forgejo.log";
-            maxretry = 5;
-            findtime = 600;
-            bantime = 3600;
-          };
-        };
+    systemd.services.hermes-dashboard = {
+      description = "Hermes web dashboard";
+      wantedBy = ["multi-user.target"];
+      after = ["hermes-agent.service"];
+      environment.HERMES_HOME = "/var/lib/hermes/.hermes";
+      serviceConfig = {
+        Type = "simple";
+        User = "hermes";
+        Group = "hermes";
+        ExecStart = "${inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/hermes dashboard --host 0.0.0.0 --no-open --skip-build";
+        Restart = "on-failure";
+        RestartSec = 5;
       };
     };
-
-    # Custom Forgejo fail2ban filter
-    environment.etc."fail2ban/filter.d/forgejo-auth.conf".text = ''
-      [Definition]
-      failregex = ^.*Failed authentication attempt.*from <HOST>.*$
-                  ^.*invalid credentials.*remote_addr=<HOST>.*$
-      ignoreregex =
-    '';
-
-    networking.firewall.interfaces."tailscale0".allowedTCPPorts = [9871];
-
-    services.fava = {
-      enable = false;
-      fava.basicAuth.enable = true;
-    };
-
-    # services.paperclip = {
-    #   enable = false;
-    # };
-
-    # services.ollama = {
-    #   enable = true;
-    #   package = pkgs.unstable.ollama;
-    #   # Optional: preload models, see https://ollama.com/library
-    #   loadModels = [
-    #     "gemma3:4b"
-    #     "gemma3:12b"
-    #     "qwen:4b"
-    #     "qwen3:8b"
-    #     "qwen3:14b"
-    #     "qwen2.5-coder:7b"
-    #     "qwen2.5-coder:14b"
-    #     "mxbai-embed-large"
-    #   ];
-    # };
 
     # Linger ensures systemd starts polar's user session at boot (creates /run/user/1000).
     systemd.tmpfiles.rules = [
@@ -294,86 +341,10 @@ in {
       extraGroups = [
         "wheel"
         "networkmanager"
+        "hermes"
       ];
       initialHashedPassword = "$6$p/7P2dlx4xBEV72W$Ooep2JnmTJhTnexObNtAt3CNqRIhqgA2cD4bZtWMXOYAP.yBig8XToII0Fxy2Kc/Q12gep7Uqfsq6wIxRv7f21";
-      maid = let
-        #   claude-settings = {
-        #     maxContextTokens = 15000;
-        #     includeCoAuthoredBy = false;
-        #     preferProjectMdOverUserMd = false;
-        #     enabledPlugins = {
-        #       # "agent-sdk-dev@claude-plugins-official" = true;
-        #       # "skill-creator@claude-plugins-official" = true;
-        #       "telegram@claude-plugins-official" = false;
-        #     };
-        #     skipDangerousModePermissionPrompt = true;
-        #     permissions = {
-        #       allow = [
-        #         # Build and test tools
-        #         "Bash(npm:*)"
-        #         "Bash(pnpm:*)"
-        #         "Bash(yarn:*)"
-        #         "Bash(bun:*)"
-        #         "Bash(cargo:*)"
-        #         "Bash(go:*)"
-        #         "Bash(make:*)"
-        #         "Bash(just:*)"
-        #         "Bash(nix:*)"
-        #         "Bash(nix-build:*)"
-        #         "Bash(nix-shell:*)"
-        #
-        #         # Testing frameworks
-        #         "Bash(pytest:*)"
-        #         "Bash(vitest:*)"
-        #         "Bash(jest:*)"
-        #         "Bash(cargo test:*)"
-        #         "Bash(go test:*)"
-        #
-        #         # Linting and formatting
-        #         "Bash(eslint:*)"
-        #         "Bash(prettier:*)"
-        #         "Bash(black:*)"
-        #         "Bash(ruff:*)"
-        #         "Bash(rustfmt:*)"
-        #         "Bash(gofmt:*)"
-        #         "Bash(nixfmt:*)"
-        #         "Bash(alejandra:*)"
-        #
-        #         # Git operations (read-only)
-        #         "Bash(git status:*)"
-        #         "Bash(git diff:*)"
-        #         "Bash(git log:*)"
-        #         "Bash(git branch:*)"
-        #         "Bash(git show:*)"
-        #         "Bash(git ls-files:*)"
-        #
-        #         # Web fetching
-        #         "WebFetch(domain:forecast.weather.gov)"
-        #
-        #         # Ideaverse vault
-        #         "Write(/home/polar/repos/personal/ideaverse/**)"
-        #         "Edit(/home/polar/repos/personal/ideaverse/**)"
-        #
-        #         # Common utilities
-        #         "Bash(ls:*)"
-        #         "Bash(find:*)"
-        #         "Bash(sort:*)"
-        #         "Bash(tree:*)"
-        #         "Bash(wc:*)"
-        #         "Bash(which:*)"
-        #         "Bash(pwd:*)"
-        #         "Bash(env:*)"
-        #       ];
-        #
-        #       deny = [
-        #         "Bash(rm -rf /:*)"
-        #         "Bash(sudo:*)"
-        #         "Bash(chmod 777:*)"
-        #         "Bash(curl:*)|Bash(wget:*)"
-        #       ];
-        #     };
-        #   };
-      in {
+      maid = {
         imports = [
           flakeCfg.flake.maidModules.ideaverse-sync
           flakeCfg.flake.maidModules.obsidian-xvfb
@@ -381,17 +352,7 @@ in {
           flakeCfg.flake.maidModules.claude-dailylog
           flakeCfg.flake.maidModules.health-import-listener
         ];
-        health-import-listener = {
-          importDir = "/home/polar/repos/personal/ideaverse/+/Health Auto Export";
-          tokenFile = config.sops.secrets.healthImportToken.path;
-        };
-        obsidian-xvfb = {
-          vaultPath = "/home/polar/repos/personal/ideaverse";
-          display = ":99";
-        };
-        claude-desktop-xvfb = {
-          claudeDesktopPackage = inputs.claude-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default;
-        };
+
         claude-dailylog = {
           claudePackage = config.wrappers.claude-code-morgen.wrapper;
           claudeBinName = "claude-morgen";
@@ -399,9 +360,24 @@ in {
           morgenApiTokenPath = config.sops.secrets.morgenApiToken.path;
           claudeArgs = ["--dangerously-skip-permissions"];
         };
+
+        claude-desktop-xvfb = {
+          claudeDesktopPackage = inputs.claude-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        };
+
+        health-import-listener = {
+          importDir = "/home/polar/repos/personal/ideaverse/+/Health Auto Export";
+          tokenFile = config.sops.secrets.healthImportToken.path;
+        };
+
         ideaverse-sync = {
           repoPath = "/home/polar/repos/personal/ideaverse";
           platform = "polarvortex";
+        };
+
+        obsidian-xvfb = {
+          vaultPath = "/home/polar/repos/personal/ideaverse";
+          display = ":99";
         };
 
         systemd = {
@@ -419,13 +395,6 @@ in {
             };
 
             zellij-claude-remote = let
-              # zellijTelegramLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
-              #   layout {
-              #     pane command="${pkgs.claude-code}/bin/claude" {
-              #       args "--channels" "plugin:telegram@claude-plugins-official" "--permission-mode" "auto"
-              #     }
-              #   }
-              # '';
               zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
                 layout {
                   pane command="${pkgs.claude-code}/bin/claude" {
@@ -433,11 +402,13 @@ in {
                   }
                 }
               '';
+
               zellijRemoteStartScript = pkgs.writeShellScript "zellij-remote-claude-start" ''
                 ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
                 $ZELLIJ delete-session claude-remote-session --force 2>/dev/null || true
                 $ZELLIJ --layout ${zellijNormalLayout} attach --create-background claude-remote-session
               '';
+
               zellijRemoteStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
                 ${pkgs.unstable.zellij}/bin/zellij delete-session claude-remote-session --force 2>/dev/null || true
               '';

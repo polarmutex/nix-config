@@ -69,6 +69,7 @@ in {
       self.nixosModules.zed
       self.nixosModules.tailscale
       self.nixosModules.claude-desktop
+      self.nixosModules.hermes-agent-service
     ];
 
     wrappers.claude-code-polar = {
@@ -111,10 +112,26 @@ in {
         tailscaleAuthKey = {
           mode = "0400";
         };
+        hermes-env = {
+          mode = "0400";
+          owner = "hermes";
+        };
       };
     };
 
     services.tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
+
+    services.hermes-agent-service = {
+      enable = true;
+      secretsFile = config.sops.secrets.hermes-env.path;
+      hostUsers = ["polar"];
+    };
+
+    systemd.services.hermes-agent.serviceConfig.ExecStartPost =
+      "-${pkgs.writeShellScript "hermes-fix-perms" ''
+        ${pkgs.coreutils}/bin/chmod 2770 /var/lib/hermes/.hermes
+        ${pkgs.findutils}/bin/find /var/lib/hermes/.hermes -maxdepth 1 -exec ${pkgs.coreutils}/bin/chmod g+rX {} + || true
+      ''}";
     # Unlock gnome-keyring on autologin via cosmic-greeter PAM service.
     # Requires the "Login" keyring to have an empty password (set once via seahorse).
     security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
@@ -132,6 +149,8 @@ in {
     # https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
     systemd.services."getty@tty1".enable = false;
     systemd.services."autovt@tty1".enable = false;
+    environment.variables.HERMES_MANAGED = "NixOS";
+
     environment.sessionVariables = {
       # Cpu friendly cargo build jobs
       CARGO_BUILD_JOBS = "10";
@@ -161,6 +180,20 @@ in {
       peek
       unstable.zoom-us
       inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
+      (let hermes-desktop = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop; in
+        pkgs.symlinkJoin {
+          name = "hermes-desktop-with-entry";
+          paths = [
+            hermes-desktop
+            (pkgs.makeDesktopItem {
+              name = "hermes-desktop";
+              desktopName = "Hermes";
+              exec = "hermes-desktop";
+              icon = "${hermes-desktop}/share/hermes-desktop/dist/hermes.png";
+              categories = ["Network" "Utility"];
+            })
+          ];
+        })
       neovim
       morgen
       pkgs.git-polar
@@ -192,7 +225,7 @@ in {
     ];
 
     programs.ydotool.enable = true;
-    users.users.polar.extraGroups = ["ydotool"];
+    users.users.polar.extraGroups = ["ydotool" "hermes"];
 
     users.users.polar = {
       shell = pkgs.fish-polar;

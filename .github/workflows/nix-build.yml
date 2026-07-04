@@ -91,7 +91,8 @@ jobs:
           - morgen
           - neovim
           - obsidian
-          - ollama # need cuda
+          - ollama
+          - ollama-cuda
           - ungoogled-chromium
           - wezterm
           - zed-editor

@@ -156,6 +156,8 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
+    hermes-agent.url = "github:NousResearch/hermes-agent";
+
     claude-desktop.url = "github:patrickjaja/claude-desktop-bin";
     claude-cowork-service.url = "github:patrickjaja/claude-cowork-service";
 

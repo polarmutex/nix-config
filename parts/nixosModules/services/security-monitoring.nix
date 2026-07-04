@@ -128,6 +128,7 @@
         serviceConfig = {
           Type = "oneshot";
           ExecStart = "${monitoringScript}";
+          SuccessExitStatus = 1;
 
           # Security hardening
           NoNewPrivileges = true;
