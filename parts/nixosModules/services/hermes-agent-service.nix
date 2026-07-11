@@ -40,6 +40,18 @@
         default = false;
         description = "Run inside a persistent Ubuntu container (allows apt/pip/npm installs).";
       };
+
+      workingDirectory = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "Agent working directory (visible to the agent as its workspace).";
+      };
+
+      extraDependencyGroups = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [];
+        description = "pyproject.toml optional extras to include (e.g. [ \"messaging\" ] for Telegram/Discord/Slack).";
+      };
     };
 
     config = lib.mkIf cfg.enable {
@@ -50,6 +62,10 @@
         settings.model.default = cfg.model;
 
         environmentFiles = lib.optional (cfg.secretsFile != null) cfg.secretsFile;
+
+        extraDependencyGroups = cfg.extraDependencyGroups;
+
+        workingDirectory = lib.mkIf (cfg.workingDirectory != null) cfg.workingDirectory;
 
         container = lib.mkIf cfg.containerEnable {
           enable = true;

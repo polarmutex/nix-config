@@ -191,11 +191,19 @@ in {
       hermes-agent-service = {
         enable = true;
         hostUsers = ["polar"];
+        secretsFile = config.sops.secrets.hermesEnv.path;
+        extraDependencyGroups = ["messaging"];
       };
 
-      hermes-agent.settings.dashboard.basic_auth = {
-        username = "polar";
-        password_hash = "scrypt$16384$8$1$/ly3m0CcEaHGK9u865BmOQ==$FcV6dTo/WIBYoytTYAUzEfho3/0nuAu9DLSwtQfOTP4=";
+      hermes-agent = {
+        workingDirectory = "/home/polar/repos/personal/ideaverse/main";
+        settings = {
+          terminal.cwd = "/home/polar/repos/personal/ideaverse/main";
+          dashboard.basic_auth = {
+            username = "polar";
+            password_hash = "scrypt$16384$8$1$/ly3m0CcEaHGK9u865BmOQ==$FcV6dTo/WIBYoytTYAUzEfho3/0nuAu9DLSwtQfOTP4=";
+          };
+        };
       };
 
       # ollama = {
@@ -284,6 +292,11 @@ in {
           mode = "0400";
           owner = "root";
         };
+        hermesEnv = {
+          mode = "0400";
+          owner = "hermes";
+        };
+
         telegramBotToken = {
           mode = "0400";
           owner = "polar";
@@ -307,12 +320,13 @@ in {
       };
     };
 
-    systemd.services.hermes-dashboard.environment.HERMES_MANAGED = "NixOS";
-
-    systemd.services.hermes-agent.serviceConfig.ExecStartPost = "-${pkgs.writeShellScript "hermes-fix-perms" ''
-      ${pkgs.coreutils}/bin/chmod 2770 /var/lib/hermes/.hermes
-      ${pkgs.findutils}/bin/find /var/lib/hermes/.hermes -maxdepth 1 -exec ${pkgs.coreutils}/bin/chmod g+rX {} + || true
-    ''}";
+    system.activationScripts.hermesAcl = {
+      deps = ["users"];
+      text = ''
+        ${pkgs.acl}/bin/setfacl -Rm u:hermes:rwx /home/polar/repos/personal/ideaverse/main
+        ${pkgs.acl}/bin/setfacl -m d:u:hermes:rwx /home/polar/repos/personal/ideaverse/main
+      '';
+    };
 
     systemd.services.hermes-dashboard = {
       description = "Hermes web dashboard";
@@ -332,12 +346,16 @@ in {
     # Linger ensures systemd starts polar's user session at boot (creates /run/user/1000).
     systemd.tmpfiles.rules = [
       "f /var/lib/systemd/linger/polar 0644 root root -"
+      # setgid (2770) so files created by the hermes service inherit the hermes group,
+      # making them accessible to polar who is in that group
+      "d /var/lib/hermes/.hermes 2770 hermes hermes -"
     ];
 
     users.users.polar = {
       shell = pkgs.fish-polar;
       uid = 1000;
       isNormalUser = true;
+      homeMode = "711";
       extraGroups = [
         "wheel"
         "networkmanager"
