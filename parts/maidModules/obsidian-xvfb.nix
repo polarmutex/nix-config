@@ -51,6 +51,20 @@
         environment.DISPLAY = cfg.display;
         serviceConfig = {
           Type = "simple";
+          # Inject "cli": true into the global Obsidian config before launch.
+          # Without this the CLI falls through to launching a new instance instead
+          # of routing commands to the running one (obsidianless discovery).
+          ExecStartPre = pkgs.writeShellScript "obsidian-enable-cli" ''
+            CONFIG_DIR="$HOME/.config/obsidian"
+            CONFIG_FILE="$CONFIG_DIR/obsidian.json"
+            mkdir -p "$CONFIG_DIR"
+            if [ -f "$CONFIG_FILE" ]; then
+              ${pkgs.jq}/bin/jq '. + {"cli": true}' "$CONFIG_FILE" \
+                > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+            else
+              printf '{"cli":true}\n' > "$CONFIG_FILE"
+            fi
+          '';
           ExecStart = "${cfg.obsidianPackage}/bin/obsidian --no-sandbox";
           ExecStartPost = "${pkgs.writeShellScript "obsidian-resize" ''
             sleep 5

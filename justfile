@@ -26,6 +26,10 @@ update-all:
     nix flake update
     @echo "✅ All inputs updated"
 
+# Start the Obsidian Xvfb system services (xvfb + obsidian-xvfb) on polarvortex
+start-obsidian-xvfb:
+    systemctl start xvfb.service obsidian-xvfb.service
+
 # Add a new neovim plugin. If branch is not specified, tracks releases (or default branch if no releases).
 new-nvim-plugin start_opt user repo branch='':
     #!/bin/sh
