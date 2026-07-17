@@ -90,6 +90,7 @@ jobs:
           - mcp-nixos
           - morgen
           - neovim
+          - neovim-polar
           - obsidian
           - ollama
           - ollama-cuda
