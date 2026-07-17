@@ -96,6 +96,7 @@ jobs:
           - ollama-cuda
           - ungoogled-chromium
           - wezterm
+          - whisper-dictation
           - zed-editor
           - zizmor
           # - modern-bash
