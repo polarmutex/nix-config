@@ -4,7 +4,7 @@
   fetchFromGitHub,
   nix-update-script,
 }:
-rustPlatform.buildRustPackage {
+rustPlatform.buildRustPackage rec {
   pname = "zizmor";
   version = "1.26.1";
 
