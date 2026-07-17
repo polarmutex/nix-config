@@ -176,6 +176,7 @@ jobs:
                     "context7-mcp"
                     "github-mcp"
                     "mcp-nixos"
+                    "zizmor"
                   )
 
                   # Initialize tracking file
