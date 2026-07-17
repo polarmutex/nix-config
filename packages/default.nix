@@ -32,6 +32,7 @@
             byName = builtins.elem pname [
               # "gradle"
               # "nix"
+              "pnpm"
             ];
           in
             if byName
