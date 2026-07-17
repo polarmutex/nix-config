@@ -237,9 +237,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "664c0b7cea1de71f8b65dfe951b7996fc3e6ccde",
-      "url": "https://github.com/catgoose/nvim-colorizer.lua/archive/664c0b7cea1de71f8b65dfe951b7996fc3e6ccde.tar.gz",
-      "hash": "sha256-qVFQGJMGr0htwZqarhMdh7yG6SSH/rv8yqmp1CsoT3I="
+      "revision": "72a05f62c52241bc7441c820eb53946f92b2e6a4",
+      "url": "https://github.com/catgoose/nvim-colorizer.lua/archive/72a05f62c52241bc7441c820eb53946f92b2e6a4.tar.gz",
+      "hash": "sha256-hdnk816SBKWD/Ula4hjQ3o14I3+fBmEengfo72S4+8U="
     },
     "nvim-lint": {
       "type": "Git",
