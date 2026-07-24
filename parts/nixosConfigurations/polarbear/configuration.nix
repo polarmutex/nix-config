@@ -64,7 +64,7 @@ in {
       self.nixosModules.yubikey
       self.nixosModules.user-polar
       self.nixosModules.ollama-service
-      self.nixosModules.n8n-service
+      # self.nixosModules.n8n-service
       self.nixosModules.onepassword
       self.nixosModules.zed
       self.nixosModules.tailscale
