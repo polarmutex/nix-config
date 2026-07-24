@@ -265,10 +265,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v2.10.0",
-      "revision": "229b79051b380377664edc4cbd534930154921a1",
-      "url": "https://api.github.com/repos/neovim/nvim-lspconfig/tarball/refs/tags/v2.10.0",
-      "hash": "sha256-RDhwY+C2ZHZPPRe1yvgJqonLcez77dVYvTIttVnFPis="
+      "version": "v2.11.0",
+      "revision": "b89138d9af0a96e6048e202a15765fc6b6416bd4",
+      "url": "https://api.github.com/repos/neovim/nvim-lspconfig/tarball/refs/tags/v2.11.0",
+      "hash": "sha256-d1vDEfiNSo9ccSPqTHEFqXVFCPhp/0ZozTzcyLiJrGg="
     },
     "nvim-notify": {
       "type": "GitRelease",
