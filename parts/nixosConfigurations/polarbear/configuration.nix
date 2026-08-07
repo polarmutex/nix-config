@@ -178,6 +178,7 @@ in {
       unstable.npins
       pkgs.obsidian-polar
       peek
+      poppler-utils
       unstable.zoom-us
       inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
       (let hermes-desktop = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop; in
@@ -214,6 +215,7 @@ in {
       zizmor
       unstable.defuddle
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
       (whisper-dictation.override {
         cudaSupport = true;
         cudaPackages = pkgs.cudaPackages;

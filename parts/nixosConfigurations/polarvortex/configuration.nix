@@ -49,7 +49,7 @@ in {
       self.nixosModules.blog-service
       self.nixosModules.fava-service
       self.nixosModules.forgejo-service
-      self.nixosModules.hermes-agent-service
+      # self.nixosModules.hermes-agent-service
       self.nixosModules.litellm-service
       self.nixosModules.miniflux-service
       # self.nixosModules.paperclip-service
@@ -70,8 +70,8 @@ in {
     environment = {
       shells = lib.mkForce (with pkgs; [ bash modern-bash ]);
 
-      variables.HERMES_HOME = "/var/lib/hermes/.hermes";
-      variables.HERMES_MANAGED = "NixOS";
+      # variables.HERMES_HOME = "/var/lib/hermes/.hermes";
+      # variables.HERMES_MANAGED = "NixOS";
 
       # Custom Forgejo fail2ban filter
       etc."fail2ban/filter.d/forgejo-auth.conf".text = ''
@@ -97,6 +97,7 @@ in {
         unstable.zellij
         claude-code # should be unstable
         unstable.defuddle
+        poppler-utils
         pkgs.obsidian-polar
         x11vnc
         inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
@@ -191,42 +192,42 @@ in {
         fava.basicAuth.enable = true;
       };
 
-      hermes-agent-service = {
-        enable = true;
-        hostUsers = ["polar"];
-        secretsFile = config.sops.secrets.hermesEnv.path;
-        extraDependencyGroups = ["messaging"];
-        model = "gpt-5.6-sol";
-      };
+      # hermes-agent-service = {
+      #   enable = true;
+      #   hostUsers = ["polar"];
+      #   secretsFile = config.sops.secrets.hermesEnv.path;
+      #   extraDependencyGroups = ["messaging"];
+      #   model = "gpt-5.6-sol";
+      # };
 
-      hermes-agent = {
-        # Run as polar directly (not a separate hermes service account) so the
-        # interactive CLI has native access to cron/session state without doas.
-        # hermes-agent's own cron code hard-locks its state dir to 0700/0600
-        # owner-only on every read/write, which defeats any group/ACL sharing
-        # scheme regardless of user — so the service account must BE polar.
-        user = "polar";
-        group = "hermes";
-        createUser = false;
-        # workingDirectory = "/home/polar/repos/personal/ideaverse";
-        settings = {
-          provider = "openai-codex";
-          terminal.cwd = "/home/polar/repos/personal/ideaverse";
-          typography.fontSans = "MonoLisaText";
-          typography.fontMono = "MonoLisaText";
-          dashboard.theme = "midnight";
-          dashboard.basic_auth = {
-            username = "polar";
-            password_hash = "scrypt$16384$8$1$/ly3m0CcEaHGK9u865BmOQ==$FcV6dTo/WIBYoytTYAUzEfho3/0nuAu9DLSwtQfOTP4=";
-          };
-          skills.external_dirs = ["${pkgs.obsidian-skills}/skills"];
-        };
-        extraPackages = [pkgs.morgen-mcp pkgs.obsidian-polar];
-        mcpServers.morgen = {
-          command = "${pkgs.morgen-mcp}/bin/morgenmcp";
-          env.MORGEN_API_KEY = "\${MORGEN_API_KEY}";
-        };
-      };
+      # hermes-agent = {
+      #   # Run as polar directly (not a separate hermes service account) so the
+      #   # interactive CLI has native access to cron/session state without doas.
+      #   # hermes-agent's own cron code hard-locks its state dir to 0700/0600
+      #   # owner-only on every read/write, which defeats any group/ACL sharing
+      #   # scheme regardless of user — so the service account must BE polar.
+      #   user = "polar";
+      #   group = "hermes";
+      #   createUser = false;
+      #   # workingDirectory = "/home/polar/repos/personal/ideaverse";
+      #   settings = {
+      #     provider = "openai-codex";
+      #     terminal.cwd = "/home/polar/repos/personal/ideaverse";
+      #     typography.fontSans = "MonoLisaText";
+      #     typography.fontMono = "MonoLisaText";
+      #     dashboard.theme = "midnight";
+      #     dashboard.basic_auth = {
+      #       username = "polar";
+      #       password_hash = "scrypt$16384$8$1$/ly3m0CcEaHGK9u865BmOQ==$FcV6dTo/WIBYoytTYAUzEfho3/0nuAu9DLSwtQfOTP4=";
+      #     };
+      #     skills.external_dirs = ["${pkgs.obsidian-skills}/skills"];
+      #   };
+      #   extraPackages = [pkgs.morgen-mcp pkgs.obsidian-polar];
+      #   mcpServers.morgen = {
+      #     command = "${pkgs.morgen-mcp}/bin/morgenmcp";
+      #     env.MORGEN_API_KEY = "\${MORGEN_API_KEY}";
+      #   };
+      # };
 
       # ollama = {
       #   enable = true;
@@ -320,10 +321,10 @@ in {
           mode = "0400";
           owner = "root";
         };
-        hermesEnv = {
-          mode = "0400";
-          owner = "polar";
-        };
+        # hermesEnv = {
+        #   mode = "0400";
+        #   owner = "polar";
+        # };
 
         telegramBotToken = {
           mode = "0400";
@@ -351,46 +352,46 @@ in {
     # hermes now runs as polar directly (see services.hermes-agent.user above),
     # so it needs no cross-user ACL grant to reach the ideaverse vault or its
     # own state dir — polar already owns both.
-    users.groups.hermes.gid = 979;
+    # users.groups.hermes.gid = 979;
 
     # Hermes runs as polar; no extra env tweaks needed since polar's shell is
     # now modern-bash (a bash wrapper), so SHELL in the service env won't be fish.
 
-    systemd.services.hermes-agent = {
-      after = ["obsidian-xvfb.service"];
-      environment = {
-        DISPLAY = ":99";
-        XDG_RUNTIME_DIR = "/run/user/1000";
-      };
-      serviceConfig = {
-        # Allow the hermes terminal to reach the X11 socket in /tmp/.X11-unix
-        # (PrivateTmp = true is set by the upstream module)
-        BindPaths = ["/tmp/.X11-unix"];
-      };
-    };
+    # systemd.services.hermes-agent = {
+    #   after = ["obsidian-xvfb.service"];
+    #   environment = {
+    #     DISPLAY = ":99";
+    #     XDG_RUNTIME_DIR = "/run/user/1000";
+    #   };
+    #   serviceConfig = {
+    #     # Allow the hermes terminal to reach the X11 socket in /tmp/.X11-unix
+    #     # (PrivateTmp = true is set by the upstream module)
+    #     BindPaths = ["/tmp/.X11-unix"];
+    #   };
+    # };
 
-    systemd.services.hermes-dashboard = {
-      description = "Hermes web dashboard";
-      wantedBy = ["multi-user.target"];
-      after = ["hermes-agent.service"];
-      environment.HERMES_HOME = "/var/lib/hermes/.hermes";
-      serviceConfig = {
-        Type = "simple";
-        User = "polar";
-        Group = "users";
-        ExecStart = "${inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/hermes dashboard --host 0.0.0.0 --no-open --skip-build";
-        Restart = "on-failure";
-        RestartSec = 5;
-      };
-    };
+    # systemd.services.hermes-dashboard = {
+    #   description = "Hermes web dashboard";
+    #   wantedBy = ["multi-user.target"];
+    #   after = ["hermes-agent.service"];
+    #   environment.HERMES_HOME = "/var/lib/hermes/.hermes";
+    #   serviceConfig = {
+    #     Type = "simple";
+    #     User = "polar";
+    #     Group = "users";
+    #     ExecStart = "${inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/hermes dashboard --host 0.0.0.0 --no-open --skip-build";
+    #     Restart = "on-failure";
+    #     RestartSec = 5;
+    #   };
+    # };
 
     # Linger ensures systemd starts polar's user session at boot (creates /run/user/1000).
-    systemd.tmpfiles.rules = [
-      "f /var/lib/systemd/linger/polar 0644 root root -"
-      # setgid (2770) so files created by the hermes service inherit the hermes group,
-      # making them accessible to polar who is in that group
-      "d /var/lib/hermes/.hermes 2770 hermes hermes -"
-    ];
+    # systemd.tmpfiles.rules = [
+    #   "f /var/lib/systemd/linger/polar 0644 root root -"
+    #   # setgid (2770) so files created by the hermes service inherit the hermes group,
+    #   # making them accessible to polar who is in that group
+    #   "d /var/lib/hermes/.hermes 2770 hermes hermes -"
+    # ];
 
     users.users.polar = {
       shell = pkgs.modern-bash;
@@ -400,13 +401,13 @@ in {
       extraGroups = [
         "wheel"
         "networkmanager"
-        "hermes"
+        # "hermes"
       ];
       initialHashedPassword = "$6$p/7P2dlx4xBEV72W$Ooep2JnmTJhTnexObNtAt3CNqRIhqgA2cD4bZtWMXOYAP.yBig8XToII0Fxy2Kc/Q12gep7Uqfsq6wIxRv7f21";
       maid = {
         imports = [
           flakeCfg.flake.maidModules.ideaverse-sync
-          flakeCfg.flake.maidModules.claude-desktop-xvfb
+          # flakeCfg.flake.maidModules.claude-desktop-xvfb
           # flakeCfg.flake.maidModules.claude-dailylog
           flakeCfg.flake.maidModules.health-import-listener
         ];
@@ -419,9 +420,9 @@ in {
         #   claudeArgs = ["--dangerously-skip-permissions"];
         # };
 
-        claude-desktop-xvfb = {
-          claudeDesktopPackage = inputs.claude-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default;
-        };
+        # claude-desktop-xvfb = {
+        #   claudeDesktopPackage = inputs.claude-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        # };
 
         health-import-listener = {
           importDir = "/home/polar/repos/personal/ideaverse/+/Health Auto Export";
