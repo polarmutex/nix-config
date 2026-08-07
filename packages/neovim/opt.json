@@ -329,10 +329,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v9.0.5",
-      "revision": "5a3a4158857ee1f7ec839b6ddd87cc0083a19c5f",
-      "url": "https://api.github.com/repos/mrcjkb/rustaceanvim/tarball/refs/tags/v9.0.5",
-      "hash": "sha256-nanWo/okRfsRN92fDfpbuequ2ZCTu3ot+6RfUocyaZA="
+      "version": "v9.2.0",
+      "revision": "f4051fb4662c43a568ce809a37e47c0f4e3d7a31",
+      "url": "https://api.github.com/repos/mrcjkb/rustaceanvim/tarball/refs/tags/v9.2.0",
+      "hash": "sha256-Xx/mGDMy+8v0eP2YzNVeGVL44oDyqpyEQHTil22+Xyg="
     },
     "snacks.nvim": {
       "type": "GitRelease",
