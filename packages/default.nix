@@ -55,6 +55,7 @@
       inherit (pkgs) brave;
       inherit (pkgs) ccusage;
       inherit (pkgs) claude-usage-monitor;
+      inherit (pkgs) browsermcp-mcp;
       inherit (pkgs) context7-mcp;
       deploy-rs = inputs'.deploy-rs.packages.deploy-rs;
       inherit (pkgs) flippertools;
@@ -70,6 +71,7 @@
       inherit (pkgs) mattpocock-skills;
       inherit (pkgs) obsidian-skills;
       inherit (pkgs) tsm;
+      inherit (pkgs) unifi-network-mcp;
       inherit (pkgs.unstable) obsidian;
       inherit (pkgs.unstable) ollama;
       inherit (pkgs.unstable) ollama-cuda;
