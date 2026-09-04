@@ -124,7 +124,7 @@
     };
 
     noshell = {
-      url = "github:viperML/noshell";
+      url = "git+https://codeberg.org/viperML/noshell.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -1510,15 +1510,15 @@
       "locked": {
         "lastModified": 1717396029,
         "narHash": "sha256-NPIhvnTYkJZqTY+aabbZ6CAaMAgG6IISvh7GZo1MTfQ=",
-        "owner": "viperML",
-        "repo": "noshell",
+        "ref": "refs/heads/master",
         "rev": "4d194d838a50ea106cd0e47c024e47afc154ab42",
-        "type": "github"
+        "revCount": 35,
+        "type": "git",
+        "url": "https://codeberg.org/viperML/noshell.git"
       },
       "original": {
-        "owner": "viperML",
-        "repo": "noshell",
-        "type": "github"
+        "type": "git",
+        "url": "https://codeberg.org/viperML/noshell.git"
       }
     },
     "npm-lockfile-fix": {
