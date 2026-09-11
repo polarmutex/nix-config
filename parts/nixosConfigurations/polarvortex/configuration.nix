@@ -24,7 +24,7 @@ in {
       self.nixosModules.host-polarvortex
       inputs.sops-nix.nixosModules.sops
       inputs.noshell.nixosModules.default
-      inputs.nix-maid.nixosModules.default
+      (import sources.nix-maid).nixosModules.default
       {
         programs.noshell.enable = true;
       }

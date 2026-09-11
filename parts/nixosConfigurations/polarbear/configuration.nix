@@ -22,7 +22,7 @@ in {
       }
       self.nixosModules.host-polarbear
       inputs.sops-nix.nixosModules.sops
-      inputs.nix-maid.nixosModules.default
+      (import sources.nix-maid).nixosModules.default
       inputs.noshell.nixosModules.default
       {
         programs.noshell.enable = true;

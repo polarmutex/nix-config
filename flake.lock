@@ -1144,21 +1144,6 @@
         "type": "github"
       }
     },
-    "nix-maid": {
-      "locked": {
-        "lastModified": 1788342320,
-        "narHash": "sha256-mhjKZ+PqNInkCO9SFCQo0JO6H8FPosdokT1wePFvhxI=",
-        "owner": "viperML",
-        "repo": "nix-maid",
-        "rev": "92f983d34e183c32703aefd63d0884535988a53a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "viperML",
-        "repo": "nix-maid",
-        "type": "github"
-      }
-    },
     "nixgl": {
       "inputs": {
         "flake-utils": "flake-utils_9",
@@ -1776,7 +1761,6 @@
         "llm-agents": "llm-agents",
         "monolisa-font-flake": "monolisa-font-flake",
         "nix-darwin": "nix-darwin",
-        "nix-maid": "nix-maid",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs_14",
         "noshell": "noshell",
@@ -2373,11 +2357,11 @@
         "pre-commit": "pre-commit"
       },
       "locked": {
-        "lastModified": 1788529424,
-        "narHash": "sha256-7SdfJQih2sdJPh60Umm7MiWRr9peINJs/OMPbGYzAmU=",
+        "lastModified": 1789132405,
+        "narHash": "sha256-OAqzIB3CL9H2sHHMKXaE9vKt/bVjfu8uhqjsv+/yezw=",
         "owner": "polarmutex",
         "repo": "website",
-        "rev": "215bcb2605702cafd988bae704b14ba906620c25",
+        "rev": "4d56cb9a4995c837744baa47b67e4d7300346c58",
         "type": "github"
       },
       "original": {
