@@ -18,7 +18,7 @@
       cfg = config.services.claude-desktop;
     in {
       environment.systemPackages = [
-        inputs.claude-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-desktop
       ];
 
       services.claude-cowork = {

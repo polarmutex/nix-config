@@ -154,7 +154,6 @@
 
     hermes-agent.url = "github:NousResearch/hermes-agent";
 
-    claude-desktop.url = "github:patrickjaja/claude-desktop-bin";
     claude-cowork-service.url = "github:patrickjaja/claude-cowork-service";
 
     flakey-profile.url = "github:lf-/flakey-profile";
