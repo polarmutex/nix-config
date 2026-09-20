@@ -1,0 +1,31 @@
+{
+  "name": "mcp-remote",
+  "version": "0.14.2",
+  "description": "Remote proxy for Model Context Protocol, allowing local-only clients to connect to remote servers using oAuth",
+  "keywords": [
+    "mcp",
+    "stdio",
+    "sse",
+    "remote",
+    "oauth"
+  ],
+  "author": "Glen Maddern <glen@glenmaddern.com>",
+  "license": "MIT",
+  "repository": "https://github.com/punkpeye/mcp-remote",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "bin": {
+    "mcp-remote": "dist/proxy.js",
+    "mcp-remote-client": "dist/client.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "open": "^10.1.0",
+    "strict-url-sanitise": "^0.0.1",
+    "undici": "^7.12.0"
+  }
+}

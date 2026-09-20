@@ -64,6 +64,7 @@
       inherit (pkgs) github-mcp;
       inherit (pkgs) morgen-mcp;
       inherit (pkgs) mcp-nixos;
+      inherit (pkgs) mcp-remote;
       inherit (pkgs) morgen;
       neovim = self'.packages.neovim-polar;
       inherit (pkgs) claude-plugins-telegram;

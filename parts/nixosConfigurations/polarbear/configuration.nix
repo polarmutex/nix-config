@@ -75,11 +75,22 @@ in {
     wrappers.claude-code-polar = {
       enable = true;
       # polarbear-specific wrapper options:
-      # polar.extraMcpServers = { ... };
       polar.extraPluginDirs = [
         "${pkgs.mattpocock-skills}"
         "${pkgs.obsidian-skills}"
       ];
+      polar.extraMcpServers.home-assistant = {
+        type = "stdio";
+        command = "${pkgs.mcp-remote}/bin/mcp-remote";
+        args = [
+          "http://100.85.79.104:8123/mcp_server/sse"
+          "--transport"
+          "sse-only"
+          "--allow-http"
+          "--header-file"
+          config.sops.secrets.ha-mcp-token.path
+        ];
+      };
     };
 
     services.claude-desktop.claudeCodePackage = config.wrappers.claude-code-polar.wrapper;
@@ -106,6 +117,10 @@ in {
           group = "wheel";
         };
         gh-mcp = {
+          mode = "440";
+          group = "wheel";
+        };
+        ha-mcp-token = {
           mode = "440";
           group = "wheel";
         };
