@@ -147,8 +147,11 @@ in {
         ${pkgs.coreutils}/bin/chmod 2770 /var/lib/hermes/.hermes
         ${pkgs.findutils}/bin/find /var/lib/hermes/.hermes -maxdepth 1 -exec ${pkgs.coreutils}/bin/chmod g+rX {} + || true
       ''}";
-    # Unlock gnome-keyring on autologin via cosmic-greeter PAM service.
-    # Requires the "Login" keyring to have an empty password (set once via seahorse).
+    # Unlock gnome-keyring when logging in through the cosmic-greeter UI (manual login, not autologin).
+    # Autologin goes through greetd's "initial_session", which uses the "greetd" PAM service and already
+    # gets enableGnomeKeyring via mkDefault (services.gnome.gnome-keyring.enable = true, set below).
+    # Either path needs the "Login" keyring to have an empty password (set once via seahorse) since no
+    # password is ever typed for PAM to hand to pam_gnome_keyring.
     security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
     # nix.settings.ssl-cert-file = "/root/work.crt";
     # security.pki.certificates = let
