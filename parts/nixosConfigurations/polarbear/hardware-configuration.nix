@@ -19,6 +19,7 @@
       initrd.kernelModules = ["nvidia"];
       initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
       loader.systemd-boot.enable = true;
+      loader.systemd-boot.configurationLimit = 10;
       loader.efi.canTouchEfiVariables = true;
       kernelModules = [
         "kvm-amd"
