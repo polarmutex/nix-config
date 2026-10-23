@@ -33,6 +33,7 @@
               # "gradle"
               # "nix"
               "pnpm"
+              "firefox-esr-140-bin-unwrapped"
             ];
           in
             if byName

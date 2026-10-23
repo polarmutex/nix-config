@@ -69,7 +69,6 @@ in {
       self.nixosModules.zed
       self.nixosModules.tailscale
       self.nixosModules.claude-desktop
-      self.nixosModules.hermes-agent-service
     ];
 
     wrappers.claude-code-polar = {
@@ -127,26 +126,11 @@ in {
         tailscaleAuthKey = {
           mode = "0400";
         };
-        hermes-env = {
-          mode = "0400";
-          owner = "hermes";
-        };
       };
     };
 
     services.tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
 
-    services.hermes-agent-service = {
-      enable = true;
-      secretsFile = config.sops.secrets.hermes-env.path;
-      hostUsers = ["polar"];
-    };
-
-    systemd.services.hermes-agent.serviceConfig.ExecStartPost =
-      "-${pkgs.writeShellScript "hermes-fix-perms" ''
-        ${pkgs.coreutils}/bin/chmod 2770 /var/lib/hermes/.hermes
-        ${pkgs.findutils}/bin/find /var/lib/hermes/.hermes -maxdepth 1 -exec ${pkgs.coreutils}/bin/chmod g+rX {} + || true
-      ''}";
     # Unlock gnome-keyring when logging in through the cosmic-greeter UI (manual login, not autologin).
     # Autologin goes through greetd's "initial_session", which uses the "greetd" PAM service and already
     # gets enableGnomeKeyring via mkDefault (services.gnome.gnome-keyring.enable = true, set below).
@@ -199,20 +183,6 @@ in {
       poppler-utils
       unstable.zoom-us
       inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
-      (let hermes-desktop = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop; in
-        pkgs.symlinkJoin {
-          name = "hermes-desktop-with-entry";
-          paths = [
-            hermes-desktop
-            (pkgs.makeDesktopItem {
-              name = "hermes-desktop";
-              desktopName = "Hermes";
-              exec = "hermes-desktop";
-              icon = "${hermes-desktop}/share/hermes-desktop/dist/hermes.png";
-              categories = ["Network" "Utility"];
-            })
-          ];
-        })
       neovim
       morgen
       pkgs.git-polar
@@ -232,6 +202,7 @@ in {
       wl-clipboard
       zizmor
       unstable.defuddle
+      unstable.zotero
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
       (whisper-dictation.override {
@@ -245,7 +216,7 @@ in {
     ];
 
     programs.ydotool.enable = true;
-    users.users.polar.extraGroups = ["ydotool" "hermes"];
+    users.users.polar.extraGroups = ["ydotool"];
 
     users.users.polar = {
       shell = pkgs.fish-polar;
