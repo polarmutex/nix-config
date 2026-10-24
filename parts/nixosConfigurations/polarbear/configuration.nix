@@ -1,11 +1,9 @@
 {
-  config,
   inputs,
   self,
   withSystem,
   ...
 }: let
-  inherit (config.flake) maidModules;
   sources = import ../../../npins;
   evalConfig = import "${sources.nixpkgs}/nixos/lib/eval-config.nix";
   system = "x86_64-linux";
@@ -69,6 +67,7 @@ in {
       self.nixosModules.zed
       self.nixosModules.tailscale
       self.nixosModules.claude-desktop
+      self.nixosModules.syncthing
     ];
 
     wrappers.claude-code-polar = {
@@ -126,10 +125,29 @@ in {
         tailscaleAuthKey = {
           mode = "0400";
         };
+        syncthingKey = {
+          mode = "0400";
+          owner = "polar";
+        };
       };
     };
 
     services.tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
+
+    services.syncthing = {
+      cert = toString ./syncthing-cert.pem;
+      key = config.sops.secrets.syncthingKey.path;
+      settings = {
+        devices.polarvortex = {
+          id = "2ZSMAQT-VHULN5Y-3Y5JSXX-N2EY5C4-ZGG7RPR-5QHDMUO-XV56GON-TSV55AZ";
+          addresses = ["tcp://100.98.53.125:22000"];
+        };
+        folders.ideaverse = {
+          path = "/home/polar/repos/personal/ideaverse/main";
+          devices = ["polarvortex"];
+        };
+      };
+    };
 
     # Unlock gnome-keyring when logging in through the cosmic-greeter UI (manual login, not autologin).
     # Autologin goes through greetd's "initial_session", which uses the "greetd" PAM service and already
@@ -221,15 +239,12 @@ in {
     users.users.polar = {
       shell = pkgs.fish-polar;
       maid = {
-        imports = [
-          maidModules.ideaverse-sync
-        ];
-        ideaverse-sync = {
-          repoPath = "/home/polar/repos/personal/ideaverse/main";
-          timerMinutes = 30;
-          platform = "polarbear";
+        file.home = {
+          ".gitconfig".source = pkgs.git-polar.gitconfig;
+          # Keep syncthing out of the vault's .git directory so it doesn't
+          # race with polarvortex's git-based backup sync.
+          "repos/personal/ideaverse/main/.stignore".source = pkgs.writeText "ideaverse-stignore" "/.git\n";
         };
-        file.home.".gitconfig".source = pkgs.git-polar.gitconfig;
       };
     };
   };

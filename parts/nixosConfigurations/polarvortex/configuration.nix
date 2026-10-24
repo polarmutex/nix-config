@@ -56,6 +56,7 @@ in {
       self.nixosModules.obsidian-xvfb-service
       self.nixosModules.security-monitoring
       self.nixosModules.tailscale
+      self.nixosModules.syncthing
       self.nixosModules.umami-service
       # apps
       self.nixosModules.claude
@@ -261,6 +262,29 @@ in {
       };
 
       tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
+
+      syncthing = {
+        cert = toString ./syncthing-cert.pem;
+        key = config.sops.secrets.syncthingKey.path;
+        settings = {
+          devices.polarbear = {
+            id = "ZYBIR74-3JRXYIG-AYP5PXI-QJCZB24-JEHVBHX-2VPKP5K-W47APVE-3LPM3AR";
+            addresses = ["tcp://100.92.134.110:22000"];
+          };
+          devices.ipad-pro = {
+            id = "X4X2KYD-63BXDR6-HQFRU4N-M3SMBFL-YFZV4PT-7UWQK2P-NRHEA4I-U7NCRQJ";
+            addresses = ["tcp://100.117.52.50:22000"];
+          };
+          devices.iphone = {
+            id = "QCFV4Z5-CUMSDJ7-PT6UYXT-WAGROMX-XVLNPQV-32T3TIS-5QZCT3M-OJHGEQ6";
+            addresses = ["tcp://100.80.172.117:22000"];
+          };
+          folders.ideaverse = {
+            path = "/home/polar/repos/personal/ideaverse";
+            devices = ["polarbear" "ipad-pro" "iphone"];
+          };
+        };
+      };
     };
 
     wrappers = {
@@ -346,6 +370,10 @@ in {
           mode = "0400";
           owner = "polar";
         };
+        syncthingKey = {
+          mode = "0400";
+          owner = "polar";
+        };
       };
     };
 
@@ -411,6 +439,12 @@ in {
           # flakeCfg.flake.maidModules.claude-dailylog
           flakeCfg.flake.maidModules.health-import-listener
         ];
+
+        file.home = {
+          # Keep syncthing out of the vault's .git directory so it doesn't
+          # race with this host's git-based backup sync.
+          "repos/personal/ideaverse/.stignore".source = pkgs.writeText "ideaverse-stignore" "/.git\n";
+        };
 
         # claude-dailylog = {
         #   claudePackage = config.wrappers.claude-code-morgen.wrapper;
