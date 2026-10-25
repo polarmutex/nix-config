@@ -79,15 +79,9 @@ in {
       ];
       polar.extraMcpServers.home-assistant = {
         type = "stdio";
-        command = "${pkgs.mcp-remote}/bin/mcp-remote";
-        args = [
-          "http://100.85.79.104:8123/mcp_server/sse"
-          "--transport"
-          "sse-only"
-          "--allow-http"
-          "--header-file"
-          config.sops.secrets.ha-mcp-token.path
-        ];
+        command = "${pkgs.writeShellScript "ha-mcp-remote" ''
+          exec ${pkgs.mcp-remote}/bin/mcp-remote "$(cat ${config.sops.secrets.ha-mcp-webhook-url.path})" --transport http-only --allow-http
+        ''}";
       };
     };
 
@@ -118,7 +112,7 @@ in {
           mode = "440";
           group = "wheel";
         };
-        ha-mcp-token = {
+        ha-mcp-webhook-url = {
           mode = "440";
           group = "wheel";
         };
