@@ -233,6 +233,10 @@ in {
     users.users.polar = {
       shell = pkgs.fish-polar;
       maid = {
+        imports = [self.maidModules.pi];
+
+        pi.settings.skills = ["/home/polar/repos/personal/ideaverse/main/aios/skills"];
+
         file.home = {
           ".gitconfig".source = pkgs.git-polar.gitconfig;
           # Keep syncthing out of the vault's .git directory so it doesn't

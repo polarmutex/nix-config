@@ -438,7 +438,10 @@ in {
           # flakeCfg.flake.maidModules.claude-desktop-xvfb
           # flakeCfg.flake.maidModules.claude-dailylog
           flakeCfg.flake.maidModules.health-import-listener
+          flakeCfg.flake.maidModules.pi
         ];
+
+        pi.settings.skills = ["/home/polar/repos/personal/ideaverse/aios/skills"];
 
         file.home = {
           # Keep syncthing out of the vault's .git directory so it doesn't
