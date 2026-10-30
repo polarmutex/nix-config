@@ -12,7 +12,7 @@
   morgenDeb = fetchurl {
     name = "morgen-4.0.5.deb";
     url = "https://dl.todesktop.com/210203cqcj00tw1/versions/4.0.5/linux/deb";
-    hash = "sha256-3QbcakFRpMVwOevCzkPzSOHrVJsFANqYCmHLOJPpWvE=";
+    hash = "sha256-McFJM23NiCqyQouavRHrfga1WK5YUs6+NxYRf5ry7h8=";
   };
 
   morgenScript = writeShellScript "morgen" ''

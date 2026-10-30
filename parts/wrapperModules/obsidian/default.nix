@@ -8,7 +8,8 @@
     imports = [wlib.modules.default];
 
     config = {
-      package = pkgs.unstable.obsidian;
+      # insider asar needs a newer electron than nixpkgs' default
+      package = pkgs.unstable.obsidian.override {electron = pkgs.unstable.electron_44;};
 
       prefixVar = [
         [
