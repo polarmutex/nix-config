@@ -400,6 +400,10 @@ in {
       };
     };
 
+    # Headless Obsidian is started on demand (~/obsidian-headless start): running it
+    # alongside the desktop Obsidian on polarbear causes Syncthing conflicts.
+    systemd.services.obsidian-xvfb.wantedBy = lib.mkForce [];
+
     # hermes now runs as polar directly (see services.hermes-agent.user above),
     # so it needs no cross-user ACL grant to reach the ideaverse vault or its
     # own state dir — polar already owns both.
@@ -470,6 +474,7 @@ in {
           # Keep syncthing out of the vault's .git directory so it doesn't
           # race with this host's git-based backup sync.
           "repos/personal/ideaverse/.stignore".source = pkgs.writeText "ideaverse-stignore" "/.git\n/.obsidian/workspace*.json\n(?d).DS_Store\n";
+          "obsidian-headless".source = pkgs.writeShellScript "obsidian-headless" (builtins.readFile ../obsidian-headless.sh);
         };
 
         # claude-dailylog = {
