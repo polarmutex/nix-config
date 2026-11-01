@@ -55,6 +55,7 @@ in {
       # self.nixosModules.paperclip-service
       self.nixosModules.obsidian-xvfb-service
       self.nixosModules.security-monitoring
+      self.nixosModules.sparkyfitness-service
       self.nixosModules.tailscale
       self.nixosModules.syncthing
       self.nixosModules.umami-service
@@ -103,6 +104,28 @@ in {
         x11vnc
         inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
         inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
+        # One-time PG14 -> PG16 migration (umami, litellm) before enabling
+        # sparkyfitness-service. Remove once the upgrade is done.
+        # (let
+        #   newPostgres = pkgs.postgresql_16;
+        #   cfg = config.services.postgresql;
+        #   runuser = "${pkgs.util-linux}/bin/runuser -u postgres --";
+        # in
+        #   pkgs.writeShellScriptBin "upgrade-pg-cluster" ''
+        #     set -eux
+        #     systemctl stop postgresql
+        #     export NEWDATA="/var/lib/postgresql/${newPostgres.psqlSchema}"
+        #     export NEWBIN="${newPostgres}/bin"
+        #     export OLDDATA="${cfg.dataDir}"
+        #     export OLDBIN="${cfg.finalPackage}/bin"
+        #     install -d -m 0700 -o postgres -g postgres "$NEWDATA"
+        #     cd "$NEWDATA"
+        #     ${runuser} "$NEWBIN/initdb" -D "$NEWDATA" ${lib.escapeShellArgs cfg.initdbArgs}
+        #     ${runuser} "$NEWBIN/pg_upgrade" \
+        #       --old-datadir "$OLDDATA" --new-datadir "$NEWDATA" \
+        #       --old-bindir "$OLDBIN" --new-bindir "$NEWBIN" \
+        #       "$@"
+        #   '')
       ];
     };
 

@@ -169,6 +169,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sparkyfitness.url = "github:CodeWithCJ/SparkyFitness";
+
     MorgenMCP = {
       url = "github:polarmutex/MorgenMCP";
       inputs.nixpkgs.follows = "nixpkgs";
