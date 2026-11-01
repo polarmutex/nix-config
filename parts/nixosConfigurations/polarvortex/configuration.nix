@@ -485,7 +485,7 @@ in {
         # };
 
         health-import-listener = {
-          importDir = "/home/polar/repos/personal/ideaverse/+/Health Auto Export";
+          importDir = "/home/polar/repos/personal/ideaverse/+/health auto export";
           tokenFile = config.sops.secrets.healthImportToken.path;
         };
 

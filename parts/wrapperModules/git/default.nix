@@ -27,6 +27,11 @@
           name=Brian Ryall
         [includeIf "gitdir:~/repos/work/"]
           path = "/run/secrets/git_config_work"
+        [filter "lfs"]
+          clean = git-lfs clean -- %f
+          smudge = git-lfs smudge -- %f
+          process = git-lfs filter-process
+          required = true
       '';
 
       passthru.gitconfig = config.configFile.path;
@@ -38,6 +43,7 @@
           (lib.makeBinPath [
             pkgs.unstable.git-extras
             pkgs.unstable.git-graph
+            pkgs.unstable.git-lfs
           ])
         ]
       ];
