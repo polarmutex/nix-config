@@ -129,15 +129,15 @@ in {
     services.tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
 
     services.syncthing = {
-      cert = toString ./syncthing-cert.pem;
+      cert = "${./syncthing-cert.pem}";
       key = config.sops.secrets.syncthingKey.path;
       settings = {
         devices.polarvortex = {
           id = "2ZSMAQT-VHULN5Y-3Y5JSXX-N2EY5C4-ZGG7RPR-5QHDMUO-XV56GON-TSV55AZ";
           addresses = ["tcp://100.98.53.125:22000"];
         };
-        folders.ideaverse = {
-          path = "/home/polar/repos/personal/ideaverse/main";
+        folders."ideaverse-v2" = {
+          path = "/home/polar/repos/personal/ideaverse";
           devices = ["polarvortex"];
         };
       };
@@ -235,13 +235,13 @@ in {
       maid = {
         imports = [self.maidModules.pi];
 
-        pi.settings.skills = ["/home/polar/repos/personal/ideaverse/main/aios/skills"];
+        pi.settings.skills = ["/home/polar/repos/personal/ideaverse/aios/skills"];
 
         file.home = {
           ".gitconfig".source = pkgs.git-polar.gitconfig;
           # Keep syncthing out of the vault's .git directory so it doesn't
           # race with polarvortex's git-based backup sync.
-          "repos/personal/ideaverse/main/.stignore".source = pkgs.writeText "ideaverse-stignore" "/.git\n";
+          "repos/personal/ideaverse/.stignore".source = pkgs.writeText "ideaverse-stignore" "/.git\n";
         };
       };
     };

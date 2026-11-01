@@ -287,7 +287,7 @@ in {
       tailscale.authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
 
       syncthing = {
-        cert = toString ./syncthing-cert.pem;
+        cert = "${./syncthing-cert.pem}";
         key = config.sops.secrets.syncthingKey.path;
         settings = {
           devices.polarbear = {
@@ -302,7 +302,7 @@ in {
             id = "QCFV4Z5-CUMSDJ7-PT6UYXT-WAGROMX-XVLNPQV-32T3TIS-5QZCT3M-OJHGEQ6";
             addresses = ["tcp://100.80.172.117:22000"];
           };
-          folders.ideaverse = {
+          folders."ideaverse-v2" = {
             path = "/home/polar/repos/personal/ideaverse";
             devices = ["polarbear" "ipad-pro" "iphone"];
           };
