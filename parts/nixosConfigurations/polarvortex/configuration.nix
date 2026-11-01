@@ -469,7 +469,7 @@ in {
         file.home = {
           # Keep syncthing out of the vault's .git directory so it doesn't
           # race with this host's git-based backup sync.
-          "repos/personal/ideaverse/.stignore".source = pkgs.writeText "ideaverse-stignore" "/.git\n/.obsidian/workspace*.json\n";
+          "repos/personal/ideaverse/.stignore".source = pkgs.writeText "ideaverse-stignore" "/.git\n/.obsidian/workspace*.json\n(?d).DS_Store\n";
         };
 
         # claude-dailylog = {
