@@ -241,7 +241,7 @@ in {
           ".gitconfig".source = pkgs.git-polar.gitconfig;
           # Keep syncthing out of the vault's .git directory so it doesn't
           # race with polarvortex's git-based backup sync.
-          "repos/personal/ideaverse/.stignore".source = pkgs.writeText "ideaverse-stignore" "/.git\n";
+          "repos/personal/ideaverse/.stignore".source = pkgs.writeText "ideaverse-stignore" "/.git\n/.obsidian/workspace*.json\n";
         };
       };
     };
