@@ -30,7 +30,7 @@
           git commit -q -m "Last Sync: $(${pkgs.coreutils}/bin/date +"%Y-%m-%d %H:%M:%S") on ${cfg.platform}"
         fi
         for i in 1 2 3; do
-          if ! git pull --rebase -q; then
+          if ! git pull --rebase --autostash -q; then
             git rebase --abort
             git pull --no-rebase -X ours -q
           fi
@@ -44,6 +44,8 @@
         pkgs.git-polar
         pkgs.coreutils
         pkgs.openssh
+        # git-lfs runs GIT_SSH_COMMAND via `sh -c`
+        pkgs.bash
       ];
     in {
       systemd.services.obsidian-ideaverse-sync = {
