@@ -20,6 +20,11 @@ permissions:
     pull-requests: write
     checks: read
 
+defaults:
+    run:
+        # Explicit `shell: bash` runs with `-eo pipefail`, so `cmd | tee log` fails when cmd fails
+        shell: bash
+
 env:
     GIT_USERNAME: github-actions[bot]
     GIT_EMAIL: github-actions[bot]@users.noreply.github.com
@@ -138,7 +143,9 @@ jobs:
                   PID3=$!
 
                   # Wait for all to complete
-                  wait $PID1 $PID2 $PID3
+                  wait $PID1
+                  wait $PID2
+                  wait $PID3
                   echo "All npins updates completed"
 
                   # Check what was updated
