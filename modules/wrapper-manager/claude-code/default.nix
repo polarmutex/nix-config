@@ -23,7 +23,7 @@
     github = {
       type = "stdio";
       command = "${github-mcp-wrapper}/bin/github-mcp-server-wrapped";
-      args = ["stdio" "--dynamic-toolsets"];
+      args = ["stdio"];
     };
     nixos = {
       type = "stdio";
