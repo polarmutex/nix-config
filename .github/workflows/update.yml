@@ -182,7 +182,7 @@ jobs:
                     "claude-usage-monitor"
                     "context7-mcp"
                     "github-mcp"
-                    "mcp-nixos"
+                    # "mcp-nixos" # held at 2.2.0: 3.x needs fastmcp>=4, not yet in nixpkgs
                     "zizmor"
                   )
 

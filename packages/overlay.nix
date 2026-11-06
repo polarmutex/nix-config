@@ -64,6 +64,9 @@ lib: config: inputs': self: let
       brave
       ;
 
+    # zizmor needs a newer rustc than stable nixpkgs ships
+    zizmor = final.callPackage ./zizmor {inherit (final.unstable) rustPlatform;};
+
     bun2nix = inputs'.bun2nix.packages.default;
     claude-code = inputs'.llm-agents.packages.claude-code;
 
