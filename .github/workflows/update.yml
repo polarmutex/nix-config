@@ -189,6 +189,10 @@ jobs:
                   # Initialize tracking file
                   > /tmp/nix-update-changes.txt
 
+                  # nix-update evaluates via read-only `nix-instantiate --eval`, which can't create the
+                  # store copy that nix-wrapper-modules' default.nix imports from; a normal eval creates it first
+                  nix eval --raw .#blink-cmp.version
+
                   # Update each package
                   for pkg in "${PACKAGES[@]}"; do
                     echo "Updating $pkg..."
@@ -224,6 +228,7 @@ jobs:
                       fi
                     else
                       echo "Failed to update $pkg, continuing..." | tee -a /tmp/nix-update-log.txt
+                      echo "::warning::nix-update failed for $pkg"
                     fi
                   done
 
@@ -279,6 +284,7 @@ jobs:
                       fi
                     else
                       echo "Failed to update $pkg" | tee -a "/tmp/${pkg}-update-log.txt"
+                      echo "::warning::Custom update script failed for $pkg"
                     fi
                   done
 
