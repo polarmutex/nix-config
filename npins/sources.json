@@ -208,15 +208,16 @@
     "wrapper-manager": {
       "type": "Git",
       "repository": {
-        "type": "GitHub",
-        "owner": "viperml",
+        "type": "Forgejo",
+        "server": "https://codeberg.org/",
+        "owner": "viperML",
         "repo": "wrapper-manager"
       },
       "branch": "master",
       "submodules": false,
-      "revision": "05d5c2a8f0a6091cc17573d9a0c0de59269b8534",
-      "url": "https://github.com/viperml/wrapper-manager/archive/05d5c2a8f0a6091cc17573d9a0c0de59269b8534.tar.gz",
-      "hash": "sha256-ERCTzitF650HHNvTOPMAB3rTi6ptcwatmrx9QFkreKs="
+      "revision": "5dbc685119c53a10c3f9a74b2716107413889796",
+      "url": "https://codeberg.org/viperML/wrapper-manager/archive/5dbc685119c53a10c3f9a74b2716107413889796.tar.gz",
+      "hash": "sha256-JEuM7FjlX48cpDhDrkeIch5nNYANux5o0wcw8vnwUuE="
     }
   },
   "version": 8
