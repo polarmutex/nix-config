@@ -55,6 +55,15 @@ lib: config: inputs': self: let
       inherit config;
     };
 
+    # brave was removed from nixpkgs (no maintainers); keep it from a frozen pin
+    inherit
+      (import sources.nixpkgs-brave {
+        system = prev.stdenv.hostPlatform.system;
+        inherit config;
+      })
+      brave
+      ;
+
     bun2nix = inputs'.bun2nix.packages.default;
     claude-code = inputs'.llm-agents.packages.claude-code;
 

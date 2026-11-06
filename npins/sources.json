@@ -153,6 +153,20 @@
       "url": "https://github.com/nixos/nixpkgs/archive/6f06d204d8f2d8761d9da78778745974a3216381.tar.gz",
       "hash": "sha256-loLMnbbS4KhmG2ln9EY6f0YMNCA273Yx02oWYQ9IMeE="
     },
+    "nixpkgs-brave": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nixos",
+        "repo": "nixpkgs"
+      },
+      "branch": "nixos-26.05",
+      "submodules": false,
+      "revision": "6f06d204d8f2d8761d9da78778745974a3216381",
+      "url": "https://github.com/nixos/nixpkgs/archive/6f06d204d8f2d8761d9da78778745974a3216381.tar.gz",
+      "hash": "sha256-loLMnbbS4KhmG2ln9EY6f0YMNCA273Yx02oWYQ9IMeE=",
+      "frozen": true
+    },
     "nixpkgs-unstable": {
       "type": "Git",
       "repository": {
