@@ -9,9 +9,11 @@
   makeDesktopItem,
   copyDesktopItems,
 }: let
+  version = "4.1.3";
+
   morgenDeb = fetchurl {
-    name = "morgen-4.0.5.deb";
-    url = "https://dl.todesktop.com/210203cqcj00tw1/versions/4.0.5/linux/deb";
+    name = "morgen-${version}.deb";
+    url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
     hash = "sha256-+1BCeZIdVyjco5be8z3xDPSHyemd2CEUBJ43cSDu6xo=";
   };
 
@@ -31,7 +33,7 @@
 in
   stdenv.mkDerivation {
     pname = "morgen";
-    version = "4.1.3";
+    inherit version;
 
     dontUnpack = true;
 
