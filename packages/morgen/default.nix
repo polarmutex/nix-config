@@ -12,7 +12,7 @@
   morgenDeb = fetchurl {
     name = "morgen-4.0.5.deb";
     url = "https://dl.todesktop.com/210203cqcj00tw1/versions/4.0.5/linux/deb";
-    hash = "sha256-McFJM23NiCqyQouavRHrfga1WK5YUs6+NxYRf5ry7h8=";
+    hash = "sha256-+1BCeZIdVyjco5be8z3xDPSHyemd2CEUBJ43cSDu6xo=";
   };
 
   morgenScript = writeShellScript "morgen" ''
@@ -31,7 +31,7 @@
 in
   stdenv.mkDerivation {
     pname = "morgen";
-    version = "4.1.0";
+    version = "4.1.3";
 
     dontUnpack = true;
 
