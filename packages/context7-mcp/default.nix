@@ -10,7 +10,7 @@
 }:
 stdenv.mkDerivation rec {
   pname = "context7-mcp";
-  version = "ctx7@0.2.4";
+  version = "ctx7@0.10.0";
 
   src = fetchFromGitHub {
     owner = "upstash";
@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
   pnpmDeps = fetchPnpmDeps {
     inherit pname version src;
     fetcherVersion = 3;
-    hash = "sha256-gy/cvns7cgxr7QZZrXS/VVCrRmWgNxXqSqfO16qzCeo=";
+    hash = "sha256-MhqmNKAjFEsUwlzm1VYQzUTpc3JokNvSScUP2k6ospY=";
   };
 
   preConfigure = ''

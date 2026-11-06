@@ -6,16 +6,16 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "zizmor";
-  version = "1.27.0";
+  version = "1.32.0";
 
   src = fetchFromGitHub {
     owner = "zizmorcore";
     repo = "zizmor";
     tag = "v${version}";
-    hash = "sha256-wiVAZ26JJB3C9WYiM5OfK83oT1HDr1jlfvcpELFHy0E=";
+    hash = "sha256-wBBMF6FNwzlJiVag5tE64YnDf5Se+J5kJ/beVfg9H/Q=";
   };
 
-  cargoHash = "sha256-Cbu0ur4WUURgrgITe5UCz5qTHR3F6PjxEqbm1t+lpBA=";
+  cargoHash = "sha256-b7tcTvECEFb1fBVSo6y+NL4YognKuOBjAVMIyrCXZGQ=";
 
   doCheck = false;
 
