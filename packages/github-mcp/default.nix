@@ -1,20 +1,20 @@
 {
   lib,
-  buildGoModule,
+  buildGo127Module,
   fetchFromGitHub,
 }:
-buildGoModule rec {
+buildGo127Module rec {
   pname = "github-mcp-server";
-  version = "0.30.3";
+  version = "2.1.0";
 
   src = fetchFromGitHub {
     owner = "github";
     repo = "github-mcp-server";
     rev = "v${version}";
-    hash = "sha256-RqTwii79h7Kk1bpJT1uGG2ODZE5DtROZZyMDKvH3jmo=";
+    hash = "sha256-yMwLpdl8Zw+sAn+6IoFGdSHD2pjENYVrLrSWOzHJCLw=";
   };
 
-  vendorHash = "sha256-rv7mZQ2/j4R9s3p+Psq5E2I99zFtnieGc3eaMT3ykqQ=";
+  vendorHash = "sha256-2RfJhHB5dL8fHZY1gunVRAGGA3pOAA1YOeyi40Tfovc=";
 
   subPackages = [ "cmd/github-mcp-server" ];
 
