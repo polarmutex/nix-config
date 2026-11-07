@@ -67,7 +67,7 @@
           ${lib.getExe pkgs.starship} init fish | source
           enable_transience
           set -gx DIRENV_LOG_FORMAT ""
-          set -gx direnv_config_dir ${direnvConfig}
+          set -gx DIRENV_CONFIG ${direnvConfig}
           ${lib.getExe pkgs.direnv} hook fish | source
         end
       '';
