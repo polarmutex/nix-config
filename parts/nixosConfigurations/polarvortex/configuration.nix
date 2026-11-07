@@ -70,7 +70,7 @@ in {
     documentation.nixos.options.warningsAreErrors = false;
 
     environment = {
-      shells = lib.mkForce (with pkgs; [ bash modern-bash ]);
+      shells = lib.mkForce (with pkgs; [ bash zsh ]);
 
       # variables.HERMES_HOME = "/var/lib/hermes/.hermes";
       # variables.HERMES_MANAGED = "NixOS";
@@ -410,7 +410,7 @@ in {
     # users.groups.hermes.gid = 979;
 
     # Hermes runs as polar; no extra env tweaks needed since polar's shell is
-    # now modern-bash (a bash wrapper), so SHELL in the service env won't be fish.
+    # now zsh, so SHELL in the service env won't be fish.
 
     # systemd.services.hermes-agent = {
     #   after = ["obsidian-xvfb.service"];
@@ -448,8 +448,16 @@ in {
     #   "d /var/lib/hermes/.hermes 2770 hermes hermes -"
     # ];
 
+    # Interactive config lives in polar's ~/.zshrc (maidModules.zsh); keep the
+    # system zshrc from running its own compinit and prompt.
+    programs.zsh = {
+      enable = true;
+      enableGlobalCompInit = false;
+      promptInit = "";
+    };
+
     users.users.polar = {
-      shell = pkgs.modern-bash;
+      shell = pkgs.zsh;
       uid = 1000;
       isNormalUser = true;
       homeMode = "711";
@@ -466,6 +474,7 @@ in {
           # flakeCfg.flake.maidModules.claude-dailylog
           flakeCfg.flake.maidModules.health-import-listener
           flakeCfg.flake.maidModules.pi
+          flakeCfg.flake.maidModules.zsh
         ];
 
         pi.settings.skills = ["/home/polar/repos/personal/ideaverse/aios/skills"];
