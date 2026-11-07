@@ -205,7 +205,7 @@ in {
       nodejs
       uv
       unstable.android-studio
-      vscode
+      unstable.vscode
       context7-mcp
       github-mcp
       unstable.nil
