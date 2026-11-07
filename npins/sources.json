@@ -1,5 +1,30 @@
 {
   "pins": {
+    "MorgenMCP": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "polarmutex",
+        "repo": "MorgenMCP"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "ea3285eabf28d1857e9a708e453d95cc01b8bdca",
+      "url": "https://github.com/polarmutex/MorgenMCP/archive/ea3285eabf28d1857e9a708e453d95cc01b8bdca.tar.gz",
+      "hash": "sha256-+nODMbeRhzxZV/Ps0IRF6mCSOuBWFq96PD7jYUHDrIE="
+    },
+    "beancount-repo": {
+      "type": "Git",
+      "repository": {
+        "type": "Git",
+        "url": "ssh://git@git.polarmutex.dev/polar/beancount.git"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "044309ffa7e43afe0b3c8f00aa2588a6d8a7f0e8",
+      "url": null,
+      "hash": "sha256-abKTvU7e5XmfRbdcF+PWscqTIzGmb93ryiDgJFIUqhA="
+    },
     "blink.cmp": {
       "type": "GitRelease",
       "repository": {
@@ -16,6 +41,32 @@
       "url": "https://api.github.com/repos/saghen/blink.cmp/tarball/refs/tags/v1.10.2",
       "hash": "sha256-C1FpyGw0f35NdHvDUGPXxmKdOgw3SpIteK1gAjVy6Ns="
     },
+    "bun2nix": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "bun2nix"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "0f2a1f0b6f42cebe3b149bf62d38754c5e0e9729",
+      "url": "https://github.com/nix-community/bun2nix/archive/0f2a1f0b6f42cebe3b149bf62d38754c5e0e9729.tar.gz",
+      "hash": "sha256-9BMxlTxCCDAeoNLtb1a/st7udtTIJep+wpUzquA29VU="
+    },
+    "claude-cowork-service": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "patrickjaja",
+        "repo": "claude-cowork-service"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "b7c9c9c9e18c2d6f8177795ecbfdf0cb5c7f6a9e",
+      "url": "https://github.com/patrickjaja/claude-cowork-service/archive/b7c9c9c9e18c2d6f8177795ecbfdf0cb5c7f6a9e.tar.gz",
+      "hash": "sha256-gWLI5JltZrxZZSy23oAFduWqtadRh5n2yRCa455sWLA="
+    },
     "claude-plugins-official": {
       "type": "Git",
       "repository": {
@@ -29,6 +80,84 @@
       "url": "https://github.com/anthropics/claude-plugins-official/archive/c07c748f1c680734a813eefd909bc073f8a9103f.tar.gz",
       "hash": "sha256-2VKVWT5/w3FanuHP/wm6q9JE+V+ECa01/IZJh9duFeU="
     },
+    "flake-compat": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "edolstra",
+        "repo": "flake-compat"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
+      "url": "https://github.com/edolstra/flake-compat/archive/5edf11c44bc78a0d334f6334cdaf7d60d732daab.tar.gz",
+      "hash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns="
+    },
+    "flake-parts": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "hercules-ci",
+        "repo": "flake-parts"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "ea2630b7470978622c7689a1ff75d2b389175399",
+      "url": "https://github.com/hercules-ci/flake-parts/archive/ea2630b7470978622c7689a1ff75d2b389175399.tar.gz",
+      "hash": "sha256-V1h85lUaJBQoHFrB2vpXZOE0Ju1MYSnIpsehoVZYlDo="
+    },
+    "flakey-profile": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "lf-",
+        "repo": "flakey-profile"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "243c903fd8eadc0f63d205665a92d4df91d42d9d",
+      "url": "https://github.com/lf-/flakey-profile/archive/243c903fd8eadc0f63d205665a92d4df91d42d9d.tar.gz",
+      "hash": "sha256-FhGIEU93VHAChKEXx905TSiPZKga69bWl1VB37FK//I="
+    },
+    "gen-luarc": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "mrcjkb",
+        "repo": "nix-gen-luarc-json"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "1865b0ebb753ae5324d7381b1fa8c98c04ec7509",
+      "url": "https://github.com/mrcjkb/nix-gen-luarc-json/archive/1865b0ebb753ae5324d7381b1fa8c98c04ec7509.tar.gz",
+      "hash": "sha256-xVKfjFwc0zMbLMjLTiHz+0llggkjs93SmHkhaa9S3M4="
+    },
+    "hardware": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nixos",
+        "repo": "nixos-hardware"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "d645c71a58dbae3eb17ff551a07aea13a541cb1a",
+      "url": "https://github.com/nixos/nixos-hardware/archive/d645c71a58dbae3eb17ff551a07aea13a541cb1a.tar.gz",
+      "hash": "sha256-DbFyxXHjP4SJDWVVIILkgrUZxj29cDusi8ULXoQGuZ8="
+    },
+    "hermes-agent": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "NousResearch",
+        "repo": "hermes-agent"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "6b21d0564de0492e2ebd0d8f63fca86c03b5c892",
+      "url": "https://github.com/NousResearch/hermes-agent/archive/6b21d0564de0492e2ebd0d8f63fca86c03b5c892.tar.gz",
+      "hash": "sha256-i0SGxPmA5jb7PeVvi5x8aDaZ8UD6sttCaiUoF7tqiOM="
+    },
     "import-tree": {
       "type": "Git",
       "repository": {
@@ -41,6 +170,19 @@
       "revision": "eb1b52eaecc57f7c136d07ae8a93e724dfecac46",
       "url": "https://github.com/vic/import-tree/archive/eb1b52eaecc57f7c136d07ae8a93e724dfecac46.tar.gz",
       "hash": "sha256-ljEMTXP/rH0tOvDzc9gzwww6KcHRPRnEHzd9lK48V7s="
+    },
+    "llm-agents": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "numtide",
+        "repo": "llm-agents.nix"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "baf924369e8d5ec02af1eab444db411d6fed1e5e",
+      "url": "https://github.com/numtide/llm-agents.nix/archive/baf924369e8d5ec02af1eab444db411d6fed1e5e.tar.gz",
+      "hash": "sha256-xws6ZOZuv6+BtqF9BZ9NRH5GdJ8zTa/ACN9lNeKC/+s="
     },
     "llm-wiki": {
       "type": "GitRelease",
@@ -83,6 +225,18 @@
       "revision": "a582dbedf7c8ec7effa6939ac5bdd23b27267d1b",
       "url": "https://github.com/gerg-l/mnw/archive/a582dbedf7c8ec7effa6939ac5bdd23b27267d1b.tar.gz",
       "hash": "sha256-6IWPAMEotKY/nQvs1kU6qwMwCXTeW5HlOhw2RwFHFdI="
+    },
+    "monolisa-font-flake": {
+      "type": "Git",
+      "repository": {
+        "type": "Git",
+        "url": "ssh://git@git.polarmutex.dev/polar/monolisa-font-flake.git"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "d961883d4e153e413a5f02c28f9b6af3e7c02249",
+      "url": null,
+      "hash": "sha256-I47NArTteaooO1baA/3hE1ATfh4RYctW4d80ChIZ+ag="
     },
     "neovim-nightly": {
       "type": "Git",
@@ -180,6 +334,20 @@
       "url": "https://github.com/nixos/nixpkgs/archive/1d060086d60cb76a40cf37109f979d88a5bd6396.tar.gz",
       "hash": "sha256-jQp1wKvbwWdLBASTXkSi/VYmDJ5AbBi1WvcMt9HWJC8="
     },
+    "noshell": {
+      "type": "Git",
+      "repository": {
+        "type": "Forgejo",
+        "server": "https://codeberg.org/",
+        "owner": "viperML",
+        "repo": "noshell"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "2c15bae98d9de1c669ecebd8e9c185092dc8edef",
+      "url": "https://codeberg.org/viperML/noshell/archive/2c15bae98d9de1c669ecebd8e9c185092dc8edef.tar.gz",
+      "hash": "sha256-R06JhPFbVFJ8yuM+ZnggbK2xdr0pnk/N18cA1E0zVOQ="
+    },
     "obsidian-skills": {
       "type": "Git",
       "repository": {
@@ -205,6 +373,45 @@
       "revision": "a08f9494eadcc92c2e0922c8efef631fbfbf1244",
       "url": "https://github.com/paperclipai/paperclip/archive/a08f9494eadcc92c2e0922c8efef631fbfbf1244.tar.gz",
       "hash": "sha256-CuvL7tdT/9kSrwqeQW8gWyD5N1gBQtLn7RoQQR3IgWw="
+    },
+    "sops-nix": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "Mic92",
+        "repo": "sops-nix"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "89a234ce2daf6e568a7d4b4fe250afdd23d84e20",
+      "url": "https://github.com/Mic92/sops-nix/archive/89a234ce2daf6e568a7d4b4fe250afdd23d84e20.tar.gz",
+      "hash": "sha256-ZlE4BtMjWhfC6rFXLO9Qimn36Ene1INqCgKDDvazjhc="
+    },
+    "sparkyfitness": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "CodeWithCJ",
+        "repo": "SparkyFitness"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "4b2bc6e27760942e55d032679f441ae7aefa0d9b",
+      "url": "https://github.com/CodeWithCJ/SparkyFitness/archive/4b2bc6e27760942e55d032679f441ae7aefa0d9b.tar.gz",
+      "hash": "sha256-LficIUNTdf4QITZaatJXQ8/KpZLrQecaKM6Sni13O8A="
+    },
+    "website": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "polarmutex",
+        "repo": "website"
+      },
+      "branch": "dev",
+      "submodules": false,
+      "revision": "4d56cb9a4995c837744baa47b67e4d7300346c58",
+      "url": "https://github.com/polarmutex/website/archive/4d56cb9a4995c837744baa47b67e4d7300346c58.tar.gz",
+      "hash": "sha256-OAqzIB3CL9H2sHHMKXaE9vKt/bVjfu8uhqjsv+/yezw="
     },
     "whisper-dictation": {
       "type": "Git",

@@ -3,27 +3,22 @@
 dump-gnome:
     dconf dump /org/gnome/ > misc/dconf-gnome
 
-# Update only private git.polarmutex.dev flake inputs
+# Update only private git.polarmutex.dev npins inputs
 update-private:
     @echo "Updating private git.polarmutex.dev inputs..."
-    nix flake lock --update-input monolisa-font-flake
-    nix flake lock --update-input wallpapers
-    nix flake lock --update-input beancount-repo
+    npins update monolisa-font-flake beancount-repo
     @echo "✅ Private inputs updated"
 
-# Update all public flake inputs (excludes private git.polarmutex.dev inputs)
+# Update all public npins inputs (excludes private git.polarmutex.dev inputs)
 update-public:
-    @echo "Updating public flake inputs..."
-    @nix flake metadata --json | jq -r '.locks.nodes.root.inputs | to_entries[] | select(.key != "monolisa-font-flake" and .key != "wallpapers" and .key != "beancount-repo") | .key' | while read input; do \
-        echo "→ Updating $$input..."; \
-        nix flake lock --update-input "$$input"; \
-    done
+    @echo "Updating public npins inputs..."
+    npins update $(jq -r '.pins | keys[] | select(. != "monolisa-font-flake" and . != "beancount-repo")' npins/sources.json)
     @echo "✅ Public inputs updated"
 
-# Update all flake inputs (both public and private)
+# Update all npins inputs (both public and private)
 update-all:
-    @echo "Updating all flake inputs..."
-    nix flake update
+    @echo "Updating all npins inputs..."
+    npins update
     @echo "✅ All inputs updated"
 
 # Start the Obsidian Xvfb system services (xvfb + obsidian-xvfb) on polarvortex

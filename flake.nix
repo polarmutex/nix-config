@@ -19,14 +19,12 @@
     # allow-import-from-derivation = "true";
   };
 
-  # outputs = inputs: let
-  #   sources = import ./npins;
-  #   import-tree = import sources.import-tree;
-  # in
-  #   inputs.flake-parts.lib.mkFlake {inherit inputs;}
-  #   (import-tree ./parts);
-
-  outputs = inputs:
+  # All inputs are pinned with npins; see ./inputs.nix.
+  outputs = {self, ...}: let
+    pinned = import ./inputs.nix;
+    # flake-parts derives `inputs'` from `self.inputs`, so expose the pins there too.
+    inputs = pinned // {self = self // {inputs = pinned;};};
+  in
     inputs.flake-parts.lib.mkFlake {inherit inputs;} (
       {
         # lib,
@@ -50,125 +48,4 @@
         ];
       }
     );
-
-  inputs = {
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-
-    flake-compat.url = "github:edolstra/flake-compat";
-    flake-utils.url = "github:numtide/flake-utils";
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hardware.url = "github:nixos/nixos-hardware";
-
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # polar-nur.url = "github:polarmutex/nur";
-
-    # awesome-flake = {
-    #   url = "github:polarmutex/awesome-flake";
-    #   inputs.flake-parts.follows = "flake-parts";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
-
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
-
-    helix = {
-      url = "github:helix-editor/helix";
-    };
-
-    monolisa-font-flake = {
-      url = "git+ssh://git@git.polarmutex.dev/polar/monolisa-font-flake.git";
-      #url = "path:///home/polar/repos/personal/monolisa-font-flake";
-    };
-
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    tmux-sessionizer = {
-      url = "github:polarmutex/tmux-sessionizer";
-    };
-
-    wallpapers = {
-      url = "git+ssh://git@git.polarmutex.dev/polar/wallpapers.git";
-      #url = "path:///home/polar/repos/personal/wallpapers";
-    };
-
-    website = {
-      url = "github:polarmutex/website/dev";
-    };
-
-    wrapper-manager = {
-      url = "git+https://codeberg.org/viperML/wrapper-manager.git";
-    };
-
-    noshell = {
-      url = "git+https://codeberg.org/viperML/noshell.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # DO I still need?
-    # firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-    # rycee = {
-    #   url = "gitlab:rycee/nur-expressions";
-    #   flake = false;
-    # };
-    #
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    programsdb.url = "github:wamserma/flake-programs-sqlite";
-    programsdb.inputs.nixpkgs.follows = "nixpkgs";
-
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
-    llm-agents.url = "github:numtide/llm-agents.nix";
-
-    hermes-agent.url = "github:NousResearch/hermes-agent";
-
-    claude-cowork-service.url = "github:patrickjaja/claude-cowork-service";
-
-    flakey-profile.url = "github:lf-/flakey-profile";
-
-    nixgl.url = "github:nix-community/nixGL";
-
-    beancount-repo = {
-      url = "git+ssh://git@git.polarmutex.dev/polar/beancount.git";
-    };
-
-    bun2nix = {
-      url = "github:nix-community/bun2nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    sparkyfitness.url = "github:CodeWithCJ/SparkyFitness";
-
-    MorgenMCP = {
-      url = "github:polarmutex/MorgenMCP";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
 }
