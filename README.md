@@ -78,7 +78,7 @@ make history
 - **home-manager** — user environment management
 - **nix-darwin** — macOS support
 - **sops-nix** — secrets management
-- **deploy-rs** — remote NixOS deployment
+- **nh** — remote NixOS deployment (`just deploy-polarvortex`)
 - **disko** — declarative disk partitioning
 - **npins** — pinned non-flake sources
 - **helix / zed / ghostty / tmux** — editor and terminal setup

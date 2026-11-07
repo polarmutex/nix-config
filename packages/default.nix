@@ -58,7 +58,6 @@
       inherit (pkgs) claude-usage-monitor;
       inherit (pkgs) browsermcp-mcp;
       inherit (pkgs) context7-mcp;
-      deploy-rs = inputs'.deploy-rs.packages.deploy-rs;
       inherit (pkgs) flippertools;
       # Don't inherit wrappers here - they're added to pkgs via wrappersOverlay
       # and are auto-exposed as packages by nix-wrapper-modules

@@ -194,7 +194,6 @@ in {
       peek
       poppler-utils
       unstable.zoom-us
-      inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
       neovim
       morgen
       pkgs.git-polar
