@@ -40,3 +40,7 @@ new-nvim-plugin start_opt user repo branch='':
     fi
     NEW_VERSION=$(jq -rcn 'inputs | .pins | .[] | select(.repository.repo == "{{repo}}" ) | if .version != null then .version else .revision[0:8] end' packages/neovim/{{start_opt}}.json)
     git commit -am "chore(pin/new): {{repo}}: init @ $NEW_VERSION"
+
+# Build locally and deploy polarvortex over SSH
+deploy-polarvortex:
+    nh os switch . --hostname polarvortex --target-host polar@polarvortex -e passwordless -v

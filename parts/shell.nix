@@ -6,7 +6,6 @@ _: {
           tigervnc
           sops
           # age
-          # deploy-rs
           # taplo
           # inxi
           # pciutils
