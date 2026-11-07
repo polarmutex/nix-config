@@ -216,6 +216,7 @@ in {
       unstable.zotero
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
       (whisper-dictation.override {
         cudaSupport = true;
         cudaPackages = pkgs.cudaPackages;
