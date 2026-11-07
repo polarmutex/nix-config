@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - 'flake.nix'
-      - 'flake.lock'
+      - 'inputs.nix'
       - 'packages/**'
       - 'modules/**'
       - 'hosts/**'
@@ -17,7 +17,7 @@ on:
       - 'automated-flake-update'
     paths:
       - 'flake.nix'
-      - 'flake.lock'
+      - 'inputs.nix'
       - 'packages/**'
       - 'modules/**'
       - 'hosts/**'

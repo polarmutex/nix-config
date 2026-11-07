@@ -13,7 +13,7 @@ on:
         # Run every Friday at 4 AM UTC
         - cron: "0 4 * * 5"
 
-run-name: Update npins and flake inputs
+run-name: Update npins inputs
 
 permissions:
     contents: write
@@ -91,10 +91,6 @@ jobs:
             - name: Capture versions before update
               id: capture-before
               run: |
-                  # Capture flake inputs before update
-                  echo "Capturing current flake.lock state..."
-                  nix flake metadata --json | jq -r '.locks.nodes | with_entries(if .value.locked then .value = .value.locked.rev // .value.locked.narHash // "unknown" else empty end)' > /tmp/before-inputs.json
-
                   # Capture npins sources before update
                   echo "Capturing current npins state..."
                   jq -r '.pins | to_entries[] | "\(.key)=\(.value.revision // .value.version // "unknown")"' npins/sources.json > /tmp/before-npins.txt
@@ -305,31 +301,6 @@ jobs:
                     /tmp/*-update-log.txt
                   if-no-files-found: ignore
 
-            - name: Update flake.lock
-              id: flake-update
-              timeout-minutes: 10
-              run: |
-                  echo "Starting flake update..."
-
-                  # Update all flake inputs
-                  nix flake update 2>&1 | tee /tmp/flake-update.log
-
-                  echo "Flake update completed"
-
-                  if ! git diff --quiet flake.lock; then
-                    echo "updated=true" >> "$GITHUB_OUTPUT"
-                  else
-                    echo "updated=false" >> "$GITHUB_OUTPUT"
-                  fi
-
-            - name: Upload flake update log on failure
-              if: failure()
-              uses: actions/upload-artifact@v7
-              with:
-                  name: flake-update-log
-                  path: /tmp/flake-update.log
-                  if-no-files-found: ignore
-
             - name: Build commit message and commit changes
               id: commit-changes
               run: |
@@ -346,7 +317,6 @@ jobs:
                   HAS_NPINS=false
                   HAS_NEOVIM_START=false
                   HAS_NEOVIM_OPT=false
-                  HAS_FLAKE=false
                   HAS_NIX_UPDATE=false
 
                   if ! git diff --quiet npins/sources.json; then
@@ -359,10 +329,6 @@ jobs:
 
                   if ! git diff --quiet packages/neovim/opt.json; then
                     HAS_NEOVIM_OPT=true
-                  fi
-
-                  if ! git diff --quiet flake.lock; then
-                    HAS_FLAKE=true
                   fi
 
                   HAS_NIX_UPDATE=false
@@ -475,36 +441,6 @@ jobs:
                     git add packages/
                   fi
 
-                  # Add flake changes if present
-                  if [ "$HAS_FLAKE" = true ]; then
-                    # Capture after state
-                    nix flake metadata --json | jq -r '.locks.nodes | with_entries(if .value.locked then .value = .value.locked.rev // .value.locked.narHash // "unknown" else empty end)' > /tmp/after-inputs.json
-
-                    # Generate version changes
-                    COMMIT_BODY="${COMMIT_BODY}Updated flake inputs:\n\n"
-
-                    # Clear version changes file
-                    > /tmp/version-changes.txt
-
-                    # Compare before and after
-                    jq -r 'keys[]' /tmp/before-inputs.json | while read -r input; do
-                      BEFORE_REV=$(jq -r --arg key "$input" 'if .[$key] then .[$key] else "missing" end' /tmp/before-inputs.json)
-                      AFTER_REV=$(jq -r --arg key "$input" 'if .[$key] then .[$key] else "missing" end' /tmp/after-inputs.json)
-
-                      if [ "$BEFORE_REV" != "$AFTER_REV" ] && [ "$BEFORE_REV" != "missing" ] && [ "$AFTER_REV" != "missing" ]; then
-                        # Truncate revisions for readability
-                        BEFORE_SHORT="${BEFORE_REV:0:8}"
-                        AFTER_SHORT="${AFTER_REV:0:8}"
-                        CHANGE_LINE="  ${input}: ${BEFORE_SHORT} -> ${AFTER_SHORT}\n"
-                        COMMIT_BODY="${COMMIT_BODY}${CHANGE_LINE}"
-                        # Save to file for PR body (without escape sequences)
-                        echo "  ${input}: ${BEFORE_SHORT} -> ${AFTER_SHORT}" >> /tmp/version-changes.txt
-                      fi
-                    done
-
-                    git add flake.lock
-                  fi
-
                   # Build full commit message
                   {
                     echo "${COMMIT_MSG}"
@@ -533,9 +469,6 @@ jobs:
                     fi
                     if [ "${{ steps.custom-script-update.outputs.updated }}" = "true" ]; then
                       echo "✅ Custom packages updated"
-                    fi
-                    if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
-                      echo "✅ Flake inputs updated"
                     fi
                     echo ""
                     echo "### Changes"
@@ -592,11 +525,6 @@ jobs:
                   if [ "${{ steps.custom-script-update.outputs.updated }}" = "true" ]; then
                     PR_BODY="${PR_BODY}
                   - ✅ Custom packages"
-                  fi
-
-                  if [ "${{ steps.flake-update.outputs.updated }}" = "true" ]; then
-                    PR_BODY="${PR_BODY}
-                  - ✅ Flake inputs"
                   fi
 
                   # Add version changes sections
@@ -688,24 +616,6 @@ jobs:
                   \`\`\`"
                     PR_BODY="${PR_BODY}
                   $(cat /tmp/custom-script-update-changes.txt)"
-                    PR_BODY="${PR_BODY}
-                  \`\`\`"
-                  fi
-
-                  # Add flake input changes
-                  if [ -f /tmp/version-changes.txt ] && [ -s /tmp/version-changes.txt ]; then
-                    if [ "$CHANGES_ADDED" = false ]; then
-                      PR_BODY="${PR_BODY}
-
-                  ### Version Changes"
-                      CHANGES_ADDED=true
-                    fi
-                    PR_BODY="${PR_BODY}
-
-                  #### Flake Inputs
-                  \`\`\`"
-                    PR_BODY="${PR_BODY}
-                  $(cat /tmp/version-changes.txt)"
                     PR_BODY="${PR_BODY}
                   \`\`\`"
                   fi
