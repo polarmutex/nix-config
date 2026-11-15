@@ -59,6 +59,7 @@ in {
       self.nixosModules.tailscale
       self.nixosModules.syncthing
       self.nixosModules.umami-service
+      self.nixosModules.rex
       # apps
       self.nixosModules.claude
       self.nixosModules.claude-desktop
@@ -454,6 +455,14 @@ in {
       enable = true;
       enableGlobalCompInit = false;
       promptInit = "";
+    };
+
+    # Rex server runs as polar (so sessions are polar's shells) and is reachable from
+    # the iOS app at https://polarvortex.<tailnet>.ts.net:7297 via Tailscale Serve.
+    services.rex = {
+      user = "polar";
+      group = "users";
+      tailscaleServe.enable = true;
     };
 
     users.users.polar = {

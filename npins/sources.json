@@ -374,6 +374,12 @@
       "url": "https://github.com/paperclipai/paperclip/archive/5ba26600ef38a844aeca9713d4e4923c1f204d0a.tar.gz",
       "hash": "sha256-+7pAW0SCCL8lt2M7x0q7mgBRyXA46UqHP1cDbO2oX7Y="
     },
+    "rex": {
+      "type": "Url",
+      "url": "https://pkgs.superlogical.com/rex/nix/preview/0.1.0-preview.18.tar.gz",
+      "unpack": true,
+      "hash": "sha256-cZP/und+riXOHxVr+pdaale3sO/v+GgVkcgWChN8vMo="
+    },
     "sops-nix": {
       "type": "Git",
       "repository": {

@@ -13,13 +13,24 @@ update-private:
 update-public:
     @echo "Updating public npins inputs..."
     npins update $(jq -r '.pins | keys[] | select(. != "monolisa-font-flake" and . != "beancount-repo")' npins/sources.json)
+    just update-rex
     @echo "✅ Public inputs updated"
 
 # Update all npins inputs (both public and private)
 update-all:
     @echo "Updating all npins inputs..."
     npins update
+    just update-rex
     @echo "✅ All inputs updated"
+
+# Re-pin rex to the newest preview release (npins can't follow its Link rel="immutable" header)
+update-rex:
+    #!/bin/sh
+    set -eu
+    url=$(curl -fsSI https://pkgs.superlogical.com/rex/nix/preview.tar.gz \
+      | sed -n 's/^link: <\([^>]*\)>; *rel="immutable".*/\1/Ip' | tr -d '\r')
+    [ -n "$url" ] || { echo "rex: no immutable Link header" >&2; exit 1; }
+    npins add tarball --name rex "$url"
 
 # Start the Obsidian Xvfb system services (xvfb + obsidian-xvfb) on polarvortex
 start-obsidian-xvfb:
