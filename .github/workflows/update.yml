@@ -121,6 +121,14 @@ jobs:
                   (
                     echo "Updating root npins sources..."
                     nix run nixpkgs#npins -- update
+                    # rex: npins can't follow its Link rel="immutable" header, so re-pin manually
+                    rex_url=$(curl -fsSI https://pkgs.superlogical.com/rex/nix/preview.tar.gz \
+                      | sed -n 's/^link: <\([^>]*\)>; *rel="immutable".*/\1/Ip' | tr -d '\r')
+                    if [ -n "$rex_url" ]; then
+                      nix run nixpkgs#npins -- add tarball --name rex "$rex_url"
+                    else
+                      echo "::warning::rex: no immutable Link header, skipping"
+                    fi
                   ) &
                   PID1=$!
 
@@ -290,6 +298,24 @@ jobs:
                     echo "updated=false" >> "$GITHUB_OUTPUT"
                   fi
 
+            - name: Refresh npmDepsHash for vendored lockfiles
+              run: |
+                  # Dependabot bumps these lockfiles without touching npmDepsHash; recompute it here.
+                  # Reported via the custom-script changes file so the commit step stages and lists it.
+                  NPM_LOCK_PACKAGES=(
+                    "mcp-remote"
+                  )
+
+                  for pkg in "${NPM_LOCK_PACKAGES[@]}"; do
+                    PKG_FILE="packages/$pkg/default.nix"
+                    OLD_HASH=$(grep -m1 'npmDepsHash = ' "$PKG_FILE" | sed 's/.*"\(.*\)".*/\1/')
+                    NEW_HASH=$(nix run nixpkgs#prefetch-npm-deps -- "packages/$pkg/package-lock.json")
+                    if [ "$OLD_HASH" != "$NEW_HASH" ]; then
+                      sed -i "s|npmDepsHash = \"${OLD_HASH}\";|npmDepsHash = \"${NEW_HASH}\";|" "$PKG_FILE"
+                      echo "  $pkg: npmDepsHash refreshed" >> /tmp/custom-script-update-changes.txt
+                      echo "$pkg npmDepsHash: $OLD_HASH -> $NEW_HASH"
+                    fi
+                  done
 
             - name: Upload nix-update log on failure
               if: failure()
