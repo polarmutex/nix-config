@@ -56,7 +56,6 @@
       inherit (pkgs) brave;
       inherit (pkgs) ccusage;
       inherit (pkgs) claude-usage-monitor;
-      inherit (pkgs) browsermcp-mcp;
       inherit (pkgs) context7-mcp;
       inherit (pkgs) flippertools;
       # Don't inherit wrappers here - they're added to pkgs via wrappersOverlay
