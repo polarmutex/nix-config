@@ -250,9 +250,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "52107ce2076a27a285af781248e2c59bad817cd0",
-      "url": "https://github.com/mfussenegger/nvim-lint/archive/52107ce2076a27a285af781248e2c59bad817cd0.tar.gz",
-      "hash": "sha256-Q/UqA4DQ242FXcUYYAB7RWQ6RdUkDC57M97k3SWx2Gw="
+      "revision": "6bf29b9dbdad60b38b489b23309c22ba6d4c915a",
+      "url": "https://github.com/mfussenegger/nvim-lint/archive/6bf29b9dbdad60b38b489b23309c22ba6d4c915a.tar.gz",
+      "hash": "sha256-N8Db2DU0swrBdULCqTSrWX2mtiX8QFpzNwA5y28uh8Q="
     },
     "nvim-lspconfig": {
       "type": "GitRelease",
@@ -265,10 +265,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v2.12.0",
-      "revision": "4d363f93c3581b9212a24f7a830d7590b3f050af",
-      "url": "https://api.github.com/repos/neovim/nvim-lspconfig/tarball/refs/tags/v2.12.0",
-      "hash": "sha256-FPk6fSdp13byZBp4pAPng1WefLEGoeauNcw62s/+i2Y="
+      "version": "v2.13.0",
+      "revision": "4648fd8ba5c678d7e2db75ae44ffac269bb589d8",
+      "url": "https://api.github.com/repos/neovim/nvim-lspconfig/tarball/refs/tags/v2.13.0",
+      "hash": "sha256-FywWiEGEuauWQzOONBLwxzc5cPfrMT/v2b6CTcYj7Nw="
     },
     "nvim-notify": {
       "type": "GitRelease",
