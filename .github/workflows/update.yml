@@ -10,8 +10,8 @@ on:
                 required: false
                 default: true
     schedule:
-        # Run every Friday at 4 AM UTC
-        - cron: "0 4 * * 5"
+        # Run every Friday at 4:17 AM EST / 5:17 AM EDT (cron is always UTC; off-minute avoids top-of-hour congestion)
+        - cron: "17 9 * * 5"
 
 run-name: Update npins inputs
 
