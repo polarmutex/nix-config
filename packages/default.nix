@@ -75,7 +75,10 @@
       inherit (pkgs.unstable) obsidian;
       inherit (pkgs.unstable) ollama;
       inherit (pkgs.unstable) ollama-cuda;
+      inherit (pkgs.unstable) zotero;
       inherit (pkgs) whisper-dictation;
+      whisper-dictation-cuda = pkgs.whisper-dictation.override {cudaSupport = true;};
+      whisper-cpp-cuda = pkgs.whisper-cpp.override {cudaSupport = true;};
       inherit (pkgs) ungoogled-chromium;
       inherit (pkgs) zizmor;
       inherit (pkgs) wezterm;

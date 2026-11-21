@@ -217,14 +217,8 @@ in {
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
-      (whisper-dictation.override {
-        cudaSupport = true;
-        cudaPackages = pkgs.cudaPackages;
-      })
-      (whisper-cpp.override {
-        cudaSupport = true;
-        cudaPackages = pkgs.cudaPackages;
-      })
+      self'.packages.whisper-dictation-cuda
+      self'.packages.whisper-cpp-cuda
     ];
 
     programs.ydotool.enable = true;

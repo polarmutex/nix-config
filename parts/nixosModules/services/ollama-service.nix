@@ -1,8 +1,8 @@
 {
-  flake.nixosModules.ollama-service = {pkgs, ...}: {
+  flake.nixosModules.ollama-service = {self', ...}: {
     services.ollama = {
       enable = true;
-      package = pkgs.ollama-cuda;
+      package = self'.packages.ollama-cuda;
       environmentVariables = {
         OLLAMA_ORIGINS = "moz-extension://*,chrome-extension://*,safari-web-extension://*";
         OLLAMA_CONTEXT_LENGTH = "64000";
