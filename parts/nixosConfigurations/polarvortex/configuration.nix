@@ -92,6 +92,7 @@ in {
 
       systemPackages = with pkgs; [
         neovim
+        unstable.dix
         git-polar
         unstable.tmux
         tsm
