@@ -73,11 +73,11 @@ in {
     wrappers.claude-code-polar = {
       enable = true;
       # polarbear-specific wrapper options:
-      polar.extraPluginDirs = [
+      pluginDirs = [
         "${pkgs.mattpocock-skills}"
         "${pkgs.obsidian-skills}"
       ];
-      polar.extraMcpServers.home-assistant = {
+      mcpConfig.home-assistant = {
         type = "stdio";
         command = "${pkgs.writeShellScript "ha-mcp-remote" ''
           exec ${pkgs.mcp-remote}/bin/mcp-remote "$(cat ${config.sops.secrets.ha-mcp-webhook-url.path})" --transport http-only --allow-http

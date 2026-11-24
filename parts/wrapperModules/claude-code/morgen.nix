@@ -1,19 +1,15 @@
-{
-  flake.wrappers.claude-code-morgen = {pkgs, wlib, ...}: {
-    imports = [wlib.wrapperModules.claude-code ./_shared.nix];
+{config, ...}: {
+  flake.wrappers.claude-code-morgen = {pkgs, ...}: {
+    imports = [config.flake.wrapperModules.claude-code-polar];
 
-    polar = {
-      binName = "claude-morgen";
-      extraAllowedCommands = [
-        "Edit(**)"
-        "WebFetch(domain:forecast.weather.gov)"
-      ];
-      extraDeniedCommands = [
-      ];
-      extraMcpServers.morgen = {
-        command = "${pkgs.morgen-mcp}/bin/morgenmcp";
-        type = "stdio";
-      };
+    binName = "claude-morgen";
+    settings.permissions.allow = [
+      "Edit(**)"
+      "WebFetch(domain:forecast.weather.gov)"
+    ];
+    mcpConfig.morgen = {
+      command = "${pkgs.morgen-mcp}/bin/morgenmcp";
+      type = "stdio";
     };
   };
 }
