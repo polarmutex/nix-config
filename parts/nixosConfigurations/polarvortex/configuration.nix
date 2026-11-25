@@ -63,7 +63,7 @@ in {
       # apps
       self.nixosModules.claude
       self.nixosModules.claude-desktop
-      flakeCfg.flake.wrappers.claude-code-morgen.install
+      flakeCfg.flake.wrappers.claude-code-daily-log.install
     ];
 
     # Disable documentation building to avoid missing path errors during remote builds
@@ -98,7 +98,7 @@ in {
         tsm
         nodejs
         bun
-        unstable.zellij
+        # unstable.zellij
         claude-code # should be unstable
         unstable.defuddle
         poppler-utils
@@ -313,7 +313,7 @@ in {
     };
 
     wrappers = {
-      claude-code-morgen = {
+      claude-code-daily-log = {
         enable = true;
       };
 
@@ -481,7 +481,7 @@ in {
         imports = [
           flakeCfg.flake.maidModules.ideaverse-sync
           # flakeCfg.flake.maidModules.claude-desktop-xvfb
-          # flakeCfg.flake.maidModules.claude-dailylog
+          flakeCfg.flake.maidModules.claude-dailylog
           flakeCfg.flake.maidModules.health-import-listener
           flakeCfg.flake.maidModules.pi
           flakeCfg.flake.maidModules.zsh
@@ -496,13 +496,13 @@ in {
           "obsidian-headless".source = pkgs.writeShellScript "obsidian-headless" (builtins.readFile ../obsidian-headless.sh);
         };
 
-        # claude-dailylog = {
-        #   claudePackage = config.wrappers.claude-code-morgen.wrapper;
-        #   claudeBinName = "claude-morgen";
-        #   herdrPackage = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
-        #   morgenApiTokenPath = config.sops.secrets.morgenApiToken.path;
-        #   claudeArgs = ["--dangerously-skip-permissions"];
-        # };
+        claude-dailylog = {
+          claudePackage = config.wrappers.claude-code-daily-log.wrapper;
+          claudeBinName = "claude-daily-log";
+          herdrPackage = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
+          # morgenApiTokenPath = config.sops.secrets.morgenApiToken.path;
+          # claudeArgs = ["--dangerously-skip-permissions"];
+        };
 
         # claude-desktop-xvfb = {
         #   claudeDesktopPackage = inputs.claude-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default;
@@ -520,69 +520,69 @@ in {
 
         systemd = {
           services = {
-            zellij-claude-remote = let
-              zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
-                layout {
-                  pane command="${pkgs.claude-code}/bin/claude" {
-                    args "--permission-mode" "auto"
-                  }
-                }
-              '';
-
-              zellijRemoteStartScript = pkgs.writeShellScript "zellij-remote-claude-start" ''
-                ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
-                $ZELLIJ delete-session claude-remote-session --force 2>/dev/null || true
-                $ZELLIJ --layout ${zellijNormalLayout} attach --create-background claude-remote-session
-              '';
-
-              zellijRemoteStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
-                ${pkgs.unstable.zellij}/bin/zellij delete-session claude-remote-session --force 2>/dev/null || true
-              '';
-            in {
-              description = "Persistent zellij session 'claude-remote-session'";
-              wantedBy = ["default.target"];
-              environment = {
-                TERM = "xterm-256color";
-                SHELL = "${pkgs.bashInteractive}/bin/bash";
-              };
-              serviceConfig = {
-                Type = "oneshot";
-                RemainAfterExit = "yes";
-                WorkingDirectory = "/home/polar/repos/personal/ideaverse";
-                ExecStart = zellijRemoteStartScript;
-                ExecStop = zellijRemoteStopScript;
-              };
-            };
-
-            zellij-claude-ssh = let
-              zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
-                layout {
-                  pane command="${pkgs.claude-code}/bin/claude" {}
-                }
-              '';
-              zellijStartScript = pkgs.writeShellScript "zellij-claude-start" ''
-                ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
-                $ZELLIJ delete-session claude-session --force 2>/dev/null || true
-                $ZELLIJ --layout ${zellijNormalLayout} attach --create-background claude-session
-              '';
-              zellijStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
-                ${pkgs.unstable.zellij}/bin/zellij delete-session claude-session --force 2>/dev/null || true
-              '';
-            in {
-              description = "Persistent zellij session 'claude-session'";
-              wantedBy = ["default.target"];
-              environment = {
-                TERM = "xterm-256color";
-                SHELL = "${pkgs.bashInteractive}/bin/bash";
-              };
-              serviceConfig = {
-                Type = "oneshot";
-                RemainAfterExit = "yes";
-                WorkingDirectory = "/home/polar/repos/personal/ideaverse";
-                ExecStart = zellijStartScript;
-                ExecStop = zellijStopScript;
-              };
-            };
+            # zellij-claude-remote = let
+            #   zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
+            #     layout {
+            #       pane command="${pkgs.claude-code}/bin/claude" {
+            #         args "--permission-mode" "auto"
+            #       }
+            #     }
+            #   '';
+            #
+            #   zellijRemoteStartScript = pkgs.writeShellScript "zellij-remote-claude-start" ''
+            #     ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
+            #     $ZELLIJ delete-session claude-remote-session --force 2>/dev/null || true
+            #     $ZELLIJ --layout ${zellijNormalLayout} attach --create-background claude-remote-session
+            #   '';
+            #
+            #   zellijRemoteStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
+            #     ${pkgs.unstable.zellij}/bin/zellij delete-session claude-remote-session --force 2>/dev/null || true
+            #   '';
+            # in {
+            #   description = "Persistent zellij session 'claude-remote-session'";
+            #   wantedBy = ["default.target"];
+            #   environment = {
+            #     TERM = "xterm-256color";
+            #     SHELL = "${pkgs.bashInteractive}/bin/bash";
+            #   };
+            #   serviceConfig = {
+            #     Type = "oneshot";
+            #     RemainAfterExit = "yes";
+            #     WorkingDirectory = "/home/polar/repos/personal/ideaverse";
+            #     ExecStart = zellijRemoteStartScript;
+            #     ExecStop = zellijRemoteStopScript;
+            #   };
+            # };
+            #
+            # zellij-claude-ssh = let
+            #   zellijNormalLayout = pkgs.writeText "zellij-claude-layout.kdl" ''
+            #     layout {
+            #       pane command="${pkgs.claude-code}/bin/claude" {}
+            #     }
+            #   '';
+            #   zellijStartScript = pkgs.writeShellScript "zellij-claude-start" ''
+            #     ZELLIJ="${pkgs.unstable.zellij}/bin/zellij"
+            #     $ZELLIJ delete-session claude-session --force 2>/dev/null || true
+            #     $ZELLIJ --layout ${zellijNormalLayout} attach --create-background claude-session
+            #   '';
+            #   zellijStopScript = pkgs.writeShellScript "zellij-claude-stop" ''
+            #     ${pkgs.unstable.zellij}/bin/zellij delete-session claude-session --force 2>/dev/null || true
+            #   '';
+            # in {
+            #   description = "Persistent zellij session 'claude-session'";
+            #   wantedBy = ["default.target"];
+            #   environment = {
+            #     TERM = "xterm-256color";
+            #     SHELL = "${pkgs.bashInteractive}/bin/bash";
+            #   };
+            #   serviceConfig = {
+            #     Type = "oneshot";
+            #     RemainAfterExit = "yes";
+            #     WorkingDirectory = "/home/polar/repos/personal/ideaverse";
+            #     ExecStart = zellijStartScript;
+            #     ExecStop = zellijStopScript;
+            #   };
+            # };
 
             # zellij-claude-restart = {
             #   description = "Nightly restart of zellij claude session";

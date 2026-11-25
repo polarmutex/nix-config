@@ -1,15 +1,15 @@
 {config, ...}: {
-  flake.wrappers.claude-code-morgen = {pkgs, ...}: {
+  flake.wrappers.claude-code-daily-log = {...}: {
     imports = [config.flake.wrapperModules.claude-code-polar];
 
-    binName = "claude-morgen";
+    binName = "claude-daily-log";
     settings.permissions.allow = [
       "Edit(**)"
       "WebFetch(domain:forecast.weather.gov)"
     ];
     mcpConfig.morgen = {
-      command = "${pkgs.morgen-mcp}/bin/morgenmcp";
-      type = "stdio";
+      type = "http";
+      url = "https://mcp.morgen.so/mcp";
     };
   };
 }

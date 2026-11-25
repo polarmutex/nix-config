@@ -20,7 +20,7 @@
         fish-polar = self'.packages.fish-polar;
         neovim-polar = self'.packages.neovim-polar;
         claude-code-polar = self'.packages.claude-code-polar;
-        claude-code-morgen = self'.packages.claude-code-morgen;
+        claude-code-daily-log = self'.packages.claude-code-daily-log;
         obsidian-polar = self'.packages.obsidian-polar;
       };
     in

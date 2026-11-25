@@ -32,7 +32,7 @@
       };
       agentName = lib.mkOption {
         type = lib.types.str;
-        default = "claude-morgen";
+        default = "claude-daily-log";
         description = "Herdr agent name used as target for send commands";
       };
       workspaceLabel = lib.mkOption {
@@ -50,10 +50,10 @@
         type = lib.types.str;
         default = "/home/polar/repos/personal/ideaverse";
       };
-      morgenApiTokenPath = lib.mkOption {
-        type = lib.types.str;
-        description = "Path to the morgen API token secret file";
-      };
+      # morgenApiTokenPath = lib.mkOption {
+      #   type = lib.types.str;
+      #   description = "Path to the morgen API token secret file";
+      # };
       dailyPrompt = lib.mkOption {
         type = lib.types.str;
         default = ''read @me.md , @"aios/maps/Vault Map.md" , and @"aios/maps/Skill Map.md" and run the daily brief'';
@@ -70,38 +70,60 @@
       # useHerdr = cfg.herdrPackage != null;
       claudeBin = "${cfg.claudePackage}/bin/${cfg.claudeBinName}";
       claudeCmd = lib.concatStringsSep " " ([claudeBin] ++ cfg.claudeArgs);
-      morgenEnv = ''
-        if [ -r ${cfg.morgenApiTokenPath} ]; then
-          export MORGEN_API_KEY=$(${pkgs.coreutils}/bin/cat ${cfg.morgenApiTokenPath})
-        fi
-      '';
+      # morgenEnv = ''
+      #   if [ -r ${cfg.morgenApiTokenPath} ]; then
+      #     export MORGEN_API_KEY=$(${pkgs.coreutils}/bin/cat ${cfg.morgenApiTokenPath})
+      #   fi
+      # '';
     in {
       systemd.services.claude-dailylog =
         # if useHerdr
         # then let
         let
           startScript = pkgs.writeShellScript "herdr-claude-dailylog-start" ''
-            ${morgenEnv}
+            set -euo pipefail
             HERDR="${cfg.herdrPackage}/bin/herdr"
+            JQ="${pkgs.jq}/bin/jq"
+            # herdr-server is Type=simple, so its socket may not be up yet
+            for _ in $(seq 1 30); do
+              $HERDR workspace list >/dev/null 2>&1 && break
+              sleep 1
+            done
             EXISTING_TAB=$($HERDR agent get ${cfg.agentName} 2>/dev/null \
-              | ${pkgs.jq}/bin/jq -r '.result.agent.tab_id // empty' 2>/dev/null || true)
+              | $JQ -r '.result.agent.tab_id // empty' 2>/dev/null || true)
             if [ -n "$EXISTING_TAB" ]; then
               $HERDR tab close "$EXISTING_TAB" 2>/dev/null || true
             fi
             WORKSPACE_ID=$($HERDR workspace list \
-              | ${pkgs.jq}/bin/jq -r '.result.workspaces[] | select(.label == "${cfg.workspaceLabel}") | .workspace_id')
-            TAB_ID=$($HERDR tab create --label ${cfg.agentName} --workspace "$WORKSPACE_ID" \
-              | ${pkgs.jq}/bin/jq -r '.result.tab.tab_id')
-            $HERDR agent start ${cfg.agentName} \
-              --cwd ${cfg.workingDirectory} \
-              --tab "$TAB_ID" \
-              --no-focus \
-              -- ${claudeCmd}
+              | $JQ -r '.result.workspaces[] | select(.label == "${cfg.workspaceLabel}") | .workspace_id' | head -n1)
+            if [ -z "$WORKSPACE_ID" ]; then
+              WORKSPACE_ID=$($HERDR workspace create --label ${cfg.workspaceLabel} \
+                --cwd ${cfg.workingDirectory} --no-focus \
+                | $JQ -er '.result.workspace.workspace_id')
+            fi
+            PANE_ID=$($HERDR tab create --label ${cfg.agentName} --workspace "$WORKSPACE_ID" \
+              --cwd ${cfg.workingDirectory} --no-focus \
+              | $JQ -er '.result.root_pane.pane_id')
+            # herdr >= 0.9 `agent start --kind claude` only launches the bare `claude`
+            # executable, so run the wrapper in the pane and name the detected agent.
+            $HERDR pane run "$PANE_ID" "${claudeCmd}"
+            for _ in $(seq 1 60); do
+              if $HERDR agent get "$PANE_ID" >/dev/null 2>&1; then
+                $HERDR agent rename "$PANE_ID" ${cfg.agentName}
+                exit 0
+              fi
+              sleep 1
+            done
+            echo "no agent detected in pane $PANE_ID after 60s" >&2
+            exit 1
           '';
         in {
           description = "Herdr claude dailylog agent (${cfg.agentName})";
           wantedBy = ["default.target"];
-          after = ["network-online.target"];
+          # wants, not requires: requires would restart this (and recreate the tab)
+          # every time herdr-server restarts
+          wants = ["herdr-server.service"];
+          after = ["herdr-server.service"];
           environment = {
             TERM = "xterm-256color";
             SHELL = "${pkgs.bashInteractive}/bin/bash";
@@ -111,8 +133,27 @@
             RemainAfterExit = "yes";
             WorkingDirectory = cfg.workingDirectory;
             ExecStart = startScript;
+            Restart = "on-failure";
+            RestartSec = "10s";
           };
         };
+
+      systemd.services.herdr-server = {
+        description = "Headless herdr server";
+        wantedBy = ["default.target"];
+        serviceConfig = {
+          Type = "simple";
+          # Skip (not fail) when a herdr server is already running, e.g. one started
+          # by attaching the TUI; ExecCondition exit 1 = skip.
+          ExecCondition = pkgs.writeShellScript "herdr-server-not-running" ''
+            ! ${cfg.herdrPackage}/bin/herdr status server | ${pkgs.gnugrep}/bin/grep -q '^status: running'
+          '';
+          ExecStart = "${cfg.herdrPackage}/bin/herdr server";
+          ExecStop = "${cfg.herdrPackage}/bin/herdr server stop";
+          Restart = "on-failure";
+          RestartSec = "5s";
+        };
+      };
       # else let
       #   layout = pkgs.writeText "claude-dailylog-layout.kdl" ''
       #     layout {
@@ -149,16 +190,17 @@
           # if useHerdr
           # then
           pkgs.writeShellScript "herdr-claude-dailylog-prompt" ''
+            set -euo pipefail
             HERDR="${cfg.herdrPackage}/bin/herdr"
-            PANE_ID=$($HERDR agent get ${cfg.agentName} | ${pkgs.jq}/bin/jq -r '.result.agent.pane_id')
-            $HERDR pane run "$PANE_ID" "/clear"
-            for i in $(seq 1 10); do
-              STATUS=$($HERDR agent get ${cfg.agentName} | ${pkgs.jq}/bin/jq -r '.result.agent.agent_status')
-              [ "$STATUS" = "idle" ] && break
-              sleep 1
-            done
-            PANE_ID=$($HERDR agent get ${cfg.agentName} | ${pkgs.jq}/bin/jq -r '.result.agent.pane_id')
-            $HERDR pane run "$PANE_ID" "${cfg.dailyPrompt}"
+            # claude-dailylog is RemainAfterExit, so "active" doesn't mean the agent is alive
+            if ! $HERDR agent get ${cfg.agentName} >/dev/null 2>&1; then
+              echo "agent ${cfg.agentName} not found; restarting claude-dailylog.service" >&2
+              ${pkgs.systemd}/bin/systemctl --user restart claude-dailylog.service
+            fi
+            $HERDR agent prompt ${cfg.agentName} "/clear"
+            sleep 1
+            $HERDR agent wait ${cfg.agentName} --until idle --timeout 10000
+            $HERDR agent prompt ${cfg.agentName} ${lib.escapeShellArg cfg.dailyPrompt}
           '';
         # else
         #   pkgs.writeShellScript "zellij-claude-dailylog-prompt" ''
