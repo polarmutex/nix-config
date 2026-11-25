@@ -215,6 +215,7 @@ in {
       unstable.defuddle
       unstable.zotero
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr-core
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
       self'.packages.whisper-dictation-cuda

@@ -105,6 +105,7 @@ in {
         pkgs.obsidian-polar
         x11vnc
         inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
+        inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr-core
         inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
         # One-time PG14 -> PG16 migration (umami, litellm) before enabling
         # sparkyfitness-service. Remove once the upgrade is done.
