@@ -57,6 +57,10 @@
         # For some reason, status is-login doesn't work consistently
         fenv source /etc/profile
 
+        # herdr-app prepends /run/current-system/sw/bin, shadowing the setuid
+        # wrappers (doas: not installed setuid). Keep wrappers first.
+        fish_add_path --move --path /run/wrappers/bin
+
         if status is-interactive
           source ${./interactive.fish}
           # source {./pushd_mod.fish}
