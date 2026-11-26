@@ -68,6 +68,7 @@ in {
       self.nixosModules.tailscale
       self.nixosModules.claude-desktop
       self.nixosModules.syncthing
+      self.wrappers.claude-code-home-assistant.install
     ];
 
     wrappers.claude-code-polar = {
@@ -77,12 +78,10 @@ in {
         "${pkgs.mattpocock-skills}"
         "${pkgs.obsidian-skills}"
       ];
-      mcpConfig.home-assistant = {
-        type = "stdio";
-        command = "${pkgs.writeShellScript "ha-mcp-remote" ''
-          exec ${pkgs.mcp-remote}/bin/mcp-remote "$(cat ${config.sops.secrets.ha-mcp-webhook-url.path})" --transport http-only --allow-http
-        ''}";
-      };
+    };
+
+    wrappers.claude-code-home-assistant = {
+      enable = true;
     };
 
     services.claude-desktop.claudeCodePackage = config.wrappers.claude-code-polar.wrapper;
@@ -113,6 +112,10 @@ in {
           group = "wheel";
         };
         ha-mcp-webhook-url = {
+          mode = "440";
+          group = "wheel";
+        };
+        unifi-mcp-env = {
           mode = "440";
           group = "wheel";
         };
