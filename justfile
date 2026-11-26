@@ -49,4 +49,6 @@ new-nvim-plugin start_opt user repo branch='':
 
 # Build locally and deploy polarvortex over SSH
 deploy-polarvortex:
-    nh os switch . --hostname polarvortex --target-host polar@polarvortex -e passwordless --no-systemd-run -v
+    nh os switch . --hostname polarvortex --target-host polar@polarvortex --elevation-strategy passwordless -v
+deploy-greyhavens:
+    nh os switch . --hostname greyhavens --target-host polar@greyhavens --elevation-strategy passwordless -v

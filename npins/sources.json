@@ -251,22 +251,6 @@
       "url": "https://github.com/nix-community/neovim-nightly-overlay/archive/28534684d592b1bd7f82399607ca3588ee4a8c48.tar.gz",
       "hash": "sha256-SlAtSmtqZpWWQduEely2kcr44sa3wSV/qhGx+/7ekSQ="
     },
-    "nh": {
-      "type": "GitRelease",
-      "repository": {
-        "type": "GitHub",
-        "owner": "nix-community",
-        "repo": "nh"
-      },
-      "pre_releases": false,
-      "version_upper_bound": null,
-      "release_prefix": null,
-      "submodules": false,
-      "version": "v4.5.0",
-      "revision": "a815b13dde7b72eac24442e1f9b1dfb67494f07f",
-      "url": "https://api.github.com/repos/nix-community/nh/tarball/refs/tags/v4.5.0",
-      "hash": "sha256-MZk0y+/pHzZahqL162aLfTaHaeNVa4rONRyRFnPPsGs="
-    },
     "nix-maid": {
       "type": "Git",
       "repository": {

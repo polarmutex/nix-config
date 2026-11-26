@@ -45,10 +45,6 @@ lib: config: inputs': self: let
         plugins = pinned-start-plugins ++ pinned-opt-plugins;
       };
 
-    nh = final.callPackage "${sources.nh}/package.nix" {
-      rev = sources.nh.revision;
-    };
-
     maid = (import sources.nix-maid) final ../modules/maid;
     unstable = import sources.nixpkgs-unstable {
       system = prev.stdenv.hostPlatform.system;

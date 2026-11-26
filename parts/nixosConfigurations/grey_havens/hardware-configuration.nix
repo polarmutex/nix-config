@@ -1,0 +1,128 @@
+{
+  flake.nixosModules.host-greyhavens = {
+    config,
+    lib,
+    modulesPath,
+    ...
+  }: let
+    # moduli_file = "ssh_moduli";
+  in {
+    imports = [
+      (modulesPath + "/installer/scan/not-detected.nix")
+    ];
+
+    # configure boot
+    boot = {
+      loader.grub = {
+        enable = true;
+        device = "/dev/sda";
+      };
+      loader.timeout = 5;
+
+      initrd.availableKernelModules = [
+        "ahci"
+        "xhci_pci"
+        "usbhid"
+        "usb_storage"
+        "sd_mod"
+      ];
+      initrd.kernelModules = [];
+      kernelModules = ["kvm-intel"];
+      extraModulePackages = [];
+      kernelParams = [];
+    };
+
+    fileSystems."/" = {
+      device = "/dev/disk/by-label/nixos";
+      fsType = "ext4";
+    };
+
+    swapDevices = [
+      {
+        device = "/dev/disk/by-label/swap";
+      }
+    ];
+
+    nixpkgs = {
+      hostPlatform = lib.mkDefault "x86_64-linux";
+    };
+
+    hardware = {
+      cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    };
+
+    networking = {
+      networkmanager.enable = true;
+      # usePredictableInterfaceNames = false;
+      # useDHCP = false;
+      # interfaces.eth0.useDHCP = true;
+      # domain = "polarmutex.dev";
+    };
+
+    # security.acme.acceptTerms = true;
+    # security.acme.defaults.email = "letsencrypt@brianryall.xyz";
+
+    services = {
+      # nginx = {
+      #   enable = true;
+      #   recommendedOptimisation = true;
+      #   recommendedTlsSettings = true;
+      #   recommendedProxySettings = true;
+      #   clientMaxBodySize = "128m";
+
+      #   # Common security configuration for all virtual hosts
+      #   commonHttpConfig = ''
+      #     # Request limits
+      #     client_body_timeout 12;
+      #     client_header_timeout 12;
+      #     send_timeout 10;
+
+      #     # Rate limiting zone (10MB can track ~160k IPs)
+      #     #limit_req_zone $binary_remote_addr zone=general:10m rate=10r/s;
+      #   '';
+
+      #   virtualHosts = {};
+      # };
+    };
+
+    # Block anything that is not HTTP(s) or SSH.
+    # need ssh to be open for git server
+    # need port 80 open for letsencrypt
+    # need port 443 open for secure webpages
+    networking.firewall = {
+      enable = true;
+      allowPing = true;
+      allowedTCPPorts = [80 443 22];
+    };
+
+    # nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+    # remove onec fips req goes away
+    #services.openssh.kexAlgorithms =
+    #  options.services.openssh.kexAlgorithms.default
+    #  ++ [
+    #  ];
+    #services.openssh.macs =
+    #  options.services.openssh.macs.default
+    #  ++ [
+    # ];
+    # services.openssh.moduliFile = "/etc/${moduli_file}";
+    # environment.etc."${moduli_file}".text = "";
+
+    # services.logrotate = {
+    #   enable = true;
+    #   settings = {
+    #     journal = {
+    #       files = ["/var/log/journal"];
+    #       frequency = "daily";
+    #       rotate = 10;
+    #     };
+    #     nginx = {
+    #       files = ["/var/log/nginx/*.log"];
+    #       frequency = "daily";
+    #       rotate = 10;
+    #     };
+    #   };
+    # };
+  };
+}

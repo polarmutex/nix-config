@@ -3,8 +3,10 @@ _: {
     devShells.default = with pkgs;
       mkShellNoCC {
         packages = [
-          tigervnc
+          nix-update
           sops
+	  unstable.nixd
+          # tigervnc
           # age
           # taplo
           # inxi
@@ -13,7 +15,6 @@ _: {
           # mesa-demos
           # nh
           # lm_sensors
-          nix-update
           # inputs.bun2nix.packages.${pkgs.stdenv.hostPlatform.system}.default
           # neovim.devMode
         ];
