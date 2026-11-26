@@ -56,7 +56,7 @@ in {
       # self.nixosModules.obsidian-xvfb-service
       # self.nixosModules.security-monitoring
       # self.nixosModules.sparkyfitness-service
-      # self.nixosModules.tailscale
+      self.nixosModules.tailscale
       # self.nixosModules.syncthing
       # self.nixosModules.umami-service
       # self.nixosModules.rex
@@ -75,10 +75,11 @@ in {
 
       systemPackages = with pkgs; [
         neovim
-        unstable.dix
         git-polar
+        htop
         inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
         inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr-core
+        unstable.dix
 
         # One-time PG14 -> PG16 migration (umami, litellm) before enabling
         # sparkyfitness-service. Remove once the upgrade is done.
