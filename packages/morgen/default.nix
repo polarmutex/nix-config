@@ -9,12 +9,12 @@
   makeDesktopItem,
   copyDesktopItems,
 }: let
-  version = "4.1.4";
+  version = "4.5.0";
 
   morgenDeb = fetchurl {
     name = "morgen-${version}.deb";
     url = "https://dl.todesktop.com/210203cqcj00tw1/versions/${version}/linux/deb";
-    hash = "sha256-Z66Ug3qk26tUjhmwC7zZXxk6JzPrzxqk3ATtwfvJEvs=";
+    hash = "sha256-pRbTa/tNeB4g4uwxS9Nx7EajraOn5YhrVmbt0KqaArc=";
   };
 
   morgenScript = writeShellScript "morgen" ''
